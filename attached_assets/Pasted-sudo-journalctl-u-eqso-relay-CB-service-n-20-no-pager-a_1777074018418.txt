@@ -1,0 +1,21 @@
+sudo journalctl -u eqso-relay@CB.service -n 20 --no-pager
+abr 24 23:40:02 ubuntus eqso-relay-CB[1597]: [main] 2026-04-24T23:40:02.605Z Mensaje servidor: Indicativo "0R-IN70WN" ya en uso
+abr 24 23:40:02 ubuntus eqso-relay-CB[1597]: [main] 2026-04-24T23:40:02.606Z Desconectado del servidor eQSO
+abr 24 23:40:02 ubuntus eqso-relay-CB[1597]: [main] 2026-04-24T23:40:02.606Z Reintento #1 en 2s\Uffffffff
+abr 24 23:40:02 ubuntus eqso-relay-CB[1597]: [eqso] 2026-04-24T23:40:02.606Z TCP desconectado de 127.0.0.1:2171
+abr 24 23:40:03 ubuntus eqso-relay-CB[1597]: [audio] 2026-04-24T23:40:03.993Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [audio] 2026-04-24T23:40:04.020Z [arecord] arecord: main:834:
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [audio] 2026-04-24T23:40:04.022Z [arecord] audio open error: Device or resource busy
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [audio] 2026-04-24T23:40:04.025Z [arecord] Terminado (code 1)
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [main] 2026-04-24T23:40:04.607Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [eqso] 2026-04-24T23:40:04.608Z TCP conectado a 127.0.0.1:2171
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [eqso] 2026-04-24T23:40:04.625Z Handshake recibido \Uffffffff conexion establecida
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [main] 2026-04-24T23:40:04.625Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [eqso] 2026-04-24T23:40:04.627Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [eqso] 2026-04-24T23:40:04.627Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [main] 2026-04-24T23:40:04.627Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [eqso] 2026-04-24T23:40:04.630Z Mensaje del servidor: Indicativo "0R-IN70WN" ya en uso
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [main] 2026-04-24T23:40:04.631Z Mensaje servidor: Indicativo "0R-IN70WN" ya en uso
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [main] 2026-04-24T23:40:04.631Z Desconectado del servidor eQSO
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [main] 2026-04-24T23:40:04.632Z Reintento #1 en 2s\Uffffffff
+abr 24 23:40:04 ubuntus eqso-relay-CB[1597]: [eqso] 2026-04-24T23:40:04.632Z TCP desconectado de 127.0.0.1:2171
