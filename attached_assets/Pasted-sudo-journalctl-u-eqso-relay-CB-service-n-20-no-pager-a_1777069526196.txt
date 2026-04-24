@@ -1,0 +1,21 @@
+sudo journalctl -u eqso-relay@CB.service -n 20 --no-pager
+abr 24 22:24:41 ubuntus eqso-relay-CB[97310]: [main] 2026-04-24T22:24:41.724Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 24 22:24:41 ubuntus eqso-relay-CB[97310]: [eqso] 2026-04-24T22:24:41.734Z JOIN enviado: callsign="0R-IN70WN" sala="PRUEBAS"
+abr 24 22:24:41 ubuntus eqso-relay-CB[97310]: [eqso] 2026-04-24T22:24:41.735Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 24 22:24:41 ubuntus eqso-relay-CB[97310]: [main] 2026-04-24T22:24:41.741Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 24 22:24:41 ubuntus eqso-relay-CB[97310]: [main] 2026-04-24T22:24:41.743Z Sala: 0R-IN70WN se ha unido
+abr 24 22:24:41 ubuntus eqso-relay-CB[97310]: [ptt] 2026-04-24T22:24:41.785Z PTT serial listo (/dev/ttyACM0, rts)
+abr 24 22:24:43 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:43.274Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:24:45 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:45.276Z ffmpeg -hide_banner -loglevel quiet -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 pipe:1
+abr 24 22:24:46 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:46.439Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:24:48 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:48.441Z ffmpeg -hide_banner -loglevel quiet -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 pipe:1
+abr 24 22:24:49 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:49.740Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:24:51 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:51.741Z ffmpeg -hide_banner -loglevel quiet -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 pipe:1
+abr 24 22:24:52 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:52.791Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:24:54 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:54.792Z ffmpeg -hide_banner -loglevel quiet -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 pipe:1
+abr 24 22:24:55 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:55.860Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:24:57 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:57.860Z ffmpeg -hide_banner -loglevel quiet -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 pipe:1
+abr 24 22:24:59 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:24:59.046Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:25:01 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:25:01.047Z ffmpeg -hide_banner -loglevel quiet -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 pipe:1
+abr 24 22:25:02 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:25:02.340Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:25:04 ubuntus eqso-relay-CB[97310]: [audio] 2026-04-24T22:25:04.341Z ffmpeg -hide_banner -loglevel quiet -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 pipe:1
