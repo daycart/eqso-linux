@@ -1,0 +1,34 @@
+ sudo journalctl -u eqso-relay@CB.service -f                                                     
+abr 24 23:14:24 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:24.256Z [arecord] arecord: set_params:1377: Channels count non available
+abr 24 23:14:24 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:24.259Z [arecord] Terminado (code 1)
+abr 24 23:14:26 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:26.261Z arecord -D hw:1,0 -f S16_LE -r 48000 -c 2 -q --period-size=480 --buffer-size=9600
+abr 24 23:14:26 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:26.296Z [arecord] arecord: set_params:1377:
+abr 24 23:14:26 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:26.297Z [arecord] Channels count non available
+abr 24 23:14:26 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:26.300Z [arecord] Terminado (code 1)
+abr 24 23:14:28 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:28.321Z arecord -D hw:1,0 -f S16_LE -r 48000 -c 2 -q --period-size=480 --buffer-size=9600
+abr 24 23:14:28 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:28.341Z [arecord] arecord: set_params:1377:
+abr 24 23:14:28 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:28.341Z [arecord] Channels count non available
+abr 24 23:14:28 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:28.343Z [arecord] Terminado (code 1)
+abr 24 23:14:30 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:30.350Z arecord -D hw:1,0 -f S16_LE -r 48000 -c 2 -q --period-size=480 --buffer-size=9600
+abr 24 23:14:30 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:30.371Z [arecord] arecord: set_params:1377:
+abr 24 23:14:30 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:30.373Z [arecord] Channels count non available
+abr 24 23:14:30 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:30.376Z [arecord] Terminado (code 1)
+abr 24 23:14:32 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:32.377Z arecord -D hw:1,0 -f S16_LE -r 48000 -c 2 -q --period-size=480 --buffer-size=9600
+abr 24 23:14:32 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:32.401Z [arecord] arecord: set_params:1377:
+abr 24 23:14:32 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:32.403Z [arecord] Channels count non available
+abr 24 23:14:32 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:32.408Z [arecord] Terminado (code 1)
+abr 24 23:14:34 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:34.409Z arecord -D hw:1,0 -f S16_LE -r 48000 -c 2 -q --period-size=480 --buffer-size=9600
+abr 24 23:14:34 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:34.423Z [arecord] arecord: set_params:1377:
+abr 24 23:14:34 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:34.424Z [arecord] Channels count non available
+abr 24 23:14:34 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:34.426Z [arecord] Terminado (code 1)
+abr 24 23:14:36 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:36.450Z arecord -D hw:1,0 -f S16_LE -r 48000 -c 2 -q --period-size=480 --buffer-size=9600
+abr 24 23:14:36 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:36.470Z [arecord] arecord: set_params:1377:
+abr 24 23:14:36 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:36.471Z [arecord] Channels count non available
+abr 24 23:14:36 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:36.473Z [arecord] Terminado (code 1)
+abr 24 23:14:38 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:38.474Z arecord -D hw:1,0 -f S16_LE -r 48000 -c 2 -q --period-size=480 --buffer-size=9600
+abr 24 23:14:38 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:38.500Z [arecord] arecord: set_params:1377: Channels count non available
+abr 24 23:14:38 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:38.502Z [arecord] Terminado (code 1)
+abr 24 23:14:40 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:40.502Z arecord -D hw:1,0 -f S16_LE -r 48000 -c 2 -q --period-size=480 --buffer-size=9600
+abr 24 23:14:40 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:40.524Z [arecord] arecord: set_params:1377:
+abr 24 23:14:40 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:40.525Z [arecord] Channels count non available
+abr 24 23:14:40 ubuntus eqso-relay-CB[100744]: [audio] 2026-04-24T23:14:40.527Z [arecord] Terminado (code 1)
