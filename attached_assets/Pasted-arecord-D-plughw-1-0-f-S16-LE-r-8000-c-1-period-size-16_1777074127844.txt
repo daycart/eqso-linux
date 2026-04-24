@@ -1,0 +1,49 @@
+arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 --period-size=160 --buffer-size=8000 -d 3 /tmp/test.wav && echo "OK" || echo "FALLO"
+arecord: main:834: audio open error: Device or resource busy
+FALLO
+david@ubuntus:~$ # \UffffffffQu\Uffffffffroceso tiene el CM108?
+sudo fuser /dev/snd/*
+
+# \UffffffffHay procesos relay/arecord hu\Uffffffffanos?
+ps aux | grep -E "eqso|arecord|relay" | grep -v grep
+
+# \UffffffffEst\Ufffffffforriendo eqso-relay.service (el servicio base, no la instancia)?
+sudo systemctl status eqso-relay.service
+/dev/snd/pcmC1D0c:    1045m
+eqso        1004  1.5  0.4 11793292 74716 ?      Ssl  23:32   0:08 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+eqso        1024  2.1  0.3 1026092 51052 ?       Ssl  23:32   0:11 /usr/bin/node --enable-source-maps dist/main.mjs
+eqso        1042  0.0  0.0  18228 10816 ?        S    23:32   0:00 python3 /opt/eqso-asorapa/artifacts/relay-daemon/dist/ptt-helper.py /dev/ttyACM0 rts false
+eqso        1043  0.1  0.2 275332 44380 ?        SL   23:32   0:00 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+eqso        1044  1.5  0.2 513184 47104 ?        SLl  23:32   0:07 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -avioflags direct -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 -fflags +flush_packets pipe:1
+eqso        1045  0.4  0.0   7828  3784 ?        S    23:32   0:02 arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+eqso        1058  0.1  0.2 275332 44580 ?        SL   23:32   0:00 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+eqso        1063  0.1  0.2 275332 44552 ?        SL   23:32   0:00 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+eqso        1597  1.5  0.3 1026092 50996 ?       Ssl  23:37   0:03 /usr/bin/node --enable-source-maps dist/main.mjs
+eqso        1620  0.0  0.0  18228 10820 ?        S    23:37   0:00 python3 /opt/eqso-asorapa/artifacts/relay-daemon/dist/ptt-helper.py /dev/ttyACM0 rts false
+eqso        1621  0.3  0.2 275332 44508 ?        SL   23:37   0:00 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+eqso        1622  0.3  0.2 275332 44484 ?        SL   23:37   0:00 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -avioflags direct -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 -fflags +flush_packets pipe:1
+? eqso-relay.service - eQSO Radioenlace \Uffffffff sala 
+     Loaded: loaded (/etc/systemd/system/eqso-relay.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-04-24 23:32:49 UTC; 8min ago
+       Docs: https://github.com/daycart/eqso-linux-client
+   Main PID: 1024 (node)
+      Tasks: 20 (limit: 19094)
+     Memory: 95.3M (peak: 98.1M)
+        CPU: 23.067s
+     CGroup: /system.slice/eqso-relay.service
+             +-1024 /usr/bin/node --enable-source-maps dist/main.mjs
+             +-1042 python3 /opt/eqso-asorapa/artifacts/relay-daemon/dist/ptt-helper.py /dev/ttyACM0 rts false
+             +-1043 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+             +-1044 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -avioflags direct -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 -fflag>
+             +-1045 arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+
+abr 24 23:41:24 ubuntus eqso-relay-[1024]: [gsm-enc] 2026-04-24T23:41:24.535Z GAP 814ms entre frames GSM de salida
+abr 24 23:41:25 ubuntus eqso-relay-[1024]: [audio] 2026-04-24T23:41:25.508Z [nivel] pico RMS=2 (-86.8 dBFS)  VOXumbral=2000  gain=0.4
+abr 24 23:41:25 ubuntus eqso-relay-[1024]: [audio] 2026-04-24T23:41:25.533Z [arecord] GAP 640ms (chunk#8612, 160 muestras)
+abr 24 23:41:25 ubuntus eqso-relay-[1024]: [gsm-enc] 2026-04-24T23:41:25.555Z GAP 659ms entre frames GSM de salida
+abr 24 23:41:26 ubuntus eqso-relay-[1024]: [audio] 2026-04-24T23:41:26.566Z [arecord] GAP 694ms (chunk#8630, 160 muestras)
+abr 24 23:41:26 ubuntus eqso-relay-[1024]: [gsm-enc] 2026-04-24T23:41:26.587Z GAP 713ms entre frames GSM de salida
+abr 24 23:41:27 ubuntus eqso-relay-[1024]: [audio] 2026-04-24T23:41:27.591Z [arecord] GAP 706ms (chunk#8647, 160 muestras)
+abr 24 23:41:27 ubuntus eqso-relay-[1024]: [gsm-enc] 2026-04-24T23:41:27.595Z GAP 729ms entre frames GSM de salida
+abr 24 23:41:28 ubuntus eqso-relay-[1024]: [audio] 2026-04-24T23:41:28.606Z [arecord] GAP 195ms (chunk#8689, 160 muestras)
+abr 24 23:41:28 ubuntus eqso-relay-[1024]: [gsm-enc] 2026-04-24T23:41:28.610Z GAP 217ms entre frames GSM de salida
