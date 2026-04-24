@@ -1,0 +1,17 @@
+ [audio] 2026-04-24T19:51:16.022Z [nivel] pico RMS=2 (-82.9 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:51:20 ubuntus eqso-relay-CB[85841]: [main] 2026-04-24T19:51:20.081Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-24T19:39:16.457Z)
+abr 24 19:51:21 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:51:21.022Z [nivel] pico RMS=13108 (-8.0 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:51:26 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:51:26.023Z [nivel] pico RMS=13487 (-7.7 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:51:31 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:51:31.025Z [nivel] pico RMS=12570 (-8.3 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:51:36 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:51:36.025Z [nivel] pico RMS=11615 (-9.0 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:51:41 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:51:41.041Z [nivel] pico RMS=6402 (-14.2 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:51:46 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:51:46.042Z [nivel] pico RMS=16244 (-6.1 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:51:51 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:51:51.042Z [nivel] pico RMS=15203 (-6.7 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:51:56 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:51:56.048Z [nivel] pico RMS=8946 (-11.3 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:51:59 ubuntus eqso-relay-CB[85841]: [eqso] 2026-04-24T19:51:59.767Z PTT liberado [0x0d]
+abr 24 19:51:59 ubuntus eqso-relay-CB[85841]: [main] 2026-04-24T19:51:59.770Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-24T19:52:02.270Z)
+abr 24 19:52:00 ubuntus eqso-relay-CB[85841]: [main] 2026-04-24T19:52:00.193Z [audio] pkt#240 DESCARTADO \Uffffffff postTxSuppress en 1077ms
+abr 24 19:52:01 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:52:01.047Z [nivel] pico RMS=2 (-83.0 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:52:06 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:52:06.048Z [nivel] pico RMS=2 (-82.8 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 19:52:11 ubuntus eqso-relay-CB[85841]: [audio] 2026-04-24T19:52:11.049Z [nivel] pico RMS=2 (-82.7 dBFS)  VOXumbral=3500  gain=0.4
+^C

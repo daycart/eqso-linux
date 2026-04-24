@@ -26,7 +26,7 @@
 
 const BUFFER_CAPACITY  = 8000;   // 1s a 8kHz: capacidad maxima circular
 const SRC_RATE         = 8000;   // tasa de muestras entrantes (GSM 06.10)
-const FILL_THRESHOLD   = 2400;   // 300ms a 8kHz: pre-fill al inicio de TX
+const FILL_THRESHOLD   = 1600;   // 200ms a 8kHz: pre-fill al inicio de TX
 const MAX_BUFFER       = 4800;   // 600ms: limite anti-acumulacion (descarta entrantes si excede)
 
 // Timeout de silencio continuo para regresar a IDLE.
