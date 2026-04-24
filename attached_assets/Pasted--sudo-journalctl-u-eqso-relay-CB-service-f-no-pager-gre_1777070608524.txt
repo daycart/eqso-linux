@@ -1,0 +1,398 @@
+ sudo journalctl -u eqso-relay@CB.service -f --no-pager | grep -E "GAP|chunk#[0-9]|ffmpeg|VOX|TX"
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.032Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 269588 >= 269572
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.051Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 269846 >= 269843
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.070Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 270015 >= 270000
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.086Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 270177 >= 270148
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.088Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 270177 >= 270166
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.089Z [nivel] pico RMS=2 (-83.4 dBFS)  VOXumbral=2000  gain=0.4
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.103Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 270275 >= 270263
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.132Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 270419 >= 270413
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.146Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 270466 >= 270456
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.147Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 270466 >= 270465
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:56.886Z [ffmpeg-cap] GAP 737ms (chunk#17906, 16 muestras)
+abr 24 22:41:56 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:41:56.890Z GAP 781ms entre frames GSM de salida
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.037Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 277306 >= 277303
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.053Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 277581 >= 277562
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.084Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 278021 >= 278006
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.103Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 278149 >= 278124
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.115Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 278285 >= 278276
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.130Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 278376 >= 278360
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.132Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 278376 >= 278376
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.146Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 278462 >= 278437
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.148Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 278462 >= 278451
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:57.909Z [ffmpeg-cap] GAP 732ms (chunk#18022, 16 muestras)
+abr 24 22:41:57 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:41:57.942Z GAP 775ms entre frames GSM de salida
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:58.055Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 285374 >= 285374
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:58.071Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 285677 >= 285659
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:58.087Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 285951 >= 285950
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:58.101Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:58.102Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 286133 >= 286120
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:58.120Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 286347 >= 286347
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:58.163Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 286680 >= 286653
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:58.176Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 286728 >= 286719
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:58.927Z [ffmpeg-cap] GAP 751ms (chunk#18125, 15 muestras)
+abr 24 22:41:58 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:41:58.940Z GAP 803ms entre frames GSM de salida
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.056Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 293166 >= 293165
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.074Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 293548 >= 293527
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.096Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 293980 >= 293972
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.123Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 294439 >= 294435
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.138Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.138Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 294609 >= 294592
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.156Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 294755 >= 294753
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.175Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 294882 >= 294868
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.197Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 294992 >= 294967
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.199Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 294992 >= 294978
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.219Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295072 >= 295058
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.219Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295072 >= 295067
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.239Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.241Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295126 >= 295107
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.249Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295126 >= 295114
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.250Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295126 >= 295121
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.270Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295206 >= 295193
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.272Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295206 >= 295199
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.273Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295206 >= 295205
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.289Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295234 >= 295219
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.306Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295267 >= 295250
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.309Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295267 >= 295256
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.324Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295303 >= 295295
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.325Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295303 >= 295302
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.342Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295360 >= 295349
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.344Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295360 >= 295358
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.376Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295478 >= 295475
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.397Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295557 >= 295550
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.432Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 295736 >= 295734
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.543Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 296415 >= 296415
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:41:59.948Z [ffmpeg-cap] GAP 383ms (chunk#18377, 16 muestras)
+abr 24 22:41:59 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:41:59.968Z GAP 435ms entre frames GSM de salida
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.113Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.114Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 301311 >= 301308
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.152Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 301839 >= 301833
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.169Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 302002 >= 301988
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.197Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 302259 >= 302252
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.256Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 302708 >= 302697
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.277Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 302825 >= 302822
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.316Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 303016 >= 303005
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.348Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 303228 >= 303222
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.396Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 303483 >= 303480
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.438Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 303733 >= 303732
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [main] 2026-04-24T22:42:00.452Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-24T22:41:23.757Z)
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.453Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 303776 >= 303776
+abr 24 22:42:00 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:00.971Z [ffmpeg-cap] GAP 224ms (chunk#18722, 16 muestras)
+abr 24 22:42:01 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:00.999Z GAP 264ms entre frames GSM de salida
+abr 24 22:42:01 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:01.089Z [nivel] pico RMS=17831 (-5.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 24 22:42:01 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:01.142Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 309461 >= 309458
+abr 24 22:42:01 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:01.186Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 309914 >= 309910
+abr 24 22:42:01 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:01.213Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 310161 >= 310161
+abr 24 22:42:01 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:01.227Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 310267 >= 310264
+abr 24 22:42:01 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:01.249Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 310366 >= 310359
+abr 24 22:42:02 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:02.000Z [ffmpeg-cap] GAP 747ms (chunk#18841, 16 muestras)
+abr 24 22:42:02 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:02.035Z GAP 802ms entre frames GSM de salida
+abr 24 22:42:02 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:02.194Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 318801 >= 318801
+abr 24 22:42:02 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:02.210Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 319007 >= 318994
+abr 24 22:42:02 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:02.226Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 319168 >= 319143
+abr 24 22:42:02 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:02.228Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 319168 >= 319166
+abr 24 22:42:02 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:02.244Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 319310 >= 319301
+abr 24 22:42:02 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:02.268Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 319479 >= 319456
+abr 24 22:42:02 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:02.269Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 319479 >= 319471
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.028Z [ffmpeg-cap] GAP 755ms (chunk#18969, 16 muestras)
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:03.072Z GAP 797ms entre frames GSM de salida
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.159Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 326167 >= 326162
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.174Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 326512 >= 326490
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.192Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 326786 >= 326783
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.205Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 327000 >= 326983
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.222Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.223Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 327225 >= 327193
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.225Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 327225 >= 327220
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.246Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 327455 >= 327437
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.265Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 327584 >= 327555
+abr 24 22:42:03 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:03.267Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 327584 >= 327571
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.045Z [ffmpeg-cap] GAP 747ms (chunk#19081, 16 muestras)
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:04.083Z GAP 811ms entre frames GSM de salida
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.168Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 333975 >= 333974
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.199Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 334773 >= 334769
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.219Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 335125 >= 335101
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.280Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 335755 >= 335720
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.293Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 335855 >= 335834
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.294Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 335855 >= 335848
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.349Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336085 >= 336063
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.351Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336085 >= 336069
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.353Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336085 >= 336081
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.366Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336103 >= 336078
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.368Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336103 >= 336084
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.370Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336103 >= 336102
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.381Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336119 >= 336105
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.381Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336119 >= 336111
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.395Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336119 >= 336117
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.400Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336151 >= 336134
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.412Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336151 >= 336140
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.416Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336151 >= 336146
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.445Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336268 >= 336257
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.448Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336268 >= 336264
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.462Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336311 >= 336308
+abr 24 22:42:04 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:04.525Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 336559 >= 336559
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.075Z [ffmpeg-cap] GAP 545ms (chunk#19265, 15 muestras)
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:05.093Z GAP 578ms entre frames GSM de salida
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.233Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 342362 >= 342357
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.263Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 342867 >= 342862
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.293Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 343231 >= 343231
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.316Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 343397 >= 343387
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.346Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 343645 >= 343640
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.372Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 343829 >= 343813
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.374Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 343829 >= 343826
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.387Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 343899 >= 343894
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.402Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 343975 >= 343966
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.420Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 344033 >= 344021
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.421Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 344033 >= 344033
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.461Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 344244 >= 344237
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.475Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 344302 >= 344302
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.490Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 344378 >= 344377
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.533Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 344603 >= 344603
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.555Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 344736 >= 344733
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.602Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 345002 >= 345002
+abr 24 22:42:05 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:05.662Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 345413 >= 345413
+abr 24 22:42:06 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:06.091Z [nivel] pico RMS=18482 (-5.0 dBFS)  VOXumbral=2000  gain=0.4
+abr 24 22:42:06 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:06.096Z [ffmpeg-cap] GAP 200ms (chunk#19617, 16 muestras)
+abr 24 22:42:06 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:06.132Z GAP 234ms entre frames GSM de salida
+abr 24 22:42:06 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:06.323Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 350969 >= 350965
+abr 24 22:42:06 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:06.415Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 351694 >= 351692
+abr 24 22:42:06 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:06.473Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 352099 >= 352095
+abr 24 22:42:06 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:06.517Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 352386 >= 352384
+abr 24 22:42:06 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:06.568Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 352689 >= 352689
+abr 24 22:42:06 ubuntus eqso-relay-CB[98524]: [main] 2026-04-24T22:42:06.760Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-24T22:42:09.260Z)
+abr 24 22:42:07 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:07.118Z [ffmpeg-cap] GAP 224ms (chunk#19955, 16 muestras)
+abr 24 22:42:07 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:07.151Z GAP 271ms entre frames GSM de salida
+abr 24 22:42:07 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:07.300Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 358754 >= 358753
+abr 24 22:42:07 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:07.350Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 359213 >= 359212
+abr 24 22:42:07 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:07.397Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 359539 >= 359539
+abr 24 22:42:07 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:07.553Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 360687 >= 360684
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.141Z [ffmpeg-cap] GAP 522ms (chunk#20159, 16 muestras)
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:08.158Z GAP 560ms entre frames GSM de salida
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.321Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 367264 >= 367251
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.350Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 367665 >= 367657
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.366Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 367829 >= 367811
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.385Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 368005 >= 367999
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.416Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 368234 >= 368233
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.442Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.444Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 368416 >= 368405
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.464Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 368515 >= 368498
+abr 24 22:42:08 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:08.467Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 368515 >= 368509
+abr 24 22:42:09 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:09.171Z [ffmpeg-cap] GAP 701ms (chunk#20297, 16 muestras)
+abr 24 22:42:09 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:09.196Z GAP 752ms entre frames GSM de salida
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.191Z [ffmpeg-cap] GAP 994ms (chunk#20306, 16 muestras)
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:10.232Z GAP 1035ms entre frames GSM de salida
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.349Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 384417 >= 384404
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.399Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 385914 >= 385868
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.418Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386232 >= 386207
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.434Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.435Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386362 >= 386320
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.453Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386481 >= 386462
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.454Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386481 >= 386475
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.471Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.472Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386544 >= 386508
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.473Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386544 >= 386521
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.475Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386544 >= 386527
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.478Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386544 >= 386532
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.479Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386544 >= 386541
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.480Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386544 >= 386544
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.495Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386531
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.495Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386532
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.498Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386533
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.500Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386532
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.501Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386531
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.503Z [ffmpeg-cap] Last message repeated 1 times
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.507Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386527
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.509Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386525
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.521Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386516
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.524Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386477
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.525Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386474
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.526Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.527Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386470
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.530Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386462
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.533Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386457
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.535Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386454
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.536Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386449
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.537Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386444
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.539Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386440
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.539Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386435
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.541Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386429
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.543Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386424
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.545Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386420
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.547Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386413
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.548Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386408
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.550Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386403
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.551Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386396
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.553Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386391
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.554Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386385
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.557Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386378
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.569Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386354
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.571Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386343
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.572Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386337
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.573Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.573Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386331
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.574Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386325
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.576Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386319
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.578Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386313
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.578Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386308
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.579Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386301
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.581Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386296
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.599Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.600Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386290
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.605Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386243
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.607Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386210
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.609Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386208
+abr 24 22:42:10 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:10.611Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386206
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.093Z [nivel] pico RMS=2 (-83.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.208Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386329
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.209Z [ffmpeg-cap] GAP 598ms (chunk#20470, 16 muestras)
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.219Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 386553 >= 386437
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:11.254Z GAP 643ms entre frames GSM de salida
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.387Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 392001 >= 391994
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.430Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.431Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 392494 >= 392483
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.446Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 392632 >= 392613
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.449Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 392632 >= 392630
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.463Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 392712 >= 392708
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.498Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 392940 >= 392937
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.511Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 393003 >= 392997
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.527Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 393060 >= 393050
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.539Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 393112 >= 393097
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.541Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 393112 >= 393108
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.588Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 393326 >= 393316
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.590Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 393326 >= 393326
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.607Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 393392 >= 393391
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.629Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.630Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 393499 >= 393494
+abr 24 22:42:11 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:11.691Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 393811 >= 393807
+abr 24 22:42:12 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:12.239Z [ffmpeg-cap] GAP 545ms (chunk#20669, 15 muestras)
+abr 24 22:42:12 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:12.242Z GAP 579ms entre frames GSM de salida
+abr 24 22:42:12 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:12.422Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 400081 >= 400072
+abr 24 22:42:12 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:12.459Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 400566 >= 400556
+abr 24 22:42:12 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:12.478Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 400759 >= 400738
+abr 24 22:42:12 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:12.480Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 400759 >= 400759
+abr 24 22:42:12 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:12.498Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 400913 >= 400904
+abr 24 22:42:12 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:12.557Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 401098 >= 401079
+abr 24 22:42:12 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:12.559Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 401098 >= 401093
+abr 24 22:42:13 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:13.269Z [ffmpeg-cap] GAP 710ms (chunk#20793, 15 muestras)
+abr 24 22:42:13 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:13.306Z GAP 746ms entre frames GSM de salida
+abr 24 22:42:13 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:13.405Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 407995 >= 407983
+abr 24 22:42:13 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:13.439Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 408706 >= 408691
+abr 24 22:42:13 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:13.460Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 409023 >= 409018
+abr 24 22:42:13 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:13.491Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 409365 >= 409365
+abr 24 22:42:13 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:13.504Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 409472 >= 409462
+abr 24 22:42:13 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:13.521Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 409553 >= 409535
+abr 24 22:42:13 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:13.523Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 409553 >= 409550
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.287Z [ffmpeg-cap] GAP 764ms (chunk#20910, 15 muestras)
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:14.318Z GAP 810ms entre frames GSM de salida
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.436Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 416591 >= 416582
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.494Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.495Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 417554 >= 417523
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.535Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 417846 >= 417817
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.536Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 417846 >= 417841
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.555Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 417885 >= 417850
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.559Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 417885 >= 417861
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.564Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 417885 >= 417881
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.598Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 418037 >= 418026
+abr 24 22:42:14 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:14.599Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 418037 >= 418032
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.314Z [ffmpeg-cap] GAP 714ms (chunk#21037, 15 muestras)
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:15.353Z GAP 765ms entre frames GSM de salida
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.439Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 423971 >= 423970
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.470Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 424709 >= 424708
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.508Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 425327 >= 425319
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.526Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.529Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 425514 >= 425493
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.553Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 425636 >= 425608
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.569Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 425821 >= 425802
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.571Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 425821 >= 425817
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.592Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 425929 >= 425901
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.595Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 425929 >= 425913
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.597Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 425929 >= 425925
+abr 24 22:42:15 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:15.639Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 426090 >= 426084
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.103Z [nivel] pico RMS=2 (-83.6 dBFS)  VOXumbral=2000  gain=0.4
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.327Z [ffmpeg-cap] GAP 688ms (chunk#21175, 16 muestras)
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:16.376Z GAP 753ms entre frames GSM de salida
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.475Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 432501 >= 432495
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.512Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 433209 >= 433198
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.530Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 433419 >= 433394
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.552Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 433698 >= 433685
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.570Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.570Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 433861 >= 433860
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.606Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.606Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 434099 >= 434079
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.607Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 434099 >= 434090
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.627Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 434175 >= 434148
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.628Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 434175 >= 434158
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.632Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 434175 >= 434169
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.665Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 434291 >= 434272
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.667Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 434291 >= 434280
+abr 24 22:42:16 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:16.670Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 434291 >= 434289
+abr 24 22:42:17 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:17.367Z [ffmpeg-cap] GAP 683ms (chunk#21320, 15 muestras)
+abr 24 22:42:17 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:17.372Z GAP 721ms entre frames GSM de salida
+abr 24 22:42:17 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:17.491Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 440359 >= 440353
+abr 24 22:42:17 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:17.528Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 441140 >= 441127
+abr 24 22:42:17 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:17.584Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 441883 >= 441858
+abr 24 22:42:17 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:17.585Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 441883 >= 441879
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.376Z [ffmpeg-cap] GAP 756ms (chunk#21435, 15 muestras)
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:18.418Z GAP 807ms entre frames GSM de salida
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.532Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 449337 >= 449318
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.550Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 449700 >= 449696
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.565Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 449905 >= 449888
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.579Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450070 >= 450041
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.580Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450070 >= 450069
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.593Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450222 >= 450212
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.623Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450456 >= 450427
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.623Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450456 >= 450444
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.646Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450547 >= 450535
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.665Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450674 >= 450650
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.666Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450674 >= 450659
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.668Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450674 >= 450669
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.680Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450707 >= 450677
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.681Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00]
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.683Z [ffmpeg-cap] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450707 >= 450686
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.722Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450730 >= 450716
+abr 24 22:42:18 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:18.723Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 450730 >= 450725
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.408Z [ffmpeg-cap] GAP 684ms (chunk#21566, 15 muestras)
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:19.445Z GAP 717ms entre frames GSM de salida
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.560Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 457345 >= 457342
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.571Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 457598 >= 457583
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.589Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 457909 >= 457907
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.605Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458089 >= 458074
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.620Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458256 >= 458232
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.621Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458256 >= 458255
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.651Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458529 >= 458510
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.653Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458529 >= 458527
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.667Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458618 >= 458593
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.670Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458618 >= 458606
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.688Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458710 >= 458697
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.702Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458765 >= 458748
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.719Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458838 >= 458832
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.736Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458894 >= 458883
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.736Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458894 >= 458892
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.753Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458950 >= 458935
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.754Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458950 >= 458943
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.769Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458992 >= 458973
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.770Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 458992 >= 458991
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.789Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 459049 >= 459040
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.790Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 459049 >= 459049
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.811Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 459125 >= 459124
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.829Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 459202 >= 459199
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.843Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 459253 >= 459248
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.865Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 459335 >= 459327
+abr 24 22:42:19 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:19.881Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 459412 >= 459410
+abr 24 22:42:20 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:20.439Z [ffmpeg-cap] GAP 533ms (chunk#21764, 15 muestras)
+abr 24 22:42:20 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:20.464Z GAP 568ms entre frames GSM de salida
+abr 24 22:42:20 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:20.594Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 465273 >= 465263
+abr 24 22:42:20 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:20.637Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 465964 >= 465946
+abr 24 22:42:20 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:20.682Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 466398 >= 466379
+abr 24 22:42:20 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:20.685Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 466398 >= 466397
+abr 24 22:42:20 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:20.698Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 466481 >= 466476
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.103Z [nivel] pico RMS=2 (-83.5 dBFS)  VOXumbral=2000  gain=0.4
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.460Z [ffmpeg-cap] GAP 762ms (chunk#21873, 15 muestras)
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [gsm-enc] 2026-04-24T22:42:21.475Z GAP 802ms entre frames GSM de salida
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.587Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 473201 >= 473195
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.617Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 474010 >= 474001
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.665Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 474717 >= 474699
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.683Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 474958 >= 474923
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.684Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 474958 >= 474943
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.714Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 475174 >= 475173
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.734Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 475276 >= 475264
+abr 24 22:42:21 ubuntus eqso-relay-CB[98524]: [audio] 2026-04-24T22:42:21.738Z [ffmpeg-cap] [s16le @ 0x5ee86a448f00] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 475276 >= 475274
