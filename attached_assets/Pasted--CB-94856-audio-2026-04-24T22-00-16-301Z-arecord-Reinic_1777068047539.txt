@@ -1,0 +1,49 @@
+-CB[94856]: [audio] 2026-04-24T22:00:16.301Z [arecord] Reinicio rapido tras xrun (50ms)
+abr 24 22:00:16 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:16.352Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 22:00:16 ubuntus eqso-relay-CB[94856]: [gsm-enc] 2026-04-24T22:00:16.478Z GAP 858ms entre frames GSM de salida
+abr 24 22:00:17 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:17.286Z [arecord] GAP 570ms (xrun ALSA) ? reiniciando arecord
+abr 24 22:00:17 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:17.287Z [arecord] arecord: pcm_read:2240:
+abr 24 22:00:17 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:17.290Z [arecord] read error: Interrupted system call
+abr 24 22:00:17 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:17.312Z [arecord] Reinicio rapido tras xrun (50ms)
+abr 24 22:00:17 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:17.363Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 22:00:17 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:17.419Z [nivel] pico RMS=10026 (-10.3 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 22:00:17 ubuntus eqso-relay-CB[94856]: [gsm-enc] 2026-04-24T22:00:17.482Z GAP 764ms entre frames GSM de salida
+abr 24 22:00:18 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:18.318Z [arecord] GAP 637ms (xrun ALSA) ? reiniciando arecord
+abr 24 22:00:18 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:18.322Z [arecord] arecord: pcm_read:2240:
+abr 24 22:00:18 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:18.323Z [arecord] read error: Interrupted system call
+abr 24 22:00:18 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:18.347Z [arecord] Reinicio rapido tras xrun (50ms)
+abr 24 22:00:18 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:18.398Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 22:00:18 ubuntus eqso-relay-CB[94856]: [gsm-enc] 2026-04-24T22:00:18.505Z GAP 822ms entre frames GSM de salida
+abr 24 22:00:19 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:19.335Z [arecord] GAP 593ms (xrun ALSA) ? reiniciando arecord
+abr 24 22:00:19 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:19.337Z [arecord] arecord: pcm_read:2240:
+abr 24 22:00:19 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:19.339Z [arecord] read error: Interrupted system call
+abr 24 22:00:19 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:19.361Z [arecord] Reinicio rapido tras xrun (50ms)
+abr 24 22:00:19 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:19.439Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 22:00:19 ubuntus eqso-relay-CB[94856]: [gsm-enc] 2026-04-24T22:00:19.552Z GAP 807ms entre frames GSM de salida
+abr 24 22:00:20 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:20.371Z [arecord] GAP 501ms (xrun ALSA) ? reiniciando arecord
+abr 24 22:00:20 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:20.373Z [arecord] arecord: pcm_read:2240: read error: Interrupted system call
+abr 24 22:00:20 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:20.398Z [arecord] Reinicio rapido tras xrun (50ms)
+abr 24 22:00:20 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:20.448Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 22:00:20 ubuntus eqso-relay-CB[94856]: [gsm-enc] 2026-04-24T22:00:20.528Z GAP 656ms entre frames GSM de salida
+abr 24 22:00:21 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:21.371Z [arecord] GAP 525ms (xrun ALSA) ? reiniciando arecord
+abr 24 22:00:21 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:21.374Z [arecord] arecord: pcm_read:2240: read error: Interrupted system call
+abr 24 22:00:21 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:21.401Z [arecord] Reinicio rapido tras xrun (50ms)
+abr 24 22:00:21 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:21.479Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 22:00:21 ubuntus eqso-relay-CB[94856]: [gsm-enc] 2026-04-24T22:00:21.589Z GAP 740ms entre frames GSM de salida
+abr 24 22:00:22 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:22.405Z [arecord] GAP 639ms (xrun ALSA) ? reiniciando arecord
+abr 24 22:00:22 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:22.414Z [arecord] arecord: pcm_read:2240: read error: Interrupted system call
+abr 24 22:00:22 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:22.421Z [nivel] pico RMS=10026 (-10.3 dBFS)  VOXumbral=3500  gain=0.4
+abr 24 22:00:22 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:22.430Z [arecord] Reinicio rapido tras xrun (50ms)
+abr 24 22:00:22 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:22.482Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 22:00:22 ubuntus eqso-relay-CB[94856]: [gsm-enc] 2026-04-24T22:00:22.569Z GAP 818ms entre frames GSM de salida
+abr 24 22:00:23 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:23.431Z [arecord] GAP 464ms (xrun ALSA) ? reiniciando arecord
+abr 24 22:00:23 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:23.434Z [arecord] arecord: pcm_read:2240:
+abr 24 22:00:23 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:23.435Z [arecord] read error: Interrupted system call
+abr 24 22:00:23 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:23.458Z [arecord] Reinicio rapido tras xrun (50ms)
+abr 24 22:00:23 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:23.508Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 22:00:23 ubuntus eqso-relay-CB[94856]: [gsm-enc] 2026-04-24T22:00:23.606Z GAP 637ms entre frames GSM de salida
+abr 24 22:00:24 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:24.465Z [arecord] GAP 641ms (xrun ALSA) ? reiniciando arecord
+abr 24 22:00:24 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:24.468Z [arecord] arecord: pcm_read:2240: read error: Interrupted system call
+abr 24 22:00:24 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:24.489Z [arecord] Reinicio rapido tras xrun (50ms)
+abr 24 22:00:24 ubuntus eqso-relay-CB[94856]: [audio] 2026-04-24T22:00:24.560Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 24 22:00:24 ubuntus eqso-relay-CB[94856]: [gsm-enc] 2026-04-24T22:00:24.699Z GAP 894ms entre frames GSM de salida
