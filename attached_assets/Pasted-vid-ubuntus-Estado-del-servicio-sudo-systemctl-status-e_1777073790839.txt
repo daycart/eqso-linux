@@ -1,0 +1,39 @@
+vid@ubuntus:~$ # Estado del servicio
+sudo systemctl status eqso-relay@CB.service
+
+# Log sin filtro (\Uffffffffas 30 l\Uffffffffas)
+sudo journalctl -u eqso-relay@CB.service -n 30 --no-pager
+? eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB
+     Loaded: loaded (/etc/systemd/system/eqso-relay@.service; disabled; preset: enabled)
+     Active: inactive (dead)
+       Docs: https://github.com/daycart/eqso-linux-client
+abr 24 23:31:51 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:31:51.089Z GAP 871ms entre frames GSM de salida
+abr 24 23:31:52 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:52.095Z [arecord] GAP 746ms (chunk#2566, 160 muestras)
+abr 24 23:31:52 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:31:52.116Z GAP 765ms entre frames GSM de salida
+abr 24 23:31:52 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:52.817Z [nivel] pico RMS=3 (-82.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 24 23:31:53 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:53.113Z [arecord] GAP 699ms (chunk#2583, 160 muestras)
+abr 24 23:31:53 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:31:53.118Z GAP 720ms entre frames GSM de salida
+abr 24 23:31:54 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:54.140Z [arecord] GAP 648ms (chunk#2603, 160 muestras)
+abr 24 23:31:54 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:31:54.143Z GAP 668ms entre frames GSM de salida
+abr 24 23:31:55 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:55.164Z [arecord] GAP 783ms (chunk#2616, 160 muestras)
+abr 24 23:31:55 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:31:55.188Z GAP 805ms entre frames GSM de salida
+abr 24 23:31:56 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:56.180Z [arecord] GAP 816ms (chunk#2627, 160 muestras)
+abr 24 23:31:56 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:31:56.185Z GAP 839ms entre frames GSM de salida
+abr 24 23:31:57 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:57.209Z [arecord] GAP 769ms (chunk#2641, 160 muestras)
+abr 24 23:31:57 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:31:57.213Z GAP 787ms entre frames GSM de salida
+abr 24 23:31:57 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:57.819Z [nivel] pico RMS=3 (-82.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 24 23:31:58 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:58.230Z [arecord] GAP 202ms (chunk#2683, 160 muestras)
+abr 24 23:31:58 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:31:58.237Z GAP 226ms entre frames GSM de salida
+abr 24 23:31:59 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:31:59.246Z [arecord] GAP 596ms (chunk#2705, 160 muestras)
+abr 24 23:31:59 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:31:59.248Z GAP 615ms entre frames GSM de salida
+abr 24 23:32:00 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:32:00.304Z [arecord] GAP 729ms (chunk#2722, 160 muestras)
+abr 24 23:32:00 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:32:00.390Z [arecord] GAP 86ms (chunk#2723, 160 muestras)
+abr 24 23:32:00 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:32:00.393Z GAP 817ms entre frames GSM de salida
+abr 24 23:32:01 ubuntus eqso-relay-CB[102395]: [audio] 2026-04-24T23:32:01.307Z [arecord] GAP 696ms (chunk#2735, 160 muestras)
+abr 24 23:32:01 ubuntus eqso-relay-CB[102395]: [gsm-enc] 2026-04-24T23:32:01.314Z GAP 723ms entre frames GSM de salida
+abr 24 23:32:01 ubuntus systemd[1]: Stopping eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB...
+abr 24 23:32:01 ubuntus eqso-relay-CB[102395]: [main] 2026-04-24T23:32:01.361Z Se\UffffffffSIGTERM recibida \Uffffffff apagando (graceful)\Uffffffff
+abr 24 23:32:01 ubuntus eqso-relay-CB[102395]: [main] 2026-04-24T23:32:01.499Z Apagado completado.
+abr 24 23:32:02 ubuntus systemd[1]: eqso-relay@CB.service: Deactivated successfully.
+abr 24 23:32:02 ubuntus systemd[1]: Stopped eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
+abr 24 23:32:02 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 9.586s CPU time.
