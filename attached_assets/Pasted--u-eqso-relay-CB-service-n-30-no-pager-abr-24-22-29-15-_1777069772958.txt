@@ -1,0 +1,31 @@
+-u eqso-relay@CB.service -n 30 --no-pager
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.793Z   Sala     : PRUEBAS
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.794Z   Servidor : 127.0.0.1:2171
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.794Z   VOX      : ON (umbral=2000 hang=2500ms debounce=2chunks)
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.794Z   Captura  : plughw:1,0
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.795Z   Playback : plughw:1,0
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.795Z   PTT Ser. : /dev/ttyACM0 (rts)
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.796Z ============================================================
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [ptt] 2026-04-24T22:29:15.797Z Iniciando PTT serial: /dev/ttyACM0 (rts)
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:15.841Z ffmpeg -hide_banner -loglevel warning -f alsa -ac 1 -i plughw:1,0 -f s16le -ar 8000 -ac 1 -
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.848Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "PRUEBAS"\Uffffffff
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [control] 2026-04-24T22:29:15.905Z Control HTTP escuchando en http://127.0.0.1:8009
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [eqso] 2026-04-24T22:29:15.916Z TCP conectado a 127.0.0.1:2171
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [eqso] 2026-04-24T22:29:15.932Z Handshake recibido \Uffffffff conexion establecida
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.935Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [eqso] 2026-04-24T22:29:15.943Z JOIN enviado: callsign="0R-IN70WN" sala="PRUEBAS"
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [eqso] 2026-04-24T22:29:15.944Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.944Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 24 22:29:15 ubuntus eqso-relay-CB[97880]: [main] 2026-04-24T22:29:15.954Z Sala: 0R-IN70WN se ha unido
+abr 24 22:29:16 ubuntus eqso-relay-CB[97880]: [ptt] 2026-04-24T22:29:16.258Z PTT serial listo (/dev/ttyACM0, rts)
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.275Z [ffmpeg-cap] [aist#0:0/pcm_s16le @ 0x5d502d1a9100] Guessed Channel Layout: stereo
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.284Z [ffmpeg-cap] chunk#1: 31 muestras (62 bytes)
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.290Z [ffmpeg-cap] chunk#2: 16 muestras (32 bytes)
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.294Z [ffmpeg-cap] chunk#3: 15 muestras (30 bytes)
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.296Z [ffmpeg-cap] chunk#4: 32 muestras (64 bytes)
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.298Z [ffmpeg-cap] chunk#5: 15 muestras (30 bytes)
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.302Z [ffmpeg-cap] chunk#6: 94 muestras (188 bytes)
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.311Z [ffmpeg-cap] chunk#7: 16 muestras (32 bytes)
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.313Z [ffmpeg-cap] chunk#8: 31 muestras (62 bytes)
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.711Z [ffmpeg-cap] [s16le @ 0x5d502d198fc0] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 3358 >= 3358
+abr 24 22:29:18 ubuntus eqso-relay-CB[97880]: [audio] 2026-04-24T22:29:18.850Z [ffmpeg-cap] [s16le @ 0x5d502d198fc0] Application provided invalid, non monotonically increasing dts to muxer in stream 0: 4496 >= 4495
