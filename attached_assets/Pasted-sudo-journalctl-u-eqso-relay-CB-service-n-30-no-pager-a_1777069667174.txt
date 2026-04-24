@@ -1,0 +1,31 @@
+sudo journalctl -u eqso-relay@CB.service -n 30 --no-pager
+abr 24 22:27:09 ubuntus eqso-relay-CB[97526]: [main] 2026-04-24T22:27:09.178Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 24 22:27:09 ubuntus eqso-relay-CB[97526]: [main] 2026-04-24T22:27:09.188Z Sala: 0R-IN70WN se ha unido
+abr 24 22:27:09 ubuntus eqso-relay-CB[97526]: [ptt] 2026-04-24T22:27:09.414Z PTT serial listo (/dev/ttyACM0, rts)
+abr 24 22:27:10 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:10.774Z [ffmpeg-cap] [alsa @ 0x5c30d65b6f40]
+abr 24 22:27:10 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:10.776Z [ffmpeg-cap] cannot set parameters (Invalid argument)
+abr 24 22:27:10 ubuntus eqso-relay-CB[97526]: [in#0 @ 0x5c30d65b6e40] Error opening input: Input/output error
+abr 24 22:27:10 ubuntus eqso-relay-CB[97526]: Error opening input file plughw:1,0.
+abr 24 22:27:10 ubuntus eqso-relay-CB[97526]: Error opening input files: Input/output error
+abr 24 22:27:10 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:10.791Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:27:12 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:12.791Z ffmpeg -hide_banner -loglevel warning -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 -
+abr 24 22:27:13 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:13.742Z [ffmpeg-cap] [alsa @ 0x572749819f40]
+abr 24 22:27:13 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:13.746Z [ffmpeg-cap] cannot set parameters (Invalid argument)
+abr 24 22:27:13 ubuntus eqso-relay-CB[97526]: [in#0 @ 0x572749819e40] Error opening input: Input/output error
+abr 24 22:27:13 ubuntus eqso-relay-CB[97526]: Error opening input file plughw:1,0.
+abr 24 22:27:13 ubuntus eqso-relay-CB[97526]: Error opening input files: Input/output error
+abr 24 22:27:13 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:13.759Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:27:15 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:15.760Z ffmpeg -hide_banner -loglevel warning -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 -
+abr 24 22:27:16 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:16.839Z [ffmpeg-cap] [alsa @ 0x5e0945a0df40] cannot set parameters (Invalid argument)
+abr 24 22:27:16 ubuntus eqso-relay-CB[97526]: [in#0 @ 0x5e0945a0de40] Error opening input: Input/output error
+abr 24 22:27:16 ubuntus eqso-relay-CB[97526]: Error opening input file plughw:1,0.
+abr 24 22:27:16 ubuntus eqso-relay-CB[97526]: Error opening input files: Input/output error
+abr 24 22:27:16 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:16.857Z [ffmpeg-cap] Terminado (code 251)
+abr 24 22:27:18 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:18.864Z ffmpeg -hide_banner -loglevel warning -f alsa -ar 8000 -ac 1 -i plughw:1,0 -f s16le -ar 8000 -
+abr 24 22:27:19 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:19.819Z [ffmpeg-cap] [alsa @ 0x6313da980f40]
+abr 24 22:27:19 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:19.819Z [ffmpeg-cap] cannot set parameters (Invalid argument)
+abr 24 22:27:19 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:19.821Z [ffmpeg-cap] [in#0 @ 0x6313da980e40]
+abr 24 22:27:19 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:19.824Z [ffmpeg-cap] Error opening input: Input/output error
+abr 24 22:27:19 ubuntus eqso-relay-CB[97526]: Error opening input file plughw:1,0.
+abr 24 22:27:19 ubuntus eqso-relay-CB[97526]: Error opening input files: Input/output error
+abr 24 22:27:19 ubuntus eqso-relay-CB[97526]: [audio] 2026-04-24T22:27:19.835Z [ffmpeg-cap] Terminado (code 251)
