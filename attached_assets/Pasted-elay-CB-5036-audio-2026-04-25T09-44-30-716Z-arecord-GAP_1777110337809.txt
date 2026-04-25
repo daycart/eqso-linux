@@ -1,0 +1,124 @@
+elay-CB[5036]: [audio] 2026-04-25T09:44:30.716Z [arecord] GAP 713ms (chunk#17783, 160 muestras)
+abr 25 09:44:30 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:30.720Z GAP 735ms entre frames GSM de salida
+abr 25 09:44:30 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:30.737Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-25T09:43:02.564Z)
+abr 25 09:44:30 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:30.871Z [nivel] pico RMS=10751 (-9.7 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 09:44:31 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:31.739Z [arecord] GAP 784ms (chunk#17796, 160 muestras)
+abr 25 09:44:31 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:31.761Z GAP 803ms entre frames GSM de salida
+abr 25 09:44:32 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:32.761Z [arecord] GAP 742ms (chunk#17811, 160 muestras)
+abr 25 09:44:32 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:32.763Z GAP 762ms entre frames GSM de salida
+abr 25 09:44:33 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:33.030Z Desconectado del servidor eQSO
+abr 25 09:44:33 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:33.030Z Reintento #1 en 2s\Uffffffff
+abr 25 09:44:33 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:33.031Z TCP desconectado de 127.0.0.1:2171
+abr 25 09:44:34 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:34.808Z [arecord] GAP 1001ms (chunk#17864, 160 muestras)
+abr 25 09:44:34 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:34.828Z GAP 1019ms entre frames GSM de salida
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:35.030Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:35.032Z TCP conectado a 127.0.0.1:2171
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:35.055Z Handshake recibido \Uffffffff conexion establecida
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:35.055Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:35.059Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:35.059Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:35.059Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:35.066Z Mensaje del servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:35.066Z Mensaje servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:35.067Z Desconectado del servidor eQSO
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:35.068Z Reintento #1 en 2s\Uffffffff
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:35.070Z TCP desconectado de 127.0.0.1:2171
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:35.846Z [arecord] GAP 795ms (chunk#17877, 160 muestras)
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:35.850Z GAP 821ms entre frames GSM de salida
+abr 25 09:44:35 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:35.871Z [nivel] pico RMS=17816 (-5.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 09:44:36 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:36.858Z [arecord] GAP 792ms (chunk#17889, 160 muestras)
+abr 25 09:44:36 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:36.861Z GAP 812ms entre frames GSM de salida
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:37.071Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:37.075Z TCP conectado a 127.0.0.1:2171
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:37.094Z Handshake recibido \Uffffffff conexion establecida
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:37.094Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:37.095Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:37.095Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:37.096Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:37.101Z Mensaje del servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:37.104Z Mensaje servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:37.109Z Desconectado del servidor eQSO
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:37.109Z Reintento #1 en 2s\Uffffffff
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:37.110Z TCP desconectado de 127.0.0.1:2171
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:37.878Z [arecord] GAP 260ms (chunk#17928, 160 muestras)
+abr 25 09:44:37 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:37.901Z GAP 280ms entre frames GSM de salida
+abr 25 09:44:38 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:38.910Z [arecord] GAP 812ms (chunk#17940, 160 muestras)
+abr 25 09:44:38 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:38.931Z GAP 831ms entre frames GSM de salida
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:39.110Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:39.115Z TCP conectado a 127.0.0.1:2171
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:39.135Z Handshake recibido \Uffffffff conexion establecida
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:39.135Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:39.136Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:39.144Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:39.144Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:39.150Z Mensaje del servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:39.150Z Mensaje servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:39.157Z Desconectado del servidor eQSO
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:39.157Z Reintento #1 en 2s\Uffffffff
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:39.157Z TCP desconectado de 127.0.0.1:2171
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:39.934Z [arecord] GAP 761ms (chunk#17954, 160 muestras)
+abr 25 09:44:39 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:39.956Z GAP 780ms entre frames GSM de salida
+abr 25 09:44:40 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:40.873Z [nivel] pico RMS=2 (-82.4 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 09:44:40 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:40.963Z [arecord] GAP 243ms (chunk#17994, 160 muestras)
+abr 25 09:44:40 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:40.986Z GAP 257ms entre frames GSM de salida
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:41.158Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:41.160Z TCP conectado a 127.0.0.1:2171
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:41.195Z Handshake recibido \Uffffffff conexion establecida
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:41.195Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:41.196Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:41.196Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:41.196Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:41.206Z Mensaje del servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:41.206Z Mensaje servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:41.214Z Desconectado del servidor eQSO
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:41.220Z Reintento #1 en 2s\Uffffffff
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:41.220Z TCP desconectado de 127.0.0.1:2171
+abr 25 09:44:41 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:41.984Z [arecord] GAP 239ms (chunk#18034, 160 muestras)
+abr 25 09:44:42 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:42.005Z GAP 259ms entre frames GSM de salida
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:43.014Z [arecord] GAP 751ms (chunk#18049, 160 muestras)
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:43.019Z GAP 774ms entre frames GSM de salida
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:43.222Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:43.225Z TCP conectado a 127.0.0.1:2171
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:43.249Z Handshake recibido \Uffffffff conexion establecida
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:43.250Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:43.250Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:43.251Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:43.251Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:43.265Z Mensaje del servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:43.265Z Mensaje servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:43.269Z Desconectado del servidor eQSO
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:43.269Z Reintento #1 en 2s\Uffffffff
+abr 25 09:44:43 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:43.273Z TCP desconectado de 127.0.0.1:2171
+abr 25 09:44:44 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:44.039Z [arecord] GAP 781ms (chunk#18062, 160 muestras)
+abr 25 09:44:44 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:44.062Z GAP 789ms entre frames GSM de salida
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:45.058Z [arecord] GAP 778ms (chunk#18075, 160 muestras)
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:45.064Z GAP 801ms entre frames GSM de salida
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:45.274Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:45.276Z TCP conectado a 127.0.0.1:2171
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:45.299Z Handshake recibido \Uffffffff conexion establecida
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:45.299Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:45.300Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:45.300Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:45.300Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:45.308Z Mensaje del servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:45.309Z Mensaje servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:45.312Z Desconectado del servidor eQSO
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:45.312Z Reintento #1 en 2s\Uffffffff
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:45.312Z TCP desconectado de 127.0.0.1:2171
+abr 25 09:44:45 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:45.874Z [nivel] pico RMS=3 (-81.8 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 09:44:46 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:46.074Z [arecord] GAP 773ms (chunk#18088, 160 muestras)
+abr 25 09:44:46 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:46.096Z GAP 787ms entre frames GSM de salida
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:44:47.105Z [arecord] GAP 612ms (chunk#18110, 160 muestras)
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:44:47.126Z GAP 631ms entre frames GSM de salida
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:47.312Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:47.314Z TCP conectado a 127.0.0.1:2171
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:47.332Z Handshake recibido \Uffffffff conexion establecida
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:47.332Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:47.333Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:47.333Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:47.333Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:47.343Z Mensaje del servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:47.343Z Mensaje servidor: Indicativo "0R-IN70WN" ya en uso
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:47.347Z Desconectado del servidor eQSO
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:44:47.347Z Reintento #1 en 2s\Uffffffff
+abr 25 09:44:47 ubuntus eqso-relay-CB[5036]: [eqso] 2026-04-25T09:44:47.348Z
