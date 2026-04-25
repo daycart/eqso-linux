@@ -444,7 +444,11 @@ function handleRemoteMode(
         sendJson(ws, { type: "server_info", message: `Conectado a ${host}:${port}` });
         break;
       case "server_info":
-        sendJson(ws, { type: "error", message: String(ev.data) });
+        // Informacion del servidor remoto (hello eQSO, nombre del servidor).
+        // NO reenviar como "error" — era lo que causaba el texto garbled en el
+        // panel rojo del cliente web cuando el servidor Windows eQSO mandaba
+        // el paquete 0x0b de bienvenida al conectar en modo remoto.
+        sendJson(ws, { type: "server_info", message: String(ev.data) });
         break;
       case "disconnected":
         roomManager.updateRemoteConn(id, { status: "disconnected" });

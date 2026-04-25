@@ -192,6 +192,7 @@ export function useEqsoClient(
         setCurrentName(null);
         setMembers([]);
         setActiveSpeaker(null);
+        setError(null); // Limpiar errores de la sesion anterior
         break;
 
       case "error":
