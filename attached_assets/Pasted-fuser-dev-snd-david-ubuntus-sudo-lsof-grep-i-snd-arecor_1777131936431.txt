@@ -1,0 +1,22 @@
+fuser /dev/snd/*
+david@ubuntus:~$ sudo lsof | grep -i snd
+arecord   2489                            eqso  mem       CHR              116,7                 731 /dev/snd/pcmC1D0c
+arecord   2489                            eqso    4u      CHR              116,7      0t0        731 /dev/snd/pcmC1D0c
+ffmpeg    3268                            eqso  mem       REG              252,0   545896      30748 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37
+ffmpeg    3268                            eqso  mem       REG              252,0    68064      30852 /usr/lib/x86_64-linux-gnu/libsndio.so.7.2
+ffmpeg    3268 3295 dec0:0:gs             eqso  mem       REG              252,0   545896      30748 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37
+ffmpeg    3268 3295 dec0:0:gs             eqso  mem       REG              252,0    68064      30852 /usr/lib/x86_64-linux-gnu/libsndio.so.7.2
+ffmpeg    3268 3296 dmx0:gsm              eqso  mem       REG              252,0   545896      30748 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37
+ffmpeg    3268 3296 dmx0:gsm              eqso  mem       REG              252,0    68064      30852 /usr/lib/x86_64-linux-gnu/libsndio.so.7.2
+ffmpeg    3268 3297 ffmpeg                eqso  mem       REG              252,0   545896      30748 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37
+ffmpeg    3268 3297 ffmpeg                eqso  mem       REG              252,0    68064      30852 /usr/lib/x86_64-linux-gnu/libsndio.so.7.2
+ffmpeg    3268 3298 ffmpeg                eqso  mem       REG              252,0   545896      30748 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37
+ffmpeg    3268 3298 ffmpeg                eqso  mem       REG              252,0    68064      30852 /usr/lib/x86_64-linux-gnu/libsndio.so.7.2
+ffmpeg    3268 3299 mux0:s16l             eqso  mem       REG              252,0   545896      30748 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37
+ffmpeg    3268 3299 mux0:s16l             eqso  mem       REG              252,0    68064      30852 /usr/lib/x86_64-linux-gnu/libsndio.so.7.2
+ffmpeg    3269                            eqso  mem       REG              252,0   545896      30748 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37
+ffmpeg    3269                            eqso  mem       REG              252,0    68064      30852 /usr/lib/x86_64-linux-gnu/libsndio.so.7.2
+ffmpeg    3271                            eqso  mem       REG              252,0   545896      30748 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37
+ffmpeg    3271                            eqso  mem       REG              252,0    68064      30852 /usr/lib/x86_64-linux-gnu/libsndio.so.7.2
+ffmpeg    3305                            eqso  mem       REG              252,0   545896      30748 /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.37
+ffmpeg    3305                            eqso  mem       REG              252,0    68064      30852 /usr/lib/x86_64-linux-gnu/libsndio.so.7.
