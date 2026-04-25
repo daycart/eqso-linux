@@ -239,7 +239,7 @@ export class EqsoProxy extends EventEmitter {
   // Timestamp de inicio de PTT por estación (para watchdog anti-stuck)
   private txStartTimes = new Map<string, number>();
   private pttWatchdogTimer: ReturnType<typeof setInterval> | null = null;
-  private static readonly PTT_MAX_DURATION_MS = 90_000; // 90 seg máximo de TX continua
+  private static readonly PTT_MAX_DURATION_MS = 30_000; // 30 seg máximo de TX continua
   private static readonly PTT_WATCHDOG_INTERVAL_MS = 15_000;
 
   constructor(host: string, port: number) {

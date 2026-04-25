@@ -295,9 +295,17 @@ router.delete("/moderation/ban/:callsign", async (req, res) => {
 
 // ── Moderación — Kick ─────────────────────────────────────────────────────────
 
-// POST /api/admin/moderation/kick/:clientId — expulsar cliente conectado
+// POST /api/admin/moderation/kick/:clientId — expulsar cliente por UUID
 router.post("/moderation/kick/:clientId", (req, res) => {
   moderationManager.kickClient(req.params["clientId"]);
+  res.json({ ok: true });
+});
+
+// POST /api/admin/moderation/kick-callsign — expulsar cliente por indicativo
+router.post("/moderation/kick-callsign", (req, res) => {
+  const { callsign } = req.body as { callsign?: string };
+  if (!callsign?.trim()) { res.status(400).json({ error: "callsign requerido" }); return; }
+  moderationManager.kickByCallsign(callsign.trim().toUpperCase());
   res.json({ ok: true });
 });
 

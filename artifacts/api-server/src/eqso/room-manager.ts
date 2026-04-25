@@ -325,10 +325,14 @@ export class RoomManager extends EventEmitter {
     for (const c of allClients) {
       if (!c.room) continue;
       if (!byRoom[c.room]) {
+        const lockedById = this.roomLocks.get(c.room);
+        const lockedByClient = lockedById
+          ? allClients.find(cl => cl.id === lockedById)
+          : undefined;
         byRoom[c.room] = {
           room:     c.room,
-          locked:   !!this.roomLocks.get(c.room),
-          lockedBy: this.roomLocks.get(c.room) ?? "",
+          locked:   !!lockedById,
+          lockedBy: lockedByClient?.name ?? lockedById ?? "",
           clients:  [],
         };
       }
