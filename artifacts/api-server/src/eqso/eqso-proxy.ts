@@ -159,15 +159,15 @@ class EqsoPacketParser {
     }
 
     if (count === 1) {
-      // Single action event (NOTE: single-entry has one extra padding byte vs multi-entry):
-      //   [0x16][0x01][0x00][0x00][0x00][0x00][action][0x00][0x00][0x00][nameLen][name...]
-      //   positions:  0     1     2     3     4     5     6      7     8     9      10
+      // Single action event — our server format (matches ws-bridge.ts and relay-manager.ts):
+      //   [0x16][0x01][0x00][0x00][0x00][action][0x00][0x00][0x00][nameLen][name...]
+      //   positions:  0     1     2     3     4     5      6     7     8      9
       //   action 0x00 (join) adds: [msgLen][msg][0x00]
       //   other actions (ptt/leave): no message, no terminator
-      if (this.acc.length < 11) return null;
-      const action = this.acc[6];
-      const nameLen = this.acc[10];
-      let off = 11 + nameLen;
+      if (this.acc.length < 10) return null;
+      const action = this.acc[5];
+      const nameLen = this.acc[9];
+      let off = 10 + nameLen;
       if (this.acc.length < off) return null;
       if (action === 0x00) {
         // join: msgLen + msg + terminator
@@ -511,13 +511,12 @@ export class EqsoProxy extends EventEmitter {
 
     if (count === 0) return;
 
-    // Parse single-entry packets (action events)
-    // Single-entry has one extra padding byte before action vs multi-entry:
-    // [0x16][0x01][0x00][0x00][0x00][0x00][action][0x00][0x00][0x00][nameLen][name...]
-    // positions:  0     1     2     3     4     5     6      7     8     9      10
+    // Parse single-entry packets (action events) — our server format:
+    // [0x16][0x01][0x00][0x00][0x00][action][0x00][0x00][0x00][nameLen][name...]
+    // positions:  0     1     2     3     4     5      6     7     8      9
     if (count === 1) {
-      const action = pkt[6]; // action is at position 6 for single-entry packets
-      let off = 10; // nameLen starts at position 10
+      const action = pkt[5]; // action is at position 5 (matches protocol.ts buildPtt*/buildUser*)
+      let off = 9; // nameLen starts at position 9
 
       if (off >= pkt.length) return;
       const nameLen = pkt[off++];
