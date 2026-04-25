@@ -160,7 +160,13 @@ export function useEqsoClient(
 
       case "ptt_started":
         setActiveSpeaker(msg.name as string);
-        setChannelBusy(true);
+        // Solo marcar canal ocupado si NO somos nosotros el TX.
+        // Si pttGrantedRef.current es true, el server ya nos confirmó ptt_granted
+        // y nosotros somos los que estamos transmitiendo; marcar channelBusy aquí
+        // causaría que el botón PTT se bloquee durante nuestra propia TX.
+        if (!pttGrantedRef.current) {
+          setChannelBusy(true);
+        }
         break;
 
       case "ptt_released":

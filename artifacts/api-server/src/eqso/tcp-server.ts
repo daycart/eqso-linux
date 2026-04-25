@@ -126,8 +126,8 @@ function processSingleByte(state: TcpClientState, byte: number): void {
         // cada paquete GSM), lo que hacía que los clientes eQSO externos
         // (Windows ASORAPA) los recibieran como ráfagas y desconectaran.
         const wasAlreadyOurs = roomManager.isLockedBy(client.room, state.id);
-        roomManager.tryLockRoom(client.room, state.id);
-        if (!wasAlreadyOurs) {
+        const lockAcquired = roomManager.tryLockRoom(client.room, state.id);
+        if (lockAcquired && !wasAlreadyOurs) {
           // Enviamos pttStarted a TODOS (broadcastToRoom): WS + TCP + relay-listeners.
           // Los relays Windows eQSO (0R-ASORAPA) NECESITAN action=0x02 para entrar en
           // "modo receive". Sin él, desconectan en ~870ms por timeout interno.
