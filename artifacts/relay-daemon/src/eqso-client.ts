@@ -162,6 +162,7 @@ export class EqsoClient extends EventEmitter {
     this.parser = new EqsoPacketParser();
     this.handshakeDone = false;
     this.transmitting = false;
+    let hadError = false;
 
     sock.connect(this.port, this.host, () => {
       this.connected = true;
@@ -174,18 +175,20 @@ export class EqsoClient extends EventEmitter {
       this.drainPackets();
     });
 
-    sock.on("close", () => {
+    sock.on("close", (hadHalfOpen?: boolean) => {
       this.connected = false;
       this.stopSilence();
+      const reason = hadError ? "tras error TCP" : "cierre limpio del servidor (FIN)";
+      log(`TCP desconectado de ${this.host}:${this.port} — ${reason}`);
       this.emit("event", { type: "disconnected" } satisfies EqsoEvent);
-      log(`TCP desconectado de ${this.host}:${this.port}`);
     });
 
     sock.on("error", (err: Error) => {
+      hadError = true;
       this.connected = false;
       this.stopSilence();
+      log(`TCP error: ${err.message} (${err.name})`);
       this.emit("event", { type: "error", data: err.message } satisfies EqsoEvent);
-      log(`TCP error: ${err.message}`);
     });
 
     sock.setTimeout(SOCKET_TIMEOUT_MS);

@@ -284,6 +284,15 @@ function connect(): void {
 
       case "disconnected":
         log("Desconectado del servidor eQSO");
+        if (pttActive) {
+          // El relay estaba transmitiendo cuando se perdió la conexión.
+          // Resetear el estado del VOX para que no quede en TX indefinidamente
+          // mientras el daemon espera el reconnect.
+          pttActive = false;
+          audio.setTxEnabled(false);
+          vox.resetState();
+          log("[vox] Estado PTT reseteado por desconexion durante TX");
+        }
         scheduleReconnect();
         break;
 
