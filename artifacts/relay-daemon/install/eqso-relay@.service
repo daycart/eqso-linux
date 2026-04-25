@@ -36,16 +36,22 @@ Environment=NODE_ENV=production
 # Ruta al daemon compilado
 WorkingDirectory=/opt/eqso-asorapa/artifacts/relay-daemon
 
+# ---------------------------------------------------------------------------
+# PRE-ARRANQUE
+# ---------------------------------------------------------------------------
+
 # Pre-arranque 0: matar procesos ALSA residuales ANTES del reset USB.
 # Critico: si arecord/aplay siguen corriendo cuando se hace el reset USB,
-# el kernel los pone en D-state (sueño ininterrumpible) y ya no mueren
+# el kernel los pone en D-state (sueno ininterrumpible) y ya no mueren
 # ni con SIGKILL, bloqueando /dev/snd para el siguiente arranque.
 # sleep 0.3 permite que el kernel limpie los file descriptors antes de
 # que usb-reset.sh desenganche el dispositivo.
 ExecStartPre=+/bin/bash -c 'pkill -KILL -x arecord 2>/dev/null; pkill -KILL -x aplay 2>/dev/null; sleep 0.3; true'
 
-# Pre-arranque 1: matar aplay/arecord residuales y resetear el USB audio.
-# Se ejecuta como root (prefijo '+') para acceder a /dev/bus/usb y /sys.
+# Pre-arranque 1: desvincular CM108, reset IOCTL USB y reconectar.
+# El script primero hace unbind (libera D-state si lo habia), luego
+# USBDEVFS_RESET electrico, luego bind. Se ejecuta como root (+) para
+# acceder a /dev/bus/usb y /sys/bus/usb/drivers.
 ExecStartPre=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/usb-reset.sh
 
 # Pre-arranque 2: configurar mixer ALSA del CM108.
@@ -54,6 +60,34 @@ ExecStartPre=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/usb-reset
 ExecStartPre=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh
 
 ExecStart=/usr/bin/node --enable-source-maps dist/main.mjs
+
+# ---------------------------------------------------------------------------
+# PARADA
+# ---------------------------------------------------------------------------
+#
+# Flujo de parada de systemd:
+#   1. ExecStop  →  corre stop-cleanup.sh como root (desvincula USB del bus,
+#                   libera D-state de arecord/aplay, los mata con SIGKILL)
+#   2. KillSignal (SIGTERM) →  Node recibe la senal; su handler encuentra
+#                   arecord ya muerto y sale limpiamente.
+#   3. Si Node no sale en TimeoutStopSec → systemd manda SIGKILL al cgroup.
+#   4. ExecStopPost → red de seguridad final (repite el unbind por si acaso).
+#
+# Por que ExecStop y no solo ExecStopPost:
+#   ExecStopPost corre DESPUES de que systemd ya mato los procesos, demasiado
+#   tarde para rescatar un D-state. ExecStop corre ANTES del SIGTERM, por lo
+#   que el unbind USB ya ha despertado a arecord antes de que Node intente
+#   cerrarlo.
+#
+# Por que unbind y no "authorized 0":
+#   "authorized 0" corta alimentacion pero el kernel no cancela los URBs
+#   pendientes, dejando los procesos en D-state igual. "unbind" desregistra
+#   el dispositivo del subsistema USB: el kernel cancela todos los URBs con
+#   error, despertando inmediatamente los procesos bloqueados.
+
+ExecStop=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/stop-cleanup.sh
+
+ExecStopPost=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/stop-cleanup.sh
 
 # Reinicio automatico: siempre, excepto si se para manualmente
 Restart=always
@@ -78,13 +112,10 @@ SupplementaryGroups=audio
 # Esto evita el D-state: el D-state ocurre cuando SIGKILL mata aplay en
 # mitad de una escritura USB DMA. Con cierre graceful, aplay termina la
 # escritura antes de salir y el kernel no queda bloqueado.
-# Si Node no sale en 8s, systemd envia SIGKILL al cgroup entero (fallback).
+# 20s = 2s (unbind) + 5s (Node cierre graceful) + margen
 KillMode=control-group
 KillSignal=SIGTERM
-TimeoutStopSec=8
-
-# Limpieza post-parada: mata procesos ALSA residuales y resetea el USB.
-ExecStopPost=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/stop-cleanup.sh
+TimeoutStopSec=20
 
 [Install]
 WantedBy=multi-user.target
