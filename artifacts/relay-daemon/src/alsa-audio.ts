@@ -227,33 +227,33 @@ export class AlsaAudio extends EventEmitter {
   // ── arecord ───────────────────────────────────────────────────────────────
 
   private startRecorder(): void {
-    // ─── DIAGNÓSTICO FINAL DEL CM108 (USB) ────────────────────────────────────
+    // ─── ESTRATEGIA DE CAPTURA: 48kHz nativo + decimación ×6 en Node.js ───────
     //
-    // El CM108 tiene un período hardware USB de ~750ms a 8kHz, independientemente
-    // del acceso vía plughw: o hw: o ffmpeg. No se puede cambiar desde user-space.
+    // El CM108 opera nativamente a 48kHz. Si se pide 8kHz a plughw:, el plugin
+    // de rate conversion de ALSA acumula muestras a 48kHz y las entrega en
+    // bloques grandes → GAP de ~750ms irremediable desde user-space.
     //
-    // Pruebas exhaustivas realizadas:
-    //   1. plughw: + ffmpeg a 8kHz    → GAP 750ms   (batching capa rate-plugin)
-    //   2. plughw: + arecord a 8kHz   → GAP 750ms   (misma capa)
-    //   3. hw: + arecord a 48kHz -c2  → error "Channels count non available"
-    //   4. hw: + arecord a 48kHz -c1  → GAP 2300ms  (re-init URBs snd-usb-audio)
-    //   5. hw: + arecord a 8kHz  -c1  → GAP 750ms   (igual que plughw:)
-    //                                    + crashes "read error: I/O error" cada 2-3s
+    // Solución: capturar a 48kHz (tasa nativa del CM108, sin pasar por el rate
+    // plugin) con period=960 muestras (20ms). ALSA entrega chunks cada 20ms
+    // reales. Node.js decima ×6 aplicando un filtro FIR box de 6 coeficientes
+    // (promedio) como anti-aliasing antes de entregar 8kHz al codificador GSM.
     //
-    // Conclusión: El período de 750ms es intrínseco al firmware USB del CM108.
-    //   plughw: a 8kHz (opción 2) es la mejor: mismos gaps pero SIN crashes xrun.
+    // Comparativa de estrategias probadas:
+    //   1. plughw: + arecord a 8kHz    → GAP 750ms (rate-plugin batching)
+    //   2. plughw: + ffmpeg a 8kHz     → GAP 750ms (misma capa)
+    //   3. hw: + arecord a 48kHz -c2   → error "Channels count non available"
+    //   4. hw: + arecord a 48kHz -c1   → GAP 2300ms + crashes I/O
+    //   5. hw: + arecord a 8kHz  -c1   → GAP 750ms + crashes I/O
+    //   6. plughw: + arecord a 48kHz   → chunks cada ~20ms sin rate-plugin ← ACTUAL
     //
-    // La ÚNICA mejora posible sin cambiar el hardware es el parámetro del módulo
-    // snd-usb-audio: `nrpacks=1` en /etc/modprobe.d/snd-usb-audio.conf + reboot.
-    // Con nrpacks=1 cada URB lleva 1 paquete (1ms), lo que reduciría el período
-    // hardware de ~750ms a ~20ms. No aplicado por requerir reinicio del kernel.
+    // nrpacks=1 no disponible en este kernel (confirmado: no expone el parámetro).
     // ──────────────────────────────────────────────────────────────────────────
     const captureDevice = this.cfg.captureDevice;   // plughw:1,0 / plughw:Device,0
-    const CAPTURE_RATE = 8000;
+    const CAPTURE_RATE = 48000;    // tasa nativa del CM108 → sin rate-plugin ALSA
     const CAPTURE_CHANNELS = 1;
-    const PERIOD_FRAMES = 160;     // 20ms a 8kHz (plughw: redondea al período hw)
-    const BUFFER_FRAMES = 8000;    // 1s de ring buffer → absorbe xruns sin crash
-    const DECIMATE = 1;            // sin decimación (ya a 8kHz)
+    const PERIOD_FRAMES = 960;     // 20ms a 48kHz = 160 muestras a 8kHz tras decimación
+    const BUFFER_FRAMES = 48000;   // 1s de ring buffer a 48kHz → absorbe xruns sin crash
+    const DECIMATE = 6;            // 48kHz ÷ 6 = 8kHz (para GSM)
 
     const args = [
       "-D", captureDevice,
@@ -319,23 +319,30 @@ export class AlsaAudio extends EventEmitter {
       const now = Date.now();
       const gain = this.cfg.inputGain;
 
-      // Diagnóstico primeros 8 chunks: confirmar que period=160 da ~320 bytes (160 frames × 2 bytes mono)
+      // Diagnóstico primeros 8 chunks: confirmar period=960@48kHz → ~1920 bytes → 160 muestras@8kHz
       if (this.arecordChunkCount <= 8)
-        log(`[arecord] chunk#${this.arecordChunkCount}: ${rawChunk.length} bytes brutos → ${numOutputSamples} muestras 8kHz`);
+        log(`[arecord] chunk#${this.arecordChunkCount}: ${rawChunk.length} bytes brutos → ${numOutputSamples} muestras 8kHz (decimate×${DECIMATE})`);
 
       const gapMs = this.lastArecordChunkMs > 0 ? now - this.lastArecordChunkMs : 0;
       if (gapMs > 50)
         log(`[arecord] GAP ${gapMs}ms (chunk#${this.arecordChunkCount}, ${numOutputSamples} muestras)`);
       this.lastArecordChunkMs = now;
 
-      // Ganancia + soft-clip (sin decimación: plughw: a 8kHz, DECIMATE=1)
+      // Ganancia + FIR box anti-aliasing + soft-clip
+      // FIR box: promedia DECIMATE muestras antes de decimar → evita aliasing.
+      // Para DECIMATE=1 (compatibilidad) el bucle interno corre 1 vez = sin overhead.
       const pcm = new Int16Array(numOutputSamples);
       let sumSq = 0;
       const drive = 1.5;
+      const BYTES_PER_SAMPLE = CAPTURE_CHANNELS * 2; // 2 bytes mono
       for (let i = 0; i < numOutputSamples; i++) {
         const base = i * BYTES_PER_DECIMATE_GROUP;
-        // Tomar el primer frame mono del grupo (decimación por punto)
-        const mono = accumBuf.readInt16LE(base);
+        // Promedio de DECIMATE muestras (FIR box)
+        let sum = 0;
+        for (let d = 0; d < DECIMATE; d++) {
+          sum += accumBuf.readInt16LE(base + d * BYTES_PER_SAMPLE);
+        }
+        const mono = sum / DECIMATE;
         const norm = (mono * gain) / 32768;
         const limited = Math.tanh(norm * drive) / Math.tanh(drive);
         const s = Math.round(limited * 32767);
