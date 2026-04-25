@@ -1,0 +1,39 @@
+sudo systemctl restart eqso-relay@CB.service
+david@ubuntus:~$ sudo journalctl -u eqso-relay@CB.service -f
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:49.113Z [arecord] arecord: main:834: audio open error: Device or resource busy
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [eqso] 2026-04-25T15:43:49.132Z TCP conectado a 127.0.0.1:2171
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:49.155Z [arecord] Terminado (code 1)
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [eqso] 2026-04-25T15:43:49.183Z Handshake recibido \Uffffffff conexion establecida
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [main] 2026-04-25T15:43:49.185Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [eqso] 2026-04-25T15:43:49.199Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [eqso] 2026-04-25T15:43:49.209Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [main] 2026-04-25T15:43:49.209Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [main] 2026-04-25T15:43:49.224Z Sala: 0R-DAVID_EA se ha unido
+abr 25 15:43:49 ubuntus eqso-relay-CB[3256]: [main] 2026-04-25T15:43:49.224Z Sala: 0R-IN70WN se ha unido
+abr 25 15:43:51 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:51.167Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:43:51 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:51.191Z [arecord] arecord: main:834:
+abr 25 15:43:51 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:51.192Z [arecord] audio open error: Device or resource busy
+abr 25 15:43:51 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:51.196Z [arecord] Terminado (code 1)
+abr 25 15:43:53 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:53.200Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:43:53 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:53.218Z [arecord] arecord: main:834:
+abr 25 15:43:53 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:53.220Z [arecord] audio open error: Device or resource busy
+abr 25 15:43:53 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:53.223Z [arecord] Terminado (code 1)
+abr 25 15:43:55 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:55.225Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:43:55 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:55.246Z [arecord] arecord: main:834:
+abr 25 15:43:55 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:55.247Z [arecord] audio open error: Device or resource busy
+abr 25 15:43:55 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:55.251Z [arecord] Terminado (code 1)
+abr 25 15:43:57 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:57.252Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:43:57 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:57.272Z [arecord] arecord: main:834:
+abr 25 15:43:57 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:57.274Z [arecord] audio open error: Device or resource busy
+abr 25 15:43:57 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:57.282Z [arecord] Terminado (code 1)
+abr 25 15:43:59 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:59.283Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:43:59 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:59.307Z [arecord] arecord: main:834: audio open error: Device or resource busy
+abr 25 15:43:59 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:43:59.310Z [arecord] Terminado (code 1)
+abr 25 15:44:01 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:44:01.329Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:44:01 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:44:01.348Z [arecord] arecord: main:834:
+abr 25 15:44:01 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:44:01.350Z [arecord] audio open error: Device or resource busy
+abr 25 15:44:01 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:44:01.355Z [arecord] Terminado (code 1)
+abr 25 15:44:03 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:44:03.358Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:44:03 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:44:03.380Z [arecord] arecord: main:834:
+abr 25 15:44:03 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:44:03.381Z [arecord] audio open error: Device or resource busy
+abr 25 15:44:03 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:44:03.384Z [arecord] Terminado (code 1)
