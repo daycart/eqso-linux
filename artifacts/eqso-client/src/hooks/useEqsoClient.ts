@@ -100,8 +100,6 @@ export function useEqsoClient(
   const [pttGranted, setPttGranted] = useState(false);
   const pttGrantedRef = useRef(false);
   const [channelBusy, setChannelBusy] = useState(false);
-  // Safety timer: clears channelBusy if ptt_released_remote is never received (e.g. packet loss).
-  const channelBusyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [selectedServer, setSelectedServer] = useState<EqsoServer>(KNOWN_SERVERS[0]);
   const selectedServerRef = useRef<EqsoServer>(KNOWN_SERVERS[0]);
 
@@ -154,14 +152,6 @@ export function useEqsoClient(
       case "ptt_started":
         setActiveSpeaker(msg.name as string);
         setChannelBusy(true);
-        // Safety: auto-clear channelBusy after 60 s if ptt_released_remote is never received
-        // (e.g. relay disconnects without sending PTT release packet).
-        if (channelBusyTimerRef.current) clearTimeout(channelBusyTimerRef.current);
-        channelBusyTimerRef.current = setTimeout(() => {
-          setActiveSpeaker(null);
-          setChannelBusy(false);
-          channelBusyTimerRef.current = null;
-        }, 60_000);
         break;
 
       case "ptt_released":
@@ -170,10 +160,6 @@ export function useEqsoClient(
         break;
 
       case "ptt_released_remote":
-        if (channelBusyTimerRef.current) {
-          clearTimeout(channelBusyTimerRef.current);
-          channelBusyTimerRef.current = null;
-        }
         setActiveSpeaker(null);
         setChannelBusy(false);
         break;
@@ -336,11 +322,6 @@ export function useEqsoClient(
       setCurrentName(null);
       setMembers([]);
       setActiveSpeaker(null);
-      setChannelBusy(false);
-      if (channelBusyTimerRef.current) {
-        clearTimeout(channelBusyTimerRef.current);
-        channelBusyTimerRef.current = null;
-      }
       pttGrantedRef.current = false;
       setPttGranted(false);
     };

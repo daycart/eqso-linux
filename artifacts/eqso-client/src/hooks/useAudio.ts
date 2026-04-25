@@ -61,10 +61,10 @@ export function useAudio(): UseAudioReturn {
     if (!ctxRef.current || ctxRef.current.state === "closed") {
       ctxRef.current = new AudioContext();
       const gain = ctxRef.current.createGain();
-      // pcmToFloat32Normalized now outputs raw /32768 (no per-packet normalization).
-      // 1.5× boost compensates for typically quiet relay signals (~10-20% FS)
-      // without clipping louder inputs (soft headroom with tanh not needed at 1.5×).
-      gain.gain.value = 1.5;
+      // GSM 06.10 decoded via ffmpeg: typical speech peaks at ~3500/32768
+      // (~-19 dBFS). 2× gain brings typical speech to ~-13 dBFS with more
+      // headroom for loud signals (avoids clipping on peaks > 50% FS).
+      gain.gain.value = 2;
       gain.connect(ctxRef.current.destination);
       gainNodeRef.current = gain;
       playbackWorkletRef.current = null;
