@@ -236,6 +236,11 @@ export class EqsoProxy extends EventEmitter {
   private pendingJoin: PendingJoin | null = null;
   // Estaciones que están actualmente en TX (para detectar fin de TX via action=0x00)
   private txingStations = new Set<string>();
+  // Timestamp de inicio de PTT por estación (para watchdog anti-stuck)
+  private txStartTimes = new Map<string, number>();
+  private pttWatchdogTimer: ReturnType<typeof setInterval> | null = null;
+  private static readonly PTT_MAX_DURATION_MS = 90_000; // 90 seg máximo de TX continua
+  private static readonly PTT_WATCHDOG_INTERVAL_MS = 15_000;
 
   constructor(host: string, port: number) {
     super();
@@ -261,6 +266,34 @@ export class EqsoProxy extends EventEmitter {
     }
   }
 
+  /** Watchdog: libera PTT de estaciones que llevan demasiado tiempo transmitiendo (stuck PTT). */
+  private startPttWatchdog(): void {
+    if (this.pttWatchdogTimer) return;
+    this.pttWatchdogTimer = setInterval(() => {
+      const now = Date.now();
+      for (const name of this.txingStations) {
+        const startTime = this.txStartTimes.get(name) ?? now;
+        const durationMs = now - startTime;
+        if (durationMs > EqsoProxy.PTT_MAX_DURATION_MS) {
+          logger.warn(
+            { name, durationMs },
+            "eQSO proxy: PTT watchdog — forzando release (PTT bloqueado)"
+          );
+          this.txingStations.delete(name);
+          this.txStartTimes.delete(name);
+          this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
+        }
+      }
+    }, EqsoProxy.PTT_WATCHDOG_INTERVAL_MS);
+  }
+
+  private stopPttWatchdog(): void {
+    if (this.pttWatchdogTimer) {
+      clearInterval(this.pttWatchdogTimer);
+      this.pttWatchdogTimer = null;
+    }
+  }
+
   connect(): void {
     const sock = new net.Socket();
     this.socket = sock;
@@ -271,6 +304,7 @@ export class EqsoProxy extends EventEmitter {
       sock.write(HANDSHAKE_CLIENT);
       logger.debug("eQSO proxy: sent handshake");
       // Silence heartbeat starts after handshake confirms (see 0x0a handler)
+      this.startPttWatchdog();
     });
 
     sock.on("data", (data: Buffer) => {
@@ -285,6 +319,9 @@ export class EqsoProxy extends EventEmitter {
     sock.on("close", () => {
       this.connected = false;
       this.stopSilenceFrames();
+      this.stopPttWatchdog();
+      this.txingStations.clear();
+      this.txStartTimes.clear();
       this.emit("event", { type: "disconnected" } as ProxyEvent);
       logger.info({ host: this.host }, "eQSO proxy TCP closed");
     });
@@ -292,6 +329,7 @@ export class EqsoProxy extends EventEmitter {
     sock.on("error", (err) => {
       this.connected = false;
       this.stopSilenceFrames();
+      this.stopPttWatchdog();
       this.emit("event", { type: "error", data: (err as Error).message } as ProxyEvent);
       logger.warn({ err, host: this.host }, "eQSO proxy TCP error");
     });
@@ -302,6 +340,9 @@ export class EqsoProxy extends EventEmitter {
 
   disconnect(): void {
     this.stopSilenceFrames();
+    this.stopPttWatchdog();
+    this.txingStations.clear();
+    this.txStartTimes.clear();
     this.socket?.destroy();
     this.socket = null;
     this.connected = false;
@@ -480,6 +521,7 @@ export class EqsoProxy extends EventEmitter {
           // Si la estación estaba en TX y ahora manda action=0x00, es un PTT release
           if (this.txingStations.has(name)) {
             this.txingStations.delete(name);
+            this.txStartTimes.delete(name);
             logger.info({ name }, "eQSO proxy: PTT released (via idle action=0x00)");
             this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
           } else {
@@ -490,16 +532,21 @@ export class EqsoProxy extends EventEmitter {
         }
         case 0x01:
           this.txingStations.delete(name);
+          this.txStartTimes.delete(name);
           logger.info({ name }, "eQSO proxy: user left");
           this.emit("event", { type: "user_left", data: { name } } as ProxyEvent);
           break;
         case 0x02:
-          this.txingStations.add(name);
-          logger.info({ name }, "eQSO proxy: PTT started");
-          this.emit("event", { type: "ptt_started", data: { name } } as ProxyEvent);
+          if (!this.txingStations.has(name)) {
+            this.txingStations.add(name);
+            this.txStartTimes.set(name, Date.now());
+            logger.info({ name }, "eQSO proxy: PTT started");
+            this.emit("event", { type: "ptt_started", data: { name } } as ProxyEvent);
+          }
           break;
         case 0x03:
           this.txingStations.delete(name);
+          this.txStartTimes.delete(name);
           logger.info({ name }, "eQSO proxy: PTT released");
           this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
           break;
@@ -533,6 +580,7 @@ export class EqsoProxy extends EventEmitter {
           if (off < pkt.length) off++; // terminator
           if (this.txingStations.has(name)) {
             this.txingStations.delete(name);
+            this.txStartTimes.delete(name);
             logger.info({ name }, "eQSO proxy: PTT released (via idle action=0x00, multi)");
             this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
           } else {
@@ -543,16 +591,21 @@ export class EqsoProxy extends EventEmitter {
         }
         case 0x01:
           this.txingStations.delete(name);
+          this.txStartTimes.delete(name);
           logger.info({ name }, "eQSO proxy: user left (multi)");
           this.emit("event", { type: "user_left", data: { name } } as ProxyEvent);
           break;
         case 0x02:
-          this.txingStations.add(name);
-          logger.info({ name }, "eQSO proxy: PTT started (multi)");
-          this.emit("event", { type: "ptt_started", data: { name } } as ProxyEvent);
+          if (!this.txingStations.has(name)) {
+            this.txingStations.add(name);
+            this.txStartTimes.set(name, Date.now());
+            logger.info({ name }, "eQSO proxy: PTT started (multi)");
+            this.emit("event", { type: "ptt_started", data: { name } } as ProxyEvent);
+          }
           break;
         case 0x03:
           this.txingStations.delete(name);
+          this.txStartTimes.delete(name);
           logger.info({ name }, "eQSO proxy: PTT released (multi)");
           this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
           break;
