@@ -324,14 +324,17 @@ export class EqsoProxy extends EventEmitter {
   }
 
   /**
-   * Signal PTT start to the eQSO server.
-   * In the eQSO protocol there is no separate PTT-announce opcode.
-   * The first [0x01][198 bytes GSM] voice frame itself announces PTT.
-   * We only need to stop the silence heartbeat so the channel is free.
+   * Signal PTT start to the remote eQSO server.
+   * The real Windows eQSO server requires [0x09] (PTT announce) before
+   * accepting audio frames [0x01][198 bytes]. Without it, the server
+   * accumulates unannounced audio and eventually responds with
+   * "Indicativo invalido" then closes the connection.
+   * The server replies with its own [0x09] to confirm PTT grant (we discard it).
    */
   startTransmitting(): void {
     this.transmitting = true;
-    logger.info("eQSO proxy: TX started — silence heartbeat paused");
+    this.socketWrite(Buffer.from([0x09]));
+    logger.info("eQSO proxy: TX started — PTT announce [0x09] sent to remote server");
   }
 
   sendPttEnd(): void {
