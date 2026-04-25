@@ -111,9 +111,8 @@ function processSingleByte(state: TcpClientState, byte: number): void {
           // El watchdog interno de 0R-ASORAPA dura ~2.3s, por lo que hay que refrescar
           // pttStarted periódicamente (ver pttRefreshTimer abajo).
           roomManager.broadcastToRoom(client.room, buildPttStarted(client.name), state.id);
-          // Timer de refresco: reenvía pttStarted a clientes TCP cada 250ms durante la TX.
-          // El watchdog de 0R-ASORAPA puede expirar en tan solo ~748ms (varía por sesión).
-          // Con 250ms el primer refresh llega bien antes del timeout más corto observado.
+          // Timer de refresco: reenvía pttStarted a clientes TCP cada 1.5s durante la TX.
+          // Mantiene vivo el watchdog timer de relays Windows como 0R-ASORAPA.
           // Solo va a TCP (broadcastToTcpClientsInRoom) para evitar eventos duplicados
           // en clientes WS y relay-listeners.
           if (state.pttRefreshTimer) clearInterval(state.pttRefreshTimer);
@@ -125,7 +124,7 @@ function processSingleByte(state: TcpClientState, byte: number): void {
               return;
             }
             roomManager.broadcastToTcpClientsInRoom(refreshRoom, buildPttStarted(refreshName), state.id);
-          }, 250);
+          }, 1500);
         }
         inactivityManager.recordActivity(client.room);
       }
@@ -284,15 +283,8 @@ function processMultiByte(state: TcpClientState, byte: number): void {
           roomManager.broadcastToTcpAndRelays(client.room, gsmPkt, state.id);
 
           // Decode GSM → Float32 vía FFmpeg (asíncrono).
-          // El payload es 198 bytes = 6 × 33-byte frames. El decoder GSM procesa
-          // un frame de 33 bytes por llamada, así que iteramos frame a frame.
           // El handler del evento "pcm" (registrado al conectar) envía a clientes WS.
-          const dec = tcpDecoders.get(state.id);
-          if (dec) {
-            for (let off = 0; off + 33 <= gsmPayload.length; off += 33) {
-              dec.decode(gsmPayload.slice(off, off + 33));
-            }
-          }
+          tcpDecoders.get(state.id)?.decode(gsmPayload);
         }
         state.buf = state.buf.slice(AUDIO_PAYLOAD_SIZE);
         if (state.buf.length === 0) {
@@ -401,20 +393,6 @@ async function handleJoin(
     if (m.id !== state.id) {
       logger.info({ to: m.name, joining: name }, "eQSO TCP notifying existing member of new join");
       m.send(joinedPkt);
-    }
-  }
-
-  // Si hay TX activa en la sala al unirse, enviar pttStarted al nuevo cliente
-  // para que entre en modo receive inmediatamente. Sin esto, el cliente se une
-  // mientras hay audio fluyendo pero sin saber que el canal está ocupado,
-  // lo que causa que 0R-ASORAPA interprete los frames de audio como protocolo
-  // desconocido y desconecte en <300ms.
-  const lockedById = roomManager.getRoomLockHolder(room);
-  if (lockedById) {
-    const txClient = roomManager.getClient(lockedById);
-    if (txClient) {
-      logger.info({ id: state.id, name, room, txBy: txClient.name }, "TCP JOIN during active TX — sending pttStarted to new client");
-      safeWrite(state, buildPttStarted(txClient.name));
     }
   }
 

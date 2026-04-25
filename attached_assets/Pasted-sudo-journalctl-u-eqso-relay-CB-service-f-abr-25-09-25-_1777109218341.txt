@@ -1,0 +1,329 @@
+sudo journalctl -u eqso-relay@CB.service -f
+abr 25 09:25:53 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:25:53.522Z GAP 738ms entre frames GSM de salida
+abr 25 09:25:54 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:25:54.548Z [arecord] GAP 790ms (chunk#1074, 160 muestras)
+abr 25 09:25:54 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:25:54.570Z GAP 810ms entre frames GSM de salida
+abr 25 09:25:55 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:25:55.573Z [arecord] GAP 426ms (chunk#1105, 160 muestras)
+abr 25 09:25:55 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:25:55.577Z GAP 448ms entre frames GSM de salida
+abr 25 09:25:55 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:25:55.686Z [nivel] pico RMS=3 (-81.5 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 09:25:56 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:25:56.591Z [arecord] GAP 738ms (chunk#1120, 160 muestras)
+abr 25 09:25:56 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:25:56.613Z GAP 758ms entre frames GSM de salida
+abr 25 09:25:57 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:25:57.623Z [arecord] GAP 692ms (chunk#1138, 160 muestras)
+abr 25 09:25:57 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:25:57.646Z GAP 713ms entre frames GSM de salida
+abr 25 09:25:58 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:25:58.635Z [arecord] GAP 732ms (chunk#1153, 160 muestras)
+abr 25 09:25:58 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:25:58.638Z GAP 751ms entre frames GSM de salida
+abr 25 09:25:59 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:25:59.676Z [arecord] GAP 762ms (chunk#1168, 160 muestras)
+abr 25 09:25:59 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:25:59.697Z GAP 780ms entre frames GSM de salida
+abr 25 09:26:00 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:00.683Z [arecord] GAP 788ms (chunk#1180, 160 muestras)
+abr 25 09:26:00 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:00.687Z [nivel] pico RMS=258 (-42.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 09:26:00 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:00.706Z GAP 808ms entre frames GSM de salida
+abr 25 09:26:01 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:01.727Z [arecord] GAP 823ms (chunk#1192, 160 muestras)
+abr 25 09:26:01 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:01.748Z GAP 842ms entre frames GSM de salida
+abr 25 09:26:02 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:02.743Z [arecord] GAP 776ms (chunk#1205, 160 muestras)
+abr 25 09:26:02 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:02.748Z GAP 799ms entre frames GSM de salida
+abr 25 09:26:03 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:03.745Z [arecord] GAP 802ms (chunk#1216, 160 muestras)
+abr 25 09:26:03 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:03.776Z GAP 830ms entre frames GSM de salida
+abr 25 09:26:04 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:04.782Z [arecord] GAP 686ms (chunk#1234, 160 muestras)
+abr 25 09:26:04 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:04.809Z GAP 712ms entre frames GSM de salida
+abr 25 09:26:05 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:05.688Z [nivel] pico RMS=5396 (-15.7 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 09:26:05 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:05.821Z [arecord] GAP 720ms (chunk#1251, 160 muestras)
+abr 25 09:26:05 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:05.823Z GAP 740ms entre frames GSM de salida
+abr 25 09:26:06 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:06.832Z [arecord] GAP 792ms (chunk#1263, 160 muestras)
+abr 25 09:26:06 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:06.837Z GAP 814ms entre frames GSM de salida
+abr 25 09:26:07 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:07.856Z [arecord] GAP 744ms (chunk#1278, 160 muestras)
+abr 25 09:26:07 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:07.879Z GAP 765ms entre frames GSM de salida
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [170B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [148B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [42B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [82B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [118B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [4B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [10B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [87B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [81B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [25B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [15B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [20B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [6B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [32B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [25B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [6B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [6B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [25B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [13B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [39B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [46B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [70B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [191B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [53B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [107B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [17B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [43B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [147B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [54B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [168B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: F#`
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [89B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [104B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [2B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [106B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: , , ,
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [38B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [58B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [339B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [31B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [37B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [157B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [9B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [61B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [111B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [213B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [15B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [120B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [89B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [19B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [57B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [206B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [33B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [42B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [15B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [32B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [82B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [35B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [23B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [240B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [58B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [56B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [97B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [50B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [2B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [65B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [104B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [347B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [176B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [18B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [19B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [193B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [46B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [95B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [241B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [58B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [51B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [104B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [71B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [150B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [195B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [55B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [164B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [39B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [185B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [78B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [158B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [123B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [500B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [216B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [31B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [185B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [191B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [2B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [265B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [158B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [148B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [42B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [82B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [118B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [4B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [10B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [87B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [81B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [25B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [15B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [20B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [6B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [32B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [25B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [6B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [6B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [25B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [13B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [39B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [46B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [70B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [191B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [53B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [107B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [17B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [43B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [147B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [54B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [168B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: F#`
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [89B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [104B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [2B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [106B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: , , ,
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [38B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [58B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [339B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [31B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [37B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [157B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [9B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [61B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [111B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [213B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [15B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [120B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [89B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [19B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [57B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [206B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [33B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [42B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [15B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [32B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [82B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [35B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [23B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [240B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [58B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [56B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [97B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [50B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [2B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [65B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [104B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [347B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [176B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [18B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [19B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [193B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [46B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [95B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [241B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [58B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [51B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [104B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [71B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [150B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [195B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [55B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [164B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [39B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [185B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [78B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [158B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [123B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [500B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [216B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [31B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [185B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [191B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [2B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [1B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [14B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [265B blob data]
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:08.891Z [arecord] GAP 804ms (chunk#1290, 160 muestras)
+abr 25 09:26:08 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:08.913Z GAP 824ms entre frames GSM de salida
+abr 25 09:26:09 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:09.906Z [arecord] GAP 755ms (chunk#1304, 160 muestras)
+abr 25 09:26:09 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:09.928Z GAP 775ms entre frames GSM de salida
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:26:10.144Z TX: 0R-DAVID_EA4I transmitiendo
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [ptt] 2026-04-25T09:26:10.184Z PTT set(true) ? escribiendo "1" al helper
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:10.185Z [playGsm] pkt#3 len=33 decoder_ready=true player=null playerStarting=false
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:26:10.188Z [audio] pkt#3 ? playGsm OK (pttActive=false rxActive=true)
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:10.189Z [playPcm] chunk#3 ? jitterBuf=480 playerStarting=false
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:10.206Z [arecord] GAP 81ms (chunk#1316, 160 muestras)
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [ptt] 2026-04-25T09:26:10.586Z PTT set(false) ? escribiendo "0" al helper
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [main] 2026-04-25T09:26:10.586Z [rxInhibit] suppress: prev=2026-04-25T09:25:11.092Z new=2026-04-25T09:26:11.386Z
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:10.689Z [nivel] pico RMS=10 (-70.6 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:10.937Z [arecord] GAP 292ms (chunk#1339, 160 muestras)
+abr 25 09:26:10 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:10.942Z GAP 310ms entre frames GSM de salida
+abr 25 09:26:11 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:11.960Z [arecord] GAP 643ms (chunk#1359, 160 muestras)
+abr 25 09:26:11 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:11.963Z GAP 664ms entre frames GSM de salida
+abr 25 09:26:12 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:12.981Z [arecord] GAP 562ms (chunk#1383, 160 muestras)
+abr 25 09:26:12 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:12.986Z GAP 583ms entre frames GSM de salida
+abr 25 09:26:14 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:14.012Z [arecord] GAP 751ms (chunk#1398, 160 muestras)
+abr 25 09:26:14 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:14.034Z GAP 771ms entre frames GSM de salida
+abr 25 09:26:15 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:15.036Z [arecord] GAP 784ms (chunk#1411, 160 muestras)
+abr 25 09:26:15 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:15.039Z GAP 805ms entre frames GSM de salida
+abr 25 09:26:15 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:15.689Z [nivel] pico RMS=3 (-82.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 09:26:16 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:16.054Z [arecord] GAP 738ms (chunk#1426, 160 muestras)
+abr 25 09:26:16 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:16.076Z GAP 758ms entre frames GSM de salida
+abr 25 09:26:17 ubuntus eqso-relay-CB[5036]: [audio] 2026-04-25T09:26:17.074Z [arecord] GAP 676ms (chunk#1443, 160 muestras)
+abr 25 09:26:17 ubuntus eqso-relay-CB[5036]: [gsm-enc] 2026-04-25T09:26:17.077Z GAP 697ms entre frames GSM de salida
