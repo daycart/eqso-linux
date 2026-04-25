@@ -1,0 +1,43 @@
+
+# \UffffffffEl m\Uffffffffo est\Uffffffffargado ahora mismo?
+lsmod | grep snd_usb_audio
+
+# \UffffffffEl servicio arranc\Uffffffffrrectamente?
+sudo systemctl status eqso-relay@CB.service
+
+# \UffffffffLos gaps mejoraron? (ver logs en tiempo real)
+sudo journalctl -u eqso-relay@CB.service -f --since "1 min ago" | grep GAP
+snd_usb_audio         516096  1
+snd_usbmidi_lib        57344  1 snd_usb_audio
+snd_hwdep              20480  1 snd_usb_audio
+snd_ump                45056  1 snd_usb_audio
+mc                     81920  1 snd_usb_audio
+snd_pcm               192512  4 snd_usb_audio,snd_intel8x0,snd_ac97_codec
+snd                   143360  11 snd_seq_device,snd_hwdep,snd_usb_audio,snd_usbmidi_lib,snd_intel8x0,snd_timer,snd_ac97_codec,snd_ump,snd_pcm,snd_rawmidi
+? eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB
+     Loaded: loaded (/etc/systemd/system/eqso-relay@.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-04-25 16:13:34 UTC; 1min 49s ago
+       Docs: https://github.com/daycart/eqso-linux-client
+    Process: 2563 ExecStartPre=/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/usb-reset.sh (code=exited, status=0/SUCCESS)
+    Process: 2572 ExecStartPre=/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh (code=exited, status=0/SUCCESS)
+   Main PID: 2585 (node)
+      Tasks: 20 (limit: 19094)
+     Memory: 35.6M (peak: 38.4M)
+        CPU: 8.251s
+     CGroup: /system.slice/system-eqso\x2drelay.slice/eqso-relay@CB.service
+             +-2585 /usr/bin/node --enable-source-maps dist/main.mjs
+             +-2597 python3 /opt/eqso-asorapa/artifacts/relay-daemon/dist/ptt-helper.py /dev/ttyACM0 rts false
+             +-2598 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+             +-2599 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -avioflags direct -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 -fflag>
+             +-2600 arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+
+abr 25 16:15:19 ubuntus eqso-relay-CB[2585]: [gsm-enc] 2026-04-25T16:15:19.333Z GAP 613ms entre frames GSM de salida
+abr 25 16:15:20 ubuntus eqso-relay-CB[2585]: [audio] 2026-04-25T16:15:20.164Z [nivel] pico RMS=13 (-68.2 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 16:15:20 ubuntus eqso-relay-CB[2585]: [audio] 2026-04-25T16:15:20.327Z [arecord] GAP 776ms (chunk#1485, 160 muestras)
+abr 25 16:15:20 ubuntus eqso-relay-CB[2585]: [gsm-enc] 2026-04-25T16:15:20.331Z GAP 798ms entre frames GSM de salida
+abr 25 16:15:21 ubuntus eqso-relay-CB[2585]: [audio] 2026-04-25T16:15:21.339Z [arecord] GAP 752ms (chunk#1499, 160 muestras)
+abr 25 16:15:21 ubuntus eqso-relay-CB[2585]: [gsm-enc] 2026-04-25T16:15:21.341Z GAP 772ms entre frames GSM de salida
+abr 25 16:15:22 ubuntus eqso-relay-CB[2585]: [audio] 2026-04-25T16:15:22.373Z [arecord] GAP 790ms (chunk#1512, 160 muestras)
+abr 25 16:15:22 ubuntus eqso-relay-CB[2585]: [gsm-enc] 2026-04-25T16:15:22.394Z GAP 809ms entre frames GSM de salida
+abr 25 16:15:23 ubuntus eqso-relay-CB[2585]: [audio] 2026-04-25T16:15:23.395Z [arecord] GAP 803ms (chunk#1524, 160 muestras)
+abr 25 16:15:23 ubuntus eqso-relay-CB[2585]: [gsm-enc] 2026-04-25T16:15:23.417Z GAP 822ms entre frames GSM de salida
