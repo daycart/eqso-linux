@@ -246,11 +246,24 @@ Servidor físico de producción ASORAPA en red local de EA4IKU.
 - `/opt/eqso-asorapa/` — raíz del proyecto
 - `/etc/eqso-relay/CB.json` — config del relay daemon
 
+### Flujo de desarrollo con "VM ASORAPA desarrollo"
+
+**IMPORTANTE**: El modo "VM ASORAPA desarrollo" del web client conecta DIRECTAMENTE al api-server de la VM via TCP proxy. El servidor Replit solo hace de puente WebSocket — toda la lógica (salas, PTT, usuarios, audio) corre en la VM. Los cambios de código hechos en Replit NO tienen efecto en este modo hasta que se despliegan en la VM.
+
+Flujo de trabajo:
+1. Hacer cambios en Replit (api-server)
+2. Hacer git push desde Replit al repositorio
+3. En la VM: `git pull` + build + restart
+4. Solo entonces los cambios son visibles en "VM ASORAPA desarrollo"
+
 ### Actualizar código en la VM
 ```bash
 cd /opt/eqso-asorapa
 git pull
-cd artifacts/api-server && pnpm install && pnpm run build
+# Compilar solo el api-server (evita permisos en otros paquetes):
+cd artifacts/api-server
+pnpm install --ignore-scripts 2>/dev/null || true
+pnpm run build
 sudo systemctl restart eqso
 ```
 
