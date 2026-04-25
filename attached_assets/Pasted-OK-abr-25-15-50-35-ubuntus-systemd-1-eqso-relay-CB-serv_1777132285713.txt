@@ -1,0 +1,238 @@
+OK
+abr 25 15:50:35 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 11.469s CPU time, 133.9M memory peak, 0B memory swap peak.
+abr 25 15:50:35 ubuntus systemd[1]: eqso-relay@CB.service: Found left-over process 2486 (python3) in control group while starting unit. Ignoring.
+abr 25 15:50:35 ubuntus systemd[1]: eqso-relay@CB.service: This usually indicates unclean termination of a previous run, or service implementation deficiencies.
+abr 25 15:50:35 ubuntus systemd[1]: eqso-relay@CB.service: Found left-over process 2489 (arecord) in control group while starting unit. Ignoring.
+abr 25 15:50:35 ubuntus systemd[1]: eqso-relay@CB.service: This usually indicates unclean termination of a previous run, or service implementation deficiencies.
+abr 25 15:50:35 ubuntus systemd[1]: eqso-relay@CB.service: Found left-over process 3269 (ffmpeg) in control group while starting unit. Ignoring.
+abr 25 15:50:35 ubuntus systemd[1]: eqso-relay@CB.service: This usually indicates unclean termination of a previous run, or service implementation deficiencies.
+abr 25 15:50:35 ubuntus systemd[1]: eqso-relay@CB.service: Found left-over process 3449 (aplay) in control group while starting unit. Ignoring.
+abr 25 15:50:35 ubuntus systemd[1]: eqso-relay@CB.service: This usually indicates unclean termination of a previous run, or service implementation deficiencies.
+abr 25 15:50:35 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [config] Cargado: /etc/eqso-relay/CB.json
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [config] Configuracion activa: {
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "callsign": "0R-IN70WN",
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "room": "CB",
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "password": "",
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "message": "Radio Enlace",
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "server": "127.0.0.1",
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "port": 2171,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "reconnectMinMs": 2000,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "reconnectMaxMs": 60000,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "audio": {
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "captureDevice": "plughw:1,0",
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "playbackDevice": "plughw:1,0",
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "vox": true,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "voxThresholdRms": 2000,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "voxHangMs": 2500,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "txGateRms": 0,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "voxDebounceChunks": 2,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "inputGain": 0.4,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "outputGain": 3
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   },
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "control": {
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "enabled": true,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "port": 8009,
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "host": "127.0.0.1"
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   },
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   "ptt": {
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "device": "/dev/ttyACM0",
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "method": "rts",
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:     "inverted": false
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]:   }
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: }
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.960Z ============================================================
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.961Z eQSO Relay Daemon arrancado
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.962Z   Callsign : 0R-IN70WN
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.962Z   Sala     : CB
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.963Z   Servidor : 127.0.0.1:2171
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.963Z   VOX      : ON (umbral=2000 hang=2500ms debounce=2chunks)
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.963Z   Captura  : plughw:1,0
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.964Z   Playback : plughw:1,0
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.965Z   PTT Ser. : /dev/ttyACM0 (rts)
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:35.966Z ============================================================
+abr 25 15:50:35 ubuntus eqso-relay-CB[3543]: [ptt] 2026-04-25T15:50:35.967Z Iniciando PTT serial: /dev/ttyACM0 (rts)
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:36.041Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:36.076Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [control] 2026-04-25T15:50:36.130Z Control HTTP escuchando en http://127.0.0.1:8009
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:36.184Z [arecord] arecord: main:834: audio open error: Device or resource busy
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:36.221Z TCP conectado a 127.0.0.1:2171
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:36.261Z [arecord] Terminado (code 1)
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:36.323Z Handshake recibido \Uffffffff conexion establecida
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:36.330Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:36.341Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:36.345Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:36.351Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:36.362Z Sala: 0R-DAVID_EA se ha unido
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:36.374Z Sala: 0R-IN70WN se ha unido
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:36.378Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:36.426Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:36.665Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:36 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:36.917Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:37 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:37.164Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:37 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:37.415Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:37 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:37.665Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:37 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:37.914Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:38 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:38.165Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:38 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:38.273Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:38 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:38.293Z [arecord] arecord: main:834:
+abr 25 15:50:38 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:38.294Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:38 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:38.298Z [arecord] Terminado (code 1)
+abr 25 15:50:38 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:38.417Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:38 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:38.669Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:38 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:38.921Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:39 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:39.174Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:39 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:39.425Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:39 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:39.686Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:39 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:39.942Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:40 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:40.211Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:40 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:40.313Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:40 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:40.331Z [arecord] arecord: main:834:
+abr 25 15:50:40 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:40.332Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:40 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:40.337Z [arecord] Terminado (code 1)
+abr 25 15:50:40 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:40.463Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:40 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:40.716Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:40 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:40.968Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:41 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:41.221Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:41 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:41.474Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:41 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:41.741Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:42 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:41.999Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:42 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:42.249Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:42 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:42.350Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:42 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:42.374Z [arecord] arecord: main:834:
+abr 25 15:50:42 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:42.375Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:42 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:42.379Z [arecord] Terminado (code 1)
+abr 25 15:50:42 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:42.513Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:42 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:42.783Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:43 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:43.032Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:43 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:43.283Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:43 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:43.533Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:43 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:43.786Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:44 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:44.044Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:44 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:44.294Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:44 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:44.390Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:44 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:44.409Z [arecord] arecord: main:834:
+abr 25 15:50:44 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:44.411Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:44 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:44.419Z [arecord] Terminado (code 1)
+abr 25 15:50:44 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:44.563Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:44 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:44.816Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:45 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:45.067Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:45 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:45.318Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:45 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:45.569Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:45 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:45.821Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:46 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:46.072Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:46 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:46.322Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:46 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:46.420Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:46 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:46.446Z [arecord] arecord: main:834:
+abr 25 15:50:46 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:46.449Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:46 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:46.452Z [arecord] Terminado (code 1)
+abr 25 15:50:46 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:46.573Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:46 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:46.825Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:47 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:47.077Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:47 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:47.326Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:47 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:47.578Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:47 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:47.828Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:48 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:48.082Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:48 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:48.332Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:48 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:48.469Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:48 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:48.487Z [arecord] arecord: main:834:
+abr 25 15:50:48 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:48.489Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:48 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:48.495Z [arecord] Terminado (code 1)
+abr 25 15:50:48 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:48.587Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:48 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:48.835Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:49 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:49.087Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:49 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:49.339Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:49 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:49.591Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:49 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:49.842Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:50 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:50.092Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:50 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:50.343Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:50 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:50.495Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:50 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:50.514Z [arecord] arecord: main:834:
+abr 25 15:50:50 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:50.516Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:50 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:50.519Z [arecord] Terminado (code 1)
+abr 25 15:50:50 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:50.594Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:50 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:50.845Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:51 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:51.095Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:51 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:51.347Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:51 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:51.603Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:51 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:51.854Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:52.104Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:52.354Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.522Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.541Z [arecord] arecord: main:834:
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.543Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.545Z [arecord] Terminado (code 1)
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:52.606Z TX: 0R-DAVID_EA transmitiendo
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [ptt] 2026-04-25T15:50:52.765Z PTT set(true) ? pendingCmd=1 (helper no listo aun)
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.768Z [playGsm] pkt#1 len=33 decoder_ready=true player=null playerStarting=false
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:52.774Z [audio] pkt#1 ? playGsm OK (pttActive=false rxActive=true)
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.777Z [playGsm] pkt#2 len=33 decoder_ready=true player=null playerStarting=false
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:52.777Z [audio] pkt#2 ? playGsm OK (pttActive=false rxActive=true)
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.779Z [playGsm] pkt#3 len=33 decoder_ready=true player=null playerStarting=false
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:52.779Z [audio] pkt#3 ? playGsm OK (pttActive=false rxActive=true)
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.792Z [playPcm] chunk#1 ? jitterBuf=160 playerStarting=false
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.794Z [playPcm] chunk#2 ? jitterBuf=320 playerStarting=false
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.796Z [playPcm] chunk#3 ? jitterBuf=480 playerStarting=false
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.797Z [playPcm] chunk#4 ? jitterBuf=640 playerStarting=false
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:52.798Z [playPcm] chunk#5 ? jitterBuf=800 playerStarting=false
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:52.914Z Mensaje del servidor: R-DAVID_EA
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [20B blob data]
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [23B blob data]
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:52.917Z Mensaje servidor: R-DAVID_EA
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [20B blob data]
+abr 25 15:50:52 ubuntus eqso-relay-CB[3543]: [23B blob data]
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:53.236Z aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=4096 --period-size=256
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:53.259Z [aplay] aplay: main:834:
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:53.260Z [aplay] audio open error: Device or resource busy
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:53.265Z [aplay] Terminado (code 1)
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:53.527Z Mensaje del servidor: R-DAVID_EA
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [37B blob data]
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:53.527Z Mensaje servidor: R-DAVID_EA
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [37B blob data]
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:53.671Z Mensaje del servidor: R-DAVID_EA
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [37B blob data]
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:53.672Z Mensaje servidor: R-DAVID_EA
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [37B blob data]
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:53.835Z aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=4096 --period-size=256
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:53.857Z [aplay] aplay: main:834:
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:53.862Z [aplay] audio open error: Device or resource busy
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:53.866Z [aplay] Terminado (code 1)
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:53.973Z Mensaje del servidor: R-DAVID_EA
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [37B blob data]
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:53.973Z Mensaje servidor: R-DAVID_EA
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [37B blob data]
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [90B blob data]
+abr 25 15:50:53 ubuntus eqso-relay-CB[3543]: [86B blob data]
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:54.280Z Mensaje del servidor: R-DAVID_EA
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [36B blob data]
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:54.280Z Mensaje servidor: R-DAVID_EA
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [36B blob data]
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:54.386Z aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=4096 --period-size=256
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:54.413Z [aplay] aplay: main:834:
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:54.415Z [aplay] audio open error: Device or resource busy
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:54.417Z [aplay] Terminado (code 1)
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [eqso] 2026-04-25T15:50:54.423Z Mensaje del servidor: R-DAVID_EA
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [37B blob data]
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:54.423Z Mensaje servidor: R-DAVID_EA
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [37B blob data]
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:54.552Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:54.571Z [arecord] arecord: main:834:
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:54.573Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:54.577Z [arecord] Terminado (code 1)
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [ptt] 2026-04-25T15:50:54.839Z PTT set(false) ? pendingCmd=0 (helper no listo aun)
+abr 25 15:50:54 ubuntus eqso-relay-CB[3543]: [main] 2026-04-25T15:50:54.841Z [rxInhibit] suppress: prev=1970-01-01T00:00:00.000Z new=2026-04-25T15:50:55.641Z
+abr 25 15:50:56 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:56.582Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:56 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:56.602Z [arecord] arecord: main:834:
+abr 25 15:50:56 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:56.604Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:56 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:56.609Z [arecord] Terminado (code 1)
+abr 25 15:50:58 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:58.615Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:50:58 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:58.636Z [arecord] arecord: main:834:
+abr 25 15:50:58 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:58.639Z [arecord] audio open error: Device or resource busy
+abr 25 15:50:58 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:50:58.642Z [arecord] Terminado (code 1)
+abr 25 15:51:00 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:51:00.655Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:51:00 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:51:00.672Z [arecord] arecord: main:834:
+abr 25 15:51:00 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:51:00.673Z [arecord] audio open error: Device or resource busy
+abr 25 15:51:00 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:51:00.676Z [arecord] Terminado (code 1)
+abr 25 15:51:02 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:51:02.689Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:51:02 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:51:02.711Z [arecord] arecord: main:834: audio open error: Device or resource busy
+abr 25 15:51:02 ubuntus eqso-relay-CB[3543]: [audio] 2026-04-25T15:51:02.713Z [arecord] Terminado (code 1)

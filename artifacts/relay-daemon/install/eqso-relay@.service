@@ -36,6 +36,14 @@ Environment=NODE_ENV=production
 # Ruta al daemon compilado
 WorkingDirectory=/opt/eqso-asorapa/artifacts/relay-daemon
 
+# Pre-arranque 0: matar procesos ALSA residuales ANTES del reset USB.
+# Critico: si arecord/aplay siguen corriendo cuando se hace el reset USB,
+# el kernel los pone en D-state (sueño ininterrumpible) y ya no mueren
+# ni con SIGKILL, bloqueando /dev/snd para el siguiente arranque.
+# sleep 0.3 permite que el kernel limpie los file descriptors antes de
+# que usb-reset.sh desenganche el dispositivo.
+ExecStartPre=+/bin/bash -c 'pkill -KILL -x arecord 2>/dev/null; pkill -KILL -x aplay 2>/dev/null; sleep 0.3; true'
+
 # Pre-arranque 1: matar aplay/arecord residuales y resetear el USB audio.
 # Se ejecuta como root (prefijo '+') para acceder a /dev/bus/usb y /sys.
 ExecStartPre=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/usb-reset.sh
