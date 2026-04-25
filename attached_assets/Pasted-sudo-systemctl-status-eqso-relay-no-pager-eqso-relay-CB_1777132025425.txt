@@ -1,0 +1,27 @@
+sudo systemctl status 'eqso-relay@*' --no-pager
+? eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB
+     Loaded: loaded (/etc/systemd/system/eqso-relay@.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-04-25 15:43:48 UTC; 3min 3s ago
+       Docs: https://github.com/daycart/eqso-linux-client
+   Main PID: 3256 (node)
+      Tasks: 21 (limit: 19094)
+     Memory: 128.5M (peak: 133.9M)
+        CPU: 8.152s
+     CGroup: /system.slice/system-eqso\x2drelay.slice/eqso-relay@CB.service
+             +-2486 "[python3]"
+             +-2489 arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+             +-3256 /usr/bin/node --enable-source-maps dist/main.mjs
+             +-3267 python3 /opt/eqso-asorapa/artifacts/relay-daemon/dist/ptt-helper.py /dev/ttyACM0 rts false
+             +-3268 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+             +-3269 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -avioflags direct -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 -fflag\Uffffffff
+
+abr 25 15:46:45 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:45.855Z [arecord] audio open error: Device or resource busy
+abr 25 15:46:45 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:45.863Z [arecord] Terminado (code 1)
+abr 25 15:46:47 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:47.865Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:46:47 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:47.884Z [arecord] arecord: main:834:
+abr 25 15:46:47 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:47.886Z [arecord] audio open error: Device or resource busy
+abr 25 15:46:47 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:47.888Z [arecord] Terminado (code 1)
+abr 25 15:46:49 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:49.888Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 15:46:49 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:49.907Z [arecord] arecord: main:834:
+abr 25 15:46:49 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:49.909Z [arecord] audio open error: Device or resource busy
+abr 25 15:46:49 ubuntus eqso-relay-CB[3256]: [audio] 2026-04-25T15:46:49.911Z [arecord] Terminado (code 1)

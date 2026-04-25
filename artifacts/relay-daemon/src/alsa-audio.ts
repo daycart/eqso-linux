@@ -80,8 +80,26 @@ export class AlsaAudio extends EventEmitter {
     if (this.levelTimer) { clearInterval(this.levelTimer); this.levelTimer = null; }
     this.stopSilenceInjection();
 
-    // arecord: SIGTERM es suficiente (lectura USB no causa D-state)
-    this.stopRecorder();
+    // Esperar a que arecord muera de verdad antes de salir.
+    // Sin este await, node hace process.exit() mientras arecord sigue corriendo
+    // y el proceso queda huerfano (ppid=1) bloqueando el dispositivo ALSA en
+    // el siguiente arranque del servicio ("Device or resource busy").
+    if (this.recorder) {
+      const rec = this.recorder;
+      this.recorder = null;
+      await new Promise<void>((resolve) => {
+        const sigkill = setTimeout(() => {
+          try { rec.kill("SIGKILL"); } catch { /* ignore */ }
+        }, 800);
+        const timeout = setTimeout(resolve, 1500);
+        rec.once("close", () => {
+          clearTimeout(sigkill);
+          clearTimeout(timeout);
+          resolve();
+        });
+        try { rec.kill("SIGTERM"); } catch { resolve(); }
+      });
+    }
 
     // drainPlayer: ya estaba vaciando, SIGKILL es seguro (ya no escribe activamente)
     this.killDrainPlayerNow();
