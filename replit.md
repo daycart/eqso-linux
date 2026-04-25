@@ -256,13 +256,20 @@ Flujo de trabajo:
 3. En la VM: `git pull` + build + restart
 4. Solo entonces los cambios son visibles en "VM ASORAPA desarrollo"
 
+### Fix único de permisos (ejecutar solo una vez)
+El proyecto fue creado con root, por lo que dist/ y node_modules/ son de root.
+Ejecutar esto UNA SOLA VEZ para ceder propiedad al usuario david:
+```bash
+sudo chown -R david:david /opt/eqso-asorapa
+```
+Después de esto, el build ya no necesita sudo.
+
 ### Actualizar código en la VM
 ```bash
 cd /opt/eqso-asorapa
 git pull
 cd artifacts/api-server
-# NOTA: dist/ es propiedad de root — el build requiere sudo
-sudo pnpm run build
+pnpm run build
 sudo systemctl restart eqso
 ```
 
