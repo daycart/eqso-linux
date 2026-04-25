@@ -1,0 +1,71 @@
+$ sudo journalctl -u eqso-relay@CB.service -n 1000 | grep "nivel\|RMS\|VOX"
+abr 25 17:44:01 ubuntus eqso-relay-CB[2364]: [audio] 2026-04-25T17:44:01.351Z [nivel] pico RMS=13 (-67.8 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:44:06 ubuntus eqso-relay-CB[2364]: [audio] 2026-04-25T17:44:06.353Z [nivel] pico RMS=21 (-64.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:44:11 ubuntus eqso-relay-CB[2364]: [audio] 2026-04-25T17:44:11.353Z [nivel] pico RMS=12 (-68.6 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:48:49 ubuntus eqso-relay-CB[1006]: [main] 2026-04-25T17:48:49.323Z   VOX      : ON (umbral=2000 hang=2500ms debounce=2chunks)
+abr 25 17:48:54 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:48:54.530Z [nivel] pico RMS=5715 (-15.2 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:48:59 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:48:59.529Z [nivel] pico RMS=13 (-67.9 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:04 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:04.530Z [nivel] pico RMS=13 (-68.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:09 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:09.530Z [nivel] pico RMS=14 (-67.6 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:14 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:14.531Z [nivel] pico RMS=13 (-68.0 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:19 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:19.531Z [nivel] pico RMS=76 (-52.7 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:24 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:24.531Z [nivel] pico RMS=13 (-67.9 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:29 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:29.532Z [nivel] pico RMS=13 (-67.9 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:34 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:34.533Z [nivel] pico RMS=102 (-50.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:39 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:39.535Z [nivel] pico RMS=13 (-67.8 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:44 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:44.536Z [nivel] pico RMS=92 (-51.0 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:49 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:49.538Z [nivel] pico RMS=13 (-68.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:54 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:54.539Z [nivel] pico RMS=18 (-65.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:49:59 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:49:59.540Z [nivel] pico RMS=13 (-68.2 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:04 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:04.540Z [nivel] pico RMS=14 (-67.7 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:09 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:09.540Z [nivel] pico RMS=35 (-59.4 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:14 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:14.539Z [nivel] pico RMS=39 (-58.4 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:19 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:19.540Z [nivel] pico RMS=90 (-51.2 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:24 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:24.541Z [nivel] pico RMS=13 (-68.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:29 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:29.543Z [nivel] pico RMS=13 (-68.0 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:34 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:34.542Z [nivel] pico RMS=14 (-67.5 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:39 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:39.542Z [nivel] pico RMS=38 (-58.7 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:44 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:44.543Z [nivel] pico RMS=13 (-68.0 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:49 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:49.542Z [nivel] pico RMS=13 (-68.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:54 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:54.543Z [nivel] pico RMS=111 (-49.4 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:50:59 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:50:59.545Z [nivel] pico RMS=13 (-67.9 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:04 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:04.546Z [nivel] pico RMS=68 (-53.6 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:09 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:09.546Z [nivel] pico RMS=13 (-67.9 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:12 ubuntus eqso-relay-CB[1006]: [main] 2026-04-25T17:51:12.190Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-25T17:51:11.158Z)
+abr 25 17:51:14 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:14.548Z [nivel] pico RMS=17780 (-5.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:15 ubuntus eqso-relay-CB[1006]: [main] 2026-04-25T17:51:15.751Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-25T17:51:18.251Z)
+abr 25 17:51:19 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:19.548Z [nivel] pico RMS=19420 (-4.5 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:23 ubuntus eqso-relay-CB[1006]: [main] 2026-04-25T17:51:23.464Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-25T17:51:21.823Z)
+abr 25 17:51:24 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:24.549Z [nivel] pico RMS=11408 (-9.2 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:29 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:29.549Z [nivel] pico RMS=7946 (-12.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:34 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:34.550Z [nivel] pico RMS=14097 (-7.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:39 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:39.553Z [nivel] pico RMS=12851 (-8.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:44 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:44.553Z [nivel] pico RMS=17554 (-5.4 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:49 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:49.553Z [nivel] pico RMS=17734 (-5.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:54 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:54.554Z [nivel] pico RMS=13685 (-7.6 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:51:59 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:51:59.554Z [nivel] pico RMS=13 (-67.9 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:02 ubuntus eqso-relay-CB[1006]: [main] 2026-04-25T17:52:02.371Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-25T17:52:01.452Z)
+abr 25 17:52:04 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:04.555Z [nivel] pico RMS=17665 (-5.4 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:06 ubuntus eqso-relay-CB[1006]: [main] 2026-04-25T17:52:05.999Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-25T17:52:08.499Z)
+abr 25 17:52:09 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:09.555Z [nivel] pico RMS=203 (-44.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:14 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:14.555Z [nivel] pico RMS=13 (-67.7 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:19 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:19.556Z [nivel] pico RMS=29 (-61.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:24 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:24.557Z [nivel] pico RMS=13 (-68.3 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:29 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:29.557Z [nivel] pico RMS=13 (-68.0 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:34 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:34.558Z [nivel] pico RMS=13 (-68.0 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:39 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:39.558Z [nivel] pico RMS=100 (-50.4 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:44 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:44.557Z [nivel] pico RMS=13 (-67.8 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:49 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:49.558Z [nivel] pico RMS=13 (-68.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:54 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:54.559Z [nivel] pico RMS=13 (-67.9 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:52:59 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:52:59.561Z [nivel] pico RMS=78 (-52.5 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:04 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:04.562Z [nivel] pico RMS=96 (-50.6 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:09 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:09.563Z [nivel] pico RMS=12 (-68.5 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:14 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:14.563Z [nivel] pico RMS=12 (-68.4 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:19 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:19.563Z [nivel] pico RMS=13 (-68.2 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:24 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:24.563Z [nivel] pico RMS=13 (-68.1 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:29 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:29.564Z [nivel] pico RMS=76 (-52.6 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:34 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:34.564Z [nivel] pico RMS=21 (-63.8 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:39 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:39.563Z [nivel] pico RMS=17 (-65.6 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:44 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:44.564Z [nivel] pico RMS=64 (-54.2 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:49 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:49.565Z [nivel] pico RMS=12 (-68.5 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 17:53:54 ubuntus eqso-relay-CB[1006]: [audio] 2026-04-25T17:53:54.565Z [nivel] pico RMS=12 (-68.5 dBFS)  VOXumbral=2000  gain=0.4

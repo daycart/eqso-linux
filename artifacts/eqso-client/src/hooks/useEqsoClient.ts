@@ -29,10 +29,10 @@ export const KNOWN_SERVERS: EqsoServer[] = [
   {
     id: "vm-asorapa",
     label: "VM ASORAPA (desarrollo)",
-    description: "Servidor Node.js en VM Ubuntu · puerto 2172",
+    description: "Servidor Node.js en VM Ubuntu · puerto 2171",
     mode: "remote",
     host: "193.152.83.229",
-    port: 2172,
+    port: 2171,
     defaultRooms: ["GENERAL", "CB", "ASORAPA", "PRUEBAS"],
   },
   {
