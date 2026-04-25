@@ -1,0 +1,29 @@
+[37B blob data]
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [main] 2026-04-25T16:07:06.679Z Mensaje servidor: R-DAVID_EA
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [37B blob data]
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:06.691Z [audio] Semi-duplex: matando arecord \Uffffffff esperando cierre para abrir aplay
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:06.696Z [arecord] arecord: pcm_read:2240:
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:06.698Z [arecord] read error: Interrupted system call
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:06.718Z [arecord] Terminado (code 1)
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:06.719Z [audio] captura cerrada \Uffffffff abriendo aplay
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:06.720Z aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=4096 --period-size=256
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [eqso] 2026-04-25T16:07:06.983Z Mensaje del servidor: R-DAVID_EA
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [37B blob data]
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [main] 2026-04-25T16:07:06.984Z Mensaje servidor: R-DAVID_EA
+abr 25 16:07:06 ubuntus eqso-relay-CB[1913]: [37B blob data]
+abr 25 16:07:07 ubuntus eqso-relay-CB[1913]: [eqso] 2026-04-25T16:07:07.183Z Mensaje del servidor: R-DAVID_EA
+abr 25 16:07:07 ubuntus eqso-relay-CB[1913]: [28B blob data]
+abr 25 16:07:07 ubuntus eqso-relay-CB[1913]: [15B blob data]
+abr 25 16:07:07 ubuntus eqso-relay-CB[1913]: [main] 2026-04-25T16:07:07.183Z Mensaje servidor: R-DAVID_EA
+abr 25 16:07:07 ubuntus eqso-relay-CB[1913]: [28B blob data]
+abr 25 16:07:07 ubuntus eqso-relay-CB[1913]: [15B blob data]
+abr 25 16:07:07 ubuntus eqso-relay-CB[1913]: [ptt] 2026-04-25T16:07:07.732Z PTT set(false) ? escribiendo "0" al helper
+abr 25 16:07:07 ubuntus eqso-relay-CB[1913]: [main] 2026-04-25T16:07:07.736Z [rxInhibit] suppress: prev=2026-04-25T16:05:35.552Z new=2026-04-25T16:07:08.536Z
+abr 25 16:07:08 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:08.802Z [aplay] Terminado (code 0)
+abr 25 16:07:08 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:08.803Z [audio] Semi-duplex: reanudando arecord
+abr 25 16:07:08 ubuntus eqso-relay-CB[1913]: [main] 2026-04-25T16:07:08.804Z [rxInhibit] playback_ended: suppress extendido ? 2026-04-25T16:07:11.304Z (prev=2026-0>
+abr 25 16:07:08 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:08.804Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+abr 25 16:07:08 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:08.843Z [arecord] GAP 2170ms (chunk#3450, 22 muestras)
+abr 25 16:07:08 ubuntus eqso-relay-CB[1913]: [gsm-enc] 2026-04-25T16:07:08.902Z GAP 2227ms entre frames GSM de salida
+abr 25 16:07:09 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:09.523Z [nivel] pico RMS=13348 (-7.8 dBFS)  VOXumbral=2000  gain=0.4
+abr 25 16:07:09 ubuntus eqso-relay-CB[1913]: [audio] 2026-04-25T16:07:09.812Z [arecord] GAP 714ms (chunk#3463, 160 muestras)
