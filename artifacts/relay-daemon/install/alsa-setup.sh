@@ -22,4 +22,14 @@ amixer -c "$CARD" sset "PCM"       100%         2>/dev/null && echo "  PCM      
 amixer -c "$CARD" sset "Mic"        40% unmute  2>/dev/null && echo "  Mic        40%" || true
 amixer -c "$CARD" sset "Capture"    40% unmute  2>/dev/null && echo "  Capture    40%" || true
 
+# Desactivar el sidetone del CM108 (Mic Playback Switch, numid=3).
+# El control "Mic" tiene tanto playback (sidetone) como capture (grabacion).
+# La linea anterior "sset Mic 40% unmute" activa AMBOS: el sidetone se pone
+# al 40% (+9.56dB) lo que provoca un bucle de feedback:
+#   audio recibido → altavoz CM108 → captura CM108 (via sidetone) → relay TX
+# Deshabilitar el sidetone mantiene la captura activa pero elimina el bucle.
+amixer -c "$CARD" cset numid=3 off  2>/dev/null && echo "  Mic sidetone OFF (numid=3)" || \
+amixer -c "$CARD" sset "Mic Playback Switch" off 2>/dev/null && echo "  Mic sidetone OFF (by name)" || \
+echo "  WARN: no se pudo desactivar el sidetone del Mic"
+
 exit 0
