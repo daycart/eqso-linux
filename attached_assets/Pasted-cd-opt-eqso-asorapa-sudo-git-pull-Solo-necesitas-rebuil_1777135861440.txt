@@ -1,0 +1,78 @@
+cd /opt/eqso-asorapa
+sudo git pull
+
+# Solo necesitas rebuildar y reiniciar (los service files ya los tienes del paso anterior)
+sudo pnpm --filter @workspace/relay-daemon run build
+sudo systemctl restart eqso-relay@CB.service
+
+# Verificar que los gaps desaparecieron
+sudo journalctl -u eqso-relay@CB.service -f | grep -E "GAP|chunk#"
+Already up to date.
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+david@ubuntus:/opt/eqso-asorapa$ # En la VM:
+cd /opt/eqso-asorapa/artifacts/relay-daemon/src
+
+sudo sed -i \
+  -e 's/const CAPTURE_RATE = 8000;/const CAPTURE_RATE = 48000;    \/\/ tasa nativa del CM108/' \
+  -e 's/const PERIOD_FRAMES = 160;/const PERIOD_FRAMES = 960;     \/\/ 20ms a 48kHz/' \
+  -e 's/const BUFFER_FRAMES = 8000;/const BUFFER_FRAMES = 48000;   \/\/ 1s a 48kHz/' \
+  -e 's/const DECIMATE = 1;/const DECIMATE = 6;            \/\/ 48kHz \Uffffffff= 8kHz/' \
+  alsa-audio.ts
+
+# Verificar que los 4 cambios se aplicaron:
+grep -E "CAPTURE_RATE|PERIOD_FRAMES|BUFFER_FRAMES|DECIMATE" alsa-audio.ts
+
+# Compilar y reiniciar:
+cd /opt/eqso-asorapa
+sudo pnpm --filter @workspace/relay-daemon run build
+sudo systemctl restart eqso-relay@CB.service
+
+# Verificar chunks de 1920 bytes (48kHz) y sin GAPs:
+sudo journalctl -u eqso-relay@CB.service -f | grep -E "GAP|chunk#"
+    const CAPTURE_RATE = 48000;    // tasa nativa del CM108
+    const PERIOD_FRAMES = 960;     // 20ms a 48kHz     // 20ms a 8kHz (plughw: redondea al per\Uffffffffo hw)
+    const BUFFER_FRAMES = 48000;   // 1s a 48kHz    // 1s de ring buffer ? absorbe xruns sin crash
+    const DECIMATE = 6;            // 48kHz \Uffffffff= 8kHz            // sin decimaci\Uffffffffya a 8kHz)
+      "-r", String(CAPTURE_RATE),
+      `--period-size=${PERIOD_FRAMES}`,
+      `--buffer-size=${BUFFER_FRAMES}`,
+      // Acumular datos hasta tener frames completos alineados a DECIMATE\Uffffffffhannels
+      // Cada grupo de DECIMATE frames = 2 \UffffffffDECIMATE = 12 bytes ? produce 1 muestra mono 8kHz
+      const BYTES_PER_DECIMATE_GROUP = BYTES_PER_STEREO_FRAME * DECIMATE; // 12 bytes (mono)
+      const numOutputSamples = Math.floor(accumBuf.length / BYTES_PER_DECIMATE_GROUP);
+      const consumedBytes = numOutputSamples * BYTES_PER_DECIMATE_GROUP;
+      // Ganancia + soft-clip (sin decimaci\Uffffffffplughw: a 8kHz, DECIMATE=1)
+        const base = i * BYTES_PER_DECIMATE_GROUP;
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+abr 25 16:50:30 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:30.625Z [arecord] chunk#1: 44 bytes brutos ? 3 muestras 8kHz
+abr 25 16:50:30 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:30.661Z [arecord] chunk#2: 3840 bytes brutos ? 320 muestras 8kHz
+abr 25 16:50:30 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:30.685Z [arecord] chunk#3: 3840 bytes brutos ? 320 muestras 8kHz
+abr 25 16:50:30 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:30.739Z [arecord] chunk#4: 5760 bytes brutos ? 480 muestras 8kHz
+abr 25 16:50:30 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:30.742Z [arecord] GAP 54ms (chunk#4, 480 muestras)
+abr 25 16:50:30 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:30.767Z [arecord] chunk#5: 1920 bytes brutos ? 160 muestras 8kHz
+abr 25 16:50:30 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:30.785Z [arecord] chunk#6: 1920 bytes brutos ? 160 muestras 8kHz
+abr 25 16:50:30 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:30.800Z [arecord] chunk#7: 1920 bytes brutos ? 160 muestras 8kHz
+abr 25 16:50:30 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:30.819Z [arecord] chunk#8: 1920 bytes brutos ? 160 muestras 8kHz
+abr 25 16:50:31 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:31.825Z [arecord] GAP 927ms (chunk#13, 160 muestras)
+abr 25 16:50:32 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:32.848Z [arecord] GAP 663ms (chunk#32, 160 muestras)
+abr 25 16:50:32 ubuntus eqso-relay-CB[1947]: [gsm-enc] 2026-04-25T16:50:32.869Z GAP 683ms entre frames GSM de salida
+abr 25 16:50:33 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:33.876Z [arecord] GAP 608ms (chunk#54, 160 muestras)
+abr 25 16:50:33 ubuntus eqso-relay-CB[1947]: [gsm-enc] 2026-04-25T16:50:33.896Z GAP 626ms entre frames GSM de salida
+abr 25 16:50:34 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:34.897Z [arecord] GAP 761ms (chunk#68, 160 muestras)
+abr 25 16:50:34 ubuntus eqso-relay-CB[1947]: [gsm-enc] 2026-04-25T16:50:34.919Z GAP 781ms entre frames GSM de salida
+abr 25 16:50:35 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:35.924Z [arecord] GAP 859ms (chunk#77, 160 muestras)
+abr 25 16:50:35 ubuntus eqso-relay-CB[1947]: [gsm-enc] 2026-04-25T16:50:35.930Z GAP 891ms entre frames GSM de salida
+abr 25 16:50:36 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:36.952Z [arecord] GAP 960ms (chunk#81, 160 muestras)
+abr 25 16:50:36 ubuntus eqso-relay-CB[1947]: [gsm-enc] 2026-04-25T16:50:36.957Z GAP 990ms entre frames GSM de salida
+abr 25 16:50:37 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:37.966Z [arecord] GAP 551ms (chunk#105, 160 muestras)
+abr 25 16:50:37 ubuntus eqso-relay-CB[1947]: [gsm-enc] 2026-04-25T16:50:37.968Z GAP 570ms entre frames GSM de salida
+abr 25 16:50:38 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:38.989Z [arecord] GAP 983ms (chunk#108, 160 muestras)
+abr 25 16:50:39 ubuntus eqso-relay-CB[1947]: [gsm-enc] 2026-04-25T16:50:39.009Z GAP 998ms entre frames GSM de salida
+abr 25 16:50:40 ubuntus eqso-relay-CB[1947]: [audio] 2026-04-25T16:50:40.014Z [arecord] GAP 525ms (chunk#134, 160 muestras)
+abr 25 16:50:40 ubuntus eqso-relay-CB[1947]: [gsm-enc] 2026-04-25T16:50:40.041Z GAP 546ms entre frames GSM de salida
+abr 25 16:50:41 ubuntus eqso-relay-CB[194

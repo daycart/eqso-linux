@@ -63,6 +63,12 @@ export class AlsaAudio extends EventEmitter {
   // Diagnostico arecord: log tamaño de los primeros chunks (verifica period=160)
   private arecordChunkCount = 0;
   private lastArecordChunkMs = 0;
+  // Jitter buffer de captura: absorbe las rafagas periodicas del CM108 USB y
+  // entrega PCM al encoder GSM a ritmo constante de 20ms via captureTimer.
+  // El CM108 batch-entrega ~750ms de audio cada segundo (firmware USB); sin
+  // este buffer el encoder recibe rafagas y produce GSM bursty no transmisible.
+  private captureRingBuf: Int16Array = new Int16Array(0);
+  private captureTimer: ReturnType<typeof setInterval> | null = null;
 
   constructor(private cfg: AudioConfig) {
     super();
@@ -72,11 +78,14 @@ export class AlsaAudio extends EventEmitter {
     this.startDecoder();
     this.startEncoder();
     this.startRecorder();
+    this.startCaptureTimer();
     this.levelTimer = setInterval(() => this.logLevel(), 5000);
   }
 
   async stop(): Promise<void> {
     this.stopping = true;
+    if (this.captureTimer) { clearInterval(this.captureTimer); this.captureTimer = null; }
+    this.captureRingBuf = new Int16Array(0);
     if (this.levelTimer) { clearInterval(this.levelTimer); this.levelTimer = null; }
     this.stopSilenceInjection();
 
@@ -224,6 +233,34 @@ export class AlsaAudio extends EventEmitter {
     } catch { /* player may have closed */ }
   }
 
+  // ── Jitter buffer de captura ─────────────────────────────────────────────
+
+  /**
+   * Timer que consume el captureRingBuf a ritmo constante (20ms = 160 muestras).
+   * El CM108 USB entrega audio en rafagas periodicas (~750ms); este timer
+   * distribuye las rafagas uniformemente antes de entregarlas al encoder GSM.
+   * Resultado: encoder recibe 1 frame cada 20ms → GSM output sin gaps.
+   *
+   * Latencia adicional introducida: hasta ~750ms (tamano maximo de la rafaga).
+   * Aceptable para radio PTT donde la latencia total ya supera 1-2 segundos.
+   *
+   * Log de diagnostico: si el ring buffer supera 3200 muestras (400ms de audio
+   * acumulado) se registra un aviso para detectar deriva del timer.
+   */
+  private startCaptureTimer(): void {
+    if (this.captureTimer) clearInterval(this.captureTimer);
+    const WARN_SAMPLES = 3200; // 400ms a 8kHz → posible deriva del timer
+    this.captureTimer = setInterval(() => {
+      if (this.captureRingBuf.length >= PCM_CHUNK_SAMPLES) {
+        if (this.captureRingBuf.length > WARN_SAMPLES)
+          log(`[captureTimer] ring buffer alto: ${this.captureRingBuf.length} muestras (${(this.captureRingBuf.length / 8).toFixed(0)}ms)`);
+        const chunk = this.captureRingBuf.slice(0, PCM_CHUNK_SAMPLES);
+        this.captureRingBuf = this.captureRingBuf.slice(PCM_CHUNK_SAMPLES);
+        this.feedPcm(chunk);
+      }
+    }, 20); // 20ms = 160 muestras a 8kHz
+  }
+
   // ── arecord ───────────────────────────────────────────────────────────────
 
   private startRecorder(): void {
@@ -354,10 +391,18 @@ export class AlsaAudio extends EventEmitter {
       // Conservar bytes no consumidos para el siguiente chunk
       accumBuf = accumBuf.subarray(consumedBytes);
 
+      // Metricas de nivel (se calculan aqui sobre audio crudo, antes del jitter buffer)
       const rms = Math.sqrt(sumSq / numOutputSamples);
       if (rms > this.levelPeakRms) this.levelPeakRms = rms;
       this.levelSamples += numOutputSamples;
-      this.feedPcm(pcm);
+
+      // Encolar en el jitter buffer de captura en lugar de llamar feedPcm directamente.
+      // El captureTimer consumira el ring buffer a ritmo constante de 20ms,
+      // distribuyendo uniformemente las rafagas periodicas del CM108.
+      const merged = new Int16Array(this.captureRingBuf.length + pcm.length);
+      merged.set(this.captureRingBuf);
+      merged.set(pcm, this.captureRingBuf.length);
+      this.captureRingBuf = merged;
     });
   }
 
@@ -394,6 +439,9 @@ export class AlsaAudio extends EventEmitter {
       log("[audio] Semi-duplex: matando arecord — esperando cierre para abrir aplay");
       this.playerStarting    = true;
       this.recorderSuspended = true;
+      // Descartar audio pendiente en el jitter buffer: estamos entrando en modo
+      // RX (playback), el audio capturado ya no debe llegar al encoder GSM.
+      this.captureRingBuf = new Int16Array(0);
       const rec = this.recorder;
       this.recorder = null;
 
