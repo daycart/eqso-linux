@@ -127,20 +127,42 @@ function handleLocalMode(
         return;
       }
 
-      // eQSO 0x16 single-event packet: PTT start (action=0x02) / PTT release (action=0x03)
-      // The action byte lives at offset 5, not offset 4 (client binary parser would misread it).
-      // Convert to JSON so handleTextMessage picks it up — same path as remote mode.
+      // eQSO 0x16 single-event packet — any action (user_joined / user_left / ptt_start / ptt_release).
+      // The action byte lives at offset 5 (count=1 → bytes [0x16][0x01][0x00][0x00][0x00][action]…).
+      // Convert ALL four actions to JSON so handleTextMessage picks them up — same path as remote mode.
+      // Sanitize names to printable ASCII 0x20–0x7E to avoid garbled chars from Windows relay packets.
       if (data[0] === 0x16 && data.length > 1 && data[1] === 0x01 && data.length >= 10) {
         const action = data[5];
-        if (action === 0x02 || action === 0x03) {
+        if (action === 0x00 || action === 0x01 || action === 0x02 || action === 0x03) {
           const nameLen = data[9];
-          const name = data.slice(10, 10 + nameLen).toString("ascii");
-          if (action === 0x02) {
-            sendJson(ws, { type: "ptt_started", name });
-          } else {
-            sendJson(ws, { type: "ptt_released_remote", name });
+          if (nameLen > 0 && nameLen <= 32 && 10 + nameLen <= data.length) {
+            let name = "";
+            for (let i = 10; i < 10 + nameLen; i++) {
+              const b = data[i];
+              if (b >= 0x20 && b <= 0x7e) name += String.fromCharCode(b);
+            }
+            name = name.trim();
+            if (name) {
+              if (action === 0x00) {
+                let off = 10 + nameLen;
+                let message = "";
+                if (off < data.length) {
+                  const msgLen = data[off++];
+                  if (msgLen > 0 && off + msgLen <= data.length) {
+                    message = data.slice(off, off + msgLen).toString("ascii").trim();
+                  }
+                }
+                sendJson(ws, { type: "user_joined", name, message });
+              } else if (action === 0x01) {
+                sendJson(ws, { type: "user_left", name });
+              } else if (action === 0x02) {
+                sendJson(ws, { type: "ptt_started", name });
+              } else {
+                sendJson(ws, { type: "ptt_released_remote", name });
+              }
+              return;
+            }
           }
-          return;
         }
       }
 

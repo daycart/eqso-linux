@@ -265,20 +265,34 @@ export function useEqsoClient(
           setChannelBusy(false);
         }
       } else if (count > 1) {
+        // Multi-entry user list: header is [0x16][count][0x00][0x00][0x00] (5 bytes),
+        // then per entry: [action][0x00][0x00][0x00][nameLen][name...][msgLen][msg...][0x00]
         const newMembers: RoomMember[] = [];
         const nameSeen = new Set<string>();
-        let off = 4;
+        let off = 5; // skip 5-byte header
         for (let i = 0; i < count; i++) {
           if (off + 5 >= view.length) break;
-          off += 5;
+          // action + 3 padding bytes (skip 4), then nameLen byte (1)
+          off += 4; // skip action + 3 padding
           if (off >= view.length) break;
           const nameLen = view[off++];
-          if (off + nameLen > view.length) break;
-          const name = new TextDecoder().decode(view.slice(off, off + nameLen)).trim();
+          // Validate nameLen
+          if (nameLen === 0 || nameLen > 32 || off + nameLen > view.length) break;
+          // Sanitize name: only printable ASCII 0x20–0x7E
+          let name = "";
+          for (let j = off; j < off + nameLen; j++) {
+            const b = view[j];
+            if (b >= 0x20 && b <= 0x7e) name += String.fromCharCode(b);
+          }
+          name = name.trim();
           off += nameLen;
+          if (off >= view.length) break;
           const msgLen = view[off++];
-          const msg = msgLen > 0 ? new TextDecoder().decode(view.slice(off, off + msgLen)) : "";
+          const msg = msgLen > 0 && off + msgLen <= view.length
+            ? new TextDecoder().decode(view.slice(off, off + msgLen)).trim()
+            : "";
           off += msgLen;
+          off += 1; // trailing 0x00 terminator per entry
           if (name && !nameSeen.has(name)) {
             nameSeen.add(name);
             newMembers.push({ name, message: msg });
