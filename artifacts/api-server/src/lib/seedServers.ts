@@ -38,6 +38,17 @@ const DEFAULT_SERVERS = [
     isActive:    true,
     sortOrder:   2,
   },
+  {
+    label:       "VM ASORAPA (desarrollo)",
+    description: "Servidor Node.js en VM Ubuntu · puerto 2172",
+    mode:        "remote",
+    host:        "193.152.83.229",
+    port:        2172,
+    defaultPassword: null,
+    rooms:       "GENERAL,CB,ASORAPA,PRUEBAS",
+    isActive:    true,
+    sortOrder:   3,
+  },
 ] as const;
 
 export async function seedServers() {
