@@ -192,6 +192,7 @@ export function useEqsoClient(
         setCurrentName(null);
         setMembers([]);
         setActiveSpeaker(null);
+        setChannelBusy(false);
         setError(null); // Limpiar errores de la sesion anterior
         break;
 
@@ -228,12 +229,12 @@ export function useEqsoClient(
 
     if (cmd === 0x16 && view.length >= 2) {
       const count = view[1];
-      if (count === 1 && view.length >= 10) {
-        // eQSO single-event format:
-        //   [0x16][0x01][0x00][0x00][0x00][action][0x00][0x00][0x00][nameLen][name...]
-        // action is at index 5, nameLen is at index 9 (not 4 and 8).
-        const action = view[5];
-        let off = 9;
+      if (count === 1 && view.length >= 11) {
+        // eQSO single-entry format (one extra padding byte vs multi-entry):
+        //   [0x16][0x01][0x00][0x00][0x00][0x00][action][0x00][0x00][0x00][nameLen][name...]
+        //   idx:   0     1     2     3     4     5       6      7     8     9       10
+        const action = view[6];
+        let off = 10;
         if (off >= view.length) return;
         const nameLen = view[off++];
         if (off + nameLen > view.length) return;
@@ -295,6 +296,7 @@ export function useEqsoClient(
     setCurrentName(null);
     setMembers([]);
     setActiveSpeaker(null);
+    setChannelBusy(false);
     pttGrantedRef.current = false;
     setPttGranted(false);
 
