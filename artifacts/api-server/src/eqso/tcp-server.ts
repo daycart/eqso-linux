@@ -33,6 +33,11 @@ const SERVER_VERSION = "eQSO Linux Server v1.0";
 // Se crea al conectar y se destruye al desconectar.
 const tcpDecoders = new Map<string, GsmFfmpegDecoder>();
 
+// Si un cliente TCP tiene el canal bloqueado pero no envía audio durante este tiempo,
+// el servidor libera el PTT automáticamente. Evita que el canal quede "muerto"
+// cuando el relay pierde acceso al dispositivo de audio (ej: arecord falla).
+const PTT_MAX_HOLD_MS = 15_000;
+
 interface TcpClientState {
   id: string;
   socket: net.Socket;
@@ -45,6 +50,24 @@ interface TcpClientState {
    *  Mantiene vivo el watchdog timer interno de los relays Windows (0R-ASORAPA).
    *  Sin este refresco, los relays desconectan ~2.3s después del primer pttStarted. */
   pttRefreshTimer: ReturnType<typeof setInterval> | null;
+  /** Watchdog anti-bloqueo: libera el PTT si no llega audio en PTT_MAX_HOLD_MS.
+   *  Se reinicia con cada paquete de audio recibido. */
+  pttWatchdog: ReturnType<typeof setTimeout> | null;
+}
+
+/** Arma (o reinicia) el watchdog de inactividad de PTT para un cliente TCP.
+ *  Si no llega ningún paquete de audio en PTT_MAX_HOLD_MS, libera el canal
+ *  automáticamente y notifica a todos los clientes de la sala. */
+function armPttWatchdog(state: TcpClientState, room: string, name: string): void {
+  if (state.pttWatchdog) { clearTimeout(state.pttWatchdog); state.pttWatchdog = null; }
+  state.pttWatchdog = setTimeout(() => {
+    state.pttWatchdog = null;
+    if (state.disconnected || !roomManager.isLockedBy(room, state.id)) return;
+    logger.warn({ id: state.id, name, room }, "TCP PTT watchdog: canal liberado por inactividad de audio");
+    if (state.pttRefreshTimer) { clearInterval(state.pttRefreshTimer); state.pttRefreshTimer = null; }
+    roomManager.broadcastToRoom(room, buildPttReleased(name), state.id);
+    roomManager.unlockRoom(room, state.id);
+  }, PTT_MAX_HOLD_MS);
 }
 
 function sendRoomList(state: TcpClientState): void {
@@ -126,6 +149,10 @@ function processSingleByte(state: TcpClientState, byte: number): void {
             roomManager.broadcastToTcpClientsInRoom(refreshRoom, buildPttStarted(refreshName), state.id);
           }, 1500);
         }
+        // Watchdog anti-bloqueo: si no llega más audio en PTT_MAX_HOLD_MS, liberar el canal.
+        // Protege contra relays que pierden acceso al audio (arecord falla) pero mantienen
+        // el PTT activo indefinidamente, bloqueando el canal para todos los demás.
+        armPttWatchdog(state, client.room, client.name);
         inactivityManager.recordActivity(client.room);
       }
       state.readMultiByte = true;
@@ -168,6 +195,8 @@ function processSingleByte(state: TcpClientState, byte: number): void {
       if (client?.room) {
         // Paramos el timer de refresco: ya no hace falta mantener el watchdog de 0R-ASORAPA.
         if (state.pttRefreshTimer) { clearInterval(state.pttRefreshTimer); state.pttRefreshTimer = null; }
+        // Cancelar el watchdog anti-bloqueo: la liberación fue limpia y voluntaria.
+        if (state.pttWatchdog) { clearTimeout(state.pttWatchdog); state.pttWatchdog = null; }
         // Enviamos buildPttReleased (action=0x03) a TODOS los clientes (broadcastToRoom).
         // Los relays Windows eQSO (0R-ASORAPA) necesitan este paquete para salir del modo
         // receive limpiamente y preparar su estado para la siguiente TX.
@@ -415,6 +444,7 @@ function handleDisconnect(state: TcpClientState): void {
   state.disconnected = true;
 
   if (state.pttRefreshTimer) { clearInterval(state.pttRefreshTimer); state.pttRefreshTimer = null; }
+  if (state.pttWatchdog) { clearTimeout(state.pttWatchdog); state.pttWatchdog = null; }
 
   const dec = tcpDecoders.get(state.id);
   if (dec) { dec.stop(); tcpDecoders.delete(state.id); }
@@ -443,6 +473,7 @@ export function startTcpServer(port: number): net.Server {
       handshakeDone: false,
       disconnected: false,
       pttRefreshTimer: null,
+      pttWatchdog: null,
     };
 
     if (!roomManager.isEnabled()) {
