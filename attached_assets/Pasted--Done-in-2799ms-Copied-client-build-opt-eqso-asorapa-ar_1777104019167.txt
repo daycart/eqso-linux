@@ -1,0 +1,45 @@
+? Done in 2799ms
+Copied client build: /opt/eqso-asorapa/artifacts/eqso-client/dist/public ? /opt/eqso-asorapa/artifacts/api-server/dist/public
+abr 25 07:59:22 ubuntus node[23666]: {"level":30,"time":1777103962569,"pid":23666,"hostname":"ubuntus","count":1,"hex":"1601000000020000000930522d494e3730574e","msg":"eQSO proxy: user update packet"}
+abr 25 07:59:22 ubuntus node[23666]: {"level":30,"time":1777103962569,"pid":23666,"hostname":"ubuntus","name":"0R-IN70WN","msg":"eQSO proxy: PTT started"}
+abr 25 07:59:22 ubuntus node[23666]: {"level":30,"time":1777103962820,"pid":23666,"hostname":"ubuntus","bytes":20,"hex":"1601000000020000000930522d494e3730574e00","msg":"eQSO proxy: received TCP data"}
+abr 25 07:59:22 ubuntus node[23666]: {"level":30,"time":1777103962820,"pid":23666,"hostname":"ubuntus","count":1,"hex":"1601000000020000000930522d494e3730574e","msg":"eQSO proxy: user update packet"}
+abr 25 07:59:22 ubuntus node[23666]: {"level":30,"time":1777103962820,"pid":23666,"hostname":"ubuntus","name":"0R-IN70WN","msg":"eQSO proxy: PTT started"}
+abr 25 07:59:22 ubuntus systemd[1]: Stopping eqso.service - eQSO ASORAPA Server...
+abr 25 07:59:23 ubuntus systemd[1]: eqso.service: Deactivated successfully.
+abr 25 07:59:23 ubuntus systemd[1]: Stopped eqso.service - eQSO ASORAPA Server.
+abr 25 07:59:23 ubuntus systemd[1]: eqso.service: Consumed 1min 13.658s CPU time.
+abr 25 07:59:23 ubuntus systemd[1]: Started eqso.service - eQSO ASORAPA Server.
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965284,"pid":25826,"hostname":"ubuntus","publicDir":"/opt/eqso-asorapa/artifacts/api-server/dist/public","msg":"Serving React client from static files"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965305,"pid":25826,"hostname":"ubuntus","msg":"eQSO WebSocket bridge ready on /ws"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965451,"pid":25826,"hostname":"ubuntus","port":8080,"msg":"HTTP + WebSocket server listening"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965458,"pid":25826,"hostname":"ubuntus","port":2171,"msg":"eQSO TCP server listening"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965458,"pid":25826,"hostname":"ubuntus","port":8008,"msg":"eQSO TCP server listening"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965726,"pid":25826,"hostname":"ubuntus","msg":"Inactivity check loop started"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965727,"pid":25826,"hostname":"ubuntus","enabled":true,"timeoutMs":2700000,"msg":"InactivityManager: config loaded from DB"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965730,"pid":25826,"hostname":"ubuntus","count":0,"msg":"RelayManager: loaded relay configurations"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965733,"pid":25826,"hostname":"ubuntus","selectedId":"beep-cw-k","enabled":true,"msg":"CourtesyBeepManager: config loaded from DB"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965793,"pid":25826,"hostname":"ubuntus","count":0,"msg":"Moderation: bans loaded from DB"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965802,"pid":25826,"hostname":"ubuntus","id":"2b77f0fe-e656-48e0-967b-e8309ed6e634","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965803,"pid":25826,"hostname":"ubuntus","id":"2b77f0fe-e656-48e0-967b-e8309ed6e634","addr":"192.168.1.33","msg":"eQSO TCP client registered \Uffffffff waiting for handshake"}
+abr 25 07:59:25 ubuntus node[25826]: {"level":30,"time":1777103965956,"pid":25826,"hostname":"ubuntus","id":"2b77f0fe-e656-48e0-967b-e8309ed6e634","hex":"0a78000000","msg":"eQSO TCP handshake complete \Uffffffff sending room list"}
+abr 25 07:59:26 ubuntus node[25826]: {"level":30,"time":1777103966145,"pid":25826,"hostname":"ubuntus","id":"2b77f0fe-e656-48e0-967b-e8309ed6e634","name":"0R-ASORAPA","room":"CB","bufLen":122,"msg":"eQSO TCP JOIN parsed"}
+abr 25 07:59:26 ubuntus node[25826]: {"level":30,"time":1777103966158,"pid":25826,"hostname":"ubuntus","id":"2b77f0fe-e656-48e0-967b-e8309ed6e634","name":"0R-ASORAPA","msg":"TCP client identified as relay"}
+abr 25 07:59:26 ubuntus node[25826]: {"level":30,"time":1777103966168,"pid":25826,"hostname":"ubuntus","id":"2b77f0fe-e656-48e0-967b-e8309ed6e634","name":"0R-ASORAPA","room":"CB","memberCount":1,"members":["0R-ASORAPA"],"hex":"1601000000000000000a30522d41534f524150415e50414452534e202843414e414c203520464d29202044454a454e204553504143494f532d524553504554454e2043414d42494f532d43554944454e20454c20564f434142554c4152494f2d4e4f20504f4c4d544943412d4752414349415300","msg":"eQSO TCP sending user list to joining client"}
+abr 25 07:59:26 ubuntus node[25826]: {"level":30,"time":1777103966175,"pid":25826,"hostname":"ubuntus","id":"2b77f0fe-e656-48e0-967b-e8309ed6e634","name":"0R-ASORAPA","room":"CB","memberCount":1,"msg":"TCP client joined room"}
+abr 25 07:59:26 ubuntus node[25826]: {"level":30,"time":1777103966970,"pid":25826,"hostname":"ubuntus","id":"beep-simple","packets":1,"msg":"CourtesyBeepManager: tone ready"}
+abr 25 07:59:27 ubuntus node[25826]: {"level":30,"time":1777103967683,"pid":25826,"hostname":"ubuntus","id":"beep-double","packets":3,"msg":"CourtesyBeepManager: tone ready"}
+abr 25 07:59:28 ubuntus node[25826]: {"level":30,"time":1777103968435,"pid":25826,"hostname":"ubuntus","id":"beep-descend","packets":2,"msg":"CourtesyBeepManager: tone ready"}
+abr 25 07:59:29 ubuntus node[25826]: {"level":30,"time":1777103969033,"pid":25826,"hostname":"ubuntus","id":"719ae5bf-d75e-4c9f-bfa7-a06c44d5f9ae","addr":"127.0.0.1","msg":"New TCP eQSO connection"}
+abr 25 07:59:29 ubuntus node[25826]: {"level":30,"time":1777103969034,"pid":25826,"hostname":"ubuntus","id":"719ae5bf-d75e-4c9f-bfa7-a06c44d5f9ae","addr":"127.0.0.1","msg":"eQSO TCP client registered \Uffffffff waiting for handshake"}
+abr 25 07:59:29 ubuntus node[25826]: {"level":30,"time":1777103969051,"pid":25826,"hostname":"ubuntus","id":"719ae5bf-d75e-4c9f-bfa7-a06c44d5f9ae","hex":"0a82000000","msg":"eQSO TCP handshake complete \Uffffffff sending room list"}
+abr 25 07:59:29 ubuntus node[25826]: {"level":30,"time":1777103969055,"pid":25826,"hostname":"ubuntus","id":"719ae5bf-d75e-4c9f-bfa7-a06c44d5f9ae","name":"0R-IN70WN","room":"CB","bufLen":27,"msg":"eQSO TCP JOIN parsed"}
+abr 25 07:59:29 ubuntus node[25826]: {"level":30,"time":1777103969055,"pid":25826,"hostname":"ubuntus","id":"719ae5bf-d75e-4c9f-bfa7-a06c44d5f9ae","name":"0R-IN70WN","msg":"TCP client identified as relay"}
+abr 25 07:59:29 ubuntus node[25826]: {"level":30,"time":1777103969056,"pid":25826,"hostname":"ubuntus","id":"719ae5bf-d75e-4c9f-bfa7-a06c44d5f9ae","name":"0R-IN70WN","room":"CB","memberCount":2,"members":["0R-ASORAPA","0R-IN70WN"],"hex":"1602000000000000000a30522d41534f524150415e50414452534e202843414e414c203520464d29202044454a454e204553504143494f532d524553504554454e2043414d42494f532d43554944454e20454c20564f434142554c4152494f2d4e4f20504f4c4d544943412d4752414349415300000000000930522d494e3730574e0c526164696f20456e6c61636500","msg":"eQSO TCP sending user list to joining client"}
+abr 25 07:59:29 ubuntus node[25826]: {"level":30,"time":1777103969056,"pid":25826,"hostname":"ubuntus","to":"0R-ASORAPA","joining":"0R-IN70WN","msg":"eQSO TCP notifying existing member of new join"}
+abr 25 07:59:29 ubuntus node[25826]: {"level":30,"time":1777103969059,"pid":25826,"hostname":"ubuntus","id":"719ae5bf-d75e-4c9f-bfa7-a06c44d5f9ae","name":"0R-IN70WN","room":"CB","memberCount":2,"msg":"TCP client joined room"}
+abr 25 07:59:29 ubuntus node[25826]: {"level":30,"time":1777103969837,"pid":25826,"hostname":"ubuntus","id":"beep-roger","packets":2,"msg":"CourtesyBeepManager: tone ready"}
+abr 25 07:59:30 ubuntus node[25826]: {"level":30,"time":1777103970661,"pid":25826,"hostname":"ubuntus","id":"beep-cw-k","packets":7,"msg":"CourtesyBeepManager: tone ready"}
+abr 25 07:59:31 ubuntus node[25826]: {"level":30,"time":1777103971170,"pid":25826,"hostname":"ubuntus","id":"e70d9db1-7ffd-498e-8e85-9c68fa3a1ce1","msg":"New WS eQSO client"}
+abr 25 07:59:31 ubuntus node[25826]: {"level":30,"time":1777103971284,"pid":25826,"hostname":"ubuntus","id":"e70d9db1-7ffd-498e-8e85-9c68fa3a1ce1","msg":"WS client selecting local server"}
+abr 25 07:59:35 ubuntus node[25826]: {"level":30,"time":1777103975535,"pid":25826,"hostname":"ubuntus","id":"e70d9db1-7ffd-498e-8e85-9c68fa3a1ce1","msg":"WS client disconnected"}
