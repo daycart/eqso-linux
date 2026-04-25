@@ -1,40 +1,27 @@
 /**
- * Convierte muestras PCM Int16 a Float32 con normalización por pico por paquete.
+ * Convierte muestras PCM Int16 a Float32 con escala fija normalizada.
  *
- * Problema resuelto:
- *   El clamp fijo anterior (±0.45) recortaba duramente los picos del audio CB
- *   (~0.6 float32) causando distorsión severa. La normalización por RMS reducía
- *   el nivel dejándolo demasiado bajo.
+ * Problema resuelto (v2):
+ *   La versión anterior aplicaba normalización por pico POR PAQUETE (cada 160
+ *   muestras = 20 ms). Esto causaba saltos bruscos de nivel en los límites de
+ *   paquete: si un paquete de pausa tenía peak < MIN_PEAK (scale=1.0) y el
+ *   siguiente tenía voz a 0.5 FS (scale=0.9), el salto de 0→0.9 FS en 20 ms
+ *   generaba distorsión severa y voz completamente irreconocible.
  *
- * Algoritmo (normalizador de pico por paquete):
- *   1. Buscar el pico máximo del paquete.
- *   2. Si pico > TARGET_PEAK: escalar todo el paquete para que el pico = TARGET_PEAK.
- *      → mismo nivel que el clamp anterior pero SIN recorte → sin distorsión.
- *   3. Si pico < TARGET_PEAK: amplificar hasta TARGET_PEAK, limitado a MAX_SCALE
- *      para no amplificar el ruido de fondo.
- *   4. MIN_PEAK: umbral de silencio, debajo del cual no se amplifica.
- *
- * Con TARGET_PEAK=0.45 y el GainNode del navegador en ×2:
- *   → Pico de salida = 0.90 FS  (igual al comportamiento anterior, sin distorsión)
- * MAX_SCALE=4.0: amplifica señales débiles (micros web) hasta 4× como máximo.
- * MIN_PEAK=0.005: evita amplificar silencio absoluto / ruido de fondo.
+ * Algoritmo (escala fija):
+ *   - División simple por 32768 → rango Float32 ±1.0
+ *   - Sin normalización por paquete → sin discontinuidades de nivel
+ *   - El GainNode del navegador (×1.5) amplifica señales débiles de forma
+ *     continua y sin artefactos
+ *   - Clamp ±1.0 como salvaguarda ante desbordamiento inesperado
  */
 export function pcmToFloat32Normalized(pcm: Int16Array): Float32Array {
-  const TARGET_PEAK = 0.45;
-  const MAX_SCALE   = 4.0;
-  const MIN_PEAK    = 0.005;
-
-  let peak = 0;
-  for (let i = 0; i < pcm.length; i++) {
-    const abs = Math.abs(pcm[i]) / 32768;
-    if (abs > peak) peak = abs;
-  }
-
-  const scale = peak > MIN_PEAK ? Math.min(MAX_SCALE, TARGET_PEAK / peak) : 1.0;
-
   const float32 = new Float32Array(pcm.length);
   for (let i = 0; i < pcm.length; i++) {
-    float32[i] = (pcm[i] / 32768) * scale;
+    // Simple fixed scale: avoids inter-packet level jumps that made voice unintelligible.
+    // GainNode in the browser provides additional 1.5× boost for quiet relay signals.
+    const s = pcm[i] / 32768;
+    float32[i] = s > 1 ? 1 : s < -1 ? -1 : s;
   }
   return float32;
 }

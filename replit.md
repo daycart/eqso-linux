@@ -178,6 +178,25 @@ Added April 2026. Server maintains persistent TCP connections to remote eQSO ser
 - Lista con indicador verde/rojo, uptime, paquetes RX, usuarios en sala ASORAPA
 - Formulario de alta/edicion con todos los campos
 
+## Audio RX Quality Fix (April 2026)
+
+### pcmToFloat32Normalized — eliminada normalización por paquete (pcm-utils.ts)
+La versión anterior aplicaba normalización de pico **por paquete** (160 muestras = 20 ms).
+Cuando el pico de un paquete caía bajo `MIN_PEAK` (pausa entre fonemas), se aplicaba
+`scale=1.0`; el paquete siguiente con voz a 0.5 FS recibía `scale=0.9`. Ese salto a 50 Hz
+hacía la voz completamente irreconocible ("no se identifica voz").
+Fix: división fija `/32768` sin normalización por paquete + `GainNode.gain` bajado de 2 a 1.5.
+
+### channelBusy safety timeout (useEqsoClient.ts)
+Si el servidor remoto no enviaba el paquete de liberación de PTT (p.ej. relay se desconecta
+sin enviar 0x03), `channelBusy` quedaba activo indefinidamente bloqueando el PTT del usuario.
+Fix: timeout de 60 s que limpia `activeSpeaker`/`channelBusy` automáticamente si
+`ptt_released_remote` no llega.
+
+### nextPlayTimeRef stale reference (useAudio.ts)
+Referencia a `nextPlayTimeRef` (eliminada en refactor anterior) causaba error TS en build.
+Fix: eliminada la línea sobrante en el bloque catch de `doInit()`.
+
 ## Known Bugs Fixed (April 2026)
 
 ### Remote mode — no users visible + password not checked (1fd4a94)
