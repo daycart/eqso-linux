@@ -69,6 +69,10 @@ export class AlsaAudio extends EventEmitter {
   // este buffer el encoder recibe rafagas y produce GSM bursty no transmisible.
   private captureRingBuf: Int16Array = new Int16Array(0);
   private captureTimer: ReturnType<typeof setInterval> | null = null;
+  // Si true, el captureTimer inyecta silencio cuando el ring buffer esta vacio.
+  // Necesario para mantener el stream GSM continuo durante gaps de hardware y
+  // evitar que el servidor eQSO desincronice el protocolo ("Indicativo invalido").
+  private txActive = false;
 
   constructor(private cfg: AudioConfig) {
     super();
@@ -155,8 +159,11 @@ export class AlsaAudio extends EventEmitter {
   }
 
   setTxEnabled(enabled: boolean): void {
+    this.txActive = enabled;
     if (!enabled) {
-      this.pcmAccum = new Int16Array(0);
+      this.pcmAccum    = new Int16Array(0);
+      // Descartar audio pendiente: la TX ha terminado, no enviar mas silencio
+      this.captureRingBuf = new Int16Array(0);
     }
   }
 
@@ -257,6 +264,11 @@ export class AlsaAudio extends EventEmitter {
         const chunk = this.captureRingBuf.slice(0, PCM_CHUNK_SAMPLES);
         this.captureRingBuf = this.captureRingBuf.slice(PCM_CHUNK_SAMPLES);
         this.feedPcm(chunk);
+      } else if (this.txActive) {
+        // Ring buffer vacio durante PTT activo = gap de hardware del CM108.
+        // Inyectar silencio para mantener el stream GSM continuo y evitar que
+        // el servidor eQSO desincronice el protocolo TCP ("Indicativo invalido").
+        this.feedPcm(new Int16Array(PCM_CHUNK_SAMPLES));
       }
     }, 20); // 20ms = 160 muestras a 8kHz
   }
