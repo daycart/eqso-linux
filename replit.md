@@ -260,10 +260,14 @@ Flujo de trabajo:
 ```bash
 cd /opt/eqso-asorapa
 git pull
-# Compilar solo el api-server (evita permisos en otros paquetes):
 cd artifacts/api-server
-pnpm install --ignore-scripts 2>/dev/null || true
-pnpm run build
+# NOTA: dist/ es propiedad de root — el build requiere sudo
+sudo pnpm run build
+sudo systemctl restart eqso
+```
+
+### Solo reiniciar (sin cambios de código)
+```bash
 sudo systemctl restart eqso
 ```
 
