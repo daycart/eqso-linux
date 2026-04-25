@@ -226,6 +226,51 @@ Two bugs caused remote eQSO mode to silently fall back to local mode:
   For web users in remote mode, entered in the ConnectPanel UI and forwarded by
   `EqsoProxy` in the JOIN packet.
 
+## VM Infrastructure (Ubuntu 192.168.1.25 / 193.152.83.229)
+
+Servidor físico de producción ASORAPA en red local de EA4IKU.
+
+### Servicios systemd en la VM
+| Servicio | Descripción | Comando restart |
+|---|---|---|
+| `eqso.service` | **API Server** (Node.js, puerto 8080 HTTP + 2171 TCP) | `sudo systemctl restart eqso` |
+| `eqso-relay@CB.service` | Relay daemon CB físico (CM108 USB audio) | `sudo systemctl restart eqso-relay@CB` |
+
+### Puertos
+- `2171` — TCP eQSO interno (VM localhost)
+- `2172` — Port forwarding router externo → VM:2171
+- `8008` — Windows eQSO server (requiere contraseña, NO tocar)
+- `8080` — HTTP admin API (solo localhost)
+
+### Rutas en la VM
+- `/opt/eqso-asorapa/` — raíz del proyecto
+- `/etc/eqso-relay/CB.json` — config del relay daemon
+
+### Actualizar código en la VM
+```bash
+cd /opt/eqso-asorapa
+git pull
+cd artifacts/api-server && pnpm install && pnpm run build
+sudo systemctl restart eqso
+```
+
+### Expulsar indicativo desde la VM (vía SSH)
+```bash
+TOKEN=$(curl -s -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"callsign":"EA4IKU","password":"PASSWORD"}' | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
+
+curl -X POST http://localhost:8080/api/admin/moderation/kick-callsign \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -d '{"callsign":"0R-IN70WN"}'
+```
+
+### Watchdog PTT (anti stuck-PTT)
+- El api-server tiene un watchdog que fuerza PTT release a los **30 segundos** si un relay no suelta el canal
+- Se activa automáticamente sin intervención manual
+- Requiere código actualizado en la VM (ver "Actualizar código" arriba)
+
 ## Key Commands
 
 - `pnpm run typecheck` — full typecheck across all packages
