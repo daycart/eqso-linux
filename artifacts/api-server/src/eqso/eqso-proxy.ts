@@ -274,7 +274,7 @@ export class EqsoProxy extends EventEmitter {
     });
 
     sock.on("data", (data: Buffer) => {
-      logger.info(
+      logger.debug(
         { bytes: data.length, hex: data.toString("hex") },
         "eQSO proxy: received TCP data"
       );
