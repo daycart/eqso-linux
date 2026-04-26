@@ -365,7 +365,7 @@ export class AlsaAudio extends EventEmitter {
     const CAPTURE_RATE = 48000;    // tasa nativa del CM108 → sin rate-plugin ALSA
     const CAPTURE_CHANNELS = 1;
     const PERIOD_FRAMES = 960;     // 20ms a 48kHz = 160 muestras a 8kHz tras decimación
-    const BUFFER_FRAMES = 3840;    // 4× period (80ms) → notificaciones cada ~20ms en VirtualBox
+    const BUFFER_FRAMES = 16000;   // 333ms — suficiente para rafagas del CM108 en VirtualBox sin xruns
     const DECIMATE = 6;            // 48kHz ÷ 6 = 8kHz (para GSM)
 
     const args = [

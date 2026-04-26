@@ -1,0 +1,127 @@
+cd /opt/eqso-asorapa/artifacts/relay-daemon && \
+  node build.mjs && \
+  sudo systemctl restart eqso-relay@CB.service && \
+  sudo journalctl -u eqso-relay@CB.service -f
+relay-daemon build OK
+abr 26 21:00:33 ubuntus eqso-relay-CB[72016]:   Playback channels: Mono
+abr 26 21:00:33 ubuntus eqso-relay-CB[72016]:   Capture channels: Mono
+abr 26 21:00:33 ubuntus eqso-relay-CB[72016]:   Limits: Playback 0 - 127 Capture 0 - 16
+abr 26 21:00:33 ubuntus eqso-relay-CB[72016]:   Mono: Playback 0 [0%] [0.00dB] [on] Capture 0 [0%] [0.00dB] [on]
+abr 26 21:00:33 ubuntus eqso-relay-CB[72005]:   Mic        40%
+abr 26 21:00:33 ubuntus eqso-relay-CB[72018]: numid=3,iface=MIXER,name='Mic Playback Switch'
+abr 26 21:00:33 ubuntus eqso-relay-CB[72018]:   ; type=BOOLEAN,access=rw------,values=1
+abr 26 21:00:33 ubuntus eqso-relay-CB[72018]:   : values=off
+abr 26 21:00:33 ubuntus eqso-relay-CB[72005]:   Mic sidetone OFF
+abr 26 21:00:33 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [config] Cargado: /etc/eqso-relay/CB.json
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [config] Configuracion activa: {
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "callsign": "0R-IN70WN",
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "room": "CB",
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "password": "",
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "message": "Radio Enlace",
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "server": "127.0.0.1",
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "port": 2171,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "reconnectMinMs": 2000,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "reconnectMaxMs": 60000,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "audio": {
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "captureDevice": "plughw:1,0",
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "playbackDevice": "plughw:1,0",
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "vox": true,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "voxThresholdRms": 800,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "voxHangMs": 2500,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "txGateRms": 0,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "voxDebounceChunks": 2,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "startupVoxSuppressMs": 4000,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "inputGain": 0.4,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "outputGain": 3
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   },
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "control": {
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "enabled": true,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "port": 8009,
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "host": "127.0.0.1"
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   },
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   "ptt": {
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "device": "/dev/eqso-ptt",
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "method": "rts",
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:     "inverted": false
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]:   }
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: }
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.446Z ============================================================
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.447Z eQSO Relay Daemon arrancado
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.447Z   Callsign : 0R-IN70WN
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.447Z   Sala     : CB
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.447Z   Servidor : 127.0.0.1:2171
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.448Z   VOX      : ON (umbral=800 hang=2500ms debounce=2chunks)
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.448Z   Captura  : plughw:1,0
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.448Z   Playback : plughw:1,0
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.448Z   PTT Ser. : /dev/eqso-ptt (rts)
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.449Z ============================================================
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [ptt] 2026-04-26T21:00:34.451Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.522Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=3840
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.541Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [control] 2026-04-26T21:00:34.595Z Control HTTP escuchando en http://127.0.0.1:8009
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.639Z [arecord] chunk#1: 44 bytes brutos ? 3 muestras 8kHz
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [eqso] 2026-04-26T21:00:34.676Z TCP conectado a 127.0.0.1:2171
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.718Z [arecord] chunk#2: 9600 bytes brutos ? 800 muestras 8kHz
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.720Z [arecord] GAP 79ms (chunk#2, 800 muestras)
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [eqso] 2026-04-26T21:00:34.783Z Handshake recibido \Uffffffff conexion establecida
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.800Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [eqso] 2026-04-26T21:00:34.822Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [eqso] 2026-04-26T21:00:34.843Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.844Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.866Z [arecord] chunk#3: 15360 bytes brutos ? 1280 muestras 8kHz
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.867Z [arecord] GAP 148ms (chunk#3, 1280 muestras)
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [main] 2026-04-26T21:00:34.913Z Sala: 0R-IN70WN se ha unido
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.928Z [arecord] chunk#4: 5760 bytes brutos ? 480 muestras 8kHz
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.928Z [arecord] GAP 62ms (chunk#4, 480 muestras)
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.958Z [arecord] chunk#5: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:34.971Z [arecord] chunk#6: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:00:34 ubuntus eqso-relay-CB[72019]: [ptt] 2026-04-26T21:00:34.984Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 26 21:00:35 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:35.003Z [arecord] chunk#7: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:00:35 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:35.024Z [arecord] chunk#8: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:00:35 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:35.778Z [arecord] GAP 411ms (chunk#27, 320 muestras)
+abr 26 21:00:36 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:36.571Z [arecord] arecord: pcm_read:2240: read error: Input/output error
+abr 26 21:00:36 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:36.597Z [arecord] Terminado (code 1)
+abr 26 21:00:38 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:38.600Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=3840
+abr 26 21:00:38 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:38.640Z [arecord] GAP 2599ms (chunk#41, 3 muestras)
+abr 26 21:00:38 ubuntus eqso-relay-CB[72019]: [gsm-enc] 2026-04-26T21:00:38.683Z GAP 2468ms entre frames GSM de salida
+abr 26 21:00:39 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:39.434Z [arecord] arecord: pcm_read:2240:
+abr 26 21:00:39 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:39.434Z [arecord] read error: Input/output error
+abr 26 21:00:39 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:39.451Z [arecord] Terminado (code 1)
+abr 26 21:00:39 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:39.541Z [nivel] pico RMS=13685 (-7.6 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:00:41 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:41.451Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=3840
+abr 26 21:00:41 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:41.501Z [arecord] GAP 2584ms (chunk#55, 3 muestras)
+abr 26 21:00:41 ubuntus eqso-relay-CB[72019]: [gsm-enc] 2026-04-26T21:00:41.573Z GAP 2643ms entre frames GSM de salida
+abr 26 21:00:41 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:41.892Z [arecord] GAP 116ms (chunk#69, 160 muestras)
+abr 26 21:00:42 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:42.906Z [arecord] GAP 273ms (chunk#107, 160 muestras)
+abr 26 21:00:42 ubuntus eqso-relay-CB[72019]: [gsm-enc] 2026-04-26T21:00:42.927Z GAP 273ms entre frames GSM de salida
+abr 26 21:00:43 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:43.944Z [arecord] GAP 267ms (chunk#146, 160 muestras)
+abr 26 21:00:43 ubuntus eqso-relay-CB[72019]: [gsm-enc] 2026-04-26T21:00:43.985Z GAP 270ms entre frames GSM de salida
+abr 26 21:00:44 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:44.540Z [nivel] pico RMS=13685 (-7.6 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:00:44 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:44.779Z [arecord] arecord: pcm_read:2240: read error: Input/output error
+abr 26 21:00:44 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:44.796Z [arecord] Terminado (code 1)
+abr 26 21:00:46 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:46.796Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=3840
+abr 26 21:00:46 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:46.852Z [arecord] GAP 2594ms (chunk#163, 3 muestras)
+abr 26 21:00:46 ubuntus eqso-relay-CB[72019]: [gsm-enc] 2026-04-26T21:00:46.901Z GAP 2622ms entre frames GSM de salida
+abr 26 21:00:47 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:47.667Z [arecord] arecord: pcm_read:2240:
+abr 26 21:00:47 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:47.669Z [arecord] read error: Input/output error
+abr 26 21:00:47 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:47.685Z [arecord] Terminado (code 1)
+abr 26 21:00:49 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:49.541Z [nivel] pico RMS=13685 (-7.6 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:00:49 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:49.686Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=3840
+abr 26 21:00:49 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:49.723Z [arecord] GAP 2575ms (chunk#178, 3 muestras)
+abr 26 21:00:49 ubuntus eqso-relay-CB[72019]: [gsm-enc] 2026-04-26T21:00:49.764Z GAP 2613ms entre frames GSM de salida
+abr 26 21:00:50 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:50.938Z [arecord] arecord: pcm_read:2240:
+abr 26 21:00:50 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:50.939Z [arecord] read error: Input/output error
+abr 26 21:00:50 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:50.956Z [arecord] Terminado (code 1)
+abr 26 21:00:52 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:52.956Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=3840
+abr 26 21:00:53 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:53.007Z [arecord] GAP 2591ms (chunk#213, 3 muestras)
+abr 26 21:00:53 ubuntus eqso-relay-CB[72019]: [gsm-enc] 2026-04-26T21:00:53.053Z GAP 2624ms entre frames GSM de salida
+abr 26 21:00:54 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:54.170Z [arecord] arecord: pcm_read:2240: read error: Input/output error
+abr 26 21:00:54 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:54.184Z [arecord] Terminado (code 1)
+abr 26 21:00:54 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:54.541Z [nivel] pico RMS=13685 (-7.6 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:00:56 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:56.186Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=3840
+abr 26 21:00:56 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:56.237Z [arecord] GAP 2590ms (chunk#245, 3 muestras)
+abr 26 21:00:56 ubuntus eqso-relay-CB[72019]: [gsm-enc] 2026-04-26T21:00:56.304Z GAP 2621ms entre frames GSM de salida
+abr 26 21:00:57 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:57.034Z [arecord] arecord: pcm_read:2240:
+abr 26 21:00:57 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:57.036Z [arecord] read error: Input/output error
+abr 26 21:00:57 ubuntus eqso-relay-CB[72019]: [audio] 2026-04-26T21:00:57.055Z [arecord] Terminado (code 1)
