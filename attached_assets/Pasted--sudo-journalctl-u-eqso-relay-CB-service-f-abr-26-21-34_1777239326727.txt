@@ -1,0 +1,87 @@
+ sudo journalctl -u eqso-relay@CB.service -f
+abr 26 21:34:23 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:23.304Z GAP 818ms entre frames GSM de salida
+abr 26 21:34:24 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:24.296Z [arecord] GAP 753ms (chunk#25544, 160 muestras)
+abr 26 21:34:24 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:24.307Z GAP 761ms entre frames GSM de salida
+abr 26 21:34:25 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:25.333Z [arecord] GAP 738ms (chunk#25560, 160 muestras)
+abr 26 21:34:25 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:25.342Z GAP 749ms entre frames GSM de salida
+abr 26 21:34:25 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:25.874Z [nivel] pico RMS=396 (-38.4 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:34:26 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:26.356Z [arecord] GAP 783ms (chunk#25573, 160 muestras)
+abr 26 21:34:26 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:26.388Z GAP 800ms entre frames GSM de salida
+abr 26 21:34:27 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:27.381Z [arecord] GAP 765ms (chunk#25587, 160 muestras)
+abr 26 21:34:27 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:27.412Z GAP 778ms entre frames GSM de salida
+abr 26 21:34:28 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:28.402Z [arecord] GAP 563ms (chunk#25611, 160 muestras)
+abr 26 21:34:28 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:28.425Z GAP 557ms entre frames GSM de salida
+abr 26 21:34:29 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:29.415Z [arecord] GAP 793ms (chunk#25623, 160 muestras)
+abr 26 21:34:29 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:29.452Z GAP 824ms entre frames GSM de salida
+abr 26 21:34:30 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:30.426Z [arecord] GAP 771ms (chunk#25636, 160 muestras)
+abr 26 21:34:30 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:30.435Z GAP 772ms entre frames GSM de salida
+abr 26 21:34:30 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:30.875Z [nivel] pico RMS=365 (-39.1 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:34:31 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:31.460Z [arecord] GAP 666ms (chunk#25655, 160 muestras)
+abr 26 21:34:31 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:31.502Z GAP 676ms entre frames GSM de salida
+abr 26 21:34:32 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:32.490Z [arecord] GAP 771ms (chunk#25669, 160 muestras)
+abr 26 21:34:32 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:32.529Z GAP 783ms entre frames GSM de salida
+abr 26 21:34:33 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:33.518Z [arecord] GAP 808ms (chunk#25681, 160 muestras)
+abr 26 21:34:33 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:33.542Z GAP 807ms entre frames GSM de salida
+abr 26 21:34:34 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:34.541Z [arecord] GAP 583ms (chunk#25704, 160 muestras)
+abr 26 21:34:34 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:34.559Z GAP 598ms entre frames GSM de salida
+abr 26 21:34:35 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:35.556Z [arecord] GAP 176ms (chunk#25747, 160 muestras)
+abr 26 21:34:35 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:35.581Z GAP 161ms entre frames GSM de salida
+abr 26 21:34:35 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:35.875Z [nivel] pico RMS=510 (-36.2 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:34:36 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:36.577Z [arecord] GAP 742ms (chunk#25762, 160 muestras)
+abr 26 21:34:36 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:36.583Z GAP 756ms entre frames GSM de salida
+abr 26 21:34:37 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:37.611Z [arecord] GAP 753ms (chunk#25777, 160 muestras)
+abr 26 21:34:37 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:37.636Z GAP 771ms entre frames GSM de salida
+abr 26 21:34:38 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:38.636Z [arecord] GAP 785ms (chunk#25790, 160 muestras)
+abr 26 21:34:38 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:38.655Z GAP 813ms entre frames GSM de salida
+abr 26 21:34:39 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:39.664Z [arecord] GAP 749ms (chunk#25805, 160 muestras)
+abr 26 21:34:39 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:39.688Z GAP 743ms entre frames GSM de salida
+abr 26 21:34:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:40.684Z [arecord] GAP 740ms (chunk#25820, 160 muestras)
+abr 26 21:34:40 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:40.709Z GAP 776ms entre frames GSM de salida
+abr 26 21:34:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:40.876Z [nivel] pico RMS=476 (-36.8 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:34:41 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:41.700Z [arecord] GAP 755ms (chunk#25834, 160 muestras)
+abr 26 21:34:41 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:41.709Z GAP 747ms entre frames GSM de salida
+abr 26 21:34:42 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:42.733Z [arecord] GAP 814ms (chunk#25846, 160 muestras)
+abr 26 21:34:42 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:42.755Z GAP 837ms entre frames GSM de salida
+abr 26 21:34:43 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:43.753Z [arecord] GAP 699ms (chunk#25863, 160 muestras)
+abr 26 21:34:43 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:43.795Z GAP 720ms entre frames GSM de salida
+abr 26 21:34:44 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:44.781Z [arecord] GAP 708ms (chunk#25880, 160 muestras)
+abr 26 21:34:44 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:44.788Z GAP 702ms entre frames GSM de salida
+abr 26 21:34:45 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:45.807Z [arecord] GAP 705ms (chunk#25897, 160 muestras)
+abr 26 21:34:45 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:45.850Z GAP 726ms entre frames GSM de salida
+abr 26 21:34:45 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:45.877Z [nivel] pico RMS=430 (-37.6 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:34:46 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:46.827Z [arecord] GAP 760ms (chunk#25911, 160 muestras)
+abr 26 21:34:46 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:46.861Z GAP 764ms entre frames GSM de salida
+abr 26 21:34:47 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:47.858Z [arecord] GAP 692ms (chunk#25929, 160 muestras)
+abr 26 21:34:47 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:47.889Z GAP 700ms entre frames GSM de salida
+abr 26 21:34:48 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:48.882Z [arecord] GAP 803ms (chunk#25941, 160 muestras)
+abr 26 21:34:48 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:48.911Z GAP 813ms entre frames GSM de salida
+abr 26 21:34:49 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:49.885Z [arecord] GAP 316ms (chunk#25976, 160 muestras)
+abr 26 21:34:49 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:49.895Z GAP 311ms entre frames GSM de salida
+abr 26 21:34:50 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:50.877Z [nivel] pico RMS=355 (-39.3 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:34:50 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:50.928Z [arecord] GAP 789ms (chunk#25989, 160 muestras)
+abr 26 21:34:50 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:50.967Z GAP 807ms entre frames GSM de salida
+abr 26 21:34:51 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:51.956Z [arecord] GAP 469ms (chunk#26018, 160 muestras)
+abr 26 21:34:51 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:51.969Z GAP 460ms entre frames GSM de salida
+abr 26 21:34:52 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:52.975Z [arecord] GAP 740ms (chunk#26033, 160 muestras)
+abr 26 21:34:53 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:53.003Z GAP 746ms entre frames GSM de salida
+abr 26 21:34:54 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:54.006Z [arecord] GAP 671ms (chunk#26052, 160 muestras)
+abr 26 21:34:54 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:54.013Z GAP 679ms entre frames GSM de salida
+abr 26 21:34:55 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:55.003Z [arecord] GAP 778ms (chunk#26064, 160 muestras)
+abr 26 21:34:55 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:55.023Z GAP 803ms entre frames GSM de salida
+abr 26 21:34:55 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:55.877Z [nivel] pico RMS=436 (-37.5 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:34:56 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:56.045Z [arecord] GAP 695ms (chunk#26082, 160 muestras)
+abr 26 21:34:56 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:56.064Z GAP 709ms entre frames GSM de salida
+abr 26 21:34:57 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:57.076Z [arecord] GAP 610ms (chunk#26104, 160 muestras)
+abr 26 21:34:57 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:57.082Z GAP 602ms entre frames GSM de salida
+abr 26 21:34:58 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:58.096Z [arecord] GAP 759ms (chunk#26118, 160 muestras)
+abr 26 21:34:58 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:34:58.109Z GAP 765ms entre frames GSM de salida
+abr 26 21:34:59 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:34:59.125Z [arecord] GAP 310ms (chunk#26155, 160 muestras)
+abr 26 21:35:00 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:35:00.144Z [arecord] GAP 1019ms (chunk#26156, 160 muestras)
+abr 26 21:35:00 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:35:00.161Z GAP 1302ms entre frames GSM de salida
+abr 26 21:35:00 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:35:00.878Z [nivel] pico RMS=416 (-37.9 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:35:01 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:35:01.164Z [arecord] GAP 785ms (chunk#26169, 160 muestras)
+abr 26 21:35:01 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:35:01.203Z GAP 794ms entre frames GSM de salida
+abr 26 21:35:02 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:35:02.192Z [arecord] GAP 789ms (chunk#26182, 160 muestras)
+abr 26 21:35:02 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:35:02.214Z GAP 800ms entre frames GSM de salida
+abr 26 21:35:03 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:35:03.218Z [arecord] GAP 707ms (chunk#26199, 160 muestras)
+abr 26 21:35:03 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:35:03.248Z GAP 704ms entre frames GSM de salida
