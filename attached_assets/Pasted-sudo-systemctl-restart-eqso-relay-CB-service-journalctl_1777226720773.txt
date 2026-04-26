@@ -1,0 +1,20 @@
+sudo systemctl restart eqso-relay@CB.service 
+journalctl -u eqso-relay@CB.service -f | grep -E "PTT|nivel|VOX"
+Apr 26 18:04:19 ubuntus eqso-relay-CB[63108]: [main] 2026-04-26T18:04:19.157Z   VOX      : ON (umbral=500 hang=2500ms debounce=2chunks)
+Apr 26 18:04:19 ubuntus eqso-relay-CB[63108]: [main] 2026-04-26T18:04:19.158Z   PTT Ser. : /dev/ttyACM0 (rts)
+Apr 26 18:04:19 ubuntus eqso-relay-CB[63108]: [ptt] 2026-04-26T18:04:19.162Z Iniciando PTT serial: /dev/ttyACM0 (rts)
+Apr 26 18:04:19 ubuntus eqso-relay-CB[63108]: [ptt] 2026-04-26T18:04:19.589Z PTT serial: proceso terminado (code 1)
+Apr 26 18:04:24 ubuntus eqso-relay-CB[63108]: [audio] 2026-04-26T18:04:24.287Z [nivel] pico RMS=1334 (-27.8 dBFS)  VOXumbral=500  gain=0.4
+Apr 26 18:04:29 ubuntus eqso-relay-CB[63108]: [audio] 2026-04-26T18:04:29.287Z [nivel] pico RMS=400 (-38.3 dBFS)  VOXumbral=500  gain=0.4
+Apr 26 18:04:33 ubuntus eqso-relay-CB[63108]: [main] 2026-04-26T18:04:33.296Z VOX: PTT activado — inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 26 18:04:34 ubuntus eqso-relay-CB[63108]: [audio] 2026-04-26T18:04:34.288Z [nivel] pico RMS=1026 (-30.1 dBFS)  VOXumbral=500  gain=0.4
+Apr 26 18:04:36 ubuntus eqso-relay-CB[63108]: [eqso] 2026-04-26T18:04:36.310Z PTT liberado [0x0d]
+Apr 26 18:04:36 ubuntus eqso-relay-CB[63108]: [main] 2026-04-26T18:04:36.311Z VOX: PTT liberado — fin transmision (suppress hasta 2026-04-26T18:04:38.811Z)
+Apr 26 18:04:39 ubuntus eqso-relay-CB[63108]: [audio] 2026-04-26T18:04:39.288Z [nivel] pico RMS=390 (-38.5 dBFS)  VOXumbral=500  gain=0.4
+Apr 26 18:04:40 ubuntus eqso-relay-CB[63108]: [main] 2026-04-26T18:04:40.508Z VOX: PTT activado — inicio transmision (suppress was 2026-04-26T18:04:38.811Z)
+Apr 26 18:04:44 ubuntus eqso-relay-CB[63108]: [audio] 2026-04-26T18:04:44.287Z [nivel] pico RMS=980 (-30.5 dBFS)  VOXumbral=500  gain=0.4
+Apr 26 18:04:49 ubuntus eqso-relay-CB[63108]: [audio] 2026-04-26T18:04:49.289Z [nivel] pico RMS=433 (-37.6 dBFS)  VOXumbral=500  gain=0.4
+Apr 26 18:04:54 ubuntus eqso-relay-CB[63108]: [audio] 2026-04-26T18:04:54.289Z [nivel] pico RMS=388 (-38.5 dBFS)  VOXumbral=500  gain=0.4
+Apr 26 18:04:55 ubuntus eqso-relay-CB[63108]: [main] 2026-04-26T18:04:55.175Z VOX: PTT activado — inicio transmision (suppress was 2026-04-26T18:04:38.811Z)
+^C
+david@ubuntus:/opt/eqso-asorapa$ 
