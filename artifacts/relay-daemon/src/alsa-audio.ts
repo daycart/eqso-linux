@@ -357,7 +357,7 @@ export class AlsaAudio extends EventEmitter {
     //   3. hw: + arecord a 48kHz -c2   → error "Channels count non available"
     //   4. hw: + arecord a 48kHz -c1   → GAP 2300ms + crashes I/O
     //   5. hw: + arecord a 8kHz  -c1   → GAP 750ms + crashes I/O
-    //   6. plughw: + arecord a 48kHz   → chunks cada ~20ms sin rate-plugin ← ACTUAL
+    //   6. plughw: + arecord a 48kHz + buffer=3840 (4×period) → chunks ~20ms ← ACTUAL
     //
     // nrpacks=1 no disponible en este kernel (confirmado: no expone el parámetro).
     // ──────────────────────────────────────────────────────────────────────────
@@ -365,7 +365,7 @@ export class AlsaAudio extends EventEmitter {
     const CAPTURE_RATE = 48000;    // tasa nativa del CM108 → sin rate-plugin ALSA
     const CAPTURE_CHANNELS = 1;
     const PERIOD_FRAMES = 960;     // 20ms a 48kHz = 160 muestras a 8kHz tras decimación
-    const BUFFER_FRAMES = 48000;   // 1s de ring buffer a 48kHz → absorbe xruns sin crash
+    const BUFFER_FRAMES = 3840;    // 4× period (80ms) → notificaciones cada ~20ms en VirtualBox
     const DECIMATE = 6;            // 48kHz ÷ 6 = 8kHz (para GSM)
 
     const args = [
