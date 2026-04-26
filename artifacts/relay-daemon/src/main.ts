@@ -78,7 +78,8 @@ const POST_TX_VOX_SUPPRESS_MS = 2500;  // antes 5000ms (squelch HW ajustado)
 // Al inicializar arecord, ALSA emite un burst de ruido de fondo (~1-2s con
 // chunks grandes de 1964/7680 bytes) que dispara el VOX falsamente.
 // Ignoramos todo el audio VOX durante los primeros startupVoxSuppressMs ms.
-const startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+// Se resetea en cada reinicio de arecord (xrun recovery) para cubrir el nuevo burst.
+let startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
 
 function setRxActive(): void {
   const wasActive = rxActive;
@@ -130,6 +131,14 @@ audio.on("playback_ended", () => {
   const prev = postRxVoxSuppressUntil;
   postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, suppUntil);
   log(`[rxInhibit] playback_ended: suppress extendido → ${new Date(postRxVoxSuppressUntil).toISOString()} (prev=${new Date(prev).toISOString()})`);
+});
+
+// Cuando arecord se reinicia tras un xrun (Input/output error), ALSA emite
+// un nuevo burst de ruido de inicializacion. Reseteamos el startup suppress
+// para cubrir ese burst con el mismo margen que en el arranque inicial.
+audio.on("recorder_restarted", () => {
+  startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+  log(`[vox] arecord reiniciado — startup suppress reseteado hasta ${new Date(startupSuppressUntil).toISOString()}`);
 });
 
 // El audio emite chunks PCM crudos para que el VOX los analice
