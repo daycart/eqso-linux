@@ -59,6 +59,13 @@ ExecStartPre=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/usb-reset
 # El script detecta automaticamente el numero de tarjeta CM108.
 ExecStartPre=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh
 
+# Pre-arranque 3: detectar el dispositivo ttyACM del CM108 y crear /dev/eqso-ptt.
+# El numero de dispositivo (ACM0, ACM1...) varia segun el orden de conexion USB.
+# Este script busca el ttyACM cuyo USB parent tiene tarjeta de sonido (CM108)
+# y crea el symlink /dev/eqso-ptt apuntando al dispositivo correcto.
+# El config usa siempre /dev/eqso-ptt, sin depender del numero asignado por el kernel.
+ExecStartPre=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/detect-ptt.sh
+
 ExecStart=/usr/bin/node --enable-source-maps dist/main.mjs
 
 # ---------------------------------------------------------------------------

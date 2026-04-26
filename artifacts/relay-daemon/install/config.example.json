@@ -45,7 +45,8 @@
 
   "ptt": {
     "_comment": "PTT serial para activar TX de la radio CB. method: rts o dtr. inverted: true si la logica es invertida.",
-    "device":   "/dev/ttyACM0",
+    "_comment_device": "Usa /dev/eqso-ptt (symlink creado por detect-ptt.sh en cada arranque). Si la deteccion automatica falla, pon aqui /dev/ttyACM0 o /dev/ttyACM1 segun indique 'ls /dev/ttyACM*'.",
+    "device":   "/dev/eqso-ptt",
     "method":   "rts",
     "inverted": false
   }

@@ -77,6 +77,7 @@ sed -i "s|/opt/eqso-asorapa/artifacts/relay-daemon|${INSTALL_DIR}|g" "$UNIT_DST"
 # Marcar los scripts auxiliares como ejecutables
 chmod +x "$(dirname "$0")/usb-reset.sh"
 chmod +x "$(dirname "$0")/alsa-setup.sh"
+chmod +x "$(dirname "$0")/detect-ptt.sh"
 chmod +x "$(dirname "$0")/stop-cleanup.sh"
 
 systemctl daemon-reload
