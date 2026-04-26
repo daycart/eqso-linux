@@ -160,6 +160,7 @@ vox.on("ptt_start", () => {
   }
 
   pttActive = true;
+  audio.setTxEnabled(true);
   eqsoClient.startTx();
   log(`VOX: PTT activado — inicio transmision (suppress was ${new Date(postRxVoxSuppressUntil).toISOString()})`);
 });

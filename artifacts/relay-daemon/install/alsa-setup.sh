@@ -19,8 +19,8 @@ echo "ALSA setup: configurando tarjeta $CARD"
 amixer -c "$CARD" sset "Speaker"   100% unmute 2>/dev/null && echo "  Speaker   100%" || true
 amixer -c "$CARD" sset "Headphone" 100% unmute 2>/dev/null && echo "  Headphone 100%" || true
 amixer -c "$CARD" sset "PCM"       100%         2>/dev/null && echo "  PCM       100%" || true
-amixer -c "$CARD" sset "Mic"        40% unmute  2>/dev/null && echo "  Mic        40%" || true
-amixer -c "$CARD" sset "Capture"    40% unmute  2>/dev/null && echo "  Capture    40%" || true
+amixer -c "$CARD" sset "Mic"        70% unmute  2>/dev/null && echo "  Mic        70%" || true
+amixer -c "$CARD" sset "Capture"    70% unmute  2>/dev/null && echo "  Capture    70%" || true
 
 # Desactivar el sidetone del CM108 (Mic Playback Switch, numid=3).
 # El control "Mic" tiene tanto playback (sidetone) como capture (grabacion).
