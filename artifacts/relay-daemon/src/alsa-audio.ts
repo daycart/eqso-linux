@@ -19,13 +19,40 @@
  * El PCM recibido durante la espera se acumula en jitterBuf.
  */
 
-import { spawn, ChildProcessWithoutNullStreams } from "child_process";
+import { spawn, spawnSync, ChildProcessWithoutNullStreams } from "child_process";
 import { EventEmitter } from "events";
 import { AudioConfig } from "./config.js";
 import {
   GsmDecoder, GsmEncoder,
   GSM_FRAME_SAMPLES, FRAMES_PER_PACKET, GSM_PACKET_BYTES,
 } from "./gsm-codec.js";
+
+// Frame GSM de silencio precomputado: se genera UNA vez al cargar el modulo
+// codificando 160 muestras PCM nulas a traves de ffmpeg. Se usa en el
+// tx-keepalive timer para rellenar gaps del CM108 sin pasar por ffmpeg
+// (ffmpeg hace batching interno que impide el flush frame a frame).
+function computeGsmSilenceFrame(): Buffer {
+  const pcm = Buffer.alloc(GSM_FRAME_SAMPLES * 2, 0); // 320 bytes de silencio PCM S16LE
+  try {
+    const r = spawnSync("ffmpeg", [
+      "-hide_banner", "-loglevel", "quiet",
+      "-f", "s16le", "-ar", "8000", "-ac", "1",
+      "-i", "pipe:0",
+      "-f", "gsm", "-ar", "8000",
+      "pipe:1",
+    ], { input: pcm, encoding: "buffer", timeout: 5000 });
+    if (r.stdout && r.stdout.length >= GSM_PACKET_BYTES) {
+      console.log(`[audio] GSM silence precomputado: ${r.stdout.slice(0, GSM_PACKET_BYTES).toString("hex")}`);
+      return r.stdout.slice(0, GSM_PACKET_BYTES) as Buffer;
+    }
+    console.error(`[audio] GSM silence: ffmpeg devolvio ${r.stdout?.length ?? 0} bytes (esperado ${GSM_PACKET_BYTES})`);
+  } catch (e) {
+    console.error(`[audio] GSM silence: fallo precomputo: ${e}`);
+  }
+  // Fallback de emergencia: frame vacio (no deberia ocurrir)
+  return Buffer.alloc(GSM_PACKET_BYTES, 0);
+}
+const GSM_SILENCE_FRAME = computeGsmSilenceFrame();
 
 const PCM_CHUNK_SAMPLES = GSM_FRAME_SAMPLES * FRAMES_PER_PACKET; // 160 muestras = 320 bytes (1 frame GSM)
 
@@ -69,10 +96,14 @@ export class AlsaAudio extends EventEmitter {
   // este buffer el encoder recibe rafagas y produce GSM bursty no transmisible.
   private captureRingBuf: Int16Array = new Int16Array(0);
   private captureTimer: ReturnType<typeof setInterval> | null = null;
-  // Si true, el captureTimer inyecta silencio cuando el ring buffer esta vacio.
-  // Necesario para mantener el stream GSM continuo durante gaps de hardware y
-  // evitar que el servidor eQSO desincronice el protocolo ("Indicativo invalido").
+  // TX keepalive: rellena los gaps del CM108 con GSM_SILENCE_FRAME sin pasar
+  // por ffmpeg (ffmpeg hace batching interno → frames de silencio llegan en
+  // rafaga en lugar de cada 20ms → servidor desconecta con "Indicativo invalido").
+  // El timer chequea cada 5ms si han pasado >20ms sin frame GSM emitido; si es
+  // asi, emite directamente el frame de silencio precomputado.
   private txActive = false;
+  private txKeepaliveTimer: ReturnType<typeof setInterval> | null = null;
+  private lastGsmEmitMs = 0;
 
   constructor(private cfg: AudioConfig) {
     super();
@@ -91,6 +122,7 @@ export class AlsaAudio extends EventEmitter {
     if (this.captureTimer) { clearInterval(this.captureTimer); this.captureTimer = null; }
     this.captureRingBuf = new Int16Array(0);
     if (this.levelTimer) { clearInterval(this.levelTimer); this.levelTimer = null; }
+    this.stopTxKeepalive();
     this.stopSilenceInjection();
 
     // Esperar a que arecord muera de verdad antes de salir.
@@ -160,10 +192,42 @@ export class AlsaAudio extends EventEmitter {
 
   setTxEnabled(enabled: boolean): void {
     this.txActive = enabled;
-    if (!enabled) {
+    if (enabled) {
+      // Inicializar timestamp para que el keepalive no dispare silencio
+      // durante los primeros 20ms (deja tiempo al ring buffer para alimentar
+      // el encoder con audio real antes de que entre el relleno de silencio).
+      this.lastGsmEmitMs = Date.now();
+      this.startTxKeepalive();
+    } else {
+      this.stopTxKeepalive();
       this.pcmAccum    = new Int16Array(0);
       // Descartar audio pendiente: la TX ha terminado, no enviar mas silencio
       this.captureRingBuf = new Int16Array(0);
+    }
+  }
+
+  // TX keepalive: emite GSM_SILENCE_FRAME directamente (sin pasar por ffmpeg)
+  // para rellenar los gaps del CM108. ffmpeg hace batching interno y NO hace
+  // flush frame a frame aunque se usen -avioflags direct/-fflags +flush_packets,
+  // por lo que el approach de inyectar silencio via encoder no funciona.
+  private startTxKeepalive(): void {
+    if (this.txKeepaliveTimer) return;
+    this.txKeepaliveTimer = setInterval(() => {
+      if (!this.txActive) return;
+      const now = Date.now();
+      // Si han pasado > 20ms sin emitir un frame GSM, rellenar con silencio.
+      // Se emite UN frame por tick para mantener la cadencia de 20ms.
+      if (now - this.lastGsmEmitMs >= 20) {
+        this.lastGsmEmitMs = now;
+        this.emit("gsm_tx", GSM_SILENCE_FRAME);
+      }
+    }, 5); // resolucion 5ms para no sobrepasar los 20ms
+  }
+
+  private stopTxKeepalive(): void {
+    if (this.txKeepaliveTimer) {
+      clearInterval(this.txKeepaliveTimer);
+      this.txKeepaliveTimer = null;
     }
   }
 
@@ -172,6 +236,8 @@ export class AlsaAudio extends EventEmitter {
   private startEncoder(): void {
     this.encoder.start();
     this.encoder.on("gsm", (gsm: Buffer) => {
+      // Actualizar timestamp: el keepalive solo rellena si NO hay audio real
+      this.lastGsmEmitMs = Date.now();
       this.emit("gsm_tx", gsm);
     });
   }
@@ -264,12 +330,10 @@ export class AlsaAudio extends EventEmitter {
         const chunk = this.captureRingBuf.slice(0, PCM_CHUNK_SAMPLES);
         this.captureRingBuf = this.captureRingBuf.slice(PCM_CHUNK_SAMPLES);
         this.feedPcm(chunk);
-      } else if (this.txActive) {
-        // Ring buffer vacio durante PTT activo = gap de hardware del CM108.
-        // Inyectar silencio para mantener el stream GSM continuo y evitar que
-        // el servidor eQSO desincronice el protocolo TCP ("Indicativo invalido").
-        this.feedPcm(new Int16Array(PCM_CHUNK_SAMPLES));
       }
+      // Nota: el relleno de silencio durante gaps del CM108 ya NO se hace aqui.
+      // El txKeepaliveTimer emite GSM_SILENCE_FRAME directamente sin pasar por
+      // ffmpeg (que hace batching interno e impide el flush frame a frame).
     }, 20); // 20ms = 160 muestras a 8kHz
   }
 
