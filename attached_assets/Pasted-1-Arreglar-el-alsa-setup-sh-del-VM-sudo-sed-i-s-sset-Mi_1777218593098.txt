@@ -1,0 +1,26 @@
+1. Arreglar el alsa-setup.sh del VM
+sudo sed -i 's/sset "Mic".*40% unmute/sset "Mic"  0% unmute/' /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh
+sudo sed -i 's/sset "Capture".*40% unmute/sset "Capture"  0% unmute/' /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh
+
+# 2. Confirmar que qued\Uffffffffen
+grep -E '"Mic"|"Capture"' /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh
+
+# 3. Reiniciar \Uffffffff esto libera el PTT y el alsa-setup.sh ya pondr\Uffffffffic al 0%
+sudo systemctl restart eqso-relay@CB
+
+# 4. Observar
+journalctl -u eqso-relay@CB -f | grep -E "PTT|nivel|VOX"
+amixer -c "$CARD" sset "Mic"        0% unmute   2>/dev/null && echo "  Mic        40%" || true
+amixer -c "$CARD" sset "Capture"  0% unmute   2>/dev/null && echo "  Capture    40%" || true
+Apr 26 15:49:12 ubuntus eqso-relay-CB[56835]: [main] 2026-04-26T15:49:12.623Z   VOX      : ON (umbral=1500 hang=2500ms debounce=2chunks)
+Apr 26 15:49:12 ubuntus eqso-relay-CB[56835]: [main] 2026-04-26T15:49:12.624Z   PTT Ser. : /dev/ttyACM0 (rts)
+Apr 26 15:49:12 ubuntus eqso-relay-CB[56835]: [ptt] 2026-04-26T15:49:12.626Z Iniciando PTT serial: /dev/ttyACM0 (rts)
+Apr 26 15:49:12 ubuntus eqso-relay-CB[56835]: [ptt] 2026-04-26T15:49:12.999Z PTT serial listo (/dev/ttyACM0, rts)
+Apr 26 15:49:13 ubuntus eqso-relay-CB[56835]: [main] 2026-04-26T15:49:13.047Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 26 15:49:17 ubuntus eqso-relay-CB[56835]: [audio] 2026-04-26T15:49:17.731Z [nivel] pico RMS=17402 (-5.5 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:49:22 ubuntus eqso-relay-CB[56835]: [audio] 2026-04-26T15:49:22.731Z [nivel] pico RMS=17355 (-5.5 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:49:27 ubuntus eqso-relay-CB[56835]: [audio] 2026-04-26T15:49:27.731Z [nivel] pico RMS=17280 (-5.6 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:49:32 ubuntus eqso-relay-CB[56835]: [audio] 2026-04-26T15:49:32.732Z [nivel] pico RMS=17063 (-5.7 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:49:37 ubuntus eqso-relay-CB[56835]: [audio] 2026-04-26T15:49:37.733Z [nivel] pico RMS=17382 (-5.5 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:49:42 ubuntus eqso-relay-CB[56835]: [audio] 2026-04-26T15:49:42.735Z [nivel] pico RMS=17292 (-5.6 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:49:47 ubuntus eqso-relay-CB[56835]: [audio] 202
