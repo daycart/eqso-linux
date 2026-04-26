@@ -44,9 +44,9 @@ adminRelaysRouter.post("/relays", async (req, res) => {
       localRoom?: string; remoteRoom?: string; password?: string; enabled?: boolean;
     };
 
-    if (!label?.trim()) return res.status(400).json({ error: "El nombre es obligatorio" });
-    if (!callsign?.trim()) return res.status(400).json({ error: "El indicativo es obligatorio" });
-    if (!server?.trim()) return res.status(400).json({ error: "El servidor es obligatorio" });
+    if (!label?.trim()) return void res.status(400).json({ error: "El nombre es obligatorio" });
+    if (!callsign?.trim()) return void res.status(400).json({ error: "El indicativo es obligatorio" });
+    if (!server?.trim()) return void res.status(400).json({ error: "El servidor es obligatorio" });
 
     const [row] = await db.insert(relayConnectionsTable).values({
       label:      label.trim(),
@@ -76,9 +76,9 @@ adminRelaysRouter.put("/relays/:id", async (req, res) => {
       localRoom?: string; remoteRoom?: string; password?: string; enabled?: boolean;
     };
 
-    if (!label?.trim()) return res.status(400).json({ error: "El nombre es obligatorio" });
-    if (!callsign?.trim()) return res.status(400).json({ error: "El indicativo es obligatorio" });
-    if (!server?.trim()) return res.status(400).json({ error: "El servidor es obligatorio" });
+    if (!label?.trim()) return void res.status(400).json({ error: "El nombre es obligatorio" });
+    if (!callsign?.trim()) return void res.status(400).json({ error: "El indicativo es obligatorio" });
+    if (!server?.trim()) return void res.status(400).json({ error: "El servidor es obligatorio" });
 
     const [row] = await db.update(relayConnectionsTable).set({
       label:      label.trim(),
@@ -121,7 +121,7 @@ adminRelaysRouter.post("/relays/:id/start", async (req, res) => {
       .set({ enabled: true })
       .where(eq(relayConnectionsTable.id, id))
       .returning();
-    if (!row) return res.status(404).json({ error: "Enlace no encontrado" });
+    if (!row) return void res.status(404).json({ error: "Enlace no encontrado" });
     await relayManager.reloadRelay(id);
     res.json({ ok: true });
   } catch {
@@ -137,7 +137,7 @@ adminRelaysRouter.post("/relays/:id/stop", async (req, res) => {
       .set({ enabled: false })
       .where(eq(relayConnectionsTable.id, id))
       .returning();
-    if (!row) return res.status(404).json({ error: "Enlace no encontrado" });
+    if (!row) return void res.status(404).json({ error: "Enlace no encontrado" });
     await relayManager.reloadRelay(id);
     res.json({ ok: true });
   } catch {

@@ -45,7 +45,7 @@ adminServersRouter.get("/servers", async (_req, res) => {
 adminServersRouter.post("/servers", async (req, res) => {
   try {
     const { label, description, mode, host, port, defaultPassword, rooms, isActive, sortOrder } = req.body;
-    if (!label?.trim()) return res.status(400).json({ error: "El nombre es obligatorio" });
+    if (!label?.trim()) return void res.status(400).json({ error: "El nombre es obligatorio" });
     const [row] = await db.insert(serversTable).values({
       label:           label.trim(),
       description:     (description ?? "").trim(),
@@ -68,7 +68,7 @@ adminServersRouter.put("/servers/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
     const { label, description, mode, host, port, defaultPassword, rooms, isActive, sortOrder } = req.body;
-    if (!label?.trim()) return res.status(400).json({ error: "El nombre es obligatorio" });
+    if (!label?.trim()) return void res.status(400).json({ error: "El nombre es obligatorio" });
     const [row] = await db
       .update(serversTable)
       .set({
@@ -84,7 +84,7 @@ adminServersRouter.put("/servers/:id", async (req, res) => {
       })
       .where(eq(serversTable.id, id))
       .returning();
-    if (!row) return res.status(404).json({ error: "Servidor no encontrado" });
+    if (!row) return void res.status(404).json({ error: "Servidor no encontrado" });
     res.json(toClient(row));
   } catch {
     res.status(500).json({ error: "Error interno" });
