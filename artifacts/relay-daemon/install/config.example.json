@@ -20,7 +20,7 @@
 
     "_comment_vox": "VOX: activacion automatica por nivel de audio de la radio CB",
     "vox": true,
-    "voxThresholdRms": 600,
+    "voxThresholdRms": 500,
     "voxHangMs": 1000,
     "txGateRms": 50,
 
