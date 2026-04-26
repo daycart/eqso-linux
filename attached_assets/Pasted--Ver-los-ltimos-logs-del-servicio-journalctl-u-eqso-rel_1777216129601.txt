@@ -1,0 +1,56 @@
+# Ver los últimos logs del servicio
+journalctl -u eqso-relay@CB -n 60 --no-pager | tail -40
+
+# En otra terminal, comprobar si arecord sigue vivo
+ps aux | grep -E "arecord|ffmpeg|node" | grep -v grep
+
+# Y si hay errores USB del kernel
+dmesg | tail -20 | grep -iE "usb|audio|sound|err|warn"
+Apr 26 15:07:57 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:07:57.440Z [nivel] pico RMS=766 (-32.6 dBFS)  VOXumbral=150  gain=0.4
+Apr 26 15:07:57 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:07:57.798Z [arecord] GAP 812ms (chunk#14707, 160 muestras)
+Apr 26 15:07:57 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:07:57.811Z GAP 823ms entre frames GSM de salida
+Apr 26 15:07:58 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:07:58.824Z [arecord] GAP 805ms (chunk#14719, 160 muestras)
+Apr 26 15:07:58 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:07:58.842Z GAP 822ms entre frames GSM de salida
+Apr 26 15:07:59 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:07:59.847Z [arecord] GAP 764ms (chunk#14733, 160 muestras)
+Apr 26 15:07:59 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:07:59.852Z GAP 762ms entre frames GSM de salida
+Apr 26 15:08:00 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:00.864Z [arecord] GAP 797ms (chunk#14745, 160 muestras)
+Apr 26 15:08:00 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:00.876Z GAP 818ms entre frames GSM de salida
+Apr 26 15:08:01 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:01.897Z [arecord] GAP 792ms (chunk#14758, 160 muestras)
+Apr 26 15:08:01 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:01.921Z GAP 801ms entre frames GSM de salida
+Apr 26 15:08:02 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:02.440Z [nivel] pico RMS=3400 (-19.7 dBFS)  VOXumbral=150  gain=0.4
+Apr 26 15:08:02 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:02.925Z [arecord] GAP 768ms (chunk#14772, 160 muestras)
+Apr 26 15:08:02 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:02.969Z GAP 797ms entre frames GSM de salida
+Apr 26 15:08:03 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:03.951Z [arecord] GAP 683ms (chunk#14790, 160 muestras)
+Apr 26 15:08:03 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:03.986Z GAP 687ms entre frames GSM de salida
+Apr 26 15:08:04 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:04.969Z [arecord] GAP 758ms (chunk#14804, 160 muestras)
+Apr 26 15:08:04 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:04.991Z GAP 757ms entre frames GSM de salida
+Apr 26 15:08:05 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:05.982Z [arecord] GAP 793ms (chunk#14816, 160 muestras)
+Apr 26 15:08:06 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:06.014Z GAP 822ms entre frames GSM de salida
+Apr 26 15:08:07 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:07.010Z [arecord] GAP 828ms (chunk#14827, 160 muestras)
+Apr 26 15:08:07 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:07.019Z GAP 842ms entre frames GSM de salida
+Apr 26 15:08:07 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:07.442Z [nivel] pico RMS=772 (-32.6 dBFS)  VOXumbral=150  gain=0.4
+Apr 26 15:08:08 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:08.033Z [arecord] GAP 823ms (chunk#14838, 160 muestras)
+Apr 26 15:08:08 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:08.068Z GAP 845ms entre frames GSM de salida
+Apr 26 15:08:09 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:09.048Z [arecord] GAP 797ms (chunk#14850, 160 muestras)
+Apr 26 15:08:09 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:09.081Z GAP 804ms entre frames GSM de salida
+Apr 26 15:08:10 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:10.084Z [arecord] GAP 831ms (chunk#14861, 160 muestras)
+Apr 26 15:08:10 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:10.102Z GAP 852ms entre frames GSM de salida
+Apr 26 15:08:11 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:11.109Z [arecord] GAP 825ms (chunk#14872, 160 muestras)
+Apr 26 15:08:11 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:11.143Z GAP 831ms entre frames GSM de salida
+Apr 26 15:08:12 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:12.128Z [arecord] GAP 819ms (chunk#14883, 160 muestras)
+Apr 26 15:08:12 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:12.130Z GAP 827ms entre frames GSM de salida
+Apr 26 15:08:12 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:12.442Z [nivel] pico RMS=759 (-32.7 dBFS)  VOXumbral=150  gain=0.4
+Apr 26 15:08:13 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:13.159Z [arecord] GAP 811ms (chunk#14895, 160 muestras)
+Apr 26 15:08:13 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:13.176Z GAP 839ms entre frames GSM de salida
+Apr 26 15:08:13 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:13.954Z [arecord] GAP 575ms (chunk#14907, 160 muestras)
+Apr 26 15:08:13 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:13.961Z GAP 581ms entre frames GSM de salida
+Apr 26 15:08:14 ubuntus eqso-relay-CB[54012]: [audio] 2026-04-26T15:08:14.912Z [arecord] GAP 639ms (chunk#14924, 160 muestras)
+Apr 26 15:08:14 ubuntus eqso-relay-CB[54012]: [gsm-enc] 2026-04-26T15:08:14.942Z GAP 659ms entre frames GSM de salida
+eqso       11301  0.3  0.5 11799696 87656 ?      Ssl  Apr25   4:10 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+eqso       54012  4.7  0.3 1030344 53804 ?       Ssl  14:59   0:24 /usr/bin/node --enable-source-maps dist/main.mjs
+eqso       54027  0.2  0.2 275332 44568 ?        SL   14:59   0:01 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+eqso       54028  2.2  0.2 513320 47452 ?        SLl  14:59   0:12 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -avioflags direct -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 -fflags +flush_packets pipe:1
+eqso       54029  0.5  0.0   7732  3724 ?        S    14:59   0:03 arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+eqso       54043  0.2  0.2 275332 44632 ?        SL   14:59   0:01 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+dmesg: read kernel buffer failed: Operation not permitted
+david@ubuntus:/opt/eqso-asorapa$ 
