@@ -10,6 +10,8 @@ export interface UseAudioReturn {
   inputLevel: number;
   /** Mute or unmute RX audio (use during TX to prevent acoustic feedback). */
   muteRx: (muted: boolean) => void;
+  /** Pre-initialize the microphone so the first PTT press has no delay. */
+  prewarmMic: (mode?: "local" | "remote") => Promise<void>;
 }
 
 // Remote mode: Int16 signed PCM, 960 samples (6 GSM frames × 160) per chunk = 1920 bytes.
@@ -501,6 +503,14 @@ export function useAudio(): UseAudioReturn {
     };
   }, [releaseMic]);
 
+  const prewarmMic = useCallback(async (mode: "local" | "remote" = "remote"): Promise<void> => {
+    try {
+      await initMicOnce(mode);
+    } catch {
+      // Silent — prewarm is best-effort. User will see the permission prompt on first PTT if needed.
+    }
+  }, [initMicOnce]);
+
   return {
     isRecording,
     isMicAllowed,
@@ -510,5 +520,6 @@ export function useAudio(): UseAudioReturn {
     resumeContext,
     inputLevel,
     muteRx,
+    prewarmMic,
   };
 }

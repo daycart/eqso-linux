@@ -32,6 +32,7 @@ export default function HomePage() {
   const [password, setPassword] = useState("");
   const [pttActive, setPttActive] = useState(false);
   const pttChunkRef = useRef<(data: ArrayBuffer) => void>(() => {});
+  const wantsPttRef = useRef(false);
 
   const handleAuth = (session: AuthSession) => {
     setAuth(session);
@@ -66,19 +67,29 @@ export default function HomePage() {
 
   const pttStart = useCallback(async () => {
     if (pttActive || !eqso.currentRoom) return;
+    wantsPttRef.current = true;
     audio.muteRx(true);
-    eqso.pttStart();
     setPttActive(true);
     serial.keyDown();
 
     const mode = eqso.selectedServer.mode === "remote" ? "remote" : "local";
+
+    // Init mic FIRST — if permission is denied or dismissed, don't open the TX channel
+    // on the eQSO server (which would cause a timeout disconnect).
     await audio.startRecording((chunk) => {
       pttChunkRef.current(chunk);
     }, mode);
+
+    // Only open the server TX channel after the mic is confirmed ready and user
+    // still has PTT held down (wantsPttRef guards against release during mic init).
+    if (wantsPttRef.current) {
+      eqso.pttStart();
+    }
   }, [pttActive, eqso, audio, serial]);
 
   const pttEnd = useCallback(() => {
     if (!pttActive) return;
+    wantsPttRef.current = false;
     audio.stopRecording();
     eqso.pttEnd();
     setPttActive(false);
@@ -91,6 +102,19 @@ export default function HomePage() {
       eqso.sendAudio(data);
     };
   }, [eqso]);
+
+  // Pre-warm the microphone as soon as the user enters a room so the browser
+  // permission dialog appears immediately — before the first PTT press.
+  // This ensures getUserMedia resolves instantly when PTT is pressed and avoids
+  // the eQSO server closing the connection while waiting for audio.
+  const prevRoomRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (eqso.currentRoom && eqso.currentRoom !== prevRoomRef.current) {
+      prevRoomRef.current = eqso.currentRoom;
+      const mode = eqso.selectedServer.mode === "remote" ? "remote" : "local";
+      audio.prewarmMic(mode);
+    }
+  }, [eqso.currentRoom, eqso.selectedServer.mode, audio]);
 
   useEffect(() => {
     if (showAdmin) return;
