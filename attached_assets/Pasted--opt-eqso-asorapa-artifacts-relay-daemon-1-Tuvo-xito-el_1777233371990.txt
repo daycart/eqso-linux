@@ -1,0 +1,54 @@
+/opt/eqso-asorapa/artifacts/relay-daemon$ # 1. ¿Tuvo éxito el node build.mjs?sorapa/artifacts/relay-daemon
+cd /opt/eqso-asorapa/artifacts/relay-daemon
+node build.mjs
+# 2. ¿El ptt-helper.py está ahora en dist/?
+# 2. ¿El ptt-helper.py está ahora en dist/?
+ls -la dist/ptt-helper.py
+# 3. Log completo de arranque del servicio (sin filtro)
+# 3. Log completo de arranque del servicio (sin filtro)
+sudo systemctl restart eqso-relay@CB.service
+sleep 3ctl -u eqso-relay@CB.service -n 40 --no-pager
+journalctl -u eqso-relay@CB.service -n 40 --no-pager
+relay-daemon build OK
+-rw-r--r-- 1 david david 2128 Apr 26 19:55 dist/ptt-helper.py
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]:   }
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: }
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.108Z ============================================================
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.110Z eQSO Relay Daemon arrancado
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.110Z   Callsign : 0R-IN70WN
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.111Z   Sala     : CB
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.112Z   Servidor : 127.0.0.1:2171
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.112Z   VOX      : ON (umbral=800 hang=2500ms debounce=2chunks)
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.113Z   Captura  : plughw:1,0
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.114Z   Playback : plughw:1,0
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.114Z   PTT Ser. : /dev/eqso-ptt (rts)
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.116Z ============================================================
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [ptt] 2026-04-26T19:55:45.119Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.198Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.249Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"…
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [control] 2026-04-26T19:55:45.324Z Control HTTP escuchando en http://127.0.0.1:8009
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.385Z [arecord] chunk#1: 1964 bytes brutos → 163 muestras 8kHz
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [eqso] 2026-04-26T19:55:45.421Z TCP conectado a 127.0.0.1:2171
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.437Z [arecord] chunk#2: 7680 bytes brutos → 640 muestras 8kHz
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.441Z [arecord] GAP 52ms (chunk#2, 640 muestras)
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [eqso] 2026-04-26T19:55:45.469Z Handshake recibido — conexion establecida
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.476Z Conectado — enviando JOIN…
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [eqso] 2026-04-26T19:55:45.490Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [eqso] 2026-04-26T19:55:45.501Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.501Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.507Z [arecord] chunk#3: 7680 bytes brutos → 640 muestras 8kHz
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.508Z [arecord] GAP 70ms (chunk#3, 640 muestras)
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.533Z Sala: 0R-IN70WN se ha unido
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.542Z [arecord] chunk#4: 1920 bytes brutos → 160 muestras 8kHz
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [ptt] 2026-04-26T19:55:45.548Z PTT serial listo (/dev/eqso-ptt, rts)
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.552Z [arecord] chunk#5: 1920 bytes brutos → 160 muestras 8kHz
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.564Z [arecord] chunk#6: 1920 bytes brutos → 160 muestras 8kHz
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.585Z [arecord] chunk#7: 1920 bytes brutos → 160 muestras 8kHz
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [audio] 2026-04-26T19:55:45.604Z [arecord] chunk#8: 1920 bytes brutos → 160 muestras 8kHz
+Apr 26 19:55:45 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:45.712Z VOX: PTT activado — inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 26 19:55:46 ubuntus eqso-relay-CB[68915]: [eqso] 2026-04-26T19:55:46.935Z Mensaje del servidor: Nombre de sala invalido (max 30 chars)
+Apr 26 19:55:46 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:46.935Z Mensaje servidor: Nombre de sala invalido (max 30 chars)
+Apr 26 19:55:46 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:46.948Z Desconectado del servidor eQSO
+Apr 26 19:55:46 ubuntus eqso-relay-CB[68915]: [main] 2026-04-26T19:55:46.949Z Reintento #1 en 2s…
+Apr 26 19:55:46 ubuntus eqso-relay-CB[68915]: [eqso] 2026-04-26T19:55:46.949Z TCP desconectado de 127.0.0.1:2171
+david@ubuntus:/opt/eqso-asorapa/artifacts/relay-daemon$ 
