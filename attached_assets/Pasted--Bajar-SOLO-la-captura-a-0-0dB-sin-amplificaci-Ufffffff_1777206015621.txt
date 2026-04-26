@@ -1,0 +1,57 @@
+ # Bajar SOLO la captura a 0% (0dB, sin amplificaci\Uffffffffxtra)
+amixer -c 1 sset Mic 0% cap
+
+# Verificar resultado
+amixer -c 1 sget Mic
+Simple mixer control 'Mic',0
+  Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: Playback 0 - 127 Capture 0 - 16
+  Mono: Playback 0 [0%] [0.00dB] [off] Capture 0 [0%] [0.00dB] [on]
+Simple mixer control 'Mic',0
+  Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: Playback 0 - 127 Capture 0 - 16
+  Mono: Playback 0 [0%] [0.00dB] [off] Capture 0 [0%] [0.00dB] [on]
+david@ubuntus:/opt/eqso-asorapa$ sudo systemctl stop eqso-relay@CB
+arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -d 5 /tmp/test2.wav
+python3 -c "
+import struct, math
+data = open('/tmp/test2.wav','rb').read()[44:]
+samples = struct.unpack(f'<{len(data)//2}h', data)
+peak = max(abs(s) for s in samples)
+print(f'Pico: {peak}/32767 = {100*peak/32767:.1f}%  ({20*math.log10(peak/32768+1e-9):.1f} dBFS)')
+"
+[sudo] password for david: 
+Recording WAVE '/tmp/test2.wav' : Signed 16 bit Little Endian, Rate 8000 Hz, Mono
+Pico: 32768/32767 = 100.0%  (0.0 dBFS)
+david@ubuntus:/opt/eqso-asorapa$ amixer -c 1 sset Mic 0% unmute
+amixer -c 1 cset numid=3 off
+amixer -c 1 sget Mic
+Simple mixer control 'Mic',0
+  Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: Playback 0 - 127 Capture 0 - 16
+  Mono: Playback 0 [0%] [0.00dB] [on] Capture 0 [0%] [0.00dB] [on]
+numid=3,iface=MIXER,name='Mic Playback Switch'
+  ; type=BOOLEAN,access=rw------,values=1
+  : values=off
+Simple mixer control 'Mic',0
+  Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: Playback 0 - 127 Capture 0 - 16
+  Mono: Playback 0 [0%] [0.00dB] [off] Capture 0 [0%] [0.00dB] [on]
+david@ubuntus:/opt/eqso-asorapa$ arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -d 5 /tmp/test3.wav
+python3 -c "
+import struct, math
+data = open('/tmp/test3.wav','rb').read()[44:]
+samples = struct.unpack(f'<{len(data)//2}h', data)
+peak = max(abs(s) for s in samples)
+print(f'Pico: {peak}/32767 = {100*peak/32767:.1f}%  ({20*math.log10(peak/32768+1e-9):.1f} dBFS)')
+"
+Recording WAVE '/tmp/test3.wav' : Signed 16 bit Little Endian, Rate 8000 Hz, Mono
+Pico: 32768/32767 = 100.0%  (0.0 dBFS)
