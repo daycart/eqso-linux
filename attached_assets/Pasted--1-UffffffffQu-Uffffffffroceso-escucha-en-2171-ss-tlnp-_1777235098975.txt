@@ -1,0 +1,28 @@
+# 1. \UffffffffQu\Uffffffffroceso escucha en 2171?
+ss -tlnp | grep -E "2171|8008"
+
+# 2. \UffffffffQu\Uffffffffrocesos eQSO corren en la VM?
+ps aux | grep -E "eqso|relay|vxserver" | grep -v grep
+
+# 3. TEST DE AISLAMIENTO: deshabilita PTT temporalmente y ve si el relay se mantiene conectado
+sudo sed -i 's|"device": "/dev/eqso-ptt"|"device": ""|' /etc/eqso-relay/CB.json
+sudo systemctl restart eqso-relay@CB.service
+sleep 10
+journalctl -u eqso-relay@CB.service -n 30 --no-pager | grep -E "\[main\]|\[eqso\]"
+LISTEN 0      511          0.0.0.0:2171       0.0.0.0:*          
+LISTEN 0      511          0.0.0.0:8008       0.0.0.0:*          
+eqso       11301  0.5  0.5 11800976 89176 ?      Ssl  Apr25   8:02 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+eqso       68915  3.2  0.3 1030852 55084 ?       Ssl  19:55   0:55 /usr/bin/node --enable-source-maps dist/main.mjs
+eqso       68928  0.0  0.0  18228 10824 ?        S    19:55   0:00 python3 /opt/eqso-asorapa/artifacts/relay-daemon/dist/ptt-helper.py /dev/eqso-ptt rts false
+eqso       68929  0.0  0.2 275332 44720 ?        SL   19:55   0:00 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+eqso       68930  1.2  0.2 513412 47604 ?        SLl  19:55   0:21 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -avioflags direct -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 -fflags +flush_packets pipe:1
+eqso       68931  0.3  0.0   7732  3752 ?        S    19:55   0:05 arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+eqso       68944  0.0  0.2 275332 44664 ?        SL   19:55   0:01 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+eqso       69929  0.9  0.2 275332 44636 ?        SL   20:21   0:01 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+[sudo] password for david: 
+Apr 26 20:24:21 ubuntus eqso-relay-CB[70032]: [eqso] 2026-04-26T20:24:21.712Z Handshake recibido \Uffffffff conexion establecida
+Apr 26 20:24:21 ubuntus eqso-relay-CB[70032]: [main] 2026-04-26T20:24:21.716Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 26 20:24:21 ubuntus eqso-relay-CB[70032]: [eqso] 2026-04-26T20:24:21.722Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 26 20:24:21 ubuntus eqso-relay-CB[70032]: [eqso] 2026-04-26T20:24:21.726Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 26 20:24:21 ubuntus eqso-relay-CB[70032]: [main] 2026-04-26T20:24:21.726Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 26 20:24:21 ubuntus eqso-relay-CB[70032]: [main] 2026-04-26T20:24:21.749Z Sala: 0R-IN70WN se ha unido

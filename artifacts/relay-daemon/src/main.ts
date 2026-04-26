@@ -74,6 +74,12 @@ const POST_APLAY_VOX_SUPPRESS_MS   = 2500;  // desde cierre real de aplay (squel
 // Con squelch HW bien ajustado (RMS=2 en silencio), 2500ms es suficiente.
 const POST_TX_VOX_SUPPRESS_MS = 2500;  // antes 5000ms (squelch HW ajustado)
 
+// ─── Supresion VOX al arranque (burst de ruido de inicio ALSA) ───────────────
+// Al inicializar arecord, ALSA emite un burst de ruido de fondo (~1-2s con
+// chunks grandes de 1964/7680 bytes) que dispara el VOX falsamente.
+// Ignoramos todo el audio VOX durante los primeros startupVoxSuppressMs ms.
+const startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+
 function setRxActive(): void {
   const wasActive = rxActive;
   rxActive = true;
@@ -133,7 +139,7 @@ audio.on("pcm_chunk", (pcm: Int16Array) => {
   for (let i = 0; i < pcm.length; i++) sum += pcm[i] * pcm[i];
   latestPcmRms = Math.sqrt(sum / pcm.length);
 
-  if (cfg.audio.vox && !rxActive && Date.now() > postRxVoxSuppressUntil) {
+  if (cfg.audio.vox && !rxActive && Date.now() > postRxVoxSuppressUntil && Date.now() > startupSuppressUntil) {
     vox.processPcm(pcm);
   }
 });
@@ -367,6 +373,7 @@ log(`  VOX      : ${cfg.audio.vox ? `ON (umbral=${cfg.audio.voxThresholdRms} han
 log(`  Captura  : ${cfg.audio.captureDevice}`);
 log(`  Playback : ${cfg.audio.playbackDevice}`);
 log(`  PTT Ser. : ${cfg.ptt.device ? `${cfg.ptt.device} (${cfg.ptt.method}${cfg.ptt.inverted ? ", invertido" : ""})` : "deshabilitado"}`);
+log(`  VOX Sup. : startup suppress ${cfg.audio.startupVoxSuppressMs}ms activo hasta ${new Date(startupSuppressUntil).toISOString()}`);
 log("=".repeat(60));
 
 if (cfg.ptt.device) serialPtt.start();
