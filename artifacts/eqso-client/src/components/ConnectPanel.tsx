@@ -46,7 +46,7 @@ export function ConnectPanel({
         : auth!.callsign)
     : null;
   const isConnected = status === "connected";
-  const isConnecting = status === "connecting";
+  const isConnecting = status === "connecting" || status === "reconnecting";
 
   const serverList = serversProp && serversProp.length > 0 ? serversProp : KNOWN_SERVERS;
 

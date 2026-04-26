@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getWsUrl } from "../lib/homeServer";
 
-export type ConnectionStatus = "disconnected" | "connecting" | "connected" | "error";
+export type ConnectionStatus = "disconnected" | "connecting" | "connected" | "reconnecting" | "error";
 
 export interface RoomMember {
   name: string;
@@ -91,6 +91,10 @@ const WS_AUDIO_LOCAL  = 0x01; // local relay: Uint8 unsigned PCM
 const WS_AUDIO_REMOTE = 0x11; // remote RX:   Float32 PCM decoded from GSM
 const WS_PCM_TX       = 0x05; // remote TX:   Int16 signed PCM → GSM encode on server
 
+interface ConnectParams { server: EqsoServer; customHost?: string; customPort?: number; }
+interface JoinParams   { name: string; room: string; message: string; password: string; token?: string; }
+const SESSION_KEY = "eqso_session";
+
 export function useEqsoClient(
   onAudio?: (data: ArrayBuffer, isFloat32: boolean) => void
 ): EqsoState & EqsoActions {
@@ -98,6 +102,12 @@ export function useEqsoClient(
   useEffect(() => { onAudioRef.current = onAudio; }, [onAudio]);
   const wsRef = useRef<WebSocket | null>(null);
   const pendingJoinRef = useRef<{ name: string; room: string } | null>(null);
+
+  const isUserDisconnectRef = useRef(false);
+  const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastConnectRef = useRef<ConnectParams | null>(null);
+  const lastJoinRef    = useRef<JoinParams   | null>(null);
+  const autoRejoinRef  = useRef<JoinParams   | null>(null);
 
   const [status, setStatus] = useState<ConnectionStatus>("disconnected");
   const [error, setError] = useState<string | null>(null);
@@ -309,11 +319,12 @@ export function useEqsoClient(
     }
   }, []);
 
-  const connect = useCallback((server: EqsoServer, customHost?: string, customPort?: number) => {
+  const connectWs = useCallback((server: EqsoServer, customHost?: string, customPort?: number) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.close();
     }
 
+    lastConnectRef.current = { server, customHost, customPort };
     setSelectedServer(server);
     selectedServerRef.current = server;
     setStatus("connecting");
@@ -341,6 +352,21 @@ export function useEqsoClient(
       }
       setStatus("connected");
       setError(null);
+
+      const rejoin = autoRejoinRef.current;
+      if (rejoin) {
+        autoRejoinRef.current = null;
+        pendingJoinRef.current = { name: rejoin.name, room: rejoin.room };
+        const msg: Record<string, unknown> = {
+          type: "join",
+          name: rejoin.name,
+          room: rejoin.room.toUpperCase(),
+          message: rejoin.message,
+          password: rejoin.password,
+        };
+        if (rejoin.token) msg.token = rejoin.token;
+        ws.send(JSON.stringify(msg));
+      }
     };
 
     ws.onmessage = (ev) => {
@@ -355,13 +381,30 @@ export function useEqsoClient(
     };
 
     ws.onclose = () => {
-      setStatus("disconnected");
       setCurrentRoom(null);
       setCurrentName(null);
       setMembers([]);
       setActiveSpeaker(null);
       pttGrantedRef.current = false;
       setPttGranted(false);
+
+      if (isUserDisconnectRef.current) {
+        isUserDisconnectRef.current = false;
+        setStatus("disconnected");
+        return;
+      }
+
+      const lc = lastConnectRef.current;
+      const lj = lastJoinRef.current;
+      if (lc && lj) {
+        setStatus("reconnecting");
+        reconnectTimerRef.current = setTimeout(() => {
+          autoRejoinRef.current = lj;
+          connectWs(lc.server, lc.customHost, lc.customPort);
+        }, 3000);
+      } else {
+        setStatus("disconnected");
+      }
     };
 
     ws.onerror = () => {
@@ -370,7 +413,27 @@ export function useEqsoClient(
     };
   }, [handleTextMessage, handleBinary]);
 
+  const connect = useCallback((server: EqsoServer, customHost?: string, customPort?: number) => {
+    isUserDisconnectRef.current = false;
+    lastJoinRef.current = null;
+    autoRejoinRef.current = null;
+    if (reconnectTimerRef.current) {
+      clearTimeout(reconnectTimerRef.current);
+      reconnectTimerRef.current = null;
+    }
+    try { localStorage.removeItem(SESSION_KEY); } catch { /* ignore */ }
+    connectWs(server, customHost, customPort);
+  }, [connectWs]);
+
   const disconnect = useCallback(() => {
+    isUserDisconnectRef.current = true;
+    lastJoinRef.current = null;
+    autoRejoinRef.current = null;
+    if (reconnectTimerRef.current) {
+      clearTimeout(reconnectTimerRef.current);
+      reconnectTimerRef.current = null;
+    }
+    try { localStorage.removeItem(SESSION_KEY); } catch { /* ignore */ }
     wsRef.current?.close();
     wsRef.current = null;
     setStatus("disconnected");
@@ -388,14 +451,21 @@ export function useEqsoClient(
 
     let nodeName: string;
     if (token) {
-      // Authenticated: callsign comes from session, server handles prefix/padding
       nodeName = name.toUpperCase().trim();
     } else {
-      // Legacy / unauthenticated: apply 0R- prefix, suffix up to 10 chars
       const upper = name.toUpperCase().trim();
       const withPrefix = upper.startsWith("0R-") ? upper : `0R-${upper}`;
-      nodeName = withPrefix.slice(0, 13); // "0R-" (3) + 10 chars max
+      nodeName = withPrefix.slice(0, 13);
     }
+
+    const joinParams: JoinParams = { name: nodeName, room, message, password, token };
+    lastJoinRef.current = joinParams;
+    try {
+      const lc = lastConnectRef.current;
+      if (lc) {
+        localStorage.setItem(SESSION_KEY, JSON.stringify({ connect: lc, join: joinParams }));
+      }
+    } catch { /* ignore */ }
 
     pendingJoinRef.current = { name: nodeName, room };
     const msg: Record<string, unknown> = {
@@ -440,7 +510,25 @@ export function useEqsoClient(
   }, []);
 
   useEffect(() => {
-    return () => { wsRef.current?.close(); };
+    try {
+      const raw = localStorage.getItem(SESSION_KEY);
+      if (raw) {
+        const saved = JSON.parse(raw) as { connect: ConnectParams; join: JoinParams };
+        if (saved?.connect?.server && saved?.join?.name) {
+          lastConnectRef.current = saved.connect;
+          lastJoinRef.current    = saved.join;
+          autoRejoinRef.current  = saved.join;
+          connectWs(saved.connect.server, saved.connect.customHost, saved.connect.customPort);
+        }
+      }
+    } catch { /* ignore */ }
+  }, [connectWs]);
+
+  useEffect(() => {
+    return () => {
+      wsRef.current?.close();
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+    };
   }, []);
 
   return {

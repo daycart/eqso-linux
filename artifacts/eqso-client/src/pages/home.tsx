@@ -239,10 +239,10 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
             Conectado
           </span>
         )}
-        {eqsoStatus === "connecting" && (
+        {(eqsoStatus === "connecting" || eqsoStatus === "reconnecting") && (
           <span className="flex items-center gap-1.5 text-xs text-yellow-400">
-            <span className="w-2 h-2 rounded-full bg-yellow-400" />
-            Conectando...
+            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
+            {eqsoStatus === "reconnecting" ? "Reconectando..." : "Conectando..."}
           </span>
         )}
         {(eqsoStatus === "disconnected" || eqsoStatus === "error") && (
