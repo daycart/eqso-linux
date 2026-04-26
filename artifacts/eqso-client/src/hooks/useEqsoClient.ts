@@ -244,7 +244,13 @@ export function useEqsoClient(
         if (off >= view.length) return;
         const nameLen = view[off++];
         if (off + nameLen > view.length) return;
-        const name = new TextDecoder().decode(view.slice(off, off + nameLen));
+        let name = "";
+        for (let j = off; j < off + nameLen; j++) {
+          const b = view[j];
+          if (b >= 0x20 && b <= 0x7e) name += String.fromCharCode(b);
+        }
+        name = name.trim();
+        if (!name) return;
         off += nameLen;
 
         if (action === 0x00) {

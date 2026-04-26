@@ -93,7 +93,7 @@ export function RoomPanel({
             Usuarios en #{currentRoom} ({allMembers.length})
           </p>
           <div className="space-y-1">
-            {allMembers.map((m) => {
+            {allMembers.map((m, i) => {
               const isRadioLink = m.name.startsWith("0R-");
               const isSelf = m.name === currentName;
               const isSelfTx = isSelf && pttActive && pttGranted;
@@ -101,7 +101,7 @@ export function RoomPanel({
               const initials = m.name.replace(/^0R-/, "").slice(0, 2).toUpperCase();
               return (
                 <div
-                  key={m.name}
+                  key={m.name || `member-${i}`}
                   className={`flex items-center gap-2 px-2 py-1.5 rounded-lg transition-colors ${
                     isSelfTx
                       ? "bg-red-900/30"
