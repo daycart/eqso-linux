@@ -116,6 +116,22 @@ export default function HomePage() {
     }
   }, [eqso.currentRoom, eqso.selectedServer.mode, audio]);
 
+  // Auto-stop PTT when the room is lost (WS disconnect, server restart, etc.)
+  // Without this, the microphone keeps recording indefinitely after disconnection
+  // because pttActive (local state) is never cleared.
+  const pttActiveRef = useRef(false);
+  pttActiveRef.current = pttActive;
+  useEffect(() => {
+    if (!eqso.currentRoom && pttActiveRef.current) {
+      audio.stopRecording();
+      setPttActive(false);
+      wantsPttRef.current = false;
+      audio.muteRx(false);
+      serial.keyUp();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eqso.currentRoom]);
+
   useEffect(() => {
     if (showAdmin) return;
     const onKey = (e: KeyboardEvent) => {
