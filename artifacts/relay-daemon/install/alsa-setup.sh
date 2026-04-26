@@ -5,8 +5,11 @@
 # Playback (Speaker/Headphone/PCM) al 100%: la senal del servidor llega
 #   con suficiente nivel al microfono de la radio CB.
 # Capture (Mic) al 0%: la salida de audio de una radio CB es nivel linea
-#   (~500mV-1V), mucho mas fuerte que un microfono. Con cualquier ganancia
-#   positiva el ADC del CM108 satura. 0% = 0dB = sin amplificacion.
+#   (~500mV-1V), mucho mas fuerte que un microfono. 0% = 0dB = sin amplificacion.
+#
+# IMPORTANTE: NO silenciar ("mute") el Mic — eso bloquea la captura de audio.
+#   Solo desactivar el SIDETONE (Mic Playback Switch / numid=3) que causa feedback
+#   al realimentar el altavoz al microfono.
 
 set_alsa_levels() {
     local CARD="$1"
@@ -15,13 +18,13 @@ set_alsa_levels() {
     amixer -c "$CARD" sset "Speaker"   100% unmute 2>/dev/null && echo "  Speaker   100%" || true
     amixer -c "$CARD" sset "Headphone" 100% unmute 2>/dev/null && echo "  Headphone 100%" || true
     amixer -c "$CARD" sset "PCM"       100%         2>/dev/null && echo "  PCM       100%" || true
-    amixer -c "$CARD" sset "Mic"         0% mute    2>/dev/null && echo "  Mic         0% mute" || true
-    amixer -c "$CARD" sset "Capture"     0%         2>/dev/null && echo "  Capture     0%" || true
+    # Mic a 0% (0dB, sin amplificacion) pero SIN mute — la captura debe quedar activa
+    amixer -c "$CARD" sset "Mic"         0% unmute  2>/dev/null && echo "  Mic         0% unmute" || true
+    amixer -c "$CARD" sset "Capture"     0% unmute  2>/dev/null && echo "  Capture     0% unmute" || true
 
-    # Desactivar el sidetone del CM108 (Mic Playback Switch, numid=3).
-    # El control "Mic" tiene tanto playback (sidetone) como capture (grabacion).
-    # Deshabilitar el sidetone elimina el bucle de feedback:
-    #   audio recibido -> altavoz CM108 -> captura CM108 (via sidetone) -> relay TX
+    # Desactivar SOLO el sidetone del CM108 (Mic Playback Switch, numid=3).
+    # El sidetone realimenta el audio del altavoz al microfono causando eco/feedback.
+    # numid=3 = "Mic Playback Switch" en el CM108 — deshabilitar para cortar el bucle.
     amixer -c "$CARD" cset numid=3 off  2>/dev/null && echo "  Mic sidetone OFF (numid=3)" || \
     amixer -c "$CARD" sset "Mic Playback Switch" off 2>/dev/null && echo "  Mic sidetone OFF (by name)" || \
     echo "  WARN: no se pudo desactivar el sidetone del Mic (tarjeta: $CARD)"
@@ -51,9 +54,9 @@ else
 fi
 
 # --- Aplicar tambien sobre la tarjeta por defecto del sistema (por si acaso) ---
-echo "ALSA setup: aplicando Capture=0% y Mic mute en tarjeta por defecto"
-amixer sset "Capture" 0%      2>/dev/null && echo "  default Capture 0%" || true
-amixer sset "Mic"     0% mute 2>/dev/null && echo "  default Mic 0% mute" || true
+echo "ALSA setup: aplicando Capture=0% unmute en tarjeta por defecto"
+amixer sset "Capture" 0% unmute 2>/dev/null && echo "  default Capture 0% unmute" || true
+# NO silenciar el Mic por defecto (podria afectar a otras tarjetas/servicios)
 
 echo "ALSA setup: completado"
 exit 0
