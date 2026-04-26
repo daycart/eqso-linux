@@ -1,0 +1,188 @@
+ # 1. Volver buffer a 48000 (estable, sin crashes)
+sudo sed -i 's/const BUFFER_FRAMES = 16000;/const BUFFER_FRAMES = 48000;/' \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts
+
+# 2. Emitir evento al reiniciar arecord (justo antes de this.startRecorder())
+sudo sed -i 's/this\.startRecorder();/this.emit("recorder_restarted");\n            this.startRecorder();/' \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts
+
+# 3. Cambiar const ? let para startupSuppressUntil en main.ts
+sudo sed -i 's/const startupSuppressUntil = /let startupSuppressUntil = /' \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts
+
+# 4. A\Uffffffffr el handler recorder_restarted en main.ts (usando Python para inserci\Uffffffffulti-l\Uffffffffa)
+sudo python3 -c "
+content = open('/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts').read()
+handler = '''
+
+audio.on(\"recorder_restarted\", () => {
+  startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+  log(\`[vox] arecord reiniciado \Uffffffff startup suppress reseteado hasta \${new Date(startupSuppressUntil).toISOString()}\`);
+});'''
+marker = 'audio.on(\"recorder_restarted\"'
+if marker in content:
+    print('Ya existe, omitiendo')
+else:
+    idx = content.find('// El audio emite chunks PCM')
+    content = content[:idx] + handler + '\n\n' + content[idx:]
+    open('/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts', 'w').write(content)
+    print('OK')
+"
+
+# Verificar todo
+grep -n "BUFFER_FRAMES\|recorder_restarted\|startupSuppressUntil" \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts
+
+# Compilar y reiniciar
+cd /opt/eqso-asorapa/artifacts/relay-daemon && \
+  node build.mjs && \
+  sudo systemctl restart eqso-relay@CB.service && \
+  sudo journalctl -u eqso-relay@CB.service -f# 1. Volver buffer a 48000 (estable, sin crashes)
+sudo sed -i 's/const BUFFER_FRAMES = 16000;/const BUFFER_FRAMES = 48000;/' \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts
+
+  sudo journalctl -u eqso-relay@CB.service -fe && \.tsdio.ts \il" \').write(content)tupSuppressUntil).toISOString()}\`);
+OK
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:76:    this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:256:    const BUFFER_FRAMES = 48000;   // 1s a 48kHz    // 1s de ring buffer ? absorbe xruns sin crash
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:266:      `--buffer-size=${BUFFER_FRAMES}`,
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:296:            this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:479:          this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:536:            this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:546:      this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:75:let startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:132:audio.on("recorder_restarted", () => {
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:133:  startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:134:  log(`[vox] arecord reiniciado \Uffffffff startup suppress reseteado hasta ${new Date(startupSuppressUntil).toISOString()}`);
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:144:  if (cfg.audio.vox && !rxActive && Date.now() > postRxVoxSuppressUntil && Date.now() > startupSuppressUntil) {
+-bash: syntax error near unexpected token `('
+Ya existe, omitiendo
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:76:    this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:77:            this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:257:    const BUFFER_FRAMES = 48000;   // 1s a 48kHz    // 1s de ring buffer ? absorbe xruns sin crash
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:267:      `--buffer-size=${BUFFER_FRAMES}`,
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:297:            this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:298:            this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:481:          this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:482:            this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:539:            this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:540:            this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:550:      this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:551:            this.emit("recorder_restarted");
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:75:let startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:132:audio.on("recorder_restarted", () => {
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:133:  startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:134:  log(`[vox] arecord reiniciado \Uffffffff startup suppress reseteado hasta ${new Date(startupSuppressUntil).toISOString()}`);
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:144:  if (cfg.audio.vox && !rxActive && Date.now() > postRxVoxSuppressUntil && Date.now() > startupSuppressUntil) {
+relay-daemon build OK
+abr 26 21:08:39 ubuntus eqso-relay-CB[72952]:   Playback channels: Mono
+abr 26 21:08:39 ubuntus eqso-relay-CB[72952]:   Capture channels: Mono
+abr 26 21:08:39 ubuntus eqso-relay-CB[72952]:   Limits: Playback 0 - 127 Capture 0 - 16
+abr 26 21:08:39 ubuntus eqso-relay-CB[72952]:   Mono: Playback 0 [0%] [0.00dB] [on] Capture 0 [0%] [0.00dB] [on]
+abr 26 21:08:39 ubuntus eqso-relay-CB[72941]:   Mic        40%
+abr 26 21:08:40 ubuntus eqso-relay-CB[72954]: numid=3,iface=MIXER,name='Mic Playback Switch'
+abr 26 21:08:40 ubuntus eqso-relay-CB[72954]:   ; type=BOOLEAN,access=rw------,values=1
+abr 26 21:08:40 ubuntus eqso-relay-CB[72954]:   : values=off
+abr 26 21:08:40 ubuntus eqso-relay-CB[72941]:   Mic sidetone OFF
+abr 26 21:08:40 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [config] Cargado: /etc/eqso-relay/CB.json
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [config] Configuracion activa: {
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "callsign": "0R-IN70WN",
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "room": "CB",
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "password": "",
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "message": "Radio Enlace",
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "server": "127.0.0.1",
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "port": 2171,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "reconnectMinMs": 2000,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "reconnectMaxMs": 60000,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "audio": {
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "captureDevice": "plughw:1,0",
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "playbackDevice": "plughw:1,0",
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "vox": true,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "voxThresholdRms": 800,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "voxHangMs": 2500,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "txGateRms": 0,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "voxDebounceChunks": 2,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "startupVoxSuppressMs": 4000,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "inputGain": 0.4,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "outputGain": 3
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   },
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "control": {
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "enabled": true,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "port": 8009,
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "host": "127.0.0.1"
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   },
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   "ptt": {
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "device": "/dev/eqso-ptt",
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "method": "rts",
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:     "inverted": false
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]:   }
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: }
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.585Z ============================================================
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.586Z eQSO Relay Daemon arrancado
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.586Z   Callsign : 0R-IN70WN
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.587Z   Sala     : CB
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.587Z   Servidor : 127.0.0.1:2171
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.587Z   VOX      : ON (umbral=800 hang=2500ms debounce=2chunks)
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.587Z   Captura  : plughw:1,0
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.588Z   Playback : plughw:1,0
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.588Z   PTT Ser. : /dev/eqso-ptt (rts)
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.589Z ============================================================
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [ptt] 2026-04-26T21:08:40.591Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.648Z [vox] arecord reiniciado \Uffffffff startup suppress reseteado hasta 2026-04-26T21:08:44.648Z
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.661Z [vox] arecord reiniciado \Uffffffff startup suppress reseteado hasta 2026-04-26T21:08:44.661Z
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:40.667Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.688Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [control] 2026-04-26T21:08:40.746Z Control HTTP escuchando en http://127.0.0.1:8009
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:40.784Z [arecord] chunk#1: 44 bytes brutos ? 3 muestras 8kHz
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [eqso] 2026-04-26T21:08:40.795Z TCP conectado a 127.0.0.1:2171
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:40.801Z [arecord] chunk#2: 3840 bytes brutos ? 320 muestras 8kHz
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [eqso] 2026-04-26T21:08:40.814Z Handshake recibido \Uffffffff conexion establecida
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.816Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [eqso] 2026-04-26T21:08:40.824Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [eqso] 2026-04-26T21:08:40.826Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.826Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:40.834Z [arecord] chunk#3: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [main] 2026-04-26T21:08:40.842Z Sala: 0R-IN70WN se ha unido
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [ptt] 2026-04-26T21:08:40.843Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:40.848Z [arecord] chunk#4: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:40.858Z [arecord] chunk#5: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:40.882Z [arecord] chunk#6: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:40.903Z [arecord] chunk#7: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:08:40 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:40.918Z [arecord] chunk#8: 1920 bytes brutos ? 160 muestras 8kHz
+abr 26 21:08:41 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:41.137Z [arecord] GAP 76ms (chunk#16, 160 muestras)
+abr 26 21:08:42 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:42.164Z [arecord] GAP 529ms (chunk#42, 160 muestras)
+abr 26 21:08:43 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:43.171Z [arecord] GAP 707ms (chunk#58, 160 muestras)
+abr 26 21:08:43 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:43.195Z GAP 723ms entre frames GSM de salida
+abr 26 21:08:44 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:44.206Z [arecord] GAP 776ms (chunk#72, 160 muestras)
+abr 26 21:08:44 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:44.234Z GAP 788ms entre frames GSM de salida
+abr 26 21:08:45 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:45.230Z [arecord] GAP 724ms (chunk#88, 160 muestras)
+abr 26 21:08:45 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:45.274Z GAP 750ms entre frames GSM de salida
+abr 26 21:08:45 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:45.688Z [nivel] pico RMS=13685 (-7.6 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:08:46 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:46.249Z [arecord] GAP 761ms (chunk#102, 160 muestras)
+abr 26 21:08:46 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:46.284Z GAP 760ms entre frames GSM de salida
+abr 26 21:08:47 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:47.278Z [arecord] GAP 769ms (chunk#116, 160 muestras)
+abr 26 21:08:47 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:47.321Z GAP 788ms entre frames GSM de salida
+abr 26 21:08:48 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:48.301Z [arecord] GAP 743ms (chunk#131, 160 muestras)
+abr 26 21:08:48 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:48.319Z GAP 749ms entre frames GSM de salida
+abr 26 21:08:49 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:49.325Z [arecord] GAP 765ms (chunk#145, 160 muestras)
+abr 26 21:08:49 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:49.338Z GAP 772ms entre frames GSM de salida
+abr 26 21:08:50 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:50.355Z [arecord] GAP 790ms (chunk#158, 160 muestras)
+abr 26 21:08:50 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:50.382Z GAP 794ms entre frames GSM de salida
+abr 26 21:08:50 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:50.689Z [nivel] pico RMS=550 (-35.5 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:08:51 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:51.372Z [arecord] GAP 718ms (chunk#174, 160 muestras)
+abr 26 21:08:51 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:51.405Z GAP 733ms entre frames GSM de salida
+abr 26 21:08:52 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:52.395Z [arecord] GAP 783ms (chunk#187, 160 muestras)
+abr 26 21:08:52 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:52.399Z GAP 784ms entre frames GSM de salida
+abr 26 21:08:53 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:53.428Z [arecord] GAP 754ms (chunk#202, 160 muestras)
+abr 26 21:08:53 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:53.456Z GAP 765ms entre frames GSM de salida
+abr 26 21:08:54 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:54.452Z [arecord] GAP 725ms (chunk#218, 160 muestras)
+abr 26 21:08:54 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:54.491Z GAP 742ms entre frames GSM de salida
+abr 26 21:08:55 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:55.471Z [arecord] GAP 759ms (chunk#232, 160 muestras)
+abr 26 21:08:55 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:55.506Z GAP 769ms entre frames GSM de salida
+abr 26 21:08:55 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:55.688Z [nivel] pico RMS=480 (-36.7 dBFS)  VOXumbral=800  gain=0.4
+abr 26 21:08:56 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:56.501Z [arecord] GAP 749ms (chunk#247, 160 muestras)
+abr 26 21:08:56 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:56.512Z GAP 760ms entre frames GSM de salida
+abr 26 21:08:57 ubuntus eqso-relay-CB[72955]: [audio] 2026-04-26T21:08:57.519Z [arecord] GAP 777ms (chunk#260, 160 muestras)
+abr 26 21:08:57 ubuntus eqso-relay-CB[72955]: [gsm-enc] 2026-04-26T21:08:57.548Z GAP 789ms entre frames GSM de salida
