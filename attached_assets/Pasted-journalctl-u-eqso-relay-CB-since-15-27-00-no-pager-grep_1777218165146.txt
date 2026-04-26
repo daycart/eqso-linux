@@ -1,0 +1,43 @@
+journalctl -u eqso-relay@CB --since "15:27:00" --no-pager | grep -iE "connect|reconect|disconnect|error.*eqso|eqso.*error|server"
+Apr 26 15:27:39 ubuntus eqso-relay-CB[55764]: USB reset error: [Errno 25] Inappropriate ioctl for device
+Apr 26 15:27:42 ubuntus eqso-relay-CB[55782]:   "server": "127.0.0.1",
+Apr 26 15:27:42 ubuntus eqso-relay-CB[55782]:   "reconnectMinMs": 2000,
+Apr 26 15:27:42 ubuntus eqso-relay-CB[55782]:   "reconnectMaxMs": 60000,
+david@ubuntus:/opt/eqso-asorapa$ sudo systemctl restart eqso-relay@CB
+journalctl -u eqso-relay@CB -f | grep -E "VOX|PTT activado|connect|nivel"
+Apr 26 15:41:09 ubuntus eqso-relay-CB[56428]:   "reconnectMinMs": 2000,
+Apr 26 15:41:09 ubuntus eqso-relay-CB[56428]:   "reconnectMaxMs": 60000,
+Apr 26 15:41:09 ubuntus eqso-relay-CB[56428]: [main] 2026-04-26T15:41:09.052Z   VOX      : ON (umbral=1500 hang=2500ms debounce=2chunks)
+Apr 26 15:41:09 ubuntus eqso-relay-CB[56428]: [main] 2026-04-26T15:41:09.361Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 26 15:41:14 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:14.134Z [nivel] pico RMS=14134 (-7.3 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:41:19 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:19.134Z [nivel] pico RMS=12662 (-8.3 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:41:24 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:24.136Z [nivel] pico RMS=12336 (-8.5 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:41:29 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:29.136Z [nivel] pico RMS=12423 (-8.4 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:41:34 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:34.137Z [nivel] pico RMS=12559 (-8.3 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:41:39 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:39.138Z [nivel] pico RMS=16925 (-5.7 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:41:44 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:44.138Z [nivel] pico RMS=17022 (-5.7 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:41:49 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:49.138Z [nivel] pico RMS=17192 (-5.6 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:41:54 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:54.139Z [nivel] pico RMS=16935 (-5.7 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:41:59 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:41:59.140Z [nivel] pico RMS=17050 (-5.7 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:42:04 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:42:04.140Z [nivel] pico RMS=16819 (-5.8 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:42:09 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:42:09.140Z [nivel] pico RMS=16952 (-5.7 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:42:14 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:42:14.140Z [nivel] pico RMS=16855 (-5.8 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:42:19 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:42:19.140Z [nivel] pico RMS=16891 (-5.8 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:42:24 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:42:24.143Z [nivel] pico RMS=16942 (-5.7 dBFS)  VOXumbral=1500  gain=0.4
+Apr 26 15:42:29 ubuntus eqso-relay-CB[56428]: [audio] 2026-04-26T15:42:29.144Z [nivel] pico RMS=17551 (-5.4 dBFS)  VOXumbral=1500  gain=0.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
