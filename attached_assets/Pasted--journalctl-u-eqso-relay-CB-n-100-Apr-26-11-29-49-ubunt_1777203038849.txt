@@ -1,0 +1,103 @@
+ journalctl -u eqso-relay@CB -n 100
+Apr 26 11:29:49 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:49.475Z TX: EA4IKU transmitiendo
+Apr 26 11:29:49 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:49.725Z TX: EA4IKU transmitiendo
+Apr 26 11:29:49 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:49.725Z TX: EA4IKU transmitiendo
+Apr 26 11:29:49 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:49.975Z TX: EA4IKU transmitiendo
+Apr 26 11:29:50 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:50.016Z [arecord] GAP 628ms (chunk#2132, 160 muestras)
+Apr 26 11:29:50 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:50.055Z GAP 636ms entre frames GSM de salida
+Apr 26 11:29:50 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:50.225Z TX: EA4IKU transmitiendo
+Apr 26 11:29:50 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:50.476Z TX: EA4IKU transmitiendo
+Apr 26 11:29:50 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:50.727Z TX: EA4IKU transmitiendo
+Apr 26 11:29:50 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:50.976Z TX: EA4IKU transmitiendo
+Apr 26 11:29:51 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:51.029Z [arecord] GAP 793ms (chunk#2144, 160 muestras)
+Apr 26 11:29:51 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:51.070Z GAP 809ms entre frames GSM de salida
+Apr 26 11:29:51 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:51.227Z TX: EA4IKU transmitiendo
+Apr 26 11:29:51 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:51.480Z TX: EA4IKU transmitiendo
+Apr 26 11:29:51 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:51.728Z TX: EA4IKU transmitiendo
+Apr 26 11:29:51 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:51.980Z TX: EA4IKU transmitiendo
+Apr 26 11:29:52 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:52.052Z [arecord] GAP 484ms (chunk#2172, 160 muestras)
+Apr 26 11:29:52 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:52.089Z GAP 478ms entre frames GSM de salida
+Apr 26 11:29:52 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:52.230Z TX: EA4IKU transmitiendo
+Apr 26 11:29:52 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:52.482Z TX: EA4IKU transmitiendo
+Apr 26 11:29:52 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:52.732Z TX: EA4IKU transmitiendo
+Apr 26 11:29:52 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:52.984Z TX: EA4IKU transmitiendo
+Apr 26 11:29:53 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:53.090Z [arecord] GAP 478ms (chunk#2201, 160 muestras)
+Apr 26 11:29:53 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:53.099Z GAP 471ms entre frames GSM de salida
+Apr 26 11:29:53 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:53.235Z TX: EA4IKU transmitiendo
+Apr 26 11:29:53 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:53.487Z TX: EA4IKU transmitiendo
+Apr 26 11:29:53 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:53.611Z [nivel] pico RMS=18576 (-4.9 dBFS)  VOXumbral=150  gain=0.4
+Apr 26 11:29:53 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:53.737Z TX: EA4IKU transmitiendo
+Apr 26 11:29:53 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:53.988Z TX: EA4IKU transmitiendo
+Apr 26 11:29:54 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:54.099Z [arecord] GAP 830ms (chunk#2211, 160 muestras)
+Apr 26 11:29:54 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:54.110Z GAP 845ms entre frames GSM de salida
+Apr 26 11:29:54 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:54.239Z TX: EA4IKU transmitiendo
+Apr 26 11:29:54 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:54.490Z TX: EA4IKU transmitiendo
+Apr 26 11:29:54 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:54.740Z TX: EA4IKU transmitiendo
+Apr 26 11:29:54 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:54.990Z TX: EA4IKU transmitiendo
+Apr 26 11:29:55 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:55.127Z [arecord] GAP 508ms (chunk#2238, 160 muestras)
+Apr 26 11:29:55 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:55.152Z GAP 497ms entre frames GSM de salida
+Apr 26 11:29:55 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:55.240Z TX: EA4IKU transmitiendo
+Apr 26 11:29:55 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:55.491Z TX: EA4IKU transmitiendo
+Apr 26 11:29:55 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:55.741Z TX: EA4IKU transmitiendo
+Apr 26 11:29:55 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:55.992Z TX: EA4IKU transmitiendo
+Apr 26 11:29:56 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:56.154Z [arecord] GAP 768ms (chunk#2252, 160 muestras)
+Apr 26 11:29:56 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:56.180Z GAP 767ms entre frames GSM de salida
+Apr 26 11:29:56 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:56.243Z TX: EA4IKU transmitiendo
+Apr 26 11:29:56 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:56.493Z TX: EA4IKU transmitiendo
+Apr 26 11:29:56 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:56.743Z TX: EA4IKU transmitiendo
+Apr 26 11:29:56 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:56.995Z TX: EA4IKU transmitiendo
+Apr 26 11:29:57 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:57.186Z [arecord] GAP 286ms (chunk#2290, 160 muestras)
+Apr 26 11:29:57 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:57.213Z GAP 272ms entre frames GSM de salida
+Apr 26 11:29:57 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:57.245Z TX: EA4IKU transmitiendo
+Apr 26 11:29:57 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:57.496Z TX: EA4IKU transmitiendo
+Apr 26 11:29:57 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:57.747Z TX: EA4IKU transmitiendo
+Apr 26 11:29:57 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:57.997Z TX: EA4IKU transmitiendo
+Apr 26 11:29:58 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:58.197Z [arecord] GAP 632ms (chunk#2310, 160 muestras)
+Apr 26 11:29:58 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:58.236Z GAP 658ms entre frames GSM de salida
+Apr 26 11:29:58 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:58.248Z TX: EA4IKU transmitiendo
+Apr 26 11:29:58 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:58.498Z TX: EA4IKU transmitiendo
+Apr 26 11:29:58 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:58.612Z [nivel] pico RMS=18097 (-5.2 dBFS)  VOXumbral=150  gain=0.4
+Apr 26 11:29:58 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:58.748Z TX: EA4IKU transmitiendo
+Apr 26 11:29:58 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:58.998Z TX: EA4IKU transmitiendo
+Apr 26 11:29:59 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:29:59.219Z [arecord] GAP 803ms (chunk#2322, 160 muestras)
+Apr 26 11:29:59 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:29:59.242Z GAP 800ms entre frames GSM de salida
+Apr 26 11:29:59 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:59.249Z TX: EA4IKU transmitiendo
+Apr 26 11:29:59 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:59.518Z TX: EA4IKU transmitiendo
+Apr 26 11:29:59 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:29:59.751Z TX: EA4IKU transmitiendo
+Apr 26 11:30:00 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:00.002Z TX: EA4IKU transmitiendo
+Apr 26 11:30:00 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:30:00.250Z [arecord] GAP 750ms (chunk#2337, 160 muestras)
+Apr 26 11:30:00 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:00.253Z TX: EA4IKU transmitiendo
+Apr 26 11:30:00 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:30:00.261Z GAP 742ms entre frames GSM de salida
+Apr 26 11:30:00 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:00.504Z TX: EA4IKU transmitiendo
+Apr 26 11:30:00 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:00.753Z TX: EA4IKU transmitiendo
+Apr 26 11:30:01 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:01.005Z TX: EA4IKU transmitiendo
+Apr 26 11:30:01 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:01.256Z TX: EA4IKU transmitiendo
+Apr 26 11:30:01 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:30:01.272Z [arecord] GAP 603ms (chunk#2359, 160 muestras)
+Apr 26 11:30:01 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:30:01.293Z GAP 620ms entre frames GSM de salida
+Apr 26 11:30:01 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:01.508Z TX: EA4IKU transmitiendo
+Apr 26 11:30:01 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:01.758Z TX: EA4IKU transmitiendo
+Apr 26 11:30:02 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:02.009Z TX: EA4IKU transmitiendo
+Apr 26 11:30:02 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:02.260Z TX: EA4IKU transmitiendo
+Apr 26 11:30:02 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:30:02.307Z [arecord] GAP 755ms (chunk#2374, 160 muestras)
+Apr 26 11:30:02 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:30:02.335Z GAP 753ms entre frames GSM de salida
+Apr 26 11:30:02 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:02.518Z TX: EA4IKU transmitiendo
+Apr 26 11:30:02 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:02.763Z TX: EA4IKU transmitiendo
+Apr 26 11:30:03 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:03.013Z TX: EA4IKU transmitiendo
+Apr 26 11:30:03 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:03.265Z TX: EA4IKU transmitiendo
+Apr 26 11:30:03 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:30:03.328Z [arecord] GAP 556ms (chunk#2398, 160 muestras)
+Apr 26 11:30:03 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:30:03.358Z GAP 560ms entre frames GSM de salida
+Apr 26 11:30:03 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:03.518Z TX: EA4IKU transmitiendo
+Apr 26 11:30:03 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:30:03.613Z [nivel] pico RMS=18157 (-5.1 dBFS)  VOXumbral=150  gain=0.4
+Apr 26 11:30:03 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:03.766Z TX: EA4IKU transmitiendo
+Apr 26 11:30:04 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:04.018Z TX: EA4IKU transmitiendo
+Apr 26 11:30:04 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:04.283Z TX: EA4IKU transmitiendo
+Apr 26 11:30:04 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:30:04.357Z [arecord] GAP 789ms (chunk#2411, 160 muestras)
+Apr 26 11:30:04 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:30:04.368Z GAP 808ms entre frames GSM de salida
+Apr 26 11:30:04 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:04.519Z TX: EA4IKU transmitiendo
+Apr 26 11:30:04 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:04.770Z TX: EA4IKU transmitiendo
+Apr 26 11:30:05 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:05.019Z TX: EA4IKU transmitiendo
+Apr 26 11:30:05 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:05.269Z TX: EA4IKU transmitiendo
+Apr 26 11:30:05 ubuntus eqso-relay-CB[45797]: [audio] 2026-04-26T11:30:05.371Z [arecord] GAP 250ms (chunk#2450, 160 muestras)
+Apr 26 11:30:05 ubuntus eqso-relay-CB[45797]: [gsm-enc] 2026-04-26T11:30:05.401Z GAP 246ms entre frames GSM de salida
+Apr 26 11:30:05 ubuntus eqso-relay-CB[45797]: [main] 2026-04-26T11:30:05.521Z TX: EA4IKU transmitiendo
+lines 58-100/100 (END)
