@@ -1,0 +1,33 @@
+# Verificar que los cambios quedaron bien en la VM
+grep -n "startupSuppressUntil\|BUFFER_FRAMES\|startupVoxSuppressMs" \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:75:const startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:137:  if (cfg.audio.vox && !rxActive && Date.now() > postRxVoxSuppressUntil && Date.now() > startupSuppressUntil) {
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:255:    const BUFFER_FRAMES = 3840;   // 1s a 48kHz    // 1s de ring buffer ? absorbe xruns sin crash
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:265:      `--buffer-size=${BUFFER_FRAMES}`,
+/opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts:20:  startupVoxSuppressMs: number;
+david@ubuntus:/opt/eqso-asorapa/artifacts/relay-daemon$ # Verificar que los cambios quedaron bien en la VM^C
+david@ubuntus:/opt/eqso-asorapa/artifacts/relay-daemon$ # Verificar que los cambios quedaron bien en la VM
+grep -n "startupSuppressUntil\|BUFFER_FRAMES\|startupVoxSuppressMs" \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:75:const startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:137:  if (cfg.audio.vox && !rxActive && Date.now() > postRxVoxSuppressUntil && Date.now() > startupSuppressUntil) {
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:255:    const BUFFER_FRAMES = 3840;   // 1s a 48kHz    // 1s de ring buffer ? absorbe xruns sin crash
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:265:      `--buffer-size=${BUFFER_FRAMES}`,
+/opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts:20:  startupVoxSuppressMs: number;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:75:const startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:137:  if (cfg.audio.vox && !rxActive && Date.now() > postRxVoxSuppressUntil && Date.now() > startupSuppressUntil) {
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:255:    const BUFFER_FRAMES = 3840;   // 1s a 48kHz    // 1s de ring buffer ? absorbe xruns sin crash
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:265:      `--buffer-size=${BUFFER_FRAMES}`,
+/opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts:20:  startupVoxSuppressMs: number;
+-bash: syntax error near unexpected token `('
+-bash: !rxActive: event not found
+-bash: /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:255:: No such file or directory
+-bash: //: Is a directory
+--buffer-size=: command not found
+-bash: /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:265:: No such file or directory
+-bash: /opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts:20:: No such file or directory
