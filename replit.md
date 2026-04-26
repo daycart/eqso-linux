@@ -226,6 +226,41 @@ Two bugs caused remote eQSO mode to silently fall back to local mode:
   For web users in remote mode, entered in the ConnectPanel UI and forwarded by
   `EqsoProxy` in the JOIN packet.
 
+## Relay Daemon (artifacts/relay-daemon)
+
+Daemon Node.js que corre en la VM Ubuntu como `eqso-relay@CB.service`. Conecta al api-server local (127.0.0.1:2171) como radioenlace físico con la radio CB via CM108 USB.
+
+### Arquitectura de audio
+- **Captura**: `arecord` a 48kHz nativo (plughw:, sin rate-plugin) con `--period-size=960 --buffer-size=48000`
+  - buffer=48000 (1s) necesario para absorber xruns del CM108 USB en VirtualBox sin crashes
+  - Decimación ×6 en Node.js (FIR box): 48kHz → 8kHz para GSM
+  - `captureRingBuf` + `captureTimer` (20ms) suaviza las ráfagas de 500-800ms de VirtualBox
+- **Reproducción**: `aplay` PCM S16LE 8kHz (semi-duplex con arecord)
+- **Codec**: GSM 06.10, 198 bytes/paquete, 20ms/frame
+- **PTT serial**: RTS en /dev/eqso-ptt (symlink → /dev/ttyACM1)
+
+### VOX y supresión de falsos disparos
+- **startupVoxSuppressMs: 4000** — bloquea el VOX los primeros 4s tras iniciar arecord (burst ALSA alto)
+- **recorder_restarted event** — cuando arecord crashea y se reinicia, el suppress se resetea 4s para cubrir el nuevo burst de inicialización
+- **postRxVoxSuppressUntil** — suprime VOX durante y después de reproducir audio del servidor
+- **postTxVoxSuppressUntil** — suprime VOX 2.5s tras TX propio (squelch/carrier residual CB)
+- **voxDebounceChunks: 2** — requiere 2 chunks consecutivos sobre umbral para activar PTT
+
+### Config `/etc/eqso-relay/CB.json`
+- `voxThresholdRms: 800` — umbral VOX (ruido de fondo sin señal: RMS 350-550)
+- `inputGain: 0.4` — ganancia de captura (ajustada para CM108)
+- `outputGain: 3` — ganancia de reproducción
+
+### Despliegue en la VM
+```bash
+# Los cambios de Replit NO llegan automáticamente a la VM.
+# Aplicar manualmente con sed + build, o cuando git pull funcione:
+cd /opt/eqso-asorapa/artifacts/relay-daemon
+node build.mjs
+sudo systemctl restart eqso-relay@CB.service
+sudo journalctl -u eqso-relay@CB.service -f
+```
+
 ## VM Infrastructure (Ubuntu 192.168.1.25 / 193.152.83.229)
 
 Servidor físico de producción ASORAPA en red local de EA4IKU.
