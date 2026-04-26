@@ -4,8 +4,9 @@
 #
 # Playback (Speaker/Headphone/PCM) al 100%: la senal del servidor llega
 #   con suficiente nivel al microfono de la radio CB.
-# Capture (Mic/Capture) al 40%: evita saturacion y distorsion en la
-#   codificacion GSM del audio de la radio.
+# Capture (Mic) al 0%: la salida de audio de una radio CB es nivel linea
+#   (~500mV-1V), mucho mas fuerte que un microfono. Con cualquier ganancia
+#   positiva el ADC del CM108 satura. 0% = 0dB = sin amplificacion.
 
 CARD=$(aplay -l 2>/dev/null | grep -iE "CM108|C-Media|USB Audio" | head -1 | sed 's/.*card //;s/:.*//' | tr -d ' ')
 
@@ -19,8 +20,8 @@ echo "ALSA setup: configurando tarjeta $CARD"
 amixer -c "$CARD" sset "Speaker"   100% unmute 2>/dev/null && echo "  Speaker   100%" || true
 amixer -c "$CARD" sset "Headphone" 100% unmute 2>/dev/null && echo "  Headphone 100%" || true
 amixer -c "$CARD" sset "PCM"       100%         2>/dev/null && echo "  PCM       100%" || true
-amixer -c "$CARD" sset "Mic"        70% unmute  2>/dev/null && echo "  Mic        70%" || true
-amixer -c "$CARD" sset "Capture"    70% unmute  2>/dev/null && echo "  Capture    70%" || true
+amixer -c "$CARD" sset "Mic"         0% unmute  2>/dev/null && echo "  Mic         0%" || true
+amixer -c "$CARD" sset "Capture"     0% unmute  2>/dev/null && echo "  Capture     0%" || true
 
 # Desactivar el sidetone del CM108 (Mic Playback Switch, numid=3).
 # El control "Mic" tiene tanto playback (sidetone) como capture (grabacion).
