@@ -380,7 +380,8 @@ export function useEqsoClient(
       }
     };
 
-    ws.onclose = () => {
+    ws.onclose = (ev) => {
+      console.error("[eqso] WS closed — code:", ev.code, "reason:", ev.reason || "(sin razón)", "wasClean:", ev.wasClean);
       setCurrentRoom(null);
       setCurrentName(null);
       setMembers([]);

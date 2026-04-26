@@ -35,7 +35,7 @@ const WS_PCM_TX       = 0x05; // remote TX:   Int16 signed PCM (→ encode to GS
 const PCM_CHUNK_SAMPLES = GSM_FRAME_SAMPLES * FRAMES_PER_PACKET; // 960 samples per GSM packet
 
 const SERVER_VERSION = "eQSO Linux Server v1.0";
-const KEEPALIVE_MS = 10_000;
+const KEEPALIVE_MS = 3_000;
 
 interface WsMessage {
   type:
@@ -179,6 +179,8 @@ function handleLocalMode(
   sendJson(ws, { type: "server_info", message: SERVER_VERSION + " (Local)" });
 
   const pingTimer = setInterval(() => {
+    if (ws.readyState !== WebSocket.OPEN) return;
+    ws.ping();
     sendJson(ws, { type: "keepalive" });
   }, KEEPALIVE_MS);
 
@@ -695,6 +697,7 @@ export function startWsBridge(httpServer: HttpServer): WebSocketServer {
         clearInterval(keepaliveTimer);
         return;
       }
+      ws.ping();
       sendJson(ws, { type: "keepalive" });
     }, KEEPALIVE_MS);
 
