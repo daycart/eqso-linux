@@ -1,0 +1,40 @@
+pt/eqso-asorapa$ sudo /opt/eqso-asorapa/artifacts/relay-daemon/install/vm-deploy.sh
+==> Actualizando desde GitHub...
+From https://github.com/daycart/eqso-linux-client
+ * branch            main       -> FETCH_HEAD
+Already up to date.
+==> Reiniciando servicio eqso-relay@CB...
+==> Estado del servicio:
+? eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB
+     Loaded: loaded (/etc/systemd/system/eqso-relay@.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-04-27 18:27:27 UTC; 4s ago
+       Docs: https://github.com/daycart/eqso-linux-client
+    Process: 5963 ExecStartPre=/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/usb-reset.sh (code=exited, status=0/SUCCESS)
+    Process: 5971 ExecStartPre=/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh (code=exited, status=0/SUCCESS)
+   Main PID: 5984 (node)
+      Tasks: 21 (limit: 19094)
+     Memory: 39.1M (peak: 39.9M)
+        CPU: 4.649s
+     CGroup: /system.slice/system-eqso\x2drelay.slice/eqso-relay@CB.service
+             +-5984 /usr/bin/node --enable-source-maps dist/main.mjs
+             +-6003 python3 /opt/eqso-asorapa/artifacts/relay-daemon/dist/ptt-helper.py /dev/eqso-ptt rts false
+             +-6004 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+             +-6005 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -avioflags direct -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 -fflags +flush_packets pipe:1
+             +-6006 arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+             +-6007 aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=24000 --period-size=800
+
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [eqso] 2026-04-27T18:27:29.593Z Handshake recibido \Uffffffff conexion establecida
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [main] 2026-04-27T18:27:29.604Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [eqso] 2026-04-27T18:27:29.626Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [eqso] 2026-04-27T18:27:29.635Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [main] 2026-04-27T18:27:29.636Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [ptt] 2026-04-27T18:27:29.643Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [audio] 2026-04-27T18:27:29.654Z [arecord] chunk#3: 7680 bytes brutos ? 640 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [audio] 2026-04-27T18:27:29.661Z [arecord] GAP 90ms (chunk#3, 640 muestras)
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [main] 2026-04-27T18:27:29.713Z Sala: 0R-IN70WN se ha unido
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [audio] 2026-04-27T18:27:29.724Z [arecord] chunk#4: 7680 bytes brutos ? 640 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [audio] 2026-04-27T18:27:29.725Z [arecord] GAP 70ms (chunk#4, 640 muestras)
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [audio] 2026-04-27T18:27:29.744Z [arecord] chunk#5: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [audio] 2026-04-27T18:27:29.774Z [arecord] chunk#6: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [audio] 2026-04-27T18:27:29.787Z [arecord] chunk#7: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:27:29 ubuntus eqso-relay-CB[5984]: [audio] 2026-04-27T18:27:29.809Z [arecord] chunk#8: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
