@@ -1,0 +1,44 @@
+david@ubuntus:~$ sudo node - << 'ENDSCRIPT'
+import { readFileSync, writeFileSync } from 'fs';
+
+const TARGET = '/opt/eqso-asorapa/artifacts/relay-daemon/dist/main.mjs';
+let content = readFileSync(TARGET, 'utf8');
+
+if (!content.includes('resetUsbAudio')) {
+  console.error('ERROR: resetUsbAudio() no est\Uffffffffn el archivo. Ejecuta el parche completo primero.');
+  process.exit(1);
+}
+
+// Reemplazar los 3 bloques setTimeout usando las cadenas reales de esta VM
+
+const replacements = [
+  // Lugar 1
+  {
+    from: 'log2("[audio] Semi-duplex: reanudando arecord (aplay cerrado inesperadamente)");\n          setTimeout(() => {\n            if (!this.stopping && !this.player && !this.playerStarting)\n              this.startRecorder();\n          }, 800);',
+    to:   'log2("[audio] Semi-duplex: reanudando arecord (aplay cerrado) \u2014 reset USB...");\n          this.resetUsbAudio().then(() => {\n            if (!this.stopping && !this.player && !this.playerStarting)\n              this.startRecorder();\n          });',
+    label: '1: aplay cerrado inesperadamente'
+  },
+  // Lugar 2
+  {
+    from: 'log2("[audio] Semi-duplex: reanudando arecord");\n            setTimeout(() => {\n              if (!this.stopping && !this.player && !this.playerStarting)\n                this.startRecorder();\n            }, 800);',
+    to:   'log2("[audio] Semi-duplex: reanudando arecord \u2014 reset USB...");\n            this.resetUsbAudio().then(() => {\n              if (!this.stopping && !this.player && !this.playerStarting)\n                this.startRecorder();\n            });',
+    label: '2: drain player close'
+  },
+  // Lugar 3
+  {
+    from: 'log2("[audio] Semi-duplex: reanudando arecord (player ya cerrado)");\n      setTimeout(() => {\n        if (!this.stopping && !this.player && !this.playerStarting)\n          this.startRecorder();\n      }, 800);',
+    to:   'log2("[audio] Semi-duplex: reanudando arecord (player ya cerrado) \u2014 reset USB...");\n      this.resetUsbAudio().then(() => {\n        if (!this.stopping && !this.player && !this.playerStarting)\n          this.startRecorder();\n      });',
+    label: '3: player ya cerrado'
+  },
+];
+
+let ok = 0;
+for (const { from, to, label } of replacements) {
+  const c = content.split(from).length - 1;
+  if (c === 1) { content = content.replace(from, to); ok++; console.log('OK lugar ' + label); }
+ENDSCRIPT.log('Reemplazos incompletos (' + ok + '/3). Pega el resultado aqui.');stdio: 'inherit' });
+NO ENCONTRADO lugar 1: aplay cerrado inesperadamente (0 ocurrencias)
+NO ENCONTRADO lugar 2: drain player close (0 ocurrencias)
+NO ENCONTRADO lugar 3: player ya cerrado (0 ocurrencias)
+Reemplazos incompletos (0/3). Pega el resultado aqui.
+david@ubuntus:~$ 
