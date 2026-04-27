@@ -601,8 +601,11 @@ export class AlsaAudio extends EventEmitter {
         // Reanudar arecord si corresponde.
         if (this.recorderSuspended && !this.stopping && !this.playerStarting && !this.drainPlayer) {
           this.recorderSuspended = false;
-          log("[audio] Semi-duplex: reanudando arecord (aplay cerrado inesperadamente)");
-          this.startRecorder();
+          log("[audio] Semi-duplex: reanudando arecord en 800ms (aplay cerrado inesperadamente, reset USB CM108)");
+          setTimeout(() => {
+            if (!this.stopping && !this.player && !this.playerStarting)
+              this.startRecorder();
+          }, 800);
         }
       }
     });
@@ -656,18 +659,24 @@ export class AlsaAudio extends EventEmitter {
           this.drainPlayer = null;
           if (this.recorderSuspended && !this.stopping && !this.player && !this.playerStarting) {
             this.recorderSuspended = false;
-            log("[audio] Semi-duplex: reanudando arecord");
             this.emit("playback_ended"); // suppress VOX desde cierre real de aplay
-            this.startRecorder();
+            log("[audio] Semi-duplex: reanudando arecord en 800ms (reset USB CM108)");
+            setTimeout(() => {
+              if (!this.stopping && !this.player && !this.playerStarting)
+                this.startRecorder();
+            }, 800);
           }
         }
       });
 
     } else if (this.recorderSuspended && !this.stopping && !this.playerStarting && !this.drainPlayer) {
       this.recorderSuspended = false;
-      log("[audio] Semi-duplex: reanudando arecord (player ya cerrado)");
       this.emit("playback_ended");
-      this.startRecorder();
+      log("[audio] Semi-duplex: reanudando arecord en 800ms (player ya cerrado, reset USB CM108)");
+      setTimeout(() => {
+        if (!this.stopping && !this.player && !this.playerStarting)
+          this.startRecorder();
+      }, 800);
     }
   }
 
