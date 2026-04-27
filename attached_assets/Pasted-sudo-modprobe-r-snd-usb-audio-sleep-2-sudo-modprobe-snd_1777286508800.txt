@@ -1,0 +1,85 @@
+sudo modprobe -r snd_usb_audio && sleep 2 && sudo modprobe snd_usb_audio
+david@ubuntus:~$ sed -n '478,560p' /opt/eqso-asorapa/artifacts/relay-daemon/dist/main.mjs
+      "-f",
+      "gsm",
+      "-ar",
+      "8000",
+      "-i",
+      "pipe:0",
+      "-f",
+      "s16le",
+      "-ar",
+      "8000",
+      "-fflags",
+      "+flush_packets",
+      "pipe:1"
+    ], { stdio: ["pipe", "pipe", "pipe"] });
+    this.proc.stderr.on("data", () => {
+    });
+    this.proc.on("error", (err) => {
+      console.error(`[gsm-dec] ffmpeg error: ${err.message}`);
+    });
+    this.proc.on("close", () => {
+      this.proc = null;
+      this.ready = false;
+    });
+    this.proc.stdout.on("data", (chunk) => {
+      this.accum = Buffer.concat([this.accum, chunk]);
+      while (this.accum.length >= PCM_PACKET_BYTES) {
+        const pcmBuf = this.accum.slice(0, PCM_PACKET_BYTES);
+        this.accum = this.accum.slice(PCM_PACKET_BYTES);
+        const pcm = new Int16Array(
+          pcmBuf.buffer.slice(pcmBuf.byteOffset, pcmBuf.byteOffset + PCM_PACKET_BYTES)
+        );
+        this.emit("pcm", pcm);
+      }
+    });
+    setTimeout(() => {
+      this.ready = true;
+    }, 500);
+  }
+  decode(gsm) {
+    if (!this.proc || !this.ready) return;
+    if (gsm.length < GSM_PACKET_BYTES) return;
+    try {
+      this.proc.stdin.write(gsm.slice(0, GSM_PACKET_BYTES));
+    } catch {
+    }
+  }
+  stop() {
+    try {
+      this.proc?.stdin.end();
+      this.proc?.kill("SIGTERM");
+    } catch {
+    }
+    this.proc = null;
+    this.ready = false;
+    this.accum = Buffer.alloc(0);
+  }
+};
+var GsmEncoder = class extends EventEmitter2 {
+  proc = null;
+  accum = Buffer.alloc(0);
+  ready = false;
+  lastGsmMs = 0;
+  start() {
+    if (this.proc) return;
+    this.proc = spawn("ffmpeg", [
+      "-hide_banner",
+      "-loglevel",
+      "quiet",
+      "-probesize",
+      "32",
+      "-analyzeduration",
+      "0",
+      "-avioflags",
+      "direct",
+      "-f",
+      "s16le",
+      "-ar",
+      "8000",
+      "-ac",
+      "1",
+      "-i",
+      "pipe:0",
+      "-f",
