@@ -282,7 +282,8 @@ Servidor físico de producción ASORAPA en red local de EA4IKU.
 - `/opt/eqso-asorapa/artifacts/relay-daemon/` — directorio de trabajo del relay daemon
 - `/opt/eqso-asorapa/artifacts/relay-daemon/dist/main.mjs` — binario compilado del relay daemon
 - `/etc/eqso-relay/CB.json` — config del relay daemon
-- `/dev/eqso-ptt` — symlink udev → /dev/ttyACM1 (cable PTT serial USB)
+- `/dev/eqso-ptt` — symlink udev → /dev/ttyACM0 (cable PTT serial USB, CH340/CH341 idVendor=1a86 idProduct=55d3)
+- `/etc/udev/rules.d/99-eqso-ptt.rules` — regla udev que crea el symlink automáticamente
 
 ### Flujo de desarrollo con "VM ASORAPA desarrollo"
 
