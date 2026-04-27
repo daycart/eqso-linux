@@ -279,7 +279,10 @@ Servidor físico de producción ASORAPA en red local de EA4IKU.
 
 ### Rutas en la VM
 - `/opt/eqso-asorapa/` — raíz del proyecto
+- `/opt/eqso-asorapa/artifacts/relay-daemon/` — directorio de trabajo del relay daemon
+- `/opt/eqso-asorapa/artifacts/relay-daemon/dist/main.mjs` — binario compilado del relay daemon
 - `/etc/eqso-relay/CB.json` — config del relay daemon
+- `/dev/eqso-ptt` — symlink udev → /dev/ttyACM1 (cable PTT serial USB)
 
 ### Flujo de desarrollo con "VM ASORAPA desarrollo"
 
