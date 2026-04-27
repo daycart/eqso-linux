@@ -1,0 +1,52 @@
+david@ubuntus:~$ sudo node - << 'ENDSCRIPT'
+import { readFileSync, writeFileSync, copyFileSync } from 'fs';
+import { execSync } from 'child_process';
+
+const TARGET = '/opt/eqso-asorapa/artifacts/relay-daemon/dist/main.mjs';
+const BACKUP = TARGET + '.bak-pre-usb-reset';
+
+let content = readFileSync(TARGET, 'utf8');
+
+if (content.includes('resetUsbAudio')) {
+  console.log('? Parche ya aplicado. Sin cambios.');
+  process.exit(0);
+}
+
+copyFileSync(TARGET, BACKUP);
+console.log('? Backup creado');
+
+const RESET_METHOD = `  resetUsbAudio() {
+    return new Promise((resolve) => {
+      log2("[audio] USB reset: modprobe -r snd_usb_audio...");
+      const unload = spawn2("modprobe", ["-r", "snd_usb_audio"]);
+      unload.on("error", (e) => { log2("[audio] USB reset: error -r: " + e.message); resolve(); });
+      unload.on("close", (code) => {
+        log2("[audio] USB reset: descargado (code " + code + "), recargando...");
+        const load = spawn2("modprobe", ["snd_usb_audio"]);
+        load.on("error", (e) => { log2("[audio] USB reset: error load: " + e.message); resolve(); });
+        load.on("close", (code2) => {
+          log2("[audio] USB reset: cargado (code " + code2 + "), esperando 1.5s...");
+          setTimeout(resolve, 1500);
+        });
+      });
+    });
+  }
+`;
+
+const markerIdx = content.indexOf('  startRecorder() {');
+if (markerIdx < 0) { console.error('ERROR: startRecorder() no encontrado'); process.exit(1); }
+content = content.slice(0, markerIdx) + RESET_METHOD + content.slice(markerIdx);
+console.log('? resetUsbAudio() insertado');
+
+const replacements = [
+  ['log2("[audio] Semi-duplex: reanudando arecord en 800ms (aplay cerrado inesperadamente, reset USB CM108)");\n          setTimeout(() => {\n            if (!this.stopping && !this.player && !this.playerStarting)\n              this.startRecorder();\n          }, 800);',
+   'log2("[audio] Semi-duplex: reanudando arecord \u2014 reset USB CM108...");\n          this.resetUsbAudio().then(() => {\n            if (!this.stopping && !thisENDSCRIPT.log('Parche incompleto \Uffffffff reinicia manualmente cuando est\Ufffffffflisto'); { stdio: 'inherit' });; }o().then(() => {\n        if (!this.stopping && !this.player 
+[sudo] password for david: 
+? Backup creado
+? resetUsbAudio() insertado
+? No encontrado lugar 1 (0 ocurrencias)
+? No encontrado lugar 1 (0 ocurrencias)
+? No encontrado lugar 1 (0 ocurrencias)
+
+? Archivo guardado (0/3 reemplazos)
+Parche incompleto \Uffffffff reinicia manualmente cuando est\Ufffffffflisto
