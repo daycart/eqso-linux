@@ -1,0 +1,41 @@
+sudo journalctl -u eqso-relay@CB --no-pager -n 40 | grep -v "^\-\-"
+abr 27 17:43:30 ubuntus eqso-relay-CB[3884]:   Limits: Playback 0 - 127 Capture 0 - 16
+abr 27 17:43:30 ubuntus eqso-relay-CB[3884]:   Mono: Playback 0 [0%] [0.00dB] [on] Capture 0 [0%] [0.00dB] [on]
+abr 27 17:43:30 ubuntus eqso-relay-CB[3873]:   Mic        40%
+abr 27 17:43:30 ubuntus eqso-relay-CB[3886]: numid=3,iface=MIXER,name='Mic Playback Switch'
+abr 27 17:43:30 ubuntus eqso-relay-CB[3886]:   ; type=BOOLEAN,access=rw------,values=1
+abr 27 17:43:30 ubuntus eqso-relay-CB[3886]:   : values=off
+abr 27 17:43:30 ubuntus eqso-relay-CB[3873]:   Mic sidetone OFF
+abr 27 17:43:30 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
+abr 27 17:43:31 ubuntus systemd[1]: eqso-relay@CB.service: Deactivated successfully.
+abr 27 17:43:31 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 1.652s CPU time.
+abr 27 17:43:36 ubuntus systemd[1]: eqso-relay@CB.service: Scheduled restart job, restart counter is at 4.
+abr 27 17:43:36 ubuntus systemd[1]: Starting eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB...
+abr 27 17:43:39 ubuntus eqso-relay-CB[3939]: ALSA setup: configurando tarjeta 1
+abr 27 17:43:39 ubuntus eqso-relay-CB[3946]: Simple mixer control 'Speaker',0
+abr 27 17:43:39 ubuntus eqso-relay-CB[3946]:   Capabilities: pvolume pswitch pswitch-joined
+abr 27 17:43:39 ubuntus eqso-relay-CB[3946]:   Playback channels: Front Left - Front Right
+abr 27 17:43:39 ubuntus eqso-relay-CB[3946]:   Limits: Playback 0 - 151
+abr 27 17:43:39 ubuntus eqso-relay-CB[3946]:   Mono:
+abr 27 17:43:39 ubuntus eqso-relay-CB[3946]:   Front Left: Playback 151 [100%] [-0.06dB] [on]
+abr 27 17:43:39 ubuntus eqso-relay-CB[3946]:   Front Right: Playback 151 [100%] [-0.06dB] [on]
+abr 27 17:43:39 ubuntus eqso-relay-CB[3939]:   Speaker   100%
+abr 27 17:43:39 ubuntus eqso-relay-CB[3949]: Simple mixer control 'Mic',0
+abr 27 17:43:39 ubuntus eqso-relay-CB[3949]:   Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+abr 27 17:43:39 ubuntus eqso-relay-CB[3949]:   Playback channels: Mono
+abr 27 17:43:39 ubuntus eqso-relay-CB[3949]:   Capture channels: Mono
+abr 27 17:43:39 ubuntus eqso-relay-CB[3949]:   Limits: Playback 0 - 127 Capture 0 - 16
+abr 27 17:43:39 ubuntus eqso-relay-CB[3949]:   Mono: Playback 0 [0%] [0.00dB] [on] Capture 0 [0%] [0.00dB] [on]
+abr 27 17:43:39 ubuntus eqso-relay-CB[3939]:   Mic        40%
+abr 27 17:43:39 ubuntus eqso-relay-CB[3951]: numid=3,iface=MIXER,name='Mic Playback Switch'
+abr 27 17:43:39 ubuntus eqso-relay-CB[3951]:   ; type=BOOLEAN,access=rw------,values=1
+abr 27 17:43:39 ubuntus eqso-relay-CB[3951]:   : values=off
+abr 27 17:43:39 ubuntus eqso-relay-CB[3939]:   Mic sidetone OFF
+abr 27 17:43:39 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
+abr 27 17:43:40 ubuntus systemd[1]: eqso-relay@CB.service: Deactivated successfully.
+abr 27 17:43:40 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 1.598s CPU time.
+abr 27 17:43:45 ubuntus systemd[1]: eqso-relay@CB.service: Scheduled restart job, restart counter is at 5.
+abr 27 17:43:45 ubuntus systemd[1]: eqso-relay@CB.service: Start request repeated too quickly.
+abr 27 17:43:45 ubuntus systemd[1]: eqso-relay@CB.service: Failed with result 'start-limit-hit'.
+abr 27 17:43:45 ubuntus systemd[1]: Failed to start eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
+abr 27 17:43:45 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 1.598s CPU time.
