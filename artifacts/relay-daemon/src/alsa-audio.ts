@@ -2,21 +2,19 @@
  * Audio ALSA — captura y reproduccion via arecord / aplay.
  *
  * Captura:  arecord → PCM S16LE 8kHz mono → GsmEncoder → EqsoClient
- * Playback: EqsoClient → GsmDecoder → PCM → aplay
+ * Playback: EqsoClient → GsmDecoder → PCM → aplay (permanente)
  *
- * El CM108 USB es half-duplex: solo puede capturar O reproducir en el mismo
- * dispositivo ALSA, no simultaneamente. Semi-duplex implementado:
- *   1. Al iniciar RX: kill arecord → esperar cierre ('close') → abrir aplay
- *   2. Al terminar RX: stdin.end() + mover a drainPlayer (300ms → SIGTERM)
+ * aplay arranca al inicio (startPlayerPermanent) y NUNCA se cierra durante
+ * operacion normal. Cuando no hay audio RX, escribe silencio via
+ * startSilenceInjection. Esto evita el ciclo open/close que en VirtualBox
+ * corrompe el estado USB interno del CM108/PCM2902 e impide que arecord
+ * vuelva a abrir el device ("Unable to install hw params").
  *
- * Estado del player:
- *   this.player      — aplay activo aceptando audio
- *   this.drainPlayer — aplay drenando (stdin cerrado, esperando vaciado buffer)
+ * Semi-duplex de arecord (evitar realimentacion altavoz→micro):
+ *   1. Al iniciar RX: kill arecord (el altavoz esta activo)
+ *   2. Al terminar RX: reiniciar arecord (aplay sigue vivo con silencio)
  *
- * Al abrir nuevo aplay: si drainPlayer sigue vivo → SIGKILL + esperar close real
- * antes de lanzar el nuevo. Evita "Device or resource busy".
- *
- * El PCM recibido durante la espera se acumula en jitterBuf.
+ * rxActive controla si playPcm escribe audio o acumula en jitterBuf (pre-roll).
  */
 
 import { spawn, spawnSync, ChildProcessWithoutNullStreams } from "child_process";
@@ -68,16 +66,17 @@ const SILENCE_INJECT_BYTES  = 1920; // 960 muestras × 2 bytes = 120ms a 8kHz S1
 export class AlsaAudio extends EventEmitter {
   private recorder: ChildProcessWithoutNullStreams | null = null;
   private player:   ChildProcessWithoutNullStreams | null = null;
-  // Player siendo drenado (stdin cerrado, esperando vaciado del buffer ALSA)
-  private drainPlayer: ChildProcessWithoutNullStreams | null = null;
-  private drainTimer:  ReturnType<typeof setTimeout> | null = null;
   private encoder = new GsmEncoder();
   private decoder = new GsmDecoder();
   private pcmAccum  = new Int16Array(0);
   private jitterBuf = new Int16Array(0);
   // Semi-duplex state
   private recorderSuspended = false;
-  private playerStarting    = false; // true mientras esperamos cierre de arecord o drain aplay
+  // rxActive: true cuando estamos en modo reproduccion RX (no silencio).
+  // aplay arranca al inicio y NUNCA cierra — escribe silencio cuando no hay
+  // audio RX para evitar el ciclo open/close que corrompe el estado USB de
+  // VirtualBox. rxActive controla si playPcm escribe audio o sigue en pre-buffer.
+  private rxActive = false;
   private stopping = false;
   // Metricas de nivel en captura
   private levelPeakRms   = 0;
@@ -115,6 +114,10 @@ export class AlsaAudio extends EventEmitter {
     this.startRecorder();
     this.startCaptureTimer();
     this.levelTimer = setInterval(() => this.logLevel(), 5000);
+    // Arrancar aplay permanente: escribe silencio hasta que llegue audio RX.
+    // NUNCA se cierra durante operacion normal → evita la corrupcion USB VirtualBox
+    // que ocurre cada vez que aplay termina y arecord intenta reabrir el device.
+    this.startPlayerPermanent();
   }
 
   async stop(): Promise<void> {
@@ -145,9 +148,6 @@ export class AlsaAudio extends EventEmitter {
         try { rec.kill("SIGTERM"); } catch { resolve(); }
       });
     }
-
-    // drainPlayer: ya estaba vaciando, SIGKILL es seguro (ya no escribe activamente)
-    this.killDrainPlayerNow();
 
     if (this.player) {
       const p = this.player;
@@ -182,7 +182,7 @@ export class AlsaAudio extends EventEmitter {
   playGsm(gsm: Buffer): void {
     this.rxGsmCount++;
     if (this.rxGsmCount <= 3 || this.rxGsmCount % 50 === 0)
-      log(`[playGsm] pkt#${this.rxGsmCount} len=${gsm.length} decoder_ready=${this.decoder.ready} player=${this.player ? "running" : "null"} playerStarting=${this.playerStarting}`);
+      log(`[playGsm] pkt#${this.rxGsmCount} len=${gsm.length} decoder_ready=${this.decoder.ready} player=${this.player ? "running" : "null"} rxActive=${this.rxActive}`);
     this.decoder.decode(gsm);
   }
 
@@ -282,16 +282,18 @@ export class AlsaAudio extends EventEmitter {
     const samples = this.applyGain(pcm);
     this.pcmChunkCount++;
 
-    if (!this.player || this.player.killed) {
+    if (!this.rxActive) {
+      // Pre-buffer phase: aplay corre con silencio, acumulamos audio hasta tener
+      // suficiente pre-roll antes de activar modo RX para evitar glitches iniciales.
       const merged = new Int16Array(this.jitterBuf.length + samples.length);
       merged.set(this.jitterBuf);
       merged.set(samples, this.jitterBuf.length);
       this.jitterBuf = merged;
 
       if (this.pcmChunkCount <= 5)
-        log(`[playPcm] chunk#${this.pcmChunkCount} → jitterBuf=${this.jitterBuf.length} playerStarting=${this.playerStarting}`);
+        log(`[playPcm] chunk#${this.pcmChunkCount} → jitterBuf=${this.jitterBuf.length} rxActive=false`);
 
-      if (this.jitterBuf.length >= JITTER_PRE_BUFFER_SAMPLES && !this.playerStarting) {
+      if (this.jitterBuf.length >= JITTER_PRE_BUFFER_SAMPLES) {
         this.startPlayer();
       }
       return;
@@ -435,13 +437,6 @@ export class AlsaAudio extends EventEmitter {
       log(`[arecord] Terminado (code ${code})`);
       this.recorder = null;
 
-      if (this.playerStarting) {
-        log("[audio] captura cerrada — abriendo aplay");
-        this.playerStarting = false;
-        this.openPlayer();
-        return;
-      }
-
       if (!this.recorderSuspended && !this.stopping) {
         setTimeout(() => {
           if (!this.recorderSuspended && !this.stopping && this.recorder === null) {
@@ -544,70 +539,46 @@ export class AlsaAudio extends EventEmitter {
   // ── aplay ────────────────────────────────────────────────────────────────
 
   /**
-   * Inicia la secuencia semi-duplex:
-   *   1. Si hay arecord corriendo: SIGTERM + esperar 'close' (async)
-   *   2. Cuando arecord cierra: openPlayer()
-   *   3. Si no hay arecord: openPlayer() directamente
+   * Activa modo RX (reproduccion): aplay ya esta corriendo con silencio.
+   * Vuelca el jitter pre-buffer y activa rxActive para que playPcm escriba
+   * audio directamente en lugar de seguir acumulando en el jitter buffer.
+   * Semi-duplex: mata arecord para evitar realimentacion altavoz→microfono.
    */
   private startPlayer(): void {
-    if (this.playerStarting) return;
+    if (this.rxActive) return;
+    this.rxActive = true;
 
+    // aplay ya esta corriendo — volcar jitter pre-buffer inmediatamente
+    this.stopSilenceInjection();
+    if (this.jitterBuf.length > 0 && this.player && !this.player.killed) {
+      const buf = Buffer.from(this.jitterBuf.buffer, this.jitterBuf.byteOffset, this.jitterBuf.byteLength);
+      try { this.player.stdin.write(buf); } catch { /* ignore */ }
+      this.jitterBuf = new Int16Array(0);
+    }
+    this.startSilenceInjection(); // se callara cuando llegue audio (lastAudioWriteMs)
+
+    // Semi-duplex: matar arecord para evitar que el altavoz se realimente al micro
     if (this.recorder) {
-      log("[audio] Semi-duplex: matando arecord — esperando cierre para abrir aplay");
-      this.playerStarting    = true;
+      log("[audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro");
       this.recorderSuspended = true;
-      // Descartar audio pendiente en el jitter buffer: estamos entrando en modo
-      // RX (playback), el audio capturado ya no debe llegar al encoder GSM.
       this.captureRingBuf = new Int16Array(0);
       const rec = this.recorder;
       this.recorder = null;
-
       const watchdog = setTimeout(() => {
-        if (this.playerStarting) {
-          log("[audio] Watchdog: SIGKILL a arecord (SIGTERM no respondido)");
-          try { rec.kill("SIGKILL"); } catch { /* ignore */ }
-        }
+        try { rec.kill("SIGKILL"); } catch { /* ignore */ }
       }, 800);
-
       rec.once("close", () => clearTimeout(watchdog));
-      try { rec.kill("SIGTERM"); } catch {
-        clearTimeout(watchdog);
-        this.playerStarting = false;
-        this.openPlayer();
-      }
-    } else {
-      this.openPlayer();
+      try { rec.kill("SIGTERM"); } catch { clearTimeout(watchdog); }
     }
   }
 
   /**
-   * Comprueba si el drainPlayer todavia esta vivo. Si es asi, lo mata con
-   * SIGKILL y espera el cierre real antes de abrir el nuevo aplay.
-   * Esto garantiza que el dispositivo ALSA este libre (evita "Device or
-   * resource busy").
+   * Arranca aplay de forma permanente (al inicio del daemon y tras caidas).
+   * aplay lee de su stdin y NUNCA se cierra voluntariamente durante operacion
+   * normal. La inyeccion de silencio mantiene el stream USB activo entre RX.
+   * Esto evita el ciclo open/close que corrompe el device USB en VirtualBox.
    */
-  private openPlayer(): void {
-    if (this.stopping) return;
-
-    if (this.drainPlayer) {
-      const old = this.drainPlayer;
-      if (this.drainTimer) { clearTimeout(this.drainTimer); this.drainTimer = null; }
-      this.drainPlayer   = null;
-      this.playerStarting = true; // bloquear llamadas duplicadas mientras esperamos
-      log("[audio] openPlayer: SIGKILL a aplay anterior — esperando cierre para liberar ALSA");
-      try { old.kill("SIGKILL"); } catch { /* ignore */ }
-      old.once("close", () => {
-        this.playerStarting = false;
-        this.doOpenPlayer();
-      });
-      return;
-    }
-
-    this.doOpenPlayer();
-  }
-
-  /** Abre aplay y vuelca el jitter buffer. El dispositivo ALSA debe estar libre. */
-  private doOpenPlayer(): void {
+  private startPlayerPermanent(): void {
     if (this.stopping) return;
 
     const args = [
@@ -636,87 +607,50 @@ export class AlsaAudio extends EventEmitter {
       log(`[aplay] Terminado (code ${code})`);
       if (this.player === p) {
         this.player = null;
+        this.rxActive = false;
         this.stopSilenceInjection();
-        // Aplay cerrado mientras seguia activo (underrun severo, etc.)
-        // Reanudar arecord si corresponde.
-        if (this.recorderSuspended && !this.stopping && !this.playerStarting && !this.drainPlayer) {
-          this.recorderSuspended = false;
-          log("[audio] Semi-duplex: reanudando arecord — reset USB CM108...");
-          this.resetUsbAudio().then(() => {
-            if (!this.stopping && !this.player && !this.playerStarting)
-              this.startRecorder();
-          });
+        if (!this.stopping) {
+          // Reanudar arecord si estaba suspendido
+          if (this.recorderSuspended) {
+            this.recorderSuspended = false;
+            this.emit("playback_ended");
+            this.startRecorder();
+          }
+          // Reiniciar aplay tras breve pausa
+          log("[aplay] Caida inesperada — reiniciando en 2s...");
+          setTimeout(() => {
+            if (!this.stopping && !this.player) this.startPlayerPermanent();
+          }, 2000);
         }
       }
     });
 
-    if (this.jitterBuf.length > 0) {
-      const buf = Buffer.from(this.jitterBuf.buffer, this.jitterBuf.byteOffset, this.jitterBuf.byteLength);
-      try { p.stdin.write(buf); } catch { /* ignore */ }
-      this.jitterBuf = new Int16Array(0);
-    }
-
-    // Iniciar inyeccion de silencio: rellena el buffer de aplay cuando no llegan
-    // paquetes de red, evitando underruns y los silencios que producen.
+    // Inyeccion de silencio inmediata: mantiene el stream USB vivo
     this.startSilenceInjection();
   }
 
   private stopPlayer(): void {
-    this.stopSilenceInjection();
+    if (!this.rxActive && !this.recorderSuspended) return;
+    this.rxActive = false;
 
+    // Flush jitter buffer restante a aplay
     if (this.jitterBuf.length > 0 && this.player && !this.player.killed) {
       const buf = Buffer.from(this.jitterBuf.buffer, this.jitterBuf.byteOffset, this.jitterBuf.byteLength);
       try { this.player.stdin.write(buf); } catch { /* ignore */ }
       this.jitterBuf = new Int16Array(0);
     }
 
-    if (this.player) {
-      const p = this.player;
-      this.player = null;
+    // NO cerramos aplay — sigue vivo con silencio.
+    // El ciclo open/close es la causa de la corrupcion USB en VirtualBox.
+    this.stopSilenceInjection();
+    this.startSilenceInjection();
 
-      // Matar cualquier drain player previo (no puede haber dos aplay abiertos)
-      this.killDrainPlayerNow();
-
-      // Mover player actual a estado "drenando"
-      this.drainPlayer = p;
-      try { p.stdin.end(); } catch { /* ignore */ }
-
-      // 300ms para que aplay vacie su buffer hardware, luego SIGTERM
-      this.drainTimer = setTimeout(() => {
-        this.drainTimer = null;
-        if (this.drainPlayer === p) {
-          try { p.kill("SIGTERM"); } catch { /* ignore */ }
-        }
-      }, 300);
-
-      // Cuando el proceso termina: limpiar estado y reanudar arecord
-      p.once("close", () => {
-        if (this.drainTimer && this.drainPlayer === p) {
-          clearTimeout(this.drainTimer);
-          this.drainTimer = null;
-        }
-        if (this.drainPlayer === p) {
-          this.drainPlayer = null;
-          if (this.recorderSuspended && !this.stopping && !this.player && !this.playerStarting) {
-            this.recorderSuspended = false;
-            this.emit("playback_ended"); // suppress VOX desde cierre real de aplay
-            log("[audio] Semi-duplex: reanudando arecord — reset USB CM108...");
-            this.resetUsbAudio().then(() => {
-              if (!this.stopping && !this.player && !this.playerStarting)
-                this.startRecorder();
-            });
-          }
-        }
-      });
-
-    } else if (this.recorderSuspended && !this.stopping && !this.playerStarting && !this.drainPlayer) {
+    // Reanudar arecord (semi-duplex: estaba parado durante la reproduccion)
+    if (this.recorderSuspended && !this.stopping) {
       this.recorderSuspended = false;
       this.emit("playback_ended");
-      log("[audio] Semi-duplex: reanudando arecord — reset USB CM108...");
-      this.resetUsbAudio().then(() => {
-        if (!this.stopping && !this.player && !this.playerStarting)
-          this.startRecorder();
-      });
+      log("[audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)");
+      this.startRecorder();
     }
   }
 
@@ -756,15 +690,7 @@ export class AlsaAudio extends EventEmitter {
     }
   }
 
-  /** Mata el drainPlayer inmediatamente (SIGKILL) sin esperar. */
-  private killDrainPlayerNow(): void {
-    if (this.drainPlayer) {
-      if (this.drainTimer) { clearTimeout(this.drainTimer); this.drainTimer = null; }
-      const p = this.drainPlayer;
-      this.drainPlayer = null;
-      try { p.kill("SIGKILL"); } catch { /* ignore */ }
-    }
-  }
 }
+
 
 function log(msg: string): void { console.log(`[audio] ${new Date().toISOString()} ${msg}`); }
