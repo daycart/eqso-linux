@@ -315,6 +315,10 @@ export class EqsoClient extends EventEmitter {
         break;
       }
       case 0x16:
+        if (pkt[1] > 1) {
+          const hex = pkt.slice(0, Math.min(80, pkt.length)).toString("hex");
+          log(`[DEBUG 0x16 count=${pkt[1]} len=${pkt.length}] ${hex}`);
+        }
         this.handleUserUpdate(pkt);
         break;
       case 0x01:
