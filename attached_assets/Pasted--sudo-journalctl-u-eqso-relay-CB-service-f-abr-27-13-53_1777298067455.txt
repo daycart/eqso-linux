@@ -1,0 +1,691 @@
+$ sudo journalctl -u eqso-relay@CB.service -f
+abr 27 13:53:17 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:17.769Z [captureTimer] ring buffer alto: 4022723 muestras
+abr 27 13:53:17 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:17.794Z [captureTimer] ring buffer alto: 4022723 muestras
+abr 27 13:53:17 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:17.816Z [captureTimer] ring buffer alto: 4022723 muestras
+abr 27 13:53:17 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:17.857Z [captureTimer] ring buffer alto: 4022883 muestras
+abr 27 13:53:17 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:17.883Z [captureTimer] ring buffer alto: 4023043 muestras
+abr 27 13:53:17 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:17.980Z GAP 152ms entre frames GSM de salida
+abr 27 13:53:17 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:17.982Z [captureTimer] ring buffer alto: 4023043 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.000Z [arecord] GAP 99ms (chunk#160107, 800 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.030Z [captureTimer] ring buffer alto: 4023683 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.097Z [arecord] GAP 97ms (chunk#160108, 800 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:18.150Z GAP 169ms entre frames GSM de salida
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.156Z [captureTimer] ring buffer alto: 4024323 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.172Z [arecord] GAP 75ms (chunk#160109, 480 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.190Z [captureTimer] ring buffer alto: 4024643 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.226Z [captureTimer] ring buffer alto: 4024963 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.277Z [captureTimer] ring buffer alto: 4024963 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.311Z [arecord] GAP 60ms (chunk#160112, 480 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.341Z [captureTimer] ring buffer alto: 4025283 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.382Z [arecord] GAP 71ms (chunk#160113, 640 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.422Z [captureTimer] ring buffer alto: 4025763 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.435Z [arecord] GAP 53ms (chunk#160114, 320 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.447Z [captureTimer] ring buffer alto: 4025923 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.546Z [arecord] GAP 111ms (chunk#160115, 960 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:18.591Z GAP 169ms entre frames GSM de salida
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.592Z [captureTimer] ring buffer alto: 4026723 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.632Z [arecord] GAP 86ms (chunk#160116, 640 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.664Z [captureTimer] ring buffer alto: 4027203 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.732Z [arecord] GAP 100ms (chunk#160117, 800 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.759Z [captureTimer] ring buffer alto: 4027843 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.877Z [arecord] GAP 145ms (chunk#160118, 1120 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.949Z [captureTimer] ring buffer alto: 4028803 muestras
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.964Z [arecord] GAP 87ms (chunk#160119, 800 muestras)
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:18.981Z GAP 318ms entre frames GSM de salida
+abr 27 13:53:18 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:18.982Z [captureTimer] ring buffer alto: 4029443 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.050Z [captureTimer] ring buffer alto: 4029603 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.078Z [arecord] GAP 76ms (chunk#160122, 480 muestras)
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.092Z [captureTimer] ring buffer alto: 4029923 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.117Z [captureTimer] ring buffer alto: 4030083 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.224Z [arecord] GAP 120ms (chunk#160124, 960 muestras)
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:19.254Z GAP 255ms entre frames GSM de salida
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.258Z [captureTimer] ring buffer alto: 4030883 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.279Z [arecord] GAP 55ms (chunk#160125, 320 muestras)
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.308Z [captureTimer] ring buffer alto: 4031043 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.372Z [captureTimer] ring buffer alto: 4031363 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.426Z [arecord] GAP 106ms (chunk#160127, 800 muestras)
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.442Z [captureTimer] ring buffer alto: 4032003 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:19.477Z GAP 169ms entre frames GSM de salida
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.477Z [captureTimer] ring buffer alto: 4032163 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.585Z [arecord] GAP 125ms (chunk#160129, 960 muestras)
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.640Z [captureTimer] ring buffer alto: 4032963 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.668Z [arecord] GAP 83ms (chunk#160130, 640 muestras)
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:19.682Z GAP 205ms entre frames GSM de salida
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.682Z [captureTimer] ring buffer alto: 4033443 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.706Z [captureTimer] ring buffer alto: 4033603 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.749Z [captureTimer] ring buffer alto: 4033603 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.790Z [captureTimer] ring buffer alto: 4033763 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.823Z [arecord] GAP 51ms (chunk#160135, 480 muestras)
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:19.887Z GAP 191ms entre frames GSM de salida
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.887Z [captureTimer] ring buffer alto: 4034083 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.913Z [arecord] GAP 90ms (chunk#160136, 640 muestras)
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.941Z [captureTimer] ring buffer alto: 4034563 muestras
+abr 27 13:53:19 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:19.991Z [arecord] GAP 78ms (chunk#160137, 480 muestras)
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.038Z [captureTimer] ring buffer alto: 4034883 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.109Z [nivel] pico RMS=12 (-68.4 dBFS)  VOXumbral=800  gain=0.4
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.109Z [arecord] GAP 118ms (chunk#160138, 960 muestras)
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.125Z [captureTimer] ring buffer alto: 4035683 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.209Z [arecord] GAP 100ms (chunk#160139, 800 muestras)
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:20.291Z GAP 350ms entre frames GSM de salida
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.295Z [captureTimer] ring buffer alto: 4036323 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.331Z [arecord] GAP 122ms (chunk#160140, 960 muestras)
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.355Z [captureTimer] ring buffer alto: 4037123 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.384Z [captureTimer] ring buffer alto: 4037443 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.448Z [arecord] GAP 70ms (chunk#160142, 480 muestras)
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.482Z [captureTimer] ring buffer alto: 4037763 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.499Z [arecord] GAP 51ms (chunk#160143, 480 muestras)
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.523Z [captureTimer] ring buffer alto: 4038083 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.552Z [arecord] GAP 53ms (chunk#160144, 480 muestras)
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.683Z [captureTimer] ring buffer alto: 4038403 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.706Z [arecord] GAP 154ms (chunk#160145, 1120 muestras)
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:20.724Z GAP 201ms entre frames GSM de salida
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.724Z [captureTimer] ring buffer alto: 4039363 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.745Z [captureTimer] ring buffer alto: 4039523 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.800Z [captureTimer] ring buffer alto: 4039683 muestras
+abr 27 13:53:20 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:20.987Z [captureTimer] ring buffer alto: 4039843 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.001Z [arecord] GAP 182ms (chunk#160150, 1440 muestras)
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:21.011Z GAP 277ms entre frames GSM de salida
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.014Z [captureTimer] ring buffer alto: 4041123 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.057Z [arecord] GAP 56ms (chunk#160151, 480 muestras)
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.098Z [captureTimer] ring buffer alto: 4041443 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.160Z [arecord] GAP 103ms (chunk#160152, 800 muestras)
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:21.174Z GAP 160ms entre frames GSM de salida
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.174Z [captureTimer] ring buffer alto: 4042083 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.347Z [captureTimer] ring buffer alto: 4042243 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.456Z [arecord] GAP 251ms (chunk#160154, 2080 muestras)
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:21.465Z GAP 291ms entre frames GSM de salida
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.465Z [captureTimer] ring buffer alto: 4044163 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.526Z [captureTimer] ring buffer alto: 4044163 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.591Z [arecord] GAP 114ms (chunk#160156, 800 muestras)
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.618Z [captureTimer] ring buffer alto: 4044803 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.656Z [arecord] GAP 65ms (chunk#160157, 640 muestras)
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:21.680Z GAP 206ms entre frames GSM de salida
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.681Z [captureTimer] ring buffer alto: 4045283 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.792Z [arecord] GAP 136ms (chunk#160158, 960 muestras)
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.915Z [captureTimer] ring buffer alto: 4046083 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.927Z [arecord] GAP 135ms (chunk#160159, 1120 muestras)
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:21.937Z GAP 257ms entre frames GSM de salida
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.937Z [captureTimer] ring buffer alto: 4047043 muestras
+abr 27 13:53:21 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:21.998Z [captureTimer] ring buffer alto: 4047043 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.066Z [arecord] GAP 109ms (chunk#160161, 960 muestras)
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.090Z [captureTimer] ring buffer alto: 4047843 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:22.119Z GAP 182ms entre frames GSM de salida
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.122Z [captureTimer] ring buffer alto: 4048003 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.219Z [arecord] GAP 114ms (chunk#160163, 960 muestras)
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:22.347Z GAP 226ms entre frames GSM de salida
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.348Z [captureTimer] ring buffer alto: 4048803 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.375Z [arecord] GAP 156ms (chunk#160164, 1280 muestras)
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.401Z [captureTimer] ring buffer alto: 4049923 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.451Z [captureTimer] ring buffer alto: 4049923 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.520Z [arecord] GAP 112ms (chunk#160166, 960 muestras)
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:22.560Z GAP 213ms entre frames GSM de salida
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.565Z [captureTimer] ring buffer alto: 4050723 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.581Z [arecord] GAP 62ms (chunk#160167, 480 muestras)
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.601Z [captureTimer] ring buffer alto: 4051043 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.727Z [arecord] GAP 146ms (chunk#160168, 1120 muestras)
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:22.796Z GAP 235ms entre frames GSM de salida
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.800Z [captureTimer] ring buffer alto: 4052003 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.855Z [arecord] GAP 128ms (chunk#160169, 960 muestras)
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.867Z [captureTimer] ring buffer alto: 4052803 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.937Z [captureTimer] ring buffer alto: 4052963 muestras
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.960Z [arecord] GAP 73ms (chunk#160172, 480 muestras)
+abr 27 13:53:22 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:22.982Z [captureTimer] ring buffer alto: 4053283 muestras
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.008Z [captureTimer] ring buffer alto: 4053443 muestras
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.141Z [arecord] GAP 151ms (chunk#160174, 1120 muestras)
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.163Z [captureTimer] ring buffer alto: 4054403 muestras
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:23.237Z GAP 229ms entre frames GSM de salida
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.239Z [captureTimer] ring buffer alto: 4054563 muestras
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.325Z [arecord] GAP 154ms (chunk#160176, 1280 muestras)
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.377Z [captureTimer] ring buffer alto: 4055683 muestras
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.440Z [arecord] GAP 115ms (chunk#160177, 800 muestras)
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:23.501Z GAP 262ms entre frames GSM de salida
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.502Z [captureTimer] ring buffer alto: 4056323 muestras
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.592Z [arecord] GAP 152ms (chunk#160178, 1120 muestras)
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.723Z [captureTimer] ring buffer alto: 4057283 muestras
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.817Z [arecord] GAP 225ms (chunk#160179, 1760 muestras)
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:23.890Z GAP 388ms entre frames GSM de salida
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.891Z [captureTimer] ring buffer alto: 4058883 muestras
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.977Z [arecord] GAP 160ms (chunk#160180, 1440 muestras)
+abr 27 13:53:23 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:23.990Z [captureTimer] ring buffer alto: 4060163 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.012Z [captureTimer] ring buffer alto: 4060163 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.047Z [captureTimer] ring buffer alto: 4060163 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.068Z [captureTimer] ring buffer alto: 4060163 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.181Z [arecord] GAP 122ms (chunk#160184, 1120 muestras)
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.219Z [captureTimer] ring buffer alto: 4061123 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.232Z [arecord] GAP 51ms (chunk#160185, 320 muestras)
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:24.246Z GAP 178ms entre frames GSM de salida
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.247Z [captureTimer] ring buffer alto: 4061283 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.328Z [captureTimer] ring buffer alto: 4061283 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.372Z [arecord] GAP 112ms (chunk#160187, 960 muestras)
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.380Z [captureTimer] ring buffer alto: 4062083 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.436Z [captureTimer] ring buffer alto: 4062243 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.468Z [arecord] GAP 70ms (chunk#160190, 480 muestras)
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.491Z [captureTimer] ring buffer alto: 4062563 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.639Z [captureTimer] ring buffer alto: 4062723 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.712Z [arecord] GAP 196ms (chunk#160192, 1440 muestras)
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:24.720Z GAP 325ms entre frames GSM de salida
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.720Z [captureTimer] ring buffer alto: 4064003 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.766Z [arecord] GAP 54ms (chunk#160193, 480 muestras)
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.819Z [captureTimer] ring buffer alto: 4064323 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.877Z [arecord] GAP 111ms (chunk#160194, 800 muestras)
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.883Z [captureTimer] ring buffer alto: 4064963 muestras
+abr 27 13:53:24 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:24.992Z [captureTimer] ring buffer alto: 4064963 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.086Z [arecord] GAP 194ms (chunk#160196, 1600 muestras)
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:25.167Z GAP 348ms entre frames GSM de salida
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.168Z [captureTimer] ring buffer alto: 4066403 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.186Z [nivel] pico RMS=12 (-68.7 dBFS)  VOXumbral=800  gain=0.4
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.191Z [arecord] GAP 105ms (chunk#160197, 800 muestras)
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.215Z [captureTimer] ring buffer alto: 4067043 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.236Z [captureTimer] ring buffer alto: 4067203 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.296Z [captureTimer] ring buffer alto: 4067363 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.332Z [captureTimer] ring buffer alto: 4067523 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.376Z [arecord] GAP 66ms (chunk#160202, 480 muestras)
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.429Z [captureTimer] ring buffer alto: 4067843 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.451Z [arecord] GAP 75ms (chunk#160203, 640 muestras)
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:25.477Z GAP 181ms entre frames GSM de salida
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.477Z [captureTimer] ring buffer alto: 4068323 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.561Z [arecord] GAP 110ms (chunk#160204, 800 muestras)
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.611Z [captureTimer] ring buffer alto: 4068963 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.662Z [arecord] GAP 101ms (chunk#160205, 800 muestras)
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:25.721Z GAP 244ms entre frames GSM de salida
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.722Z [captureTimer] ring buffer alto: 4069603 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.806Z [arecord] GAP 144ms (chunk#160206, 1120 muestras)
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.900Z [captureTimer] ring buffer alto: 4070563 muestras
+abr 27 13:53:25 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:25.981Z [arecord] GAP 175ms (chunk#160207, 1440 muestras)
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:26.048Z GAP 326ms entre frames GSM de salida
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.048Z [captureTimer] ring buffer alto: 4071843 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.073Z [arecord] GAP 92ms (chunk#160208, 800 muestras)
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.092Z [captureTimer] ring buffer alto: 4072483 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.113Z [captureTimer] ring buffer alto: 4072643 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.155Z [captureTimer] ring buffer alto: 4072643 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.194Z [captureTimer] ring buffer alto: 4072803 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.221Z [captureTimer] ring buffer alto: 4072963 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.245Z [captureTimer] ring buffer alto: 4072963 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.314Z [arecord] GAP 78ms (chunk#160215, 480 muestras)
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.338Z [captureTimer] ring buffer alto: 4073283 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.378Z [captureTimer] ring buffer alto: 4073603 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.473Z [arecord] GAP 113ms (chunk#160217, 960 muestras)
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.524Z [captureTimer] ring buffer alto: 4074403 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.581Z [arecord] GAP 108ms (chunk#160218, 800 muestras)
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:26.649Z GAP 312ms entre frames GSM de salida
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.649Z [captureTimer] ring buffer alto: 4075043 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.661Z [arecord] GAP 80ms (chunk#160219, 640 muestras)
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.683Z [captureTimer] ring buffer alto: 4075523 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.815Z [arecord] GAP 154ms (chunk#160220, 1280 muestras)
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:26.903Z GAP 254ms entre frames GSM de salida
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.904Z [captureTimer] ring buffer alto: 4076643 muestras
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.928Z [arecord] GAP 113ms (chunk#160221, 800 muestras)
+abr 27 13:53:26 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:26.951Z [captureTimer] ring buffer alto: 4077283 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.002Z [captureTimer] ring buffer alto: 4077443 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.076Z [arecord] GAP 113ms (chunk#160223, 960 muestras)
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.113Z [captureTimer] ring buffer alto: 4078243 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.132Z [arecord] GAP 56ms (chunk#160224, 480 muestras)
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.150Z [captureTimer] ring buffer alto: 4078563 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.226Z [arecord] GAP 94ms (chunk#160225, 640 muestras)
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.286Z [captureTimer] ring buffer alto: 4079043 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.300Z [arecord] GAP 74ms (chunk#160226, 640 muestras)
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:27.317Z GAP 167ms entre frames GSM de salida
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.317Z [captureTimer] ring buffer alto: 4079523 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.418Z [captureTimer] ring buffer alto: 4079683 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.449Z [arecord] GAP 114ms (chunk#160228, 800 muestras)
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.466Z [captureTimer] ring buffer alto: 4080323 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.498Z [captureTimer] ring buffer alto: 4080483 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.568Z [arecord] GAP 78ms (chunk#160230, 640 muestras)
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.585Z [captureTimer] ring buffer alto: 4080963 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.613Z [captureTimer] ring buffer alto: 4081123 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.720Z [arecord] GAP 120ms (chunk#160232, 960 muestras)
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.832Z [captureTimer] ring buffer alto: 4081923 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.885Z [arecord] GAP 165ms (chunk#160233, 1280 muestras)
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:27.893Z GAP 280ms entre frames GSM de salida
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.894Z [captureTimer] ring buffer alto: 4083043 muestras
+abr 27 13:53:27 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:27.949Z [captureTimer] ring buffer alto: 4083043 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.017Z [arecord] GAP 117ms (chunk#160235, 960 muestras)
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.042Z [captureTimer] ring buffer alto: 4083843 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.089Z [captureTimer] ring buffer alto: 4084003 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.240Z [arecord] GAP 181ms (chunk#160237, 1280 muestras)
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:28.315Z GAP 273ms entre frames GSM de salida
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.318Z [captureTimer] ring buffer alto: 4085123 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.344Z [arecord] GAP 104ms (chunk#160238, 960 muestras)
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.357Z [captureTimer] ring buffer alto: 4085923 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.454Z [captureTimer] ring buffer alto: 4085923 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.521Z [arecord] GAP 148ms (chunk#160240, 1120 muestras)
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:28.537Z GAP 219ms entre frames GSM de salida
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.539Z [captureTimer] ring buffer alto: 4086883 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.570Z [captureTimer] ring buffer alto: 4087043 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.735Z [arecord] GAP 182ms (chunk#160242, 1440 muestras)
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:28.807Z GAP 268ms entre frames GSM de salida
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.812Z [captureTimer] ring buffer alto: 4088323 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.835Z [arecord] GAP 100ms (chunk#160243, 800 muestras)
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.873Z [captureTimer] ring buffer alto: 4088963 muestras
+abr 27 13:53:28 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:28.930Z [captureTimer] ring buffer alto: 4089123 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.000Z [arecord] GAP 120ms (chunk#160245, 960 muestras)
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.031Z [captureTimer] ring buffer alto: 4089923 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.063Z [captureTimer] ring buffer alto: 4090083 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.161Z [arecord] GAP 116ms (chunk#160247, 960 muestras)
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:29.261Z GAP 201ms entre frames GSM de salida
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.262Z [captureTimer] ring buffer alto: 4090883 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.274Z [arecord] GAP 113ms (chunk#160248, 960 muestras)
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.291Z [captureTimer] ring buffer alto: 4091683 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.328Z [captureTimer] ring buffer alto: 4091843 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.429Z [arecord] GAP 112ms (chunk#160250, 640 muestras)
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:29.634Z GAP 373ms entre frames GSM de salida
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.642Z [captureTimer] ring buffer alto: 4092323 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.677Z [arecord] GAP 248ms (chunk#160251, 960 muestras)
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.703Z [captureTimer] ring buffer alto: 4093123 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.757Z [arecord] GAP 80ms (chunk#160252, 640 muestras)
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:29.838Z GAP 196ms entre frames GSM de salida
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.840Z [captureTimer] ring buffer alto: 4093603 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.859Z [arecord] GAP 102ms (chunk#160253, 800 muestras)
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.873Z [captureTimer] ring buffer alto: 4094243 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.939Z [captureTimer] ring buffer alto: 4094403 muestras
+abr 27 13:53:29 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:29.992Z [arecord] GAP 99ms (chunk#160255, 800 muestras)
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.050Z [captureTimer] ring buffer alto: 4095043 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.058Z [arecord] GAP 66ms (chunk#160256, 480 muestras)
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:30.064Z GAP 191ms entre frames GSM de salida
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.104Z [captureTimer] ring buffer alto: 4095523 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.205Z [arecord] GAP 140ms (chunk#160258, 1120 muestras)
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.220Z [captureTimer] ring buffer alto: 4096483 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.232Z [nivel] pico RMS=12 (-68.4 dBFS)  VOXumbral=800  gain=0.4
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:30.247Z GAP 182ms entre frames GSM de salida
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.247Z [captureTimer] ring buffer alto: 4096483 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.322Z [arecord] GAP 86ms (chunk#160260, 800 muestras)
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.365Z [captureTimer] ring buffer alto: 4097123 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.430Z [arecord] GAP 108ms (chunk#160261, 800 muestras)
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:30.445Z GAP 198ms entre frames GSM de salida
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.446Z [captureTimer] ring buffer alto: 4097763 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.521Z [captureTimer] ring buffer alto: 4097923 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.613Z [arecord] GAP 150ms (chunk#160263, 1120 muestras)
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.671Z [captureTimer] ring buffer alto: 4098883 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.687Z [arecord] GAP 74ms (chunk#160264, 640 muestras)
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:30.698Z GAP 178ms entre frames GSM de salida
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.698Z [captureTimer] ring buffer alto: 4099363 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.720Z [captureTimer] ring buffer alto: 4099363 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.766Z [captureTimer] ring buffer alto: 4099363 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.791Z [captureTimer] ring buffer alto: 4099523 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.846Z [arecord] GAP 67ms (chunk#160268, 640 muestras)
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.869Z [captureTimer] ring buffer alto: 4100003 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.920Z [captureTimer] ring buffer alto: 4100163 muestras
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.952Z [arecord] GAP 65ms (chunk#160270, 480 muestras)
+abr 27 13:53:30 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:30.999Z [captureTimer] ring buffer alto: 4100483 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.029Z [arecord] GAP 77ms (chunk#160271, 640 muestras)
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:31.060Z GAP 191ms entre frames GSM de salida
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.060Z [captureTimer] ring buffer alto: 4100963 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.128Z [arecord] GAP 99ms (chunk#160272, 800 muestras)
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.133Z [captureTimer] ring buffer alto: 4101603 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.231Z [captureTimer] ring buffer alto: 4101763 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.291Z [arecord] GAP 127ms (chunk#160274, 960 muestras)
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.357Z [captureTimer] ring buffer alto: 4102563 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.379Z [arecord] GAP 88ms (chunk#160275, 640 muestras)
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:31.392Z GAP 259ms entre frames GSM de salida
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.392Z [captureTimer] ring buffer alto: 4103043 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.414Z [captureTimer] ring buffer alto: 4103203 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.434Z [captureTimer] ring buffer alto: 4103203 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.455Z [captureTimer] ring buffer alto: 4103203 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.496Z [captureTimer] ring buffer alto: 4103203 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.521Z [captureTimer] ring buffer alto: 4103363 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.560Z [captureTimer] ring buffer alto: 4103523 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.586Z [captureTimer] ring buffer alto: 4103523 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.615Z [captureTimer] ring buffer alto: 4103683 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.671Z [arecord] GAP 67ms (chunk#160284, 480 muestras)
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.720Z [captureTimer] ring buffer alto: 4104003 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.747Z [arecord] GAP 76ms (chunk#160285, 640 muestras)
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.774Z [captureTimer] ring buffer alto: 4104483 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.826Z [arecord] GAP 78ms (chunk#160286, 480 muestras)
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.840Z [captureTimer] ring buffer alto: 4104803 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.903Z [arecord] GAP 78ms (chunk#160287, 640 muestras)
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.972Z [captureTimer] ring buffer alto: 4105283 muestras
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.984Z [arecord] GAP 81ms (chunk#160288, 640 muestras)
+abr 27 13:53:31 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:31.998Z [captureTimer] ring buffer alto: 4105763 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.046Z [arecord] GAP 62ms (chunk#160289, 480 muestras)
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:32.095Z GAP 255ms entre frames GSM de salida
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.096Z [captureTimer] ring buffer alto: 4106083 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.126Z [arecord] GAP 80ms (chunk#160290, 640 muestras)
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.141Z [captureTimer] ring buffer alto: 4106563 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.159Z [captureTimer] ring buffer alto: 4106723 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.309Z [arecord] GAP 159ms (chunk#160292, 1120 muestras)
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.363Z [captureTimer] ring buffer alto: 4107683 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.392Z [arecord] GAP 83ms (chunk#160293, 640 muestras)
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:32.404Z GAP 245ms entre frames GSM de salida
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.404Z [captureTimer] ring buffer alto: 4108163 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.436Z [captureTimer] ring buffer alto: 4108163 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.478Z [arecord] GAP 68ms (chunk#160295, 480 muestras)
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.506Z [captureTimer] ring buffer alto: 4108483 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.546Z [captureTimer] ring buffer alto: 4108803 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.638Z [arecord] GAP 112ms (chunk#160297, 800 muestras)
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:32.678Z GAP 177ms entre frames GSM de salida
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.678Z [captureTimer] ring buffer alto: 4109443 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.698Z [arecord] GAP 60ms (chunk#160298, 480 muestras)
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.737Z [captureTimer] ring buffer alto: 4109763 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.790Z [captureTimer] ring buffer alto: 4110083 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.832Z [arecord] GAP 90ms (chunk#160300, 640 muestras)
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.842Z [captureTimer] ring buffer alto: 4110563 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.871Z [captureTimer] ring buffer alto: 4110563 muestras
+abr 27 13:53:32 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:32.943Z [arecord] GAP 89ms (chunk#160302, 800 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.012Z [captureTimer] ring buffer alto: 4111203 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.020Z [arecord] GAP 77ms (chunk#160303, 480 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:33.065Z GAP 224ms entre frames GSM de salida
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.065Z [captureTimer] ring buffer alto: 4111523 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.084Z [arecord] GAP 64ms (chunk#160304, 640 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.137Z [captureTimer] ring buffer alto: 4112003 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.174Z [arecord] GAP 90ms (chunk#160305, 640 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.215Z [captureTimer] ring buffer alto: 4112483 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.275Z [arecord] GAP 101ms (chunk#160306, 800 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.317Z [captureTimer] ring buffer alto: 4113123 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.425Z [arecord] GAP 150ms (chunk#160307, 1280 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:33.494Z GAP 357ms entre frames GSM de salida
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.494Z [captureTimer] ring buffer alto: 4114243 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.547Z [arecord] GAP 122ms (chunk#160308, 960 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.557Z [captureTimer] ring buffer alto: 4115043 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.610Z [captureTimer] ring buffer alto: 4115203 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.649Z [arecord] GAP 63ms (chunk#160310, 480 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.665Z [captureTimer] ring buffer alto: 4115523 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:33.780Z GAP 223ms entre frames GSM de salida
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.780Z [captureTimer] ring buffer alto: 4115683 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.839Z [arecord] GAP 153ms (chunk#160312, 1120 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.843Z [captureTimer] ring buffer alto: 4116643 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.863Z [captureTimer] ring buffer alto: 4116643 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.911Z [arecord] GAP 64ms (chunk#160314, 480 muestras)
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.923Z [captureTimer] ring buffer alto: 4116963 muestras
+abr 27 13:53:33 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:33.947Z [captureTimer] ring buffer alto: 4116963 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.032Z [captureTimer] ring buffer alto: 4116963 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.041Z [arecord] GAP 81ms (chunk#160317, 640 muestras)
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.053Z [captureTimer] ring buffer alto: 4117443 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.077Z [captureTimer] ring buffer alto: 4117443 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.098Z [captureTimer] ring buffer alto: 4117603 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.120Z [captureTimer] ring buffer alto: 4117603 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.159Z [captureTimer] ring buffer alto: 4117763 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.181Z [captureTimer] ring buffer alto: 4117603 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.238Z [captureTimer] ring buffer alto: 4117763 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.259Z [arecord] GAP 62ms (chunk#160324, 480 muestras)
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.288Z [captureTimer] ring buffer alto: 4118083 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.363Z [arecord] GAP 104ms (chunk#160325, 800 muestras)
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:34.426Z GAP 189ms entre frames GSM de salida
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.426Z [captureTimer] ring buffer alto: 4118723 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.475Z [arecord] GAP 112ms (chunk#160326, 960 muestras)
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.583Z [captureTimer] ring buffer alto: 4119523 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.589Z [arecord] GAP 114ms (chunk#160327, 800 muestras)
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:34.637Z GAP 211ms entre frames GSM de salida
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.637Z [captureTimer] ring buffer alto: 4120163 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.734Z [arecord] GAP 145ms (chunk#160328, 1120 muestras)
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:34.796Z GAP 159ms entre frames GSM de salida
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.797Z [captureTimer] ring buffer alto: 4121123 muestras
+abr 27 13:53:34 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.819Z [arecord] GAP 85ms (chunk#160329, 800 muestras)
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:34.998Z [captureTimer] ring buffer alto: 4121763 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.023Z [arecord] GAP 204ms (chunk#160330, 1600 muestras)
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.047Z [captureTimer] ring buffer alto: 4123203 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:35.112Z GAP 315ms entre frames GSM de salida
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.113Z [captureTimer] ring buffer alto: 4123363 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.167Z [arecord] GAP 97ms (chunk#160332, 800 muestras)
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.173Z [captureTimer] ring buffer alto: 4124003 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.193Z [captureTimer] ring buffer alto: 4124003 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.243Z [arecord] GAP 65ms (chunk#160334, 480 muestras)
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.252Z [captureTimer] ring buffer alto: 4124323 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.264Z [nivel] pico RMS=12 (-68.6 dBFS)  VOXumbral=800  gain=0.4
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.276Z [captureTimer] ring buffer alto: 4124323 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.350Z [arecord] GAP 85ms (chunk#160336, 640 muestras)
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.359Z [captureTimer] ring buffer alto: 4124803 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.378Z [captureTimer] ring buffer alto: 4124803 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.407Z [captureTimer] ring buffer alto: 4124803 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.432Z [captureTimer] ring buffer alto: 4124963 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.548Z [captureTimer] ring buffer alto: 4125123 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.560Z [arecord] GAP 94ms (chunk#160342, 640 muestras)
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.582Z [captureTimer] ring buffer alto: 4125603 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.625Z [captureTimer] ring buffer alto: 4125763 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.671Z [captureTimer] ring buffer alto: 4126083 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.706Z [captureTimer] ring buffer alto: 4126243 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:35.816Z GAP 191ms entre frames GSM de salida
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.820Z [captureTimer] ring buffer alto: 4126403 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.851Z [arecord] GAP 128ms (chunk#160347, 960 muestras)
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.862Z [captureTimer] ring buffer alto: 4127203 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.885Z [captureTimer] ring buffer alto: 4127203 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.910Z [captureTimer] ring buffer alto: 4127203 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.942Z [captureTimer] ring buffer alto: 4127363 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.974Z [captureTimer] ring buffer alto: 4127363 muestras
+abr 27 13:53:35 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:35.998Z [captureTimer] ring buffer alto: 4127523 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.023Z [captureTimer] ring buffer alto: 4127523 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.083Z [captureTimer] ring buffer alto: 4127843 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.149Z [captureTimer] ring buffer alto: 4127843 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.183Z [arecord] GAP 92ms (chunk#160357, 800 muestras)
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.202Z [captureTimer] ring buffer alto: 4128483 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.232Z [captureTimer] ring buffer alto: 4128483 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.302Z [arecord] GAP 82ms (chunk#160359, 640 muestras)
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:36.358Z GAP 209ms entre frames GSM de salida
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.358Z [captureTimer] ring buffer alto: 4128963 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.380Z [arecord] GAP 78ms (chunk#160360, 640 muestras)
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.447Z [captureTimer] ring buffer alto: 4129443 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.492Z [arecord] GAP 112ms (chunk#160361, 960 muestras)
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.495Z [captureTimer] ring buffer alto: 4130243 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.539Z [captureTimer] ring buffer alto: 4130243 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.568Z [arecord] GAP 66ms (chunk#160363, 480 muestras)
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.573Z [captureTimer] ring buffer alto: 4130563 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.593Z [captureTimer] ring buffer alto: 4130403 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.647Z [captureTimer] ring buffer alto: 4130403 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.713Z [arecord] GAP 112ms (chunk#160365, 960 muestras)
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.724Z [captureTimer] ring buffer alto: 4131203 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:36.743Z GAP 162ms entre frames GSM de salida
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.743Z [captureTimer] ring buffer alto: 4131203 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.799Z [captureTimer] ring buffer alto: 4131363 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.820Z [arecord] GAP 51ms (chunk#160368, 320 muestras)
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.839Z [captureTimer] ring buffer alto: 4131523 muestras
+abr 27 13:53:36 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:36.951Z [captureTimer] ring buffer alto: 4131683 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.029Z [arecord] GAP 173ms (chunk#160370, 1280 muestras)
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:37.045Z GAP 246ms entre frames GSM de salida
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.046Z [captureTimer] ring buffer alto: 4132803 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.083Z [captureTimer] ring buffer alto: 4132963 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.155Z [captureTimer] ring buffer alto: 4133123 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.189Z [arecord] GAP 99ms (chunk#160373, 800 muestras)
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.230Z [captureTimer] ring buffer alto: 4133763 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.270Z [arecord] GAP 81ms (chunk#160374, 640 muestras)
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:37.312Z GAP 157ms entre frames GSM de salida
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.312Z [captureTimer] ring buffer alto: 4134243 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.503Z [arecord] GAP 233ms (chunk#160375, 1760 muestras)
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:37.541Z GAP 229ms entre frames GSM de salida
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.550Z [captureTimer] ring buffer alto: 4135843 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.591Z [arecord] GAP 88ms (chunk#160376, 640 muestras)
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.610Z [captureTimer] ring buffer alto: 4136323 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.693Z [captureTimer] ring buffer alto: 4136483 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.733Z [arecord] GAP 105ms (chunk#160378, 800 muestras)
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.755Z [captureTimer] ring buffer alto: 4137123 muestras
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.814Z [arecord] GAP 81ms (chunk#160379, 800 muestras)
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:37.866Z GAP 173ms entre frames GSM de salida
+abr 27 13:53:37 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:37.867Z [captureTimer] ring buffer alto: 4137763 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.042Z [arecord] GAP 228ms (chunk#160380, 1760 muestras)
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.088Z [captureTimer] ring buffer alto: 4139363 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.109Z [arecord] GAP 67ms (chunk#160381, 640 muestras)
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.126Z [captureTimer] ring buffer alto: 4139843 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:38.189Z GAP 323ms entre frames GSM de salida
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.189Z [captureTimer] ring buffer alto: 4139843 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.234Z [arecord] GAP 97ms (chunk#160383, 800 muestras)
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.287Z [captureTimer] ring buffer alto: 4140483 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.338Z [arecord] GAP 104ms (chunk#160384, 640 muestras)
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:38.391Z GAP 202ms entre frames GSM de salida
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.392Z [captureTimer] ring buffer alto: 4140963 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.658Z [arecord] GAP 320ms (chunk#160385, 2560 muestras)
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.693Z [captureTimer] ring buffer alto: 4143363 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.721Z [arecord] GAP 63ms (chunk#160386, 480 muestras)
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:38.741Z GAP 349ms entre frames GSM de salida
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.742Z [captureTimer] ring buffer alto: 4143683 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.784Z [arecord] GAP 63ms (chunk#160387, 480 muestras)
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.815Z [captureTimer] ring buffer alto: 4144003 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.851Z [captureTimer] ring buffer alto: 4144163 muestras
+abr 27 13:53:38 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:38.975Z [captureTimer] ring buffer alto: 4144323 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.062Z [arecord] GAP 188ms (chunk#160390, 1600 muestras)
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:39.089Z GAP 274ms entre frames GSM de salida
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.091Z [captureTimer] ring buffer alto: 4145763 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.115Z [captureTimer] ring buffer alto: 4145923 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.147Z [captureTimer] ring buffer alto: 4146083 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.168Z [captureTimer] ring buffer alto: 4146083 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.274Z [captureTimer] ring buffer alto: 4146083 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.294Z [arecord] GAP 113ms (chunk#160396, 960 muestras)
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.349Z [captureTimer] ring buffer alto: 4146883 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.369Z [arecord] GAP 75ms (chunk#160397, 480 muestras)
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:39.389Z GAP 229ms entre frames GSM de salida
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.389Z [captureTimer] ring buffer alto: 4147203 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.424Z [arecord] GAP 55ms (chunk#160398, 480 muestras)
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.483Z [captureTimer] ring buffer alto: 4147523 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.503Z [arecord] GAP 79ms (chunk#160399, 640 muestras)
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.614Z [captureTimer] ring buffer alto: 4148003 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.675Z [arecord] GAP 172ms (chunk#160400, 1280 muestras)
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.683Z [captureTimer] ring buffer alto: 4149123 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.739Z [arecord] GAP 64ms (chunk#160401, 640 muestras)
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:39.787Z GAP 304ms entre frames GSM de salida
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.788Z [captureTimer] ring buffer alto: 4149603 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.877Z [arecord] GAP 138ms (chunk#160402, 960 muestras)
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.902Z [captureTimer] ring buffer alto: 4150403 muestras
+abr 27 13:53:39 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:39.929Z [arecord] GAP 52ms (chunk#160403, 480 muestras)
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:40.105Z GAP 317ms entre frames GSM de salida
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.107Z [captureTimer] ring buffer alto: 4150723 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.178Z [arecord] GAP 249ms (chunk#160404, 2080 muestras)
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.256Z [captureTimer] ring buffer alto: 4152643 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.273Z [arecord] GAP 95ms (chunk#160405, 640 muestras)
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.304Z [nivel] pico RMS=12 (-68.8 dBFS)  VOXumbral=800  gain=0.4
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.305Z [captureTimer] ring buffer alto: 4153123 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.352Z [captureTimer] ring buffer alto: 4153443 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.449Z [arecord] GAP 128ms (chunk#160407, 960 muestras)
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.466Z [captureTimer] ring buffer alto: 4154243 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.496Z [captureTimer] ring buffer alto: 4154403 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.528Z [captureTimer] ring buffer alto: 4154403 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.560Z [arecord] GAP 55ms (chunk#160410, 320 muestras)
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.572Z [captureTimer] ring buffer alto: 4154563 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.652Z [captureTimer] ring buffer alto: 4154723 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.705Z [arecord] GAP 117ms (chunk#160413, 960 muestras)
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.718Z [captureTimer] ring buffer alto: 4155523 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.781Z [captureTimer] ring buffer alto: 4155523 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.821Z [captureTimer] ring buffer alto: 4155843 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.864Z [arecord] GAP 79ms (chunk#160416, 480 muestras)
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.872Z [captureTimer] ring buffer alto: 4156163 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.926Z [captureTimer] ring buffer alto: 4156163 muestras
+abr 27 13:53:40 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:40.993Z [arecord] GAP 112ms (chunk#160418, 960 muestras)
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.000Z [captureTimer] ring buffer alto: 4156963 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.020Z [captureTimer] ring buffer alto: 4156963 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.041Z [captureTimer] ring buffer alto: 4156963 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.071Z [captureTimer] ring buffer alto: 4156963 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.107Z [captureTimer] ring buffer alto: 4157123 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.132Z [captureTimer] ring buffer alto: 4157283 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.154Z [captureTimer] ring buffer alto: 4157283 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.207Z [captureTimer] ring buffer alto: 4157283 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.228Z [captureTimer] ring buffer alto: 4157603 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.276Z [captureTimer] ring buffer alto: 4157603 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.303Z [captureTimer] ring buffer alto: 4157603 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.393Z [arecord] GAP 110ms (chunk#160430, 960 muestras)
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.446Z [captureTimer] ring buffer alto: 4158403 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.499Z [arecord] GAP 106ms (chunk#160431, 800 muestras)
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:41.513Z GAP 237ms entre frames GSM de salida
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.517Z [captureTimer] ring buffer alto: 4159043 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.538Z [captureTimer] ring buffer alto: 4159203 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.577Z [captureTimer] ring buffer alto: 4159203 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.625Z [captureTimer] ring buffer alto: 4159523 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.653Z [captureTimer] ring buffer alto: 4159523 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.675Z [captureTimer] ring buffer alto: 4159523 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.727Z [captureTimer] ring buffer alto: 4159683 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.749Z [arecord] GAP 62ms (chunk#160438, 480 muestras)
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.769Z [captureTimer] ring buffer alto: 4160003 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.809Z [captureTimer] ring buffer alto: 4160163 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.847Z [arecord] GAP 58ms (chunk#160440, 480 muestras)
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.934Z [captureTimer] ring buffer alto: 4160483 muestras
+abr 27 13:53:41 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:41.981Z [arecord] GAP 134ms (chunk#160441, 960 muestras)
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:42.008Z GAP 199ms entre frames GSM de salida
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.008Z [captureTimer] ring buffer alto: 4161283 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.028Z [captureTimer] ring buffer alto: 4161443 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.093Z [captureTimer] ring buffer alto: 4161603 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.121Z [arecord] GAP 74ms (chunk#160445, 480 muestras)
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.131Z [captureTimer] ring buffer alto: 4161923 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.169Z [captureTimer] ring buffer alto: 4161923 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.214Z [captureTimer] ring buffer alto: 4162083 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.280Z [captureTimer] ring buffer alto: 4162243 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.286Z [arecord] GAP 59ms (chunk#160449, 480 muestras)
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.313Z [captureTimer] ring buffer alto: 4162563 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.333Z [captureTimer] ring buffer alto: 4162723 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.353Z [captureTimer] ring buffer alto: 4162723 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.383Z [captureTimer] ring buffer alto: 4162883 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.439Z [captureTimer] ring buffer alto: 4162723 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.457Z [arecord] GAP 82ms (chunk#160453, 640 muestras)
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:42.549Z GAP 211ms entre frames GSM de salida
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.549Z [captureTimer] ring buffer alto: 4163203 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.561Z [arecord] GAP 104ms (chunk#160454, 800 muestras)
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.580Z [captureTimer] ring buffer alto: 4163843 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.606Z [captureTimer] ring buffer alto: 4164003 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.667Z [captureTimer] ring buffer alto: 4164163 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.704Z [captureTimer] ring buffer alto: 4164323 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.743Z [captureTimer] ring buffer alto: 4164323 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.797Z [captureTimer] ring buffer alto: 4164483 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.817Z [arecord] GAP 62ms (chunk#160461, 480 muestras)
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.831Z [captureTimer] ring buffer alto: 4164803 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.883Z [captureTimer] ring buffer alto: 4164963 muestras
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.942Z [arecord] GAP 88ms (chunk#160463, 640 muestras)
+abr 27 13:53:42 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:42.965Z [captureTimer] ring buffer alto: 4165443 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:43.036Z GAP 205ms entre frames GSM de salida
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.036Z [captureTimer] ring buffer alto: 4165603 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.080Z [arecord] GAP 105ms (chunk#160465, 800 muestras)
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.093Z [captureTimer] ring buffer alto: 4166243 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.117Z [captureTimer] ring buffer alto: 4166403 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.137Z [captureTimer] ring buffer alto: 4166403 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.188Z [arecord] GAP 62ms (chunk#160469, 320 muestras)
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.212Z [captureTimer] ring buffer alto: 4166563 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.251Z [arecord] GAP 63ms (chunk#160470, 640 muestras)
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:43.278Z GAP 153ms entre frames GSM de salida
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.278Z [captureTimer] ring buffer alto: 4167043 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.313Z [captureTimer] ring buffer alto: 4167043 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.337Z [arecord] GAP 51ms (chunk#160472, 480 muestras)
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.345Z [captureTimer] ring buffer alto: 4167363 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.403Z [captureTimer] ring buffer alto: 4167363 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.482Z [arecord] GAP 117ms (chunk#160474, 960 muestras)
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.503Z [captureTimer] ring buffer alto: 4168163 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:43.563Z GAP 218ms entre frames GSM de salida
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.563Z [captureTimer] ring buffer alto: 4168323 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.617Z [arecord] GAP 97ms (chunk#160476, 800 muestras)
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.655Z [captureTimer] ring buffer alto: 4168963 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.704Z [arecord] GAP 87ms (chunk#160477, 640 muestras)
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.708Z [captureTimer] ring buffer alto: 4169443 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.766Z [captureTimer] ring buffer alto: 4169603 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.784Z [arecord] GAP 56ms (chunk#160480, 320 muestras)
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.791Z [captureTimer] ring buffer alto: 4169763 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:43.866Z GAP 152ms entre frames GSM de salida
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.866Z [captureTimer] ring buffer alto: 4169763 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.925Z [arecord] GAP 125ms (chunk#160482, 960 muestras)
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.943Z [captureTimer] ring buffer alto: 4170563 muestras
+abr 27 13:53:43 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:43.993Z [arecord] GAP 68ms (chunk#160483, 640 muestras)
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.009Z [captureTimer] ring buffer alto: 4171043 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:44.033Z GAP 167ms entre frames GSM de salida
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.033Z [captureTimer] ring buffer alto: 4171043 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.073Z [arecord] GAP 62ms (chunk#160485, 320 muestras)
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.085Z [captureTimer] ring buffer alto: 4171203 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.107Z [captureTimer] ring buffer alto: 4171363 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.197Z [arecord] GAP 103ms (chunk#160487, 800 muestras)
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:44.264Z GAP 184ms entre frames GSM de salida
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.269Z [captureTimer] ring buffer alto: 4172003 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.287Z [arecord] GAP 90ms (chunk#160488, 800 muestras)
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.304Z [captureTimer] ring buffer alto: 4172643 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.325Z [captureTimer] ring buffer alto: 4172643 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.346Z [captureTimer] ring buffer alto: 4172643 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.367Z [captureTimer] ring buffer alto: 4172643 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.387Z [captureTimer] ring buffer alto: 4172643 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.412Z [captureTimer] ring buffer alto: 4172643 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.436Z [captureTimer] ring buffer alto: 4172803 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.457Z [captureTimer] ring buffer alto: 4172803 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.511Z [arecord] GAP 60ms (chunk#160497, 480 muestras)
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.521Z [captureTimer] ring buffer alto: 4173123 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.596Z [captureTimer] ring buffer alto: 4173123 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.621Z [arecord] GAP 81ms (chunk#160499, 640 muestras)
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.643Z [captureTimer] ring buffer alto: 4173603 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.704Z [captureTimer] ring buffer alto: 4173763 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:44.722Z GAP 182ms entre frames GSM de salida
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.729Z [captureTimer] ring buffer alto: 4174083 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.852Z [captureTimer] ring buffer alto: 4174083 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.869Z [arecord] GAP 129ms (chunk#160503, 960 muestras)
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [gsm-enc] 2026-04-27T13:53:44.880Z GAP 152ms entre frames GSM de salida
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.881Z [captureTimer] ring buffer alto: 4174883 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.906Z [captureTimer] ring buffer alto: 4174883 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.936Z [arecord] GAP 51ms (chunk#160505, 480 muestras)
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.949Z [captureTimer] ring buffer alto: 4175203 muestras
+abr 27 13:53:44 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:44.971Z [captureTimer] ring buffer alto: 4175203 muestras
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.017Z [arecord] GAP 59ms (chunk#160507, 480 muestras)
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.089Z [captureTimer] ring buffer alto: 4175523 muestras
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.100Z [arecord] GAP 83ms (chunk#160508, 640 muestras)
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.111Z [captureTimer] ring buffer alto: 4176003 muestras
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.137Z [captureTimer] ring buffer alto: 4176163 muestras
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.158Z [captureTimer] ring buffer alto: 4176163 muestras
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.178Z [captureTimer] ring buffer alto: 4176163 muestras
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.214Z [captureTimer] ring buffer alto: 4176163 muestras
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.254Z [captureTimer] ring buffer alto: 4176323 muestras
+abr 27 13:53:45 ubuntus eqso-relay-CB[2034]: [audio] 2026-04-27T13:53:45.288Z [captureTimer] ring buffer alto: 4176483 muestras
