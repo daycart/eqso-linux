@@ -305,7 +305,9 @@ export class EqsoClient extends EventEmitter {
         for (let i = 0; i < count; i++) {
           if (off >= pkt.length) break;
           const len = pkt[off++];
-          rooms.push(pkt.slice(off, off + len).toString("ascii"));
+          // strip null terminator and control chars that journald would log as binary
+          const name = pkt.slice(off, off + len).toString("ascii").replace(/[\x00-\x1f\x7f]/g, "");
+          rooms.push(name);
           off += len;
         }
         log(`Salas disponibles: ${rooms.join(", ")}`);
