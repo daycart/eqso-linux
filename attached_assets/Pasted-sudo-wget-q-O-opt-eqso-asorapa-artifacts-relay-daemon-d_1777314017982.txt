@@ -1,0 +1,23 @@
+sudo wget -q -O /opt/eqso-asorapa/artifacts/relay-daemon/dist/main.mjs \
+  "https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/dist/main.mjs" \
+  && echo "Tama\Uffffffff$(wc -c < /opt/eqso-asorapa/artifacts/relay-daemon/dist/main.mjs) bytes" \
+  && sudo systemctl restart eqso-relay@CB \
+  && sleep 5 \
+  && sudo journalctl -u eqso-relay@CB -n 15 --no-pager
+[sudo] password for david: 
+Tama\Uffffffff56148 bytes
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [audio] 2026-04-27T18:19:41.324Z [arecord] chunk#2: 5760 bytes brutos ? 480 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [eqso] 2026-04-27T18:19:41.360Z Handshake recibido \Uffffffff conexion establecida
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [main] 2026-04-27T18:19:41.367Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [eqso] 2026-04-27T18:19:41.375Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [eqso] 2026-04-27T18:19:41.383Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [main] 2026-04-27T18:19:41.383Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [audio] 2026-04-27T18:19:41.390Z [arecord] chunk#3: 5760 bytes brutos ? 480 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [audio] 2026-04-27T18:19:41.390Z [arecord] GAP 66ms (chunk#3, 480 muestras)
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [main] 2026-04-27T18:19:41.406Z Sala: 0R-IN70WN se ha unido
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [ptt] 2026-04-27T18:19:41.407Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [audio] 2026-04-27T18:19:41.409Z [arecord] chunk#4: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [audio] 2026-04-27T18:19:41.418Z [arecord] chunk#5: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [audio] 2026-04-27T18:19:41.434Z [arecord] chunk#6: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [audio] 2026-04-27T18:19:41.453Z [arecord] chunk#7: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 27 18:19:41 ubuntus eqso-relay-CB[5446]: [audio] 2026-04-27T18:19:41.476Z [arecord] chunk#8: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
