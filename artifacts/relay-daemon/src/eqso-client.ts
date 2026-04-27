@@ -292,7 +292,7 @@ export class EqsoClient extends EventEmitter {
       }
       case 0x0b: {
         if (pkt.length >= 2) {
-          const text = pkt.slice(2, 2 + pkt[1]).toString("ascii");
+          const text = sanitize(pkt.slice(2, 2 + pkt[1]).toString("ascii"));
           log(`Mensaje del servidor: ${text}`);
           this.emit("event", { type: "server_msg", data: text } satisfies EqsoEvent);
         }
@@ -300,15 +300,13 @@ export class EqsoClient extends EventEmitter {
       }
       case 0x14: {
         const count = pkt[1];
-        log(`[0x14 debug] pktLen=${pkt.length} count(pkt[1])=${count} hex60=${pkt.slice(0, 60).toString("hex")}`);
         const rooms: string[] = [];
         let off = 5;
         for (let i = 0; i < count; i++) {
           if (off >= pkt.length) break;
           const len = pkt[off++];
-          // strip null terminator and control chars that journald would log as binary
-          const name = pkt.slice(off, off + len).toString("ascii").replace(/[\x00-\x1f\x7f]/g, "");
-          rooms.push(name);
+          const name = sanitize(pkt.slice(off, off + len).toString("ascii"));
+          if (name) rooms.push(name);
           off += len;
         }
         const preview = rooms.slice(0, 5).join(", ") + (rooms.length > 5 ? ` … (+${rooms.length - 5} mas)` : "");
@@ -338,12 +336,12 @@ export class EqsoClient extends EventEmitter {
       if (off >= pkt.length) return;
       const nameLen = pkt[off++];
       if (off + nameLen > pkt.length) return;
-      const name = pkt.slice(off, off + nameLen).toString("ascii");
+      const name = sanitize(pkt.slice(off, off + nameLen).toString("ascii"));
       off += nameLen;
       switch (action) {
         case 0x00: {
           const msgLen = off < pkt.length ? pkt[off++] : 0;
-          const msg = pkt.slice(off, off + msgLen).toString("ascii");
+          const msg = sanitize(pkt.slice(off, off + msgLen).toString("ascii"));
           // action=0x00 tras TX = PTT release (protocolo eQSO original usa idle/join para señalar fin de TX)
           if (this.txingStations.has(name)) {
             this.txingStations.delete(name);
@@ -375,12 +373,12 @@ export class EqsoClient extends EventEmitter {
       const action = pkt[off]; off += 4;
       const nameLen = pkt[off++];
       if (off + nameLen > pkt.length) break;
-      const name = pkt.slice(off, off + nameLen).toString("ascii");
+      const name = sanitize(pkt.slice(off, off + nameLen).toString("ascii"));
       off += nameLen;
       switch (action) {
         case 0x00: {
           const msgLen = off < pkt.length ? pkt[off++] : 0;
-          const msg = pkt.slice(off, off + msgLen).toString("ascii");
+          const msg = sanitize(pkt.slice(off, off + msgLen).toString("ascii"));
           off += msgLen;
           if (off < pkt.length) off++;
           if (this.txingStations.has(name)) {
@@ -410,3 +408,5 @@ export class EqsoClient extends EventEmitter {
 
 function buf(s: string): Buffer { return Buffer.from(s, "ascii"); }
 function log(msg: string): void { console.log(`[eqso] ${new Date().toISOString()} ${msg}`); }
+/** Strip control chars (incl. null terminators) so journald never sees binary output */
+function sanitize(s: string): string { return s.replace(/[\x00-\x1f\x7f]/g, ""); }
