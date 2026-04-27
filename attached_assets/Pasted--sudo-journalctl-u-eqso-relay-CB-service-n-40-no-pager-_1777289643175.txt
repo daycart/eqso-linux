@@ -1,0 +1,41 @@
+ sudo journalctl -u eqso-relay@CB.service -n 40 --no-pager
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: [audio] 2026-04-27T11:33:48.525Z [arecord] arecord: set_params:1435:
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: [audio] 2026-04-27T11:33:48.526Z [arecord] Unable to install hw params:
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: ACCESS:  RW_INTERLEAVED
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: FORMAT:  S16_LE
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: SUBFORMAT:
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: [audio] 2026-04-27T11:33:48.526Z [arecord] STD
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: SAMPLE_BITS: 16
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: FRAME_BITS: 16
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: CHANNELS: 1
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: RATE: 48000
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: PERIOD_TIME: 20000
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: PERIOD_SIZE: 960
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: PERIOD_BYTES: 1920
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: PERIODS: 50
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: BUFFER_TIME: 1000000
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: [audio] 2026-04-27T11:33:48.527Z [arecord] BUFFER_SIZE: 48000
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: BUFFER_BYTES: 96000
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: TICK_TIME: 0
+abr 27 11:33:48 ubuntus eqso-relay-CB[8765]: [audio] 2026-04-27T11:33:48.542Z [arecord] Terminado (code 1)
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: [main] 2026-04-27T11:33:50.544Z [vox] arecord reiniciado \Uffffffff startup suppress reseteado hasta 2026-04-27T11:33:54.544Z
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: [main] 2026-04-27T11:33:50.544Z [vox] arecord reiniciado \Uffffffff startup suppress reseteado hasta 2026-04-27T11:33:54.544Z
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: [audio] 2026-04-27T11:33:50.545Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: [audio] 2026-04-27T11:33:50.582Z [arecord] arecord: set_params:1435:
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: [audio] 2026-04-27T11:33:50.586Z [arecord] Unable to install hw params:
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: ACCESS:  RW_INTERLEAVED
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: FORMAT:  S16_LE
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: SUBFORMAT:  STD
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: SAMPLE_BITS: 16
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: FRAME_BITS: 16
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: CHANNELS: 1
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: RATE: 48000
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: PERIOD_TIME: 20000
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: PERIOD_SIZE: 960
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: PERIOD_BYTES: 1920
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: PERIODS: 50
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: BUFFER_TIME: 1000000
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: BUFFER_SIZE: 48000
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: BUFFER_BYTES: 96000
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: TICK_TIME: 0
+abr 27 11:33:50 ubuntus eqso-relay-CB[8765]: [audio] 2026-04-27T11:33:50.595Z [arecord] Terminado (code 1)
