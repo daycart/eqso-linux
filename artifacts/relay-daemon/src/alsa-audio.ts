@@ -339,6 +339,38 @@ export class AlsaAudio extends EventEmitter {
 
   // ── arecord ───────────────────────────────────────────────────────────────
 
+  // ── USB audio reset (CM108 VirtualBox) ──────────────────────────────────
+  /**
+   * Recarga el driver snd_usb_audio para recuperar el CM108 tras aplay.
+   * En VirtualBox, cerrar aplay corrompe el estado USB interno del driver,
+   * haciendo que arecord falle con 'Unable to install hw params'. El reload
+   * resetea el estado y permite reiniciar arecord correctamente.
+   * El servicio corre como root (sin User= en .service) → modprobe directo.
+   */
+  private resetUsbAudio(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      log('[audio] USB reset: modprobe -r snd_usb_audio...');
+      const unload = spawn('modprobe', ['-r', 'snd_usb_audio']);
+      unload.on('error', (e: Error) => {
+        log('[audio] USB reset: error en modprobe -r: ' + e.message);
+        resolve();
+      });
+      unload.on('close', (code: number | null) => {
+        log('[audio] USB reset: descargado (code ' + code + '), recargando...');
+        const load = spawn('modprobe', ['snd_usb_audio']);
+        load.on('error', (e: Error) => {
+          log('[audio] USB reset: error en modprobe load: ' + e.message);
+          resolve();
+        });
+        load.on('close', (code2: number | null) => {
+          log('[audio] USB reset: cargado (code ' + code2 + '), esperando 1.5s...');
+          setTimeout(resolve, 1500);
+        });
+      });
+    });
+  }
+
+
   private startRecorder(): void {
     // ─── ESTRATEGIA DE CAPTURA: 48kHz nativo + decimación ×6 en Node.js ───────
     //
@@ -601,11 +633,11 @@ export class AlsaAudio extends EventEmitter {
         // Reanudar arecord si corresponde.
         if (this.recorderSuspended && !this.stopping && !this.playerStarting && !this.drainPlayer) {
           this.recorderSuspended = false;
-          log("[audio] Semi-duplex: reanudando arecord en 800ms (aplay cerrado inesperadamente, reset USB CM108)");
-          setTimeout(() => {
+          log("[audio] Semi-duplex: reanudando arecord — reset USB CM108...");
+          this.resetUsbAudio().then(() => {
             if (!this.stopping && !this.player && !this.playerStarting)
               this.startRecorder();
-          }, 800);
+          });
         }
       }
     });
@@ -660,11 +692,11 @@ export class AlsaAudio extends EventEmitter {
           if (this.recorderSuspended && !this.stopping && !this.player && !this.playerStarting) {
             this.recorderSuspended = false;
             this.emit("playback_ended"); // suppress VOX desde cierre real de aplay
-            log("[audio] Semi-duplex: reanudando arecord en 800ms (reset USB CM108)");
-            setTimeout(() => {
+            log("[audio] Semi-duplex: reanudando arecord — reset USB CM108...");
+            this.resetUsbAudio().then(() => {
               if (!this.stopping && !this.player && !this.playerStarting)
                 this.startRecorder();
-            }, 800);
+            });
           }
         }
       });
@@ -672,11 +704,11 @@ export class AlsaAudio extends EventEmitter {
     } else if (this.recorderSuspended && !this.stopping && !this.playerStarting && !this.drainPlayer) {
       this.recorderSuspended = false;
       this.emit("playback_ended");
-      log("[audio] Semi-duplex: reanudando arecord en 800ms (player ya cerrado, reset USB CM108)");
-      setTimeout(() => {
+      log("[audio] Semi-duplex: reanudando arecord — reset USB CM108...");
+      this.resetUsbAudio().then(() => {
         if (!this.stopping && !this.player && !this.playerStarting)
           this.startRecorder();
-      }, 800);
+      });
     }
   }
 

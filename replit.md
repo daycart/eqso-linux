@@ -251,6 +251,18 @@ Daemon Node.js que corre en la VM Ubuntu como `eqso-relay@CB.service`. Conecta a
 - `inputGain: 0.4` — ganancia de captura (ajustada para CM108)
 - `outputGain: 3` — ganancia de reproducción
 
+### CM108 USB VirtualBox — Fix modprobe (Abril 2026)
+
+**Problema**: Al cerrar `aplay` (fin de RX), el driver USB de VirtualBox deja el CM108 en estado corrupto. `arecord` falla con "Unable to install hw params" en bucle infinito (code 1 cada 2s). El delay de 800ms no es suficiente.
+
+**Fix aplicado en alsa-audio.ts**: Método `resetUsbAudio()` que tras cada cierre de `aplay` ejecuta `modprobe -r snd_usb_audio && modprobe snd_usb_audio` (espera ~1.5s) antes de reiniciar `arecord`. Funciona sin sudo porque el servicio corre como root (sin `User=` en el .service).
+
+**Para aplicar en la VM**: Usar el script de parche:
+```bash
+sudo node /opt/eqso-asorapa/artifacts/relay-daemon/install/vm-patch-usb-reset.mjs
+```
+O copiar el dist/main.mjs compilado directamente desde Replit (más fiable).
+
 ### Despliegue en la VM
 ```bash
 # Los cambios de Replit NO llegan automáticamente a la VM.
