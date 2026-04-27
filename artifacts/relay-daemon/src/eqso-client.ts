@@ -300,6 +300,7 @@ export class EqsoClient extends EventEmitter {
       }
       case 0x14: {
         const count = pkt[1];
+        log(`[0x14 debug] pktLen=${pkt.length} count(pkt[1])=${count} hex60=${pkt.slice(0, 60).toString("hex")}`);
         const rooms: string[] = [];
         let off = 5;
         for (let i = 0; i < count; i++) {
