@@ -43,7 +43,6 @@ class EqsoPacketParser {
       if (cmd === 0x0b) {
         if (this.acc.length < 2) return null;
         const tlen = this.acc[1];
-        console.log(`[parser] [RAW 0x0b tlen=${tlen}] ${this.acc.slice(0, Math.min(tlen + 8, this.acc.length)).toString("hex")}`);
         const total = 2 + tlen + 1;
         if (this.acc.length < total) return null;
         const p = this.acc.slice(0, total); this.acc = this.acc.slice(total); return p;
@@ -64,10 +63,6 @@ class EqsoPacketParser {
         const p = this.acc.slice(0, off); this.acc = this.acc.slice(off); return p;
       }
       if (cmd === 0x16) {
-        const cnt = this.acc.length > 1 ? this.acc[1] : -1;
-        if (cnt > 1) {
-          console.log(`[parser] [RAW 0x16 count=${cnt}] ${this.acc.slice(0, Math.min(60, this.acc.length)).toString("hex")}`);
-        }
         const r = this.parseUserUpdate();
         if (r === null) return null;
         if (r === false) continue;
@@ -106,19 +101,26 @@ class EqsoPacketParser {
       }
       const p = this.acc.slice(0, off); this.acc = this.acc.slice(off); return p;
     }
+    // Safety: counts larger than a realistic room size indicate a corrupt/unknown packet.
+    // Skip the leading 0x16 byte rather than waiting forever for data that won't come.
+    if (count > 50) { this.acc = this.acc.slice(1); return false; }
     if (this.acc.length < 5) return null;
+    // Per-entry format from api-server (protocol.ts buildUserList):
+    //   [action:1][pad×3][nameLen:1][name:N][msgLen:1][msg:M][term:1]  (action=0x00 join/idle)
+    //   [action:1][pad×3][nameLen:1][name:N]                           (action=0x01/02/03)
     let off = 5;
     for (let i = 0; i < count; i++) {
-      if (this.acc.length < off + 2) return null;
-      const action = this.acc[off++];
+      if (this.acc.length < off + 5) return null; // action(1)+pad(3)+nameLen(1)
+      const action = this.acc[off];
+      off += 4; // skip action + 3 padding bytes
       const nameLen = this.acc[off++];
       if (this.acc.length < off + nameLen) return null;
       off += nameLen;
       if (action === 0x00) {
         if (this.acc.length < off + 1) return null;
         const msgLen = this.acc[off++];
-        if (this.acc.length < off + msgLen) return null;
-        off += msgLen;
+        if (this.acc.length < off + msgLen + 1) return null;
+        off += msgLen + 1; // msg + terminator
       }
     }
     const p = this.acc.slice(0, off); this.acc = this.acc.slice(off); return p;
@@ -372,10 +374,12 @@ export class EqsoClient extends EventEmitter {
       return;
     }
 
+    // Per-entry format: [action:1][pad×3][nameLen:1][name:N] + [msgLen][msg][term] if action=0x00
     let off = 5;
     for (let i = 0; i < count; i++) {
-      if (off + 2 > pkt.length) break;
-      const action = pkt[off++];
+      if (off + 5 > pkt.length) break;
+      const action = pkt[off];
+      off += 4; // skip action + 3 padding bytes
       const nameLen = pkt[off++];
       if (off + nameLen > pkt.length) break;
       const name = sanitize(pkt.slice(off, off + nameLen).toString("ascii"));
@@ -385,6 +389,7 @@ export class EqsoClient extends EventEmitter {
           const msgLen = off < pkt.length ? pkt[off++] : 0;
           const msg = sanitize(pkt.slice(off, off + msgLen).toString("ascii"));
           off += msgLen;
+          if (off < pkt.length) off++; // terminator
           if (this.txingStations.has(name)) {
             this.txingStations.delete(name);
             this.emit("event", { type: "ptt_released", data: { name } } satisfies EqsoEvent);
