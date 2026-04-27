@@ -86,6 +86,10 @@ export class SerialPtt extends EventEmitter {
       log(`PTT set(${active}) ignorado — PTT serial deshabilitado (device vacio en config)`);
       return;
     }
+    if (!this.proc) {
+      log(`PTT set(${active}) → helper caido, reiniciando...`);
+      this.start();
+    }
     if (!this.ready) {
       log(`PTT set(${active}) → pendingCmd=${cmd} (helper no listo aun)`);
       this.pendingCmd = cmd;

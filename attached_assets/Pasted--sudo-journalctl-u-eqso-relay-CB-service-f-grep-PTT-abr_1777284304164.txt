@@ -1,0 +1,46 @@
+$ sudo journalctl -u eqso-relay@CB.service -f |grep PTT
+abr 27 09:50:48 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:50:48.980Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:48:50.309Z)
+abr 27 09:50:55 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:50:55.193Z PTT liberado [0x0d]
+abr 27 09:50:55 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:50:55.193Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:50:57.693Z)
+abr 27 09:51:18 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:51:18.812Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:50:57.693Z)
+abr 27 09:51:24 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:51:24.979Z PTT liberado [0x0d]
+abr 27 09:51:24 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:51:24.979Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:51:27.479Z)
+abr 27 09:53:10 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:53:10.362Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:51:27.479Z)
+abr 27 09:53:16 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:53:16.921Z PTT liberado [0x0d]
+abr 27 09:53:16 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:53:16.921Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:53:19.421Z)
+abr 27 09:53:53 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:53:53.488Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:53:19.421Z)
+abr 27 09:54:24 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:54:24.339Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:53:19.421Z)
+abr 27 09:54:32 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:54:32.290Z PTT liberado [0x0d]
+abr 27 09:54:32 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:54:32.291Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:54:34.791Z)
+abr 27 09:54:42 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:54:42.610Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:54:34.791Z)
+abr 27 09:54:48 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:54:48.653Z PTT liberado [0x0d]
+abr 27 09:54:48 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:54:48.654Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:54:51.153Z)
+abr 27 09:55:03 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:55:03.695Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:54:51.153Z)
+abr 27 09:55:09 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:55:09.883Z PTT liberado [0x0d]
+abr 27 09:55:09 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:55:09.884Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:55:12.384Z)
+abr 27 09:55:18 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:55:18.871Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:55:12.384Z)
+abr 27 09:55:25 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:55:25.024Z PTT liberado [0x0d]
+abr 27 09:55:25 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:55:25.025Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:55:27.525Z)
+abr 27 09:55:34 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:55:34.021Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:55:27.525Z)
+abr 27 09:55:40 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:55:40.083Z PTT liberado [0x0d]
+abr 27 09:55:40 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:55:40.083Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:55:42.583Z)
+abr 27 09:55:49 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:55:49.201Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:55:42.583Z)
+abr 27 09:56:11 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:56:11.461Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:55:42.583Z)
+abr 27 09:56:18 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:56:18.801Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:55:42.583Z)
+abr 27 09:56:36 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:56:36.305Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:55:42.583Z)
+abr 27 09:56:42 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:56:42.884Z PTT liberado [0x0d]
+abr 27 09:56:42 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:56:42.884Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:56:45.384Z)
+abr 27 09:58:10 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:58:10.474Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:56:45.384Z)
+abr 27 09:58:16 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:58:16.498Z PTT liberado [0x0d]
+abr 27 09:58:16 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:58:16.498Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:58:18.998Z)
+abr 27 09:58:29 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:58:29.162Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-27T09:58:18.998Z)
+abr 27 09:58:35 ubuntus eqso-relay-CB[999]: [eqso] 2026-04-27T09:58:35.183Z PTT liberado [0x0d]
+abr 27 09:58:35 ubuntus eqso-relay-CB[999]: [main] 2026-04-27T09:58:35.183Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-27T09:58:37.683Z)
+abr 27 10:03:07 ubuntus eqso-relay-CB[999]: [ptt] 2026-04-27T10:03:07.643Z PTT set(true) ? pendingCmd=1 (helper no listo aun)
+abr 27 10:03:11 ubuntus eqso-relay-CB[999]: [ptt] 2026-04-27T10:03:11.452Z PTT set(false) ? pendingCmd=0 (helper no listo aun)
+abr 27 10:04:15 ubuntus eqso-relay-CB[999]: [ptt] 2026-04-27T10:04:15.141Z PTT set(true) ? pendingCmd=1 (helper no listo aun)
+abr 27 10:04:16 ubuntus eqso-relay-CB[999]: [ptt] 2026-04-27T10:04:16.036Z PTT set(false) ? pendingCmd=0 (helper no listo aun)
+abr 27 10:04:19 ubuntus eqso-relay-CB[999]: [ptt] 2026-04-27T10:04:19.807Z PTT set(true) ? pendingCmd=1 (helper no listo aun)
+abr 27 10:04:20 ubuntus eqso-relay-CB[999]: [ptt] 2026-04-27T10:04:20.209Z PTT set(false) ? pendingCmd=0 (helper no listo aun)
+abr 27 10:04:32 ubuntus eqso-relay-CB[999]: [ptt] 2026-04-27T10:04:32.461Z PTT set(true) ? pendingCmd=1 (helper no listo aun)
+abr 27 10:04:33 ubuntus eqso-relay-CB[999]: [ptt] 2026-04-27T10:04:33.247Z PTT set(false) ? pendingCmd=0 (helper no listo aun)
