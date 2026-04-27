@@ -326,19 +326,45 @@ export class AlsaAudio extends EventEmitter {
    */
   private startCaptureTimer(): void {
     if (this.captureTimer) clearInterval(this.captureTimer);
-    const WARN_SAMPLES = 3200; // 400ms a 8kHz → posible deriva del timer
+
+    // Cap duro: evitar OOM si el ring buffer crece sin control.
+    // En VirtualBox el scheduler puede ralentizar el timer; si supera 2s de
+    // audio acumulado (16000 muestras) se descarta el audio más antiguo.
+    const MAX_CAPTURE_SAMPLES = 16000; // 2s a 8kHz
+    // Log de deriva: solo cada 30s para no saturar el journal.
+    let lastWarnMs = 0;
+
+    let lastDrainMs = Date.now();
+
     this.captureTimer = setInterval(() => {
-      if (this.captureRingBuf.length >= PCM_CHUNK_SAMPLES) {
-        if (this.captureRingBuf.length > WARN_SAMPLES)
-          log(`[captureTimer] ring buffer alto: ${this.captureRingBuf.length} muestras (${(this.captureRingBuf.length / 8).toFixed(0)}ms)`);
+      // ── Cap duro: descartar muestras antiguas si el buffer crece demasiado ──
+      if (this.captureRingBuf.length > MAX_CAPTURE_SAMPLES) {
+        const now2 = Date.now();
+        if (now2 - lastWarnMs > 30_000) {
+          log(`[captureTimer] WARN: ring buffer ${this.captureRingBuf.length} muestras — descartando exceso (deriva de timer)`);
+          lastWarnMs = now2;
+        }
+        // Conservar solo el ultimo segundo de audio (8000 muestras)
+        this.captureRingBuf = this.captureRingBuf.slice(this.captureRingBuf.length - 8000);
+        lastDrainMs = Date.now();
+      }
+
+      // ── Catch-up: drena tantos frames como indique el tiempo real transcurrido ──
+      // Si el timer se retrasó (VirtualBox scheduler), drena múltiples frames
+      // para que el ring buffer no crezca indefinidamente.
+      const now = Date.now();
+      const elapsed = now - lastDrainMs;
+      // Minimo 1 frame, maximo 8 frames (160ms) para no saturar el encoder
+      const framesToDrain = Math.max(1, Math.min(Math.round(elapsed / 20), 8));
+      let drained = 0;
+      while (drained < framesToDrain && this.captureRingBuf.length >= PCM_CHUNK_SAMPLES) {
         const chunk = this.captureRingBuf.slice(0, PCM_CHUNK_SAMPLES);
         this.captureRingBuf = this.captureRingBuf.slice(PCM_CHUNK_SAMPLES);
         this.feedPcm(chunk);
+        drained++;
       }
-      // Nota: el relleno de silencio durante gaps del CM108 ya NO se hace aqui.
-      // El txKeepaliveTimer emite GSM_SILENCE_FRAME directamente sin pasar por
-      // ffmpeg (que hace batching interno e impide el flush frame a frame).
-    }, 20); // 20ms = 160 muestras a 8kHz
+      if (drained > 0) lastDrainMs += drained * 20;
+    }, 20); // 20ms nominal; catch-up compensa la deriva del scheduler de VM
   }
 
   // ── arecord ───────────────────────────────────────────────────────────────
