@@ -58,10 +58,12 @@ const PCM_CHUNK_SAMPLES = GSM_FRAME_SAMPLES * FRAMES_PER_PACKET; // 160 muestras
 // 1920 = 2 paquetes = 240ms. Permite absorber variaciones de timing al arrancar.
 const JITTER_PRE_BUFFER_SAMPLES = 1920;
 
-// Silencio inyectado si no llega audio en SILENCE_THRESHOLD_MS ms.
-// Mantiene el buffer DMA de aplay no vacío y evita underruns por jitter de red.
-const SILENCE_THRESHOLD_MS  = 100; // ms sin audio → inyectar silencio
-const SILENCE_INJECT_BYTES  = 1920; // 960 muestras × 2 bytes = 120ms a 8kHz S16LE
+// Silencio inyectado en aplay para mantener el stream USB vivo.
+// En VirtualBox el scheduler puede retrasar setInterval hasta 400ms,
+// por eso usamos inyecciones grandes y buffer de aplay de 3s.
+// Para radio (relay eQSO) una latencia de inicio de RX de ~3s es aceptable.
+const SILENCE_THRESHOLD_MS  = 40;   // ms sin audio → inyectar silencio
+const SILENCE_INJECT_BYTES  = 8000; // 4000 muestras × 2 bytes = 500ms a 8kHz S16LE
 
 export class AlsaAudio extends EventEmitter {
   private recorder: ChildProcessWithoutNullStreams | null = null;
@@ -587,8 +589,8 @@ export class AlsaAudio extends EventEmitter {
       "-r", "8000",
       "-c", "1",
       "-q",
-      "--buffer-size=4096",
-      "--period-size=256",
+      "--buffer-size=24000",   // 3s a 8kHz — absorbe jitter del scheduler VirtualBox
+      "--period-size=800",    // 100ms por periodo
     ];
     log(`aplay ${args.join(" ")}`);
     this.player = spawn("aplay", args, { stdio: ["pipe", "ignore", "pipe"] });
