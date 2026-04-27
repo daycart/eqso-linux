@@ -5,7 +5,12 @@ import { systemSettingsTable } from "@workspace/db";
 import { eq, sql } from "drizzle-orm";
 
 const SAMPLE_RATE = 8000;
-const AUDIO_PAYLOAD_SIZE = 198;
+// IMPORTANTE: 33 bytes por frame (igual que protocol.ts AUDIO_PAYLOAD_SIZE).
+// El relay-daemon parsea [0x01][33 bytes] por frame; si enviáramos [0x01][198 bytes]
+// solo consumiría los primeros 33 bytes y los 165 restantes quedarían en el acumulador
+// del parser como bytes GSM arbitrarios — algunos tienen valor 0x0b y se interpretan
+// erroneamente como "Mensaje del servidor" con contenido binario corrupto.
+const AUDIO_PAYLOAD_SIZE = 33;
 
 // Available courtesy tones
 export const COURTESY_TONES: { id: string; label: string }[] = [
