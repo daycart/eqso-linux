@@ -310,7 +310,8 @@ export class EqsoClient extends EventEmitter {
           rooms.push(name);
           off += len;
         }
-        log(`Salas disponibles: ${rooms.join(", ")}`);
+        const preview = rooms.slice(0, 5).join(", ") + (rooms.length > 5 ? ` … (+${rooms.length - 5} mas)` : "");
+        log(`Salas disponibles: ${rooms.length} salas [${preview}]`);
         this.emit("event", { type: "room_list", data: rooms } satisfies EqsoEvent);
         break;
       }
