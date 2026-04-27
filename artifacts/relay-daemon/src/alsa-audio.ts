@@ -352,11 +352,19 @@ export class AlsaAudio extends EventEmitter {
       log('[audio] USB reset: modprobe -r snd_usb_audio...');
       const unload = spawn('modprobe', ['-r', 'snd_usb_audio']);
       unload.on('error', (e: Error) => {
-        log('[audio] USB reset: error en modprobe -r: ' + e.message);
-        resolve();
+        log('[audio] USB reset: error en modprobe -r: ' + e.message + ' — saliendo para que systemd reinicie limpio');
+        process.exit(1);
       });
       unload.on('close', (code: number | null) => {
-        log('[audio] USB reset: descargado (code ' + code + '), recargando...');
+        if (code !== 0) {
+          // modprobe -r falla porque VirtualBox retiene el device USB mientras el
+          // proceso está vivo. La única forma de liberarlo es que el daemon muera.
+          // systemd lo reiniciará; en el ExecStartPre el modprobe -r sí funcionará
+          // (nada retiene el módulo) y el device arrancará limpio.
+          log('[audio] USB reset: modprobe -r falló (code ' + code + ') — saliendo para reinicio limpio via systemd');
+          process.exit(1);
+        }
+        log('[audio] USB reset: descargado OK, recargando...');
         const load = spawn('modprobe', ['snd_usb_audio']);
         load.on('error', (e: Error) => {
           log('[audio] USB reset: error en modprobe load: ' + e.message);
