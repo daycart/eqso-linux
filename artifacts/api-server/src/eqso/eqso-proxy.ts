@@ -5,6 +5,16 @@ import { AUDIO_PAYLOAD_SIZE } from "./protocol";
 
 const HANDSHAKE_CLIENT = Buffer.from([0x0a, 0x82, 0x00, 0x00, 0x00]);
 
+/**
+ * Decodifica un string de nombre/mensaje del protocolo eQSO.
+ * El servidor eQSO (Windows) usa Windows-1252 / Latin-1.
+ * Usamos latin1 (que mapea bytes 0–255 a Unicode U+0000–U+00FF)
+ * y filtramos caracteres de control para evitar nombres corruptos.
+ */
+function decodeEqsoString(buf: Buffer): string {
+  return buf.toString("latin1").replace(/[\x00-\x1F\x7F]/g, "").trim();
+}
+
 function buildJoinPacket(name: string, room: string, message: string, password: string): Buffer {
   const nb = Buffer.from(name.slice(0, 20), "ascii");
   const rb = Buffer.from(room.slice(0, 20), "ascii");
@@ -443,7 +453,7 @@ export class EqsoProxy extends EventEmitter {
       case 0x0b: {
         if (pkt.length >= 2) {
           const textLen = pkt[1];
-          const text = pkt.slice(2, 2 + textLen).toString("ascii");
+          const text = decodeEqsoString(pkt.slice(2, 2 + textLen));
           logger.info({ text }, "eQSO proxy: server text message");
           this.emit("event", { type: "server_info", data: text } as ProxyEvent);
         }
@@ -483,7 +493,7 @@ export class EqsoProxy extends EventEmitter {
           if (off >= pkt.length) break;
           const len = pkt[off++];
           if (off + len > pkt.length) break;
-          rooms.push(pkt.slice(off, off + len).toString("ascii"));
+          rooms.push(decodeEqsoString(pkt.slice(off, off + len)));
           off += len;
         }
         logger.info({ rooms }, "eQSO proxy: room list received");
@@ -527,7 +537,7 @@ export class EqsoProxy extends EventEmitter {
       if (off >= pkt.length) return;
       const nameLen = pkt[off++];
       if (off + nameLen > pkt.length) return;
-      const name = pkt.slice(off, off + nameLen).toString("ascii");
+      const name = decodeEqsoString(pkt.slice(off, off + nameLen));
       off += nameLen;
 
       switch (action) {
@@ -535,7 +545,7 @@ export class EqsoProxy extends EventEmitter {
           if (off >= pkt.length) return;
           const msgLen = pkt[off++];
           const msg = off + msgLen <= pkt.length
-            ? pkt.slice(off, off + msgLen).toString("ascii")
+            ? decodeEqsoString(pkt.slice(off, off + msgLen))
             : "";
           // Si la estación estaba en TX y ahora manda action=0x00, es un PTT release
           if (this.txingStations.has(name)) {
@@ -594,7 +604,7 @@ export class EqsoProxy extends EventEmitter {
       off += 4; // action(1) + padding(3)
       const nameLen = pkt[off++];
       if (off + nameLen > pkt.length) break;
-      const name = pkt.slice(off, off + nameLen).toString("ascii");
+      const name = decodeEqsoString(pkt.slice(off, off + nameLen));
       off += nameLen;
 
       switch (action) {
@@ -602,7 +612,7 @@ export class EqsoProxy extends EventEmitter {
           if (off >= pkt.length) break;
           const msgLen = pkt[off++];
           const msg = off + msgLen <= pkt.length
-            ? pkt.slice(off, off + msgLen).toString("ascii") : "";
+            ? decodeEqsoString(pkt.slice(off, off + msgLen)) : "";
           off += msgLen;
           if (off < pkt.length) off++; // terminator
           if (this.txingStations.has(name)) {
