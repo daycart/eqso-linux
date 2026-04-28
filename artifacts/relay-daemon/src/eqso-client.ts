@@ -369,8 +369,14 @@ export class EqsoClient extends EventEmitter {
           this.emit("event", { type: "user_left",    data: { name } } satisfies EqsoEvent);
           break;
         case 0x02:
-          this.txingStations.add(name);
-          this.emit("event", { type: "ptt_started",  data: { name } } satisfies EqsoEvent);
+          // Deduplicate: only emit ptt_started the FIRST time a station enters TX.
+          // The external eQSO server sends action=0x02 keepalives every ~250ms while
+          // someone is TX'ing — without this guard we'd emit (and log) a ptt_started
+          // hundreds of times per TX session.
+          if (!this.txingStations.has(name)) {
+            this.txingStations.add(name);
+            this.emit("event", { type: "ptt_started",  data: { name } } satisfies EqsoEvent);
+          }
           break;
         case 0x03:
           this.txingStations.delete(name);
@@ -409,8 +415,11 @@ export class EqsoClient extends EventEmitter {
           this.emit("event", { type: "user_left",    data: { name } } satisfies EqsoEvent);
           break;
         case 0x02:
-          this.txingStations.add(name);
-          this.emit("event", { type: "ptt_started",  data: { name } } satisfies EqsoEvent);
+          // Deduplicate: only emit ptt_started the FIRST time (same rationale as count=1 above).
+          if (!this.txingStations.has(name)) {
+            this.txingStations.add(name);
+            this.emit("event", { type: "ptt_started",  data: { name } } satisfies EqsoEvent);
+          }
           break;
         case 0x03:
           this.txingStations.delete(name);
