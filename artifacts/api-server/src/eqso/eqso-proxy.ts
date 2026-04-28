@@ -331,6 +331,9 @@ export class EqsoProxy extends EventEmitter {
 
     sock.on("close", () => {
       this.connected = false;
+      this.handshakeDone = false;   // reset so next connect() completes the handshake
+      this.transmitting = false;    // reset so next TX sends [0x09] PTT announce
+      this.pendingJoin = null;
       this.stopSilenceFrames();
       this.stopPttWatchdog();
       this.txingStations.clear();
@@ -341,6 +344,9 @@ export class EqsoProxy extends EventEmitter {
 
     sock.on("error", (err) => {
       this.connected = false;
+      this.handshakeDone = false;
+      this.transmitting = false;
+      this.pendingJoin = null;
       this.stopSilenceFrames();
       this.stopPttWatchdog();
       this.emit("event", { type: "error", data: (err as Error).message } as ProxyEvent);

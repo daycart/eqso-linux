@@ -363,6 +363,30 @@ function handleRemoteMode(
   let pttTailTimer: ReturnType<typeof setTimeout> | null = null;
   let currentName = "";
   let currentRoom = "";
+  let currentMessage = "";
+  let currentPassword = "";
+
+  // Auto-reconexión: cuando el servidor externo cierra la TCP, reintentamos
+  // automáticamente sin cerrar el WS del browser.
+  let proxyReconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  let proxyReconnectAttempts = 0;
+  const MAX_PROXY_RECONNECT = 5;
+
+  function scheduleProxyReconnect(): void {
+    if (proxyReconnectTimer !== null) return;
+    if (proxyReconnectAttempts >= MAX_PROXY_RECONNECT) {
+      sendJson(ws, { type: "disconnected", message: "Servidor remoto no disponible tras varios intentos" });
+      return;
+    }
+    proxyReconnectAttempts++;
+    const delay = Math.min(1500 * proxyReconnectAttempts, 8000);
+    logger.info({ host, port, attempt: proxyReconnectAttempts, delay }, "Remote proxy: scheduling reconnect");
+    sendJson(ws, { type: "server_info", message: `Reconectando a ${host}:${port}...` });
+    proxyReconnectTimer = setTimeout(() => {
+      proxyReconnectTimer = null;
+      if (ws.readyState === WebSocket.OPEN) proxy.connect();
+    }, delay);
+  }
 
   // Register this outgoing connection in the room manager for monitoring
   const remoteConnInfo: RemoteConnectionInfo = {
@@ -465,7 +489,13 @@ function handleRemoteMode(
     switch (ev.type) {
       case "connected":
         roomManager.updateRemoteConn(id, { status: "connected", connectedAt: Date.now() });
+        proxyReconnectAttempts = 0;
         sendJson(ws, { type: "server_info", message: `Conectado a ${host}:${port}` });
+        // Si reconectamos automáticamente (currentRoom ya establecida), re-unirse a la sala
+        if (currentRoom && currentName) {
+          logger.info({ name: currentName, room: currentRoom }, "Remote proxy: auto-rejoining after reconnect");
+          proxy.sendJoin(currentName, currentRoom, currentMessage, currentPassword);
+        }
         break;
       case "server_info":
         // Informacion del servidor remoto (hello eQSO, nombre del servidor).
@@ -477,7 +507,20 @@ function handleRemoteMode(
       case "disconnected":
         roomManager.updateRemoteConn(id, { status: "disconnected" });
         remoteConnInfo.remoteMembers = [];
-        sendJson(ws, { type: "disconnected", message: "Servidor desconectado" });
+        // Si el TX estaba activo, liberarlo antes de reconectar
+        if (pttGranted) {
+          if (pttTailTimer) { clearTimeout(pttTailTimer); pttTailTimer = null; }
+          stopGsmFrameTimer();
+          pttGranted = false;
+          pcmAccum = new Int16Array(0);
+          sendJson(ws, { type: "ptt_released" });
+        }
+        // Auto-reconexión: si estábamos en una sala, reintentar sin cerrar el WS
+        if (currentRoom && currentName) {
+          scheduleProxyReconnect();
+        } else {
+          sendJson(ws, { type: "disconnected", message: "Servidor desconectado" });
+        }
         break;
       case "error":
         sendJson(ws, { type: "error", message: `Error de conexión: ${ev.data}` });
@@ -624,6 +667,9 @@ function handleRemoteMode(
 
           currentName = resolvedName;
           currentRoom = room;
+          currentMessage = message;
+          currentPassword = password;
+          proxyReconnectAttempts = 0; // nueva sala: resetear intentos de reconexión
           remoteConnInfo.remoteMembers = []; // reset list when joining a new room
           rmAddMember(resolvedName, message);    // add self to member list
           roomManager.updateRemoteConn(id, { name: resolvedName, room });
@@ -662,6 +708,8 @@ function handleRemoteMode(
     },
 
     onClose: () => {
+      // Cancelar cualquier reconexión pendiente (el usuario cerró la sesión)
+      if (proxyReconnectTimer) { clearTimeout(proxyReconnectTimer); proxyReconnectTimer = null; }
       if (pttTailTimer) { clearTimeout(pttTailTimer); pttTailTimer = null; }
       stopGsmFrameTimer();
       if (pttGranted) proxy.sendPttEnd(); // release channel before disconnecting
