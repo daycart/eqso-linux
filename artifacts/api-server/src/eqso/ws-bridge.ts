@@ -459,6 +459,10 @@ function handleRemoteMode(
     pcmAccum = new Int16Array(0);
     proxy.sendPttEnd();
     logger.info({ name: currentName }, "Remote TX: PTT end sent to eQSO server");
+    // Mirror PTT release to local relay daemon so the CB radio unkeys
+    if (currentRoom && currentName) {
+      roomManager.broadcastToRoom(currentRoom, buildPttReleased(currentName), id);
+    }
   }
 
   // ── FFmpeg codec instances (pre-warmed at connection time) ──────────────────
@@ -479,10 +483,19 @@ function handleRemoteMode(
   // When encoder produces a GSM packet, queue it for rate-limited delivery.
   // Do NOT call proxy.sendAudio() directly — that would burst 6 frames at once
   // and disconnect Windows eQSO relay clients (see rate limiter comment above).
+  // ALSO mirror the frame to the local TCP relay daemon (same local room name
+  // as the remote room) so the CB radio receives audio when the web client TXes.
   encoder.on("gsm", (gsm: Buffer) => {
     if (!pttGranted) return; // discard if PTT released mid-frame
     gsmFrameQueue.push(Buffer.from(gsm));
     startGsmFrameTimer();
+    // Mirror to local relay daemon: build [0x01][GSM] and broadcast to TCP clients
+    if (currentRoom) {
+      const gsmPkt = Buffer.allocUnsafe(1 + gsm.length);
+      gsmPkt[0] = 0x01;
+      gsm.copy(gsmPkt, 1);
+      roomManager.broadcastToTcpAndRelays(currentRoom, gsmPkt, id);
+    }
   });
 
   proxy.on("event", (ev: ProxyEvent) => {
@@ -692,6 +705,10 @@ function handleRemoteMode(
           proxy.startTransmitting();
           sendJson(ws, { type: "ptt_granted" });
           logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT start (first voice frame will open channel)");
+          // Mirror PTT start to local relay daemon so the CB radio keys up
+          if (currentRoom && currentName) {
+            roomManager.broadcastToRoom(currentRoom, buildPttStarted(currentName), id);
+          }
           break;
         case "ptt_end":
           rmSetTx(currentName, false);

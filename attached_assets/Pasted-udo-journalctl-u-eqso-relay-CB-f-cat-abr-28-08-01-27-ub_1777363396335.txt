@@ -1,0 +1,48 @@
+udo journalctl -u eqso-relay@CB -f | cat
+abr 28 08:01:27 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:01:27.019Z [nivel] pico RMS=39 (-58.5 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:01:32 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:01:32.021Z [nivel] pico RMS=37 (-58.9 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:01:37 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:01:37.022Z [nivel] pico RMS=37 (-59.0 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:01:42 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:01:42.022Z [nivel] pico RMS=36 (-59.3 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:01:44 ubuntus eqso-relay-CB[1533]: [ptt] 2026-04-28T08:01:44.322Z PTT set(true) ? escribiendo "1" al helper
+abr 28 08:01:44 ubuntus eqso-relay-CB[1533]: [ptt] 2026-04-28T08:01:44.723Z PTT set(false) ? escribiendo "0" al helper
+abr 28 08:01:44 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:01:44.724Z [rxInhibit] suppress: prev=2026-04-28T07:59:44.753Z new=2026-04-28T08:01:45.524Z
+abr 28 08:01:45 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:01:45.553Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-28T08:01:45.524Z)
+abr 28 08:01:47 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:01:47.023Z [nivel] pico RMS=18737 (-4.9 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:01:52 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:01:52.026Z [nivel] pico RMS=140 (-47.4 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:01:52 ubuntus eqso-relay-CB[1533]: [eqso] 2026-04-28T08:01:52.360Z PTT liberado [0x0d]
+abr 28 08:01:52 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:01:52.360Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-28T08:01:54.860Z)
+abr 28 08:01:52 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:01:52.819Z [arecord] GAP 60ms (chunk#25760, 160 muestras)
+abr 28 08:01:57 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:01:57.027Z [nivel] pico RMS=38 (-58.7 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:02 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:02.028Z [nivel] pico RMS=36 (-59.2 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:07 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:07.030Z [nivel] pico RMS=37 (-59.0 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:12 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:12.033Z [nivel] pico RMS=37 (-58.9 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:13 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:13.823Z [arecord] GAP 83ms (chunk#26707, 160 muestras)
+abr 28 08:02:17 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:17.036Z [nivel] pico RMS=37 (-58.9 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:22 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:22.037Z [nivel] pico RMS=37 (-58.9 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:27 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:27.038Z [nivel] pico RMS=37 (-58.9 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:32 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:32.038Z [nivel] pico RMS=38 (-58.7 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:37 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:37.040Z [nivel] pico RMS=38 (-58.6 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:42 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:42.040Z [nivel] pico RMS=36 (-59.1 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:47 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:47.041Z [nivel] pico RMS=40 (-58.3 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:48 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:02:48.437Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-28T08:01:54.860Z)
+abr 28 08:02:52 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:52.042Z [nivel] pico RMS=5268 (-15.9 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:54 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:54.685Z [arecord] GAP 68ms (chunk#28569, 480 muestras)
+abr 28 08:02:56 ubuntus eqso-relay-CB[1533]: [eqso] 2026-04-28T08:02:56.613Z TCP error: read ECONNRESET (Error)
+abr 28 08:02:56 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:02:56.614Z Error TCP: read ECONNRESET
+abr 28 08:02:56 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:02:56.617Z Reintento #1 en 2s\Uffffffff
+abr 28 08:02:56 ubuntus eqso-relay-CB[1533]: [eqso] 2026-04-28T08:02:56.618Z TCP desconectado de 127.0.0.1:2171 \Uffffffff tras error TCP
+abr 28 08:02:56 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:02:56.620Z Desconectado del servidor eQSO
+abr 28 08:02:57 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:02:57.043Z [nivel] pico RMS=4078 (-18.1 dBFS)  VOXumbral=600  gain=0.4
+abr 28 08:02:58 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:02:58.617Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 28 08:02:58 ubuntus eqso-relay-CB[1533]: [eqso] 2026-04-28T08:02:58.621Z TCP conectado a 127.0.0.1:2171
+abr 28 08:02:58 ubuntus eqso-relay-CB[1533]: [eqso] 2026-04-28T08:02:58.643Z Handshake recibido \Uffffffff conexion establecida
+abr 28 08:02:58 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:02:58.644Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 28 08:02:58 ubuntus eqso-relay-CB[1533]: [eqso] 2026-04-28T08:02:58.645Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 28 08:02:58 ubuntus eqso-relay-CB[1533]: [eqso] 2026-04-28T08:02:58.656Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+abr 28 08:02:58 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:02:58.656Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 28 08:02:58 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:02:58.688Z Sala: EA4IKU se ha unido
+abr 28 08:02:58 ubuntus eqso-relay-CB[1533]: [main] 2026-04-28T08:02:58.689Z Sala: 0R-IN70WN se ha unido
+abr 28 08:03:01 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:03:01.364Z [arecord] GAP 57ms (chunk#28875, 160 muestras)
+abr 28 08:03:01 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:03:01.458Z [arecord] GAP 53ms (chunk#28877, 160 muestras)
+abr 28 08:03:01 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:03:01.520Z [arecord] GAP 62ms (chunk#28878, 160 muestras)
+abr 28 08:03:02 ubuntus eqso-relay-CB[1533]: [audio] 2026-04-28T08:03:02.046Z [nivel] pico RMS=4897 (-16.5 dBFS)  VOXumbral=600  gain=0.4
