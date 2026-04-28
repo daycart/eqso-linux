@@ -1,0 +1,29 @@
+ sudo journalctl -u eqso-relay@CB -f | cat
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:48.403Z [arecord] chunk#3: 7680 bytes brutos ? 640 muestras 8kHz (decimate\Uffffffff)
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:48.409Z [arecord] GAP 105ms (chunk#3, 640 muestras)
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [main] 2026-04-28T07:20:48.471Z Sala: 0R-IN70WN se ha unido
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:48.479Z [arecord] chunk#4: 5760 bytes brutos ? 480 muestras 8kHz (decimate\Uffffffff)
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:48.484Z [arecord] GAP 76ms (chunk#4, 480 muestras)
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:48.501Z [arecord] chunk#5: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:48.510Z [arecord] chunk#6: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:48.520Z [arecord] chunk#7: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:48.547Z [arecord] chunk#8: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+abr 28 07:20:48 ubuntus eqso-relay-CB[28459]: [ptt] 2026-04-28T07:20:48.623Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 28 07:20:49 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:49.460Z [arecord] GAP 66ms (chunk#51, 160 muestras)
+abr 28 07:20:53 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:53.176Z [nivel] pico RMS=18358 (-5.0 dBFS)  VOXumbral=800  gain=0.4
+abr 28 07:20:54 ubuntus eqso-relay-CB[28459]: [main] 2026-04-28T07:20:54.580Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+abr 28 07:20:58 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:20:58.177Z [nivel] pico RMS=5577 (-15.4 dBFS)  VOXumbral=800  gain=0.4
+abr 28 07:21:03 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:21:03.178Z [nivel] pico RMS=61 (-54.6 dBFS)  VOXumbral=800  gain=0.4
+abr 28 07:21:03 ubuntus eqso-relay-CB[28459]: [eqso] 2026-04-28T07:21:03.893Z PTT liberado [0x0d]
+abr 28 07:21:03 ubuntus eqso-relay-CB[28459]: [main] 2026-04-28T07:21:03.893Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-28T07:21:06.393Z)
+abr 28 07:21:08 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:21:08.178Z [nivel] pico RMS=4648 (-17.0 dBFS)  VOXumbral=800  gain=0.4
+abr 28 07:21:09 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:21:09.219Z [arecord] GAP 55ms (chunk#992, 160 muestras)
+abr 28 07:21:09 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:21:09.435Z [arecord] GAP 51ms (chunk#998, 160 muestras)
+abr 28 07:21:13 ubuntus eqso-relay-CB[28459]: [main] 2026-04-28T07:21:13.018Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-28T07:21:06.393Z)
+abr 28 07:21:13 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:21:13.179Z [nivel] pico RMS=4605 (-17.0 dBFS)  VOXumbral=800  gain=0.4
+abr 28 07:21:14 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:21:14.884Z [arecord] GAP 70ms (chunk#1252, 160 muestras)
+abr 28 07:21:18 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:21:18.179Z [nivel] pico RMS=3740 (-18.9 dBFS)  VOXumbral=800  gain=0.4
+abr 28 07:21:21 ubuntus eqso-relay-CB[28459]: [eqso] 2026-04-28T07:21:21.282Z PTT liberado [0x0d]
+abr 28 07:21:21 ubuntus eqso-relay-CB[28459]: [main] 2026-04-28T07:21:21.283Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-28T07:21:23.783Z)
+abr 28 07:21:23 ubuntus eqso-relay-CB[28459]: [audio] 2026-04-28T07:21:23.180Z [nivel] pico RMS=4696 (-16.9 dBFS)  VOXumbral=800  gain=0.4
+^Cabr 28 07:21:26 ubuntus eqso-relay-CB[28459]: [main] 2026-04-28T07:21:26.109Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2
