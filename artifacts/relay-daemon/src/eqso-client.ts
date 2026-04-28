@@ -45,6 +45,12 @@ class EqsoPacketParser {
         const tlen = this.acc[1];
         const total = 2 + tlen + 1;
         if (this.acc.length < total) return null;
+        // Validar que el texto sea ASCII imprimible (0x20-0x7e).
+        // Si contiene bytes binarios es un falso-0x0b causado por desalineación del
+        // parser (bytes de payload GSM siendo interpretados como comandos).  En ese
+        // caso descartamos solo el byte 0x0b y continuamos el re-sincronizado.
+        const isAscii = this.acc.slice(2, 2 + tlen).every(b => b >= 0x20 && b <= 0x7e);
+        if (!isAscii) { this.acc = this.acc.slice(1); continue; }
         const p = this.acc.slice(0, total); this.acc = this.acc.slice(total); return p;
       }
       if (cmd === 0x0a) {

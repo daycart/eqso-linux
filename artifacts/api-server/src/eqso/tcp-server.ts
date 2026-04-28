@@ -461,6 +461,10 @@ function handleDisconnect(state: TcpClientState): void {
 
 export function startTcpServer(port: number): net.Server {
   const server = net.createServer((socket) => {
+    // Deshabilitar Nagle: cada socket.write() se envía inmediatamente.
+    // Sin esto, TCP agrupa varios writes de 34 bytes en un solo chunk de tamaño
+    // no-múltiplo-de-34 (p.ej. 199 bytes), lo que desalinea el parser del relay.
+    socket.setNoDelay(true);
     const id = randomUUID();
     logger.info({ id, addr: socket.remoteAddress }, "New TCP eQSO connection");
 
