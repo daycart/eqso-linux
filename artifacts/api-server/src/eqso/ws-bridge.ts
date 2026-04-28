@@ -526,7 +526,9 @@ function handleRemoteMode(
         sendJson(ws, { type: "error", message: `Error de conexión: ${ev.data}` });
         break;
       case "room_list":
-        sendJson(ws, { type: "room_list", rooms: ev.data as string[] });
+        // No reenviar la lista de salas del servidor externo al browser.
+        // El browser sólo debe ver las salas locales (ya enviadas al conectar).
+        // La lista del servidor externo puede contener entradas binarias/corruptas.
         break;
       case "members":
         sendJson(ws, {
