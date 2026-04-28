@@ -1,0 +1,262 @@
+o journalctl -u eqso-relay@CB -f | cat
+abr 28 16:06:48 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:06:48.785Z [nivel] pico RMS=14890 (-6.9 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:06:50 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:06:50.785Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+abr 28 16:06:50 ubuntus eqso-relay-CB[20113]: [eqso] 2026-04-28T16:06:50.793Z TCP conectado a 127.0.0.1:2171
+abr 28 16:06:50 ubuntus eqso-relay-CB[20113]: [eqso] 2026-04-28T16:06:50.824Z Handshake recibido \Uffffffff conexion establecida
+abr 28 16:06:50 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:06:50.828Z Conectado \Uffffffff enviando JOIN\Uffffffff
+abr 28 16:06:50 ubuntus eqso-relay-CB[20113]: [eqso] 2026-04-28T16:06:50.830Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+abr 28 16:06:50 ubuntus eqso-relay-CB[20113]: [eqso] 2026-04-28T16:06:50.836Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+abr 28 16:06:50 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:06:50.836Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+abr 28 16:06:50 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:06:50.845Z Sala: 0R-IN70WN se ha unido
+abr 28 16:06:53 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:06:53.782Z [nivel] pico RMS=16953 (-5.7 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:06:58 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:06:58.784Z [nivel] pico RMS=14916 (-6.8 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:03 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:03.785Z [nivel] pico RMS=15817 (-6.3 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:07 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:07.476Z [arecord] GAP 1027ms (chunk#1083, 160 muestras)
+abr 28 16:07:07 ubuntus eqso-relay-CB[20113]: [gsm-enc] 2026-04-28T16:07:07.502Z GAP 1037ms entre frames GSM de salida
+abr 28 16:07:08 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:08.789Z [nivel] pico RMS=15491 (-6.5 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:13 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:13.790Z [nivel] pico RMS=14239 (-7.2 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:18 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:18.791Z [nivel] pico RMS=15957 (-6.2 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:23 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:23.792Z [nivel] pico RMS=15121 (-6.7 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:28 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:28.793Z [nivel] pico RMS=16247 (-6.1 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:30 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:30.733Z Sala: EA4IKU se ha unido
+abr 28 16:07:33 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:33.794Z [nivel] pico RMS=17561 (-5.4 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:38.503Z TX: EA4IKU transmitiendo
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:07:38.672Z PTT set(true) ? escribiendo "1" al helper
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.676Z [playGsm] pkt#1 len=33 decoder_ready=true player=running rxActive=false
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:38.679Z [audio] pkt#1 ? playGsm OK (pttActive=false rxActive=true)
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.691Z [playGsm] pkt#2 len=33 decoder_ready=true player=running rxActive=false
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:38.691Z [audio] pkt#2 ? playGsm OK (pttActive=false rxActive=true)
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.692Z [playGsm] pkt#3 len=33 decoder_ready=true player=running rxActive=false
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:38.692Z [audio] pkt#3 ? playGsm OK (pttActive=false rxActive=true)
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.711Z [playPcm] chunk#1 ? jitterBuf=160 rxActive=false
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.713Z [playPcm] chunk#2 ? jitterBuf=320 rxActive=false
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.714Z [playPcm] chunk#3 ? jitterBuf=480 rxActive=false
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.715Z [playPcm] chunk#4 ? jitterBuf=640 rxActive=false
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.716Z [playPcm] chunk#5 ? jitterBuf=800 rxActive=false
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.795Z [nivel] pico RMS=15557 (-6.5 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.848Z [audio] Semi-duplex: matando arecord \Uffffffff evitar realimentacion altavoz?micro
+abr 28 16:07:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:38.879Z [arecord] Terminado (code 1)
+abr 28 16:07:39 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:39.948Z [playGsm] pkt#50 len=33 decoder_ready=true player=running rxActive=true
+abr 28 16:07:39 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:39.948Z [audio] pkt#50 ? playGsm OK (pttActive=false rxActive=true)
+abr 28 16:07:40 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:07:40.871Z PTT set(false) ? escribiendo "0" al helper
+abr 28 16:07:40 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:40.875Z [rxInhibit] playback_ended: suppress extendido ? 2026-04-28T16:07:43.374Z (prev=1970-01-01T00:00:00.000Z)
+abr 28 16:07:40 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:40.875Z [audio] RX terminado \Uffffffff reanudando arecord (aplay sigue activo con silencio)
+abr 28 16:07:40 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:40.876Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+abr 28 16:07:40 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:40.890Z [rxInhibit] suppress: prev=2026-04-28T16:07:43.374Z new=2026-04-28T16:07:43.374Z
+abr 28 16:07:40 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:40.922Z [arecord] GAP 2061ms (chunk#2561, 3 muestras)
+abr 28 16:07:40 ubuntus eqso-relay-CB[20113]: [gsm-enc] 2026-04-28T16:07:40.982Z GAP 2172ms entre frames GSM de salida
+abr 28 16:07:43 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:43.798Z [nivel] pico RMS=18537 (-4.9 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:47 ubuntus eqso-relay-CB[20113]: [eqso] 2026-04-28T16:07:47.559Z Salas disponibles: 59 salas [7v7-O$i.L8W*4DU+m]+5L7\&2]lQi9,3OyN9-X)HUje!,2mFi[;-N&6A, OFw'-;/,b1U+ma+:dZ*9*{Y<+c2I7Vnf$O'U+mY,9,E)])0'9S#7,zCY2,S}KTmm k9W~o , *%nZk4n&dGZ9LEA4IKUTk]%diN<$w=l9*nF57)sTA7J_F@Ti|]6!brI5l6 2,X5x!Q7)7.e+RIUf|V7,7*[lLX},9L9p`dvJEkMUd|_=MtfOS6;\Aj!$g;'>6"AF\T,l\ndFn.D7;):v, 2*l&`g9L9[,(Tnl37K>'IX3, ,'Y(3lB"'b/lTke];-Ea&]f,9;4t-.9e&#wmeqU)e]l7.qg%7L8b.I>08\5W\?+&Y>>$Uin!ldL9&$_E0W:o$m6pEzV<Y$U)m)vE+;C:<j)\;}EN>+'vk.Y$U)eam=l$]N,K.!!-]Eo+NM9C \Uffffffff (+54 mas)]
+abr 28 16:07:47 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:47.559Z Salas: 7v7-O$i.L8W*4DU+m]+5L7\&2]lQi9,3OyN9-X)HUje!,2mFi[;-N&6A, OFw'-;/,b1U+ma+:dZ*9*{Y<+c2I7Vnf$O'U+mY,9,E)])0'9S#7,zCY2,S}KTmm k9W~o , *%nZk4n&dGZ9LEA4IKUTk]%diN<$w=l9*nF57)sTA7J_F@Ti|]6!brI5l6 2,X5x!Q7)7.e+RIUf|V7,7*[lLX},9L9p`dvJEkMUd|_=MtfOS6;\Aj!$g;'>6"AF\T,l\ndFn.D7;):v, 2*l&`g9L9[,(Tnl37K>'IX3, ,'Y(3lB"'b/lTke];-Ea&]f,9;4t-.9e&#wmeqU)e]l7.qg%7L8b.I>08\5W\?+&Y>>$Uin!ldL9&$_E0W:o$m6pEzV<Y$U)m)vE+;C:<j)\;}EN>+'vk.Y$U)eam=l$]N,K.!!-]Eo+NM9C, *CQt#V#{44=fskd'sbET{f&rZ4AiNEA4IKUTnLm<`89+m$:[X h%0TV, <d$;$(9>TpT\t`C9!i&cBjjf8A3SmF1,"e6~J^Ur\+j(PbLTgJ"6pa^4WkcnikU-S`tVN3dAyU:HS6aE=3\4$uBdUm\`3h,Eqg[>a)+v\iBA'T3BaNwU/S]3]!}dm(]lZ08f@X&D30aT2R!V u0(U"adh6}F$:@kStRq*gaI]1B, m@,h*}n'A1k53jkF]*''T,meOX*A NE}G$rv\0IC-[k0(\b$IgTi}aCJs *B,liKpu-,gjET^rZZ9Ug}Y^/mHw1(q/k)vk3-cSG(3L*]nKU'|3m7mSimCe6]ph'4+n9,, EA4IKU, S, \eev(J_j>+9l=Jl(*vOGJ8WTku]&;,R/"kz(KiHINKiF*xplqI"Tmu]+IiZ]U`GBrjSx:/^JlKmW$j3Tre+F,P+nG#I((cIW^,0A:#rFz~A5_Tt\YeIGEdaP DdlY:E(ErEEG&QLTom#lIY*k?Ci|ZZLLnN$ATqe%tl(Y(\N)t um,=$:\h(dJ1+TneUm=, Xc11=(`jV[$9DcGZ;4dG$Tl}!ehkUo-9HuV"e"l)'#!6M[/1&$Th|]\*r^e5.'#tk7I'1'c9='U%t!9I[/4lnjKh?_7HG;$T#^Hv^|FTktY%7L7VBV%d %ib3NF\.bCMEA, IKUTl]]31mGo1'2jfM7Lf'+1YS4#TmD]cdGCkE2, I_1&UmM8;5kVt7)U,M!l`m VI%;N8Z9g;K9(T+p-IgU,Tem9+8mahkTV!5mIm<F`Mb2m\U,\%$5lNv^UJ TO)$7VjUIW5XdQ!Tm]2f+H.86'7^".84hd+%3LTml]+3(t2OIC1k"9|&125d/txnwU*s%^1,fEE/iWTiWo/(j>)8d)[))Tjc.K<m4dhJI4GK1, KaIdFihOTo,X}/(k|[dLMFk1(:c*YMB, EmXeT-\!3/Ga"1)o1*#Z2afkGTqfw1yTh]TlM2bJ%jF01Hmj"dtP(c<#3MEA4IKUTnT"+`TI4z21Vb.I\1*!&+w!hUmU,\as5Llq(+mND%6_307;M([fl[]XU*\a,5MLnV1fM!J, Me5m6]Na5q.(+U+\%ct,rai{77rcN3n*({Be7LGu7Tll%h,f-seR9-UmuG.9fXn79'Tkdem9&8Sh,W:5?7mc(6hiTl[n5;W5TY4)#.N$3*(R, q1gyR-IT-K%3L8.|9MF+W%fJ*cIg1n^DhTk[]l)%+#,5M.smD#d5+%"/LIU8YT.C$dHpEnT/,Dcn.]1I#(1MH\mU0T/Tis>MHEH$LOI5W1M|MC[bIWVWTlMi4/+c8(fL4\=T{3., ^(rfNEA4IKUTm\al3m&ds$-P$).r-:35^o;Ka([U,TekhI'7-&;oYzQ(, nLtr.b;lJ,utpTll%do@LnI&8O8RIg9KdJ^hK9Z%eTk]!e76so"j,rc3&D9,9,s"f-NNKsT+te7*:$vI:9(p*bVUfLL[)K/7,\clF#U'{Uf({q$7,7f*A5(c~7J5JU_lV>I;z5))R*xB,6P7dJ]MDgTi[]3Jt\iGfwL49l1Wf8h&DcO$T.L!, 3+)$=6f(b1KK1-D\rNlZ-`uI\T-U!3Y0WbtY73bf+ET5;3,k[4:Tme!{bLFSj%37qFcp/RW9-QGf\Tmde,8k0j5}8P8QY75K:#h*U*Ua27m6]vn$H-:%7JL#UG7Ns7U+deij**92_7l;x', nM1d~Va7iG, sIU+eil7j"j=_91G*(_9+4t#hkf*+}Tl]a47M]cf4ThU89MYeF(hK!Bb9U*]!r7lDT^)7q"9T7D3_U7ic\,vU*ea*|'#Dj9parI%vZ2RVJ5nEA4IKUU+die7&F;m7.6TqI;6,H!)'fk, Y%[oU)^43PNdU5hjo %3mVl-6XhLPS;vYU)ft3#s^1,4+Q97)n:;9M7udU*eYsp,W!%C:9+uDFF%r]*%;Hy9f1U,mVm;JEjU9m6[OQ9t%.E[nL:[=>U*e]t7mg"nk)s.7+58$DKEA4IKUU+eYt7)3Fsm7mY$q75947b%, U, e]2n)Z+5>9Qq9-pL[-9g{%QfU,e^+7,QJ., r7+fhO_D7K`V]7m8RI'U,mZ47l+HDnkTIw7o[cq6Trl-ARU+m]3(9`+15l4O42kL)NC(, U, usq-EkMm7Ov#r)jJ${Y$7OU,l),EOf$vJ"8Q8k, f8FJG;20DZ.KcU+m53+!\0kwiK%3+E(I\3nq(%U+e23I99hL[4T*1kU]fTU1oMILTlet3m#vf[2+7I;'4P8qI9hhShFcU+f3hi^*4?l3L\1A!k+6&c%R5*G'NW, T, esdJxmiD1l(\)gL4M&5,U+e43XB']k.XjQ?f3*zM7[0*5564Tle|3)Wbqsedi=P1(#9#1]b.+U-m</M8,tj1BTh-/.8\rI;1jC(TU-e3loJ+Q=e1+h6Ufj5)T~3JIqDETm]!3lR#rA5,edH]\L1!KU4%.=LU-d]33c+n-Hc1O'5vec!fiEA, IKUU-ta35J[90Sf,P"v85(7r_7QhMA)mILTmmY37B[NI5, G8c3HY:73&CD\TmUklL7%4Ho5;R.jfj, \d"5)<y9X"TpdY*5R::9p7)6[C7)rcV7q-ENKdTme`s9,p+q8\h*Fly_5jw|%ShzRcIU-]37IdV60ml44.)7(Ts9:5HEA4IKUTnm]rfKX(P, _5+Q2efi(&4&'5u^1L+To]knlrcrAZ5lS$o&QiV5!4fbyi:U-e]+5JWU2]fL^*1=f5Jxm29nNFd#Tme33mH|n*!pk7,5+G\l3),QG2U-ek5jFSQ^b5Irq'.,KF+5Kx1E!U*^3hh7*5lVYlsMn)`1fJ3KTmeUj5f5Qc)G7J)KC7I3)$slRMO`Tl]Y,7|dITbfi7, p$f5LM5u*`pTyKTmes5-7w8c5N6qG'1\r8:5z, V&bU,n3**~q,I1~n3b1II9lE$/HuaQKTneUs/(Kf7-l8{r:"bUS.'KN&)P[U*n!k'*3D!LK5!N, cxV#NU'^l, -r$2#-Z.6ALh,3kP7}cU(nb,N.VC9:1Tq*fmphdGS51BgJW"U(f!4Z>[m9R(X9E\2;-MPcO#ncVU*U sEfrTMZi$^/82M x5L&WV(6Uim`s186ZU0w3)2'Z+(#[$jxcT-lU3FRnY\+*97,H;*[yphEA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA4IKU, EA, IKUEA4IKUTvc$".&+4b9`JD^bWfx/T0ik, (mU/d$["!EF6Z"z.hw\CH"6{!,BXX$KTuclZ"Q$HkH"oer7djGD(|eBe{07,T4KsiBfo9cZ!I%A5#Ha1Ke`!8Trx#Tt[,4!OmI;#!Aq$Z!WAl4QK5, EA4IKU
+abr 28 16:07:47 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:47.741Z [arecord] GAP 55ms (chunk#2870, 160 muestras)
+abr 28 16:07:47 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:47.806Z TX: EA4IKU transmitiendo
+abr 28 16:07:48 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:48.060Z TX: EA4IKU transmitiendo
+abr 28 16:07:48 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:48.311Z TX: EA4IKU transmitiendo
+abr 28 16:07:48 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:48.562Z TX: EA4IKU transmitiendo
+abr 28 16:07:48 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:48.800Z [nivel] pico RMS=15564 (-6.5 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:48 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:48.812Z TX: EA4IKU transmitiendo
+abr 28 16:07:49 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:49.063Z TX: EA4IKU transmitiendo
+abr 28 16:07:49 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:49.313Z TX: EA4IKU transmitiendo
+abr 28 16:07:49 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:49.569Z TX: EA4IKU transmitiendo
+abr 28 16:07:49 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:49.632Z [arecord] GAP 55ms (chunk#2955, 160 muestras)
+abr 28 16:07:49 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:49.735Z [arecord] GAP 55ms (chunk#2957, 160 muestras)
+abr 28 16:07:49 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:49.817Z TX: EA4IKU transmitiendo
+abr 28 16:07:50 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:50.068Z TX: EA4IKU transmitiendo
+abr 28 16:07:50 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:50.319Z TX: EA4IKU transmitiendo
+abr 28 16:07:50 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:50.570Z TX: EA4IKU transmitiendo
+abr 28 16:07:50 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:50.821Z TX: EA4IKU transmitiendo
+abr 28 16:07:51 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:51.073Z TX: EA4IKU transmitiendo
+abr 28 16:07:51 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:51.323Z TX: EA4IKU transmitiendo
+abr 28 16:07:51 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:51.574Z TX: EA4IKU transmitiendo
+abr 28 16:07:51 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:51.826Z TX: EA4IKU transmitiendo
+abr 28 16:07:52 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:52.077Z TX: EA4IKU transmitiendo
+abr 28 16:07:52 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:52.327Z TX: EA4IKU transmitiendo
+abr 28 16:07:52 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:52.578Z TX: EA4IKU transmitiendo
+abr 28 16:07:52 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:52.828Z TX: EA4IKU transmitiendo
+abr 28 16:07:53 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:53.080Z TX: EA4IKU transmitiendo
+abr 28 16:07:53 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:53.331Z TX: EA4IKU transmitiendo
+abr 28 16:07:53 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:53.584Z TX: EA4IKU transmitiendo
+abr 28 16:07:53 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:53.800Z [nivel] pico RMS=14841 (-6.9 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:53 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:53.836Z TX: EA4IKU transmitiendo
+abr 28 16:07:54 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:54.087Z TX: EA4IKU transmitiendo
+abr 28 16:07:54 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:54.337Z TX: EA4IKU transmitiendo
+abr 28 16:07:54 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:54.586Z TX: EA4IKU transmitiendo
+abr 28 16:07:54 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:54.838Z TX: EA4IKU transmitiendo
+abr 28 16:07:55 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:55.089Z TX: EA4IKU transmitiendo
+abr 28 16:07:55 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:55.341Z TX: EA4IKU transmitiendo
+abr 28 16:07:55 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:55.592Z TX: EA4IKU transmitiendo
+abr 28 16:07:55 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:55.843Z TX: EA4IKU transmitiendo
+abr 28 16:07:56 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:56.094Z TX: EA4IKU transmitiendo
+abr 28 16:07:56 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:56.344Z TX: EA4IKU transmitiendo
+abr 28 16:07:56 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:56.596Z TX: EA4IKU transmitiendo
+abr 28 16:07:56 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:56.847Z TX: EA4IKU transmitiendo
+abr 28 16:07:57 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:57.097Z TX: EA4IKU transmitiendo
+abr 28 16:07:57 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:57.348Z TX: EA4IKU transmitiendo
+abr 28 16:07:57 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:57.601Z TX: EA4IKU transmitiendo
+abr 28 16:07:57 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:57.851Z TX: EA4IKU transmitiendo
+abr 28 16:07:58 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:58.103Z TX: EA4IKU transmitiendo
+abr 28 16:07:58 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:58.354Z TX: EA4IKU transmitiendo
+abr 28 16:07:58 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:58.604Z TX: EA4IKU transmitiendo
+abr 28 16:07:58 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:07:58.802Z [nivel] pico RMS=14782 (-6.9 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:07:58 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:58.855Z TX: EA4IKU transmitiendo
+abr 28 16:07:59 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:59.108Z TX: EA4IKU transmitiendo
+abr 28 16:07:59 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:59.359Z TX: EA4IKU transmitiendo
+abr 28 16:07:59 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:59.610Z TX: EA4IKU transmitiendo
+abr 28 16:07:59 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:07:59.861Z TX: EA4IKU transmitiendo
+abr 28 16:08:00 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:00.113Z TX: EA4IKU transmitiendo
+abr 28 16:08:00 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:00.364Z TX: EA4IKU transmitiendo
+abr 28 16:08:00 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:00.616Z TX: EA4IKU transmitiendo
+abr 28 16:08:00 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:00.866Z TX: EA4IKU transmitiendo
+abr 28 16:08:01 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:01.117Z TX: EA4IKU transmitiendo
+abr 28 16:08:01 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:01.367Z TX: EA4IKU transmitiendo
+abr 28 16:08:01 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:01.620Z TX: EA4IKU transmitiendo
+abr 28 16:08:01 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:01.871Z TX: EA4IKU transmitiendo
+abr 28 16:08:02 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:02.124Z TX: EA4IKU transmitiendo
+abr 28 16:08:02 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:02.375Z TX: EA4IKU transmitiendo
+abr 28 16:08:02 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:02.481Z [arecord] GAP 59ms (chunk#3539, 160 muestras)
+abr 28 16:08:02 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:02.626Z TX: EA4IKU transmitiendo
+abr 28 16:08:02 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:02.877Z TX: EA4IKU transmitiendo
+abr 28 16:08:03 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:03.128Z TX: EA4IKU transmitiendo
+abr 28 16:08:03 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:03.379Z TX: EA4IKU transmitiendo
+abr 28 16:08:03 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:03.631Z TX: EA4IKU transmitiendo
+abr 28 16:08:03 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:03.802Z [nivel] pico RMS=15140 (-6.7 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:03 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:03.882Z TX: EA4IKU transmitiendo
+abr 28 16:08:04 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:04.141Z TX: EA4IKU transmitiendo
+abr 28 16:08:04 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:04.391Z TX: EA4IKU transmitiendo
+abr 28 16:08:04 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:04.650Z TX: EA4IKU transmitiendo
+abr 28 16:08:04 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:04.908Z TX: EA4IKU transmitiendo
+abr 28 16:08:05 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:05.158Z TX: EA4IKU transmitiendo
+abr 28 16:08:05 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:05.409Z TX: EA4IKU transmitiendo
+abr 28 16:08:05 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:05.661Z TX: EA4IKU transmitiendo
+abr 28 16:08:05 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:05.913Z TX: EA4IKU transmitiendo
+abr 28 16:08:06 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:06.163Z TX: EA4IKU transmitiendo
+abr 28 16:08:06 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:06.414Z TX: EA4IKU transmitiendo
+abr 28 16:08:06 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:06.664Z TX: EA4IKU transmitiendo
+abr 28 16:08:06 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:06.915Z TX: EA4IKU transmitiendo
+abr 28 16:08:07 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:07.168Z TX: EA4IKU transmitiendo
+abr 28 16:08:07 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:07.418Z TX: EA4IKU transmitiendo
+abr 28 16:08:07 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:07.668Z TX: EA4IKU transmitiendo
+abr 28 16:08:07 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:07.920Z TX: EA4IKU transmitiendo
+abr 28 16:08:08 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:08.170Z TX: EA4IKU transmitiendo
+abr 28 16:08:08 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:08.419Z TX: EA4IKU transmitiendo
+abr 28 16:08:08 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:08.670Z TX: EA4IKU transmitiendo
+abr 28 16:08:08 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:08.802Z [nivel] pico RMS=15302 (-6.6 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:08 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:08.921Z TX: EA4IKU transmitiendo
+abr 28 16:08:09 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:09.173Z TX: EA4IKU transmitiendo
+abr 28 16:08:09 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:09.426Z TX: EA4IKU transmitiendo
+abr 28 16:08:09 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:09.675Z TX: EA4IKU transmitiendo
+abr 28 16:08:09 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:09.928Z TX: EA4IKU transmitiendo
+abr 28 16:08:10 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:10.178Z TX: EA4IKU transmitiendo
+abr 28 16:08:10 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:10.430Z TX: EA4IKU transmitiendo
+abr 28 16:08:10 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:10.633Z [arecord] GAP 59ms (chunk#3906, 160 muestras)
+abr 28 16:08:10 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:10.681Z TX: EA4IKU transmitiendo
+abr 28 16:08:10 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:10.933Z TX: EA4IKU transmitiendo
+abr 28 16:08:11 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:11.187Z TX: EA4IKU transmitiendo
+abr 28 16:08:11 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:11.439Z TX: EA4IKU transmitiendo
+abr 28 16:08:11 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:11.688Z TX: EA4IKU transmitiendo
+abr 28 16:08:11 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:11.938Z TX: EA4IKU transmitiendo
+abr 28 16:08:12 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:12.189Z TX: EA4IKU transmitiendo
+abr 28 16:08:12 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:12.440Z TX: EA4IKU transmitiendo
+abr 28 16:08:12 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:12.691Z TX: EA4IKU transmitiendo
+abr 28 16:08:12 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:12.942Z TX: EA4IKU transmitiendo
+abr 28 16:08:13 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:13.193Z TX: EA4IKU transmitiendo
+abr 28 16:08:13 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:13.443Z TX: EA4IKU transmitiendo
+abr 28 16:08:13 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:13.694Z TX: EA4IKU transmitiendo
+abr 28 16:08:13 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:13.804Z [nivel] pico RMS=16050 (-6.2 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:13 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:13.950Z TX: EA4IKU transmitiendo
+abr 28 16:08:14 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:14.200Z TX: EA4IKU transmitiendo
+abr 28 16:08:14 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:14.452Z TX: EA4IKU transmitiendo
+abr 28 16:08:14 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:14.702Z TX: EA4IKU transmitiendo
+abr 28 16:08:14 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:14.954Z TX: EA4IKU transmitiendo
+abr 28 16:08:15 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:15.205Z TX: EA4IKU transmitiendo
+abr 28 16:08:15 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:15.458Z TX: EA4IKU transmitiendo
+abr 28 16:08:15 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:15.713Z TX: EA4IKU transmitiendo
+abr 28 16:08:15 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:15.961Z TX: EA4IKU transmitiendo
+abr 28 16:08:16 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:16.213Z TX: EA4IKU transmitiendo
+abr 28 16:08:16 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:16.463Z TX: EA4IKU transmitiendo
+abr 28 16:08:16 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:16.713Z TX: EA4IKU transmitiendo
+abr 28 16:08:16 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:16.966Z TX: EA4IKU transmitiendo
+abr 28 16:08:17 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:17.218Z TX: EA4IKU transmitiendo
+abr 28 16:08:17 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:17.469Z TX: EA4IKU transmitiendo
+abr 28 16:08:17 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:17.719Z TX: EA4IKU transmitiendo
+abr 28 16:08:17 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:17.970Z TX: EA4IKU transmitiendo
+abr 28 16:08:18 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:18.220Z TX: EA4IKU transmitiendo
+abr 28 16:08:18 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:18.472Z TX: EA4IKU transmitiendo
+abr 28 16:08:18 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:18.722Z TX: EA4IKU transmitiendo
+abr 28 16:08:18 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:18.806Z [nivel] pico RMS=15327 (-6.6 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:18 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:18.974Z TX: EA4IKU transmitiendo
+abr 28 16:08:19 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:19.225Z TX: EA4IKU transmitiendo
+abr 28 16:08:19 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:19.477Z TX: EA4IKU transmitiendo
+abr 28 16:08:19 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:19.727Z TX: EA4IKU transmitiendo
+abr 28 16:08:19 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:19.979Z TX: EA4IKU transmitiendo
+abr 28 16:08:20 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:20.229Z TX: EA4IKU transmitiendo
+abr 28 16:08:20 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:20.479Z TX: EA4IKU transmitiendo
+abr 28 16:08:20 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:20.729Z TX: EA4IKU transmitiendo
+abr 28 16:08:20 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:20.983Z TX: EA4IKU transmitiendo
+abr 28 16:08:21 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:21.235Z TX: EA4IKU transmitiendo
+abr 28 16:08:21 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:21.487Z TX: EA4IKU transmitiendo
+abr 28 16:08:21 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:21.738Z TX: EA4IKU transmitiendo
+abr 28 16:08:21 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:21.991Z TX: EA4IKU transmitiendo
+abr 28 16:08:22 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:22.242Z TX: EA4IKU transmitiendo
+abr 28 16:08:22 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:22.493Z TX: EA4IKU transmitiendo
+abr 28 16:08:22 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:22.746Z TX: EA4IKU transmitiendo
+abr 28 16:08:22 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:22.997Z TX: EA4IKU transmitiendo
+abr 28 16:08:23 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:23.247Z TX: EA4IKU transmitiendo
+abr 28 16:08:23 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:23.498Z TX: EA4IKU transmitiendo
+abr 28 16:08:23 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:23.748Z TX: EA4IKU transmitiendo
+abr 28 16:08:23 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:23.807Z [nivel] pico RMS=15533 (-6.5 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:24 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:23.999Z TX: EA4IKU transmitiendo
+abr 28 16:08:24 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:24.250Z TX: EA4IKU transmitiendo
+abr 28 16:08:24 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:24.501Z TX: EA4IKU transmitiendo
+abr 28 16:08:24 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:24.752Z TX: EA4IKU transmitiendo
+abr 28 16:08:25 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:25.004Z TX: EA4IKU transmitiendo
+abr 28 16:08:25 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:25.254Z TX: EA4IKU transmitiendo
+abr 28 16:08:25 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:25.505Z TX: EA4IKU transmitiendo
+abr 28 16:08:25 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:25.756Z TX: EA4IKU transmitiendo
+abr 28 16:08:25 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:08:25.874Z PTT set(true) ? escribiendo "1" al helper
+abr 28 16:08:26 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:26.200Z [audio] Semi-duplex: matando arecord \Uffffffff evitar realimentacion altavoz?micro
+abr 28 16:08:26 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:26.262Z [arecord] Terminado (code 1)
+abr 28 16:08:26 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:08:26.911Z PTT set(false) ? escribiendo "0" al helper
+abr 28 16:08:26 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:26.912Z [rxInhibit] playback_ended: suppress extendido ? 2026-04-28T16:08:29.412Z (prev=2026-04-28T16:07:43.374Z)
+abr 28 16:08:26 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:26.913Z [audio] RX terminado \Uffffffff reanudando arecord (aplay sigue activo con silencio)
+abr 28 16:08:26 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:26.913Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+abr 28 16:08:26 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:26.929Z [rxInhibit] suppress: prev=2026-04-28T16:08:29.412Z new=2026-04-28T16:08:29.412Z
+abr 28 16:08:26 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:26.956Z [arecord] GAP 718ms (chunk#4610, 3 muestras)
+abr 28 16:08:27 ubuntus eqso-relay-CB[20113]: [gsm-enc] 2026-04-28T16:08:27.001Z GAP 841ms entre frames GSM de salida
+abr 28 16:08:28 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:28.810Z [nivel] pico RMS=17826 (-5.3 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:33 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:33.809Z [nivel] pico RMS=15157 (-6.7 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:36 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:36.854Z [arecord] GAP 55ms (chunk#5057, 160 muestras)
+abr 28 16:08:38 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:38.809Z [nivel] pico RMS=14853 (-6.9 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:41 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:41.836Z [arecord] GAP 60ms (chunk#5281, 160 muestras)
+abr 28 16:08:41 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:41.895Z [arecord] GAP 60ms (chunk#5282, 160 muestras)
+abr 28 16:08:43 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:43.811Z [nivel] pico RMS=15468 (-6.5 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:48 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:48.823Z [nivel] pico RMS=16144 (-6.1 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:53 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:53.823Z [nivel] pico RMS=15260 (-6.6 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:58 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:58.082Z TX: EA4IKU transmitiendo
+abr 28 16:08:58 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:08:58.276Z PTT set(true) ? escribiendo "1" al helper
+abr 28 16:08:58 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:58.277Z [playGsm] pkt#100 len=33 decoder_ready=true player=running rxActive=false
+abr 28 16:08:58 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:58.277Z [audio] pkt#100 ? playGsm OK (pttActive=false rxActive=true)
+abr 28 16:08:58 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:58.824Z [nivel] pico RMS=14837 (-6.9 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:08:58 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:08:58.987Z PTT set(false) ? escribiendo "0" al helper
+abr 28 16:08:58 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:58.987Z [rxInhibit] suppress: prev=2026-04-28T16:08:29.412Z new=2026-04-28T16:08:59.787Z
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:08:59.129Z PTT set(true) ? escribiendo "1" al helper
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:59.149Z [audio] Semi-duplex: matando arecord \Uffffffff evitar realimentacion altavoz?micro
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:59.210Z [arecord] Terminado (code 1)
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:08:59.543Z PTT set(false) ? escribiendo "0" al helper
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:59.544Z [rxInhibit] playback_ended: suppress extendido ? 2026-04-28T16:09:02.043Z (prev=2026-04-28T16:08:59.787Z)
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:59.544Z [audio] RX terminado \Uffffffff reanudando arecord (aplay sigue activo con silencio)
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:59.544Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:08:59.561Z [rxInhibit] suppress: prev=2026-04-28T16:09:02.043Z new=2026-04-28T16:09:02.043Z
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:08:59.585Z [arecord] GAP 396ms (chunk#6070, 3 muestras)
+abr 28 16:08:59 ubuntus eqso-relay-CB[20113]: [gsm-enc] 2026-04-28T16:08:59.625Z GAP 473ms entre frames GSM de salida
+abr 28 16:09:03 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:09:03.826Z [nivel] pico RMS=15414 (-6.6 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:09:08 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:09:08.828Z [nivel] pico RMS=14686 (-7.0 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:09:09 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:09:09.813Z PTT set(true) ? escribiendo "1" al helper
+abr 28 16:09:10 ubuntus eqso-relay-CB[20113]: [ptt] 2026-04-28T16:09:10.215Z PTT set(false) ? escribiendo "0" al helper
+abr 28 16:09:10 ubuntus eqso-relay-CB[20113]: [main] 2026-04-28T16:09:10.217Z [rxInhibit] suppress: prev=2026-04-28T16:09:02.043Z new=2026-04-28T16:09:11.017Z
+abr 28 16:09:13 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:09:13.049Z [arecord] GAP 52ms (chunk#6680, 160 muestras)
+abr 28 16:09:13 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:09:13.829Z [nivel] pico RMS=14300 (-7.2 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:09:18 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:09:18.829Z [nivel] pico RMS=15991 (-6.2 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:09:21 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:09:21.090Z [arecord] GAP 61ms (chunk#7038, 160 muestras)
+abr 28 16:09:23 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:09:23.832Z [nivel] pico RMS=15021 (-6.8 dBFS)  VOXumbral=5000  gain=0.4
+abr 28 16:09:28 ubuntus eqso-relay-CB[20113]: [audio] 2026-04-28T16:09:28.833Z [nivel] pico RMS=15273 (-6.6 dBFS)  VOXumbral=5000  gain=0.4

@@ -360,6 +360,10 @@ function handleRemoteMode(
 } {
   const proxy = new EqsoProxy(host, port);
   let pttGranted = false;
+  /** True when PTT was active at the moment the external proxy disconnected.
+   *  Cleared on manual ptt_end or when auto-re-grant succeeds on reconnect.
+   *  Allows seamless PTT recovery when the external server kicks the proxy mid-TX. */
+  let pttWasActiveAtDisconnect = false;
   let pttTailTimer: ReturnType<typeof setTimeout> | null = null;
   let currentName = "";
   let currentRoom = "";
@@ -456,6 +460,7 @@ function handleRemoteMode(
   function releasePtt(): void {
     stopGsmFrameTimer();
     pttGranted = false;
+    pttWasActiveAtDisconnect = false; // user explicitly released PTT — cancel any pending auto-re-grant
     pcmAccum = new Int16Array(0);
     proxy.sendPttEnd();
     logger.info({ name: currentName }, "Remote TX: PTT end sent to eQSO server");
@@ -524,9 +529,17 @@ function handleRemoteMode(
         if (pttGranted) {
           if (pttTailTimer) { clearTimeout(pttTailTimer); pttTailTimer = null; }
           stopGsmFrameTimer();
+          // Remember PTT was active so we can auto-re-grant after reconnect
+          // (user is still holding the button — don't force a re-press).
+          pttWasActiveAtDisconnect = true;
           pttGranted = false;
           pcmAccum = new Int16Array(0);
           sendJson(ws, { type: "ptt_released" });
+          // Unkey the local relay daemon's CB radio so it doesn't stay keyed
+          if (currentRoom && currentName) {
+            roomManager.broadcastToRoom(currentRoom, buildPttReleased(currentName), id);
+          }
+          logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT released on disconnect — will auto-re-grant on reconnect");
         }
         // Auto-reconexión: si estábamos en una sala, reintentar sin cerrar el WS
         if (currentRoom && currentName) {
@@ -550,6 +563,18 @@ function handleRemoteMode(
           name: currentName,
           members: ev.data,
         });
+        // Auto-re-grant PTT if the user was TX'ing when the proxy dropped.
+        // This keeps TX seamless across the ~1.5s reconnect window without
+        // requiring the user to release and re-press the PTT button.
+        if (pttWasActiveAtDisconnect && currentRoom && currentName) {
+          pttWasActiveAtDisconnect = false;
+          pttGranted = true;
+          pcmAccum = new Int16Array(0);
+          proxy.startTransmitting();
+          sendJson(ws, { type: "ptt_granted" });
+          roomManager.broadcastToRoom(currentRoom, buildPttStarted(currentName), id);
+          logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT auto-re-granted after reconnect");
+        }
         break;
       case "user_joined": {
         const joined = ev.data as { name: string; message: string };
