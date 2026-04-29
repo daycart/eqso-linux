@@ -383,7 +383,10 @@ function handleRemoteMode(
       return;
     }
     proxyReconnectAttempts++;
-    const delay = Math.min(500 * proxyReconnectAttempts, 8000);
+    // Primer intento: inmediato (0ms) — el servidor puede cortar la TX cada ~10s
+    // y queremos re-grant lo más rápido posible para minimizar el silencio.
+    // Intentos sucesivos: backoff progresivo por si hay error de red real.
+    const delay = proxyReconnectAttempts === 1 ? 0 : Math.min(300 * (proxyReconnectAttempts - 1), 5000);
     logger.info({ host, port, attempt: proxyReconnectAttempts, delay }, "Remote proxy: scheduling reconnect");
     sendJson(ws, { type: "server_info", message: `Reconectando a ${host}:${port}...` });
     proxyReconnectTimer = setTimeout(() => {

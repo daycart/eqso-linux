@@ -238,12 +238,6 @@ interface PendingJoin {
   password: string;
 }
 
-// Many public eQSO servers enforce a per-session TX time limit (~8-10s) and
-// disconnect with "Indicativo invalido" when it's exceeded. Sending [0x0d][0x09]
-// (PTT end immediately followed by PTT start) resets the server's timer without
-// interrupting audio flow on our side or notifying the relay daemon.
-const TX_KEEPALIVE_INTERVAL_MS = 5_000; // 5s — below the observed ~8s server limit
-
 export class EqsoProxy extends EventEmitter {
   private socket: net.Socket | null = null;
   private parser = new EqsoPacketParser();
@@ -252,7 +246,6 @@ export class EqsoProxy extends EventEmitter {
   private port: number;
   private connected = false;
   private silenceTimer: ReturnType<typeof setInterval> | null = null;
-  private txKeepaliveTimer: ReturnType<typeof setInterval> | null = null;
   private transmitting = false;
   private pendingJoin: PendingJoin | null = null;
   // Estaciones que están actualmente en TX (para detectar fin de TX via action=0x00)
@@ -287,31 +280,6 @@ export class EqsoProxy extends EventEmitter {
     if (this.silenceTimer) {
       clearInterval(this.silenceTimer);
       this.silenceTimer = null;
-    }
-  }
-
-  /**
-   * Periodically send [0x0d][0x09] to the remote server while TX is active.
-   * This resets the server's per-session TX timer so it never reaches its limit
-   * (~8-10s on most public eQSO servers). Audio flow is uninterrupted because
-   * the gsmFrameTimer continues independently; the relay daemon is not notified.
-   */
-  private startTxKeepalive(): void {
-    if (this.txKeepaliveTimer) return;
-    this.txKeepaliveTimer = setInterval(() => {
-      if (!this.transmitting || !this.connected) {
-        this.stopTxKeepalive();
-        return;
-      }
-      this.socketWrite(Buffer.from([0x09]));
-      logger.info("eQSO proxy: TX keepalive — sent [0x09] PTT re-announce to refresh server TX session");
-    }, TX_KEEPALIVE_INTERVAL_MS);
-  }
-
-  private stopTxKeepalive(): void {
-    if (this.txKeepaliveTimer) {
-      clearInterval(this.txKeepaliveTimer);
-      this.txKeepaliveTimer = null;
     }
   }
 
@@ -380,7 +348,6 @@ export class EqsoProxy extends EventEmitter {
       this.transmitting = false;    // reset so next TX sends [0x09] PTT announce
       this.pendingJoin = null;
       this.stopSilenceFrames();
-      this.stopTxKeepalive();
       this.stopPttWatchdog();
       this.txingStations.clear();
       this.txStartTimes.clear();
@@ -394,7 +361,6 @@ export class EqsoProxy extends EventEmitter {
       this.transmitting = false;
       this.pendingJoin = null;
       this.stopSilenceFrames();
-      this.stopTxKeepalive();
       this.stopPttWatchdog();
       this.emit("event", { type: "error", data: (err as Error).message } as ProxyEvent);
       logger.warn({ err, host: this.host }, "eQSO proxy TCP error");
@@ -406,7 +372,6 @@ export class EqsoProxy extends EventEmitter {
 
   disconnect(): void {
     this.stopSilenceFrames();
-    this.stopTxKeepalive();
     this.stopPttWatchdog();
     this.txingStations.clear();
     this.txStartTimes.clear();
@@ -443,12 +408,10 @@ export class EqsoProxy extends EventEmitter {
     this.transmitting = true;
     this.socketWrite(Buffer.from([0x09]));
     logger.info("eQSO proxy: TX started — PTT announce [0x09] sent to remote server");
-    this.startTxKeepalive();
   }
 
   sendPttEnd(): void {
     this.transmitting = false;
-    this.stopTxKeepalive();
     this.socketWrite(Buffer.from([0x0d]));
   }
 
