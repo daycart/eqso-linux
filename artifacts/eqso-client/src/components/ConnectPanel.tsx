@@ -257,8 +257,8 @@ export function ConnectPanel({
               type="text"
               value={statusMessage}
               onChange={(e) => onStatusMessageChange(e.target.value)}
-              placeholder="CB27 link via internet..."
-              maxLength={100}
+              placeholder="CB27 eQSO"
+              maxLength={20}
               className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 text-sm"
             />
           </div>

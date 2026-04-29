@@ -16,9 +16,12 @@ function decodeEqsoString(buf: Buffer): string {
 }
 
 function buildJoinPacket(name: string, room: string, message: string, password: string): Buffer {
-  const nb = Buffer.from(name.slice(0, 20), "ascii");
-  const rb = Buffer.from(room.slice(0, 20), "ascii");
-  const mb = Buffer.from(message.slice(0, 100), "ascii");
+  const nb = Buffer.from(name.trim().slice(0, 20), "ascii");
+  const rb = Buffer.from(room.trim().slice(0, 20), "ascii");
+  // eQSO servers display "callsign message" and enforce a combined limit of 30 chars.
+  // Cap message so that callsign.length + 1 + message.length <= 29 (one char margin).
+  const maxMsgLen = Math.max(0, 29 - nb.length - 1);
+  const mb = Buffer.from(message.trim().slice(0, maxMsgLen), "ascii");
   const pb = Buffer.from(password.slice(0, 50), "ascii");
   return Buffer.concat([
     Buffer.from([0x1a]),

@@ -28,7 +28,7 @@ export default function HomePage() {
   const [showPTTConfig, setShowPTTConfig] = useState(false);
   const [callsign, setCallsign] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("GENERAL");
-  const [statusMessage, setStatusMessage] = useState("CB27 link via internet. ");
+  const [statusMessage, setStatusMessage] = useState("CB27 eQSO");
   const [password, setPassword] = useState("");
   const [pttActive, setPttActive] = useState(false);
   const pttChunkRef = useRef<(data: ArrayBuffer) => void>(() => {});
