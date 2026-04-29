@@ -116,6 +116,37 @@ function processSingleByte(state: TcpClientState, byte: number): void {
   const client = roomManager.getClient(state.id);
 
   switch (byte) {
+    case EQSO_COMMANDS.PTT_ANNOUNCE:
+      // [0x09] PTT announce: el relay-daemon (y clientes Windows eQSO estándar)
+      // envían este byte ANTES del primer paquete de audio para anunciar TX al servidor.
+      // El servidor real (193.152.83.229) lo requiere obligatoriamente.
+      // Aquí hacemos el lock de sala + broadcast pttStarted para que los demás
+      // clientes entren en modo receive ANTES de que llegue el audio.
+      if (client?.room && !moderationManager.isMuted(client.name)) {
+        const wasAlreadyOurs = roomManager.isLockedBy(client.room, state.id);
+        const lockAcquired = roomManager.tryLockRoom(client.room, state.id);
+        if (lockAcquired && !wasAlreadyOurs) {
+          roomManager.broadcastToRoom(client.room, buildPttStarted(client.name), state.id);
+          if (state.pttRefreshTimer) clearInterval(state.pttRefreshTimer);
+          const refreshName = client.name;
+          const refreshRoom = client.room;
+          state.pttRefreshTimer = setInterval(() => {
+            if (state.disconnected || !roomManager.isLockedBy(refreshRoom, state.id)) {
+              if (state.pttRefreshTimer) { clearInterval(state.pttRefreshTimer); state.pttRefreshTimer = null; }
+              return;
+            }
+            roomManager.broadcastToTcpClientsInRoom(refreshRoom, buildPttStarted(refreshName), state.id);
+          }, 1500);
+          armPttWatchdog(state, client.room, client.name);
+          inactivityManager.recordActivity(client.room);
+          logger.info({ id: state.id, name: client.name, room: client.room }, "eQSO TCP: PTT announce [0x09] — sala bloqueada");
+        }
+        // Responder con [0x09] para confirmar PTT grant (protocolo eQSO estándar).
+        // El relay-daemon lo descarta pero clientes Windows lo necesitan para confirmar TX.
+        safeWrite(state, Buffer.from([0x09]));
+      }
+      break;
+
     case EQSO_COMMANDS.VOICE:
       if (client?.room && !moderationManager.isMuted(client.name)) {
         // Solo emitir ptt_started en el PRIMER paquete de cada sesión TX.
@@ -125,6 +156,8 @@ function processSingleByte(state: TcpClientState, byte: number): void {
         // Sin esta guarda, ptt_started se emitía cada 120ms (un broadcast por
         // cada paquete GSM), lo que hacía que los clientes eQSO externos
         // (Windows ASORAPA) los recibieran como ráfagas y desconectaran.
+        // NOTA: si el cliente envió [0x09] antes, el lock y pttStarted ya se
+        // hicieron allí — isLockedBy devolverá true y wasAlreadyOurs será true.
         const wasAlreadyOurs = roomManager.isLockedBy(client.room, state.id);
         const lockAcquired = roomManager.tryLockRoom(client.room, state.id);
         if (lockAcquired && !wasAlreadyOurs) {

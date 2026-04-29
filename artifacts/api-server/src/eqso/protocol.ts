@@ -1,6 +1,7 @@
 export const EQSO_COMMANDS = {
   VOICE: 0x01,
   IGNORE: 0x02,
+  PTT_ANNOUNCE: 0x09,
   KEEPALIVE: 0x0c,
   RELEASE_PTT: 0x0d,
   HANDSHAKE: 0x0a,
