@@ -1,0 +1,51 @@
+do systemctl restart eqso-relay@CB
+david@ubuntus:~$ journalctl -u eqso-relay@CB -f
+Apr 29 18:22:00 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:00.669Z [arecord] chunk#6: 1920 bytes brutos → 160 muestras 8kHz (decimate×6)
+Apr 29 18:22:00 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:00.688Z [arecord] chunk#7: 1920 bytes brutos → 160 muestras 8kHz (decimate×6)
+Apr 29 18:22:00 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:00.707Z [arecord] chunk#8: 1920 bytes brutos → 160 muestras 8kHz (decimate×6)
+Apr 29 18:22:00 ubuntus eqso-relay-CB[1489]: [ptt] 2026-04-29T18:22:00.836Z PTT serial listo (/dev/eqso-ptt, rts)
+Apr 29 18:22:02 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:02.586Z Conectando a 127.0.0.1:2172 como "0R-IN70WN" en sala "CB"…
+Apr 29 18:22:02 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:22:02.591Z TCP error: connect ECONNREFUSED 127.0.0.1:2172 (Error)
+Apr 29 18:22:02 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:02.591Z Error TCP: connect ECONNREFUSED 127.0.0.1:2172
+Apr 29 18:22:02 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:02.592Z Reintento #2 en 4s…
+Apr 29 18:22:02 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:22:02.592Z TCP desconectado de 127.0.0.1:2172 — tras error TCP
+Apr 29 18:22:02 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:02.592Z Desconectado del servidor eQSO
+Apr 29 18:22:05 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:05.492Z [nivel] pico RMS=5796 (-15.0 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:06 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:06.591Z Conectando a 127.0.0.1:2172 como "0R-IN70WN" en sala "CB"…
+Apr 29 18:22:06 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:22:06.595Z TCP error: connect ECONNREFUSED 127.0.0.1:2172 (Error)
+Apr 29 18:22:06 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:06.596Z Error TCP: connect ECONNREFUSED 127.0.0.1:2172
+Apr 29 18:22:06 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:06.596Z Reintento #3 en 8s…
+Apr 29 18:22:06 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:22:06.596Z TCP desconectado de 127.0.0.1:2172 — tras error TCP
+Apr 29 18:22:06 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:06.597Z Desconectado del servidor eQSO
+Apr 29 18:22:10 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:10.493Z [nivel] pico RMS=5818 (-15.0 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:14 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:14.596Z Conectando a 127.0.0.1:2172 como "0R-IN70WN" en sala "CB"…
+Apr 29 18:22:14 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:22:14.605Z TCP error: connect ECONNREFUSED 127.0.0.1:2172 (Error)
+Apr 29 18:22:14 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:14.605Z Error TCP: connect ECONNREFUSED 127.0.0.1:2172
+Apr 29 18:22:14 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:14.605Z Reintento #4 en 16s…
+Apr 29 18:22:14 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:22:14.606Z TCP desconectado de 127.0.0.1:2172 — tras error TCP
+Apr 29 18:22:14 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:14.608Z Desconectado del servidor eQSO
+Apr 29 18:22:15 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:15.493Z [nivel] pico RMS=5849 (-15.0 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:19 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:19.262Z [arecord] GAP 59ms (chunk#909, 160 muestras)
+Apr 29 18:22:20 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:20.494Z [nivel] pico RMS=5699 (-15.2 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:25 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:25.495Z [nivel] pico RMS=5746 (-15.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:30 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:30.497Z [nivel] pico RMS=5936 (-14.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:30 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:30.606Z Conectando a 127.0.0.1:2172 como "0R-IN70WN" en sala "CB"…
+Apr 29 18:22:30 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:22:30.609Z TCP error: connect ECONNREFUSED 127.0.0.1:2172 (Error)
+Apr 29 18:22:30 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:30.611Z Error TCP: connect ECONNREFUSED 127.0.0.1:2172
+Apr 29 18:22:30 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:30.612Z Reintento #5 en 32s…
+Apr 29 18:22:30 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:22:30.613Z TCP desconectado de 127.0.0.1:2172 — tras error TCP
+Apr 29 18:22:30 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:22:30.613Z Desconectado del servidor eQSO
+Apr 29 18:22:35 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:35.497Z [nivel] pico RMS=5774 (-15.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:40 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:40.496Z [nivel] pico RMS=5828 (-15.0 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:45 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:45.498Z [nivel] pico RMS=6440 (-14.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:50 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:50.500Z [nivel] pico RMS=5775 (-15.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:22:55 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:22:55.501Z [nivel] pico RMS=5740 (-15.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:23:00 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:23:00.501Z [nivel] pico RMS=5780 (-15.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:23:02 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:23:02.613Z Conectando a 127.0.0.1:2172 como "0R-IN70WN" en sala "CB"…
+Apr 29 18:23:02 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:23:02.618Z TCP error: connect ECONNREFUSED 127.0.0.1:2172 (Error)
+Apr 29 18:23:02 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:23:02.618Z Error TCP: connect ECONNREFUSED 127.0.0.1:2172
+Apr 29 18:23:02 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:23:02.618Z Reintento #6 en 60s…
+Apr 29 18:23:02 ubuntus eqso-relay-CB[1489]: [eqso] 2026-04-29T18:23:02.619Z TCP desconectado de 127.0.0.1:2172 — tras error TCP
+Apr 29 18:23:02 ubuntus eqso-relay-CB[1489]: [main] 2026-04-29T18:23:02.619Z Desconectado del servidor eQSO
+Apr 29 18:23:05 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:23:05.502Z [nivel] pico RMS=5890 (-14.9 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 18:23:10 ubuntus eqso-relay-CB[1489]: [audio] 2026-04-29T18:23:10.502Z [nivel] pico RMS=6075 (-14.6 dBFS)  VOXumbral=800  gain=0.15
