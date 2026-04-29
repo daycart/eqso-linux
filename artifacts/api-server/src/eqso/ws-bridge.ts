@@ -512,23 +512,14 @@ function handleRemoteMode(
         roomManager.updateRemoteConn(id, { status: "connected", connectedAt: Date.now() });
         proxyReconnectAttempts = 0;
         sendJson(ws, { type: "server_info", message: `Conectado a ${host}:${port}` });
-        // Si reconectamos automáticamente (currentRoom ya establecida), re-unirse a la sala
+        // Si reconectamos automáticamente (currentRoom ya establecida), re-unirse a la sala.
+        // NO re-grant de PTT aquí: el servidor eQSO externo necesita confirmar el JOIN
+        // (via user_update/members) antes de aceptar [0x09]. Si mandamos [0x09] antes,
+        // el servidor responde "Nombre de sala invalido" y desconecta otra vez.
+        // El re-grant se hace en el handler "members" (ver abajo).
         if (currentRoom && currentName) {
           logger.info({ name: currentName, room: currentRoom }, "Remote proxy: auto-rejoining after reconnect");
           proxy.sendJoin(currentName, currentRoom, currentMessage, currentPassword);
-          // Si el TX estaba activo, re-grant INMEDIATAMENTE sin esperar "members".
-          // JOIN + [0x09] se envían secuencialmente por el mismo TCP → el servidor
-          // procesa JOIN primero y luego [0x09], por lo que el orden es seguro.
-          // Esto recorta el gap de audio de ~687ms a ~340ms (solo TCP + handshake).
-          if (pttWasActiveAtDisconnect) {
-            pttWasActiveAtDisconnect = false;
-            pttGranted = true;
-            pcmAccum = new Int16Array(0);
-            proxy.startTransmitting();
-            sendJson(ws, { type: "ptt_granted" });
-            roomManager.broadcastToRoom(currentRoom, buildPttStarted(currentName), id);
-            logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT re-granted early after reconnect (connected+joined)");
-          }
         }
         break;
       case "server_info":
@@ -584,8 +575,19 @@ function handleRemoteMode(
           name: currentName,
           members: ev.data,
         });
-        // El re-grant de PTT ya se realiza en el handler "connected" (early re-grant).
-        // Aquí no se necesita acción adicional: el TX ya está activo si pttGranted=true.
+        // Re-grant de PTT AQUÍ: el servidor ya confirmó el JOIN via user_update.
+        // Ahora sí podemos enviar [0x09] sin que el servidor responda
+        // "Nombre de sala invalido". El gap de audio aumenta ~400ms respecto al
+        // early-grant anterior, pero se eliminan los desconectes en cascada.
+        if (pttWasActiveAtDisconnect) {
+          pttWasActiveAtDisconnect = false;
+          pttGranted = true;
+          pcmAccum = new Int16Array(0);
+          proxy.startTransmitting();
+          sendJson(ws, { type: "ptt_granted" });
+          roomManager.broadcastToRoom(currentRoom, buildPttStarted(currentName), id);
+          logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT re-granted after join confirmed (members received)");
+        }
         break;
       case "user_joined": {
         const joined = ev.data as { name: string; message: string };

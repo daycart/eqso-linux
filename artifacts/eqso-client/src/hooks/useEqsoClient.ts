@@ -492,6 +492,10 @@ export function useEqsoClient(
   const pttStart = useCallback(() => {
     const ws = wsRef.current;
     if (!ws || ws.readyState !== WebSocket.OPEN) return;
+    // Grant optimistically so sendAudio() no descarta el primer chunk mientras
+    // el servidor procesa el ptt_start (latencia de red ~50-150ms).
+    // Si el servidor deniega (canal ocupado), devuelve ptt_denied y reseteamos.
+    pttGrantedRef.current = true;
     ws.send(JSON.stringify({ type: "ptt_start" }));
   }, []);
 
