@@ -29,6 +29,7 @@ let rxPackets = 0;
 let txPackets = 0;
 let usersInRoom: string[] = [];
 let forceReconnectRequested = false;
+let lastPttIgnoredLogMs = 0;   // Throttle del log "ptt_start ignorado" (max 1/s)
 
 // ─── Inhibicion RX (anti-feedback acustico) ───────────────────────────────────
 // Cuando la radio reproduce audio del servidor, inhibimos el VOX durante ese
@@ -171,8 +172,12 @@ vox.on("ptt_start", () => {
     // a emitir ptt_start (aunque el RMS siga sobre umbral) porque el VOX
     // cree que ya esta en TX. El resetState() permite que el debounce
     // vuelva a acumularse cuando la conexion se restablezca.
-    log("VOX: ptt_start ignorado — sin conexion, reseteando estado VOX");
     vox.resetState();
+    const nowMs = Date.now();
+    if (nowMs - lastPttIgnoredLogMs > 1000) {
+      lastPttIgnoredLogMs = nowMs;
+      log("VOX: ptt_start ignorado — sin conexion, reseteando estado VOX");
+    }
     return;
   }
   if (pttActive || rxActive) return;

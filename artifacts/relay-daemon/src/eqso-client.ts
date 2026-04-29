@@ -235,8 +235,9 @@ export class EqsoClient extends EventEmitter {
     log(`JOIN enviado: callsign="${name}" sala="${room}"`);
   }
 
-  /** Anuncia PTT al servidor [0x09] y pausa el silence heartbeat. */
+  /** Anuncia PTT al servidor [0x09] y detiene el silence heartbeat síncronamente. */
   startTx(): void {
+    this.stopSilence();        // Detener timer ANTES del PTT para evitar race [0x02][0x09]
     this.transmitting = true;
     this.write(Buffer.from([0x09]));
     log("PTT anunciado [0x09]");
@@ -257,6 +258,7 @@ export class EqsoClient extends EventEmitter {
   endTx(): void {
     this.transmitting = false;
     this.write(Buffer.from([0x0d]));
+    this.startSilence();        // Reiniciar heartbeat tras fin de TX
     log("PTT liberado [0x0d]");
   }
 

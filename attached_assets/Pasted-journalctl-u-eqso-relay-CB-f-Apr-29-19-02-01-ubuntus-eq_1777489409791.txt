@@ -1,0 +1,70 @@
+journalctl -u eqso-relay@CB -f
+Apr 29 19:02:01 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:01.092Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:06 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:06.093Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:11 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:11.094Z [nivel] pico RMS=5 (-77.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:16 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:16.095Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:21 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:21.095Z [nivel] pico RMS=5 (-76.5 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:26 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:26.095Z [nivel] pico RMS=5 (-77.0 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:31 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:31.095Z [nivel] pico RMS=5 (-76.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:36 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:36.097Z [nivel] pico RMS=5 (-76.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:41 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:41.097Z [nivel] pico RMS=5 (-77.2 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:46 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:46.098Z [nivel] pico RMS=5 (-76.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:51 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:51.098Z [nivel] pico RMS=5 (-77.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:54 ubuntus eqso-relay-CB[3119]: [eqso] 2026-04-29T19:02:54.469Z PTT anunciado [0x09]
+Apr 29 19:02:54 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:54.469Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 29 19:02:55 ubuntus eqso-relay-CB[3119]: [eqso] 2026-04-29T19:02:55.283Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 29 19:02:55 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:55.284Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 29 19:02:55 ubuntus eqso-relay-CB[3119]: [eqso] 2026-04-29T19:02:55.624Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 29 19:02:55 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:55.624Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 29 19:02:56 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:02:56.097Z [nivel] pico RMS=7674 (-12.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:02:57 ubuntus eqso-relay-CB[3119]: [eqso] 2026-04-29T19:02:57.932Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+Apr 29 19:02:57 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:57.932Z Mensaje servidor: Indicativo invalido (max 30 chars)
+Apr 29 19:02:57 ubuntus eqso-relay-CB[3119]: [eqso] 2026-04-29T19:02:57.961Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+Apr 29 19:02:57 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:57.961Z Desconectado del servidor eQSO
+Apr 29 19:02:57 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:57.962Z [vox] Estado PTT reseteado por desconexion durante TX
+Apr 29 19:02:57 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:57.963Z Reintento #1 en 2s\Uffffffff
+Apr 29 19:02:57 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:57.984Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.025Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.067Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.111Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.152Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.194Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.257Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.297Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.338Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.381Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.422Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.465Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.505Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.546Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.588Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.630Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.672Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.713Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.755Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.795Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.859Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.901Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.923Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:58 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:58.963Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.026Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.068Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.109Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.151Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.194Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.236Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.278Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.320Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.484Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:02:59.964Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+Apr 29 19:02:59 ubuntus eqso-relay-CB[3119]: [eqso] 2026-04-29T19:02:59.971Z TCP conectado a 193.152.83.229:2172
+Apr 29 19:03:00 ubuntus eqso-relay-CB[3119]: [eqso] 2026-04-29T19:03:00.001Z Handshake recibido \Uffffffff conexion establecida
+Apr 29 19:03:00 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:03:00.002Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 29 19:03:00 ubuntus eqso-relay-CB[3119]: [eqso] 2026-04-29T19:03:00.004Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 29 19:03:00 ubuntus eqso-relay-CB[3119]: [eqso] 2026-04-29T19:03:00.007Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 29 19:03:00 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:03:00.007Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 29 19:03:00 ubuntus eqso-relay-CB[3119]: [main] 2026-04-29T19:03:00.012Z Sala: 0R-IN70WN se ha unido
+Apr 29 19:03:01 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:03:01.098Z [nivel] pico RMS=6953 (-13.5 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:03:03 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:03:03.052Z [arecord] GAP 63ms (chunk#7883, 160 muestras)
+^[[B^[[B^[[B^[[BApr 29 19:03:06 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:03:06.098Z [nivel] pico RMS=30 (-60.8 dBFS)  VOXumbral=800  gain=0.15
+^[[AApr 29 19:03:11 ubuntus eqso-relay-CB[3119]: [audio] 2026-04-29T19:03:11.099Z [nivel] pico RMS=5 (-76.8 dBFS)  VOXumbral=800  gain=0.15
