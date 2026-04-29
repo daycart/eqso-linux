@@ -226,10 +226,11 @@ class EqsoPacketParser {
 // ---------------------------------------------------------------------------
 // EqsoProxy — connects to a remote eQSO TCP server and translates packets
 // ---------------------------------------------------------------------------
-// Silence frame interval — eQSO clients send 0x02 every ~150ms when idle.
-// The server uses these to detect that a client is "ready" (not transmitting).
-// Without them, the server may ignore PTT requests.
-const SILENCE_INTERVAL_MS = 150;
+// NOTE: [0x02] silence frames are intentionally NOT sent to the ASORAPA server.
+// The ASORAPA eQSO server at 193.152.83.229 interprets [0x02] as a JOIN packet
+// with an empty callsign ("Indicativo invalido") and drops the TCP connection
+// after accumulating them (~30s of idle). The relay-daemon was fixed the same way.
+// Standard eQSO servers may require [0x02] for keepalive, but ASORAPA does not.
 
 interface PendingJoin {
   name: string;
@@ -245,7 +246,6 @@ export class EqsoProxy extends EventEmitter {
   private host: string;
   private port: number;
   private connected = false;
-  private silenceTimer: ReturnType<typeof setInterval> | null = null;
   private transmitting = false;
   private pendingJoin: PendingJoin | null = null;
   // Estaciones que están actualmente en TX (para detectar fin de TX via action=0x00)
@@ -263,24 +263,6 @@ export class EqsoProxy extends EventEmitter {
     super();
     this.host = host;
     this.port = port;
-  }
-
-  /** Start sending 0x02 silence frames (idle heartbeat). */
-  private startSilenceFrames(): void {
-    if (this.silenceTimer) return;
-    this.silenceTimer = setInterval(() => {
-      if (!this.transmitting) {
-        this.socketWrite(Buffer.from([0x02]));
-      }
-    }, SILENCE_INTERVAL_MS);
-  }
-
-  /** Stop the silence frame timer (called when we disconnect). */
-  private stopSilenceFrames(): void {
-    if (this.silenceTimer) {
-      clearInterval(this.silenceTimer);
-      this.silenceTimer = null;
-    }
   }
 
   /** Watchdog: libera PTT de estaciones que llevan demasiado tiempo transmitiendo (stuck PTT). */
@@ -347,7 +329,6 @@ export class EqsoProxy extends EventEmitter {
       this.handshakeDone = false;   // reset so next connect() completes the handshake
       this.transmitting = false;    // reset so next TX sends [0x09] PTT announce
       this.pendingJoin = null;
-      this.stopSilenceFrames();
       this.stopPttWatchdog();
       this.txingStations.clear();
       this.txStartTimes.clear();
@@ -360,7 +341,6 @@ export class EqsoProxy extends EventEmitter {
       this.handshakeDone = false;
       this.transmitting = false;
       this.pendingJoin = null;
-      this.stopSilenceFrames();
       this.stopPttWatchdog();
       this.emit("event", { type: "error", data: (err as Error).message } as ProxyEvent);
       logger.warn({ err, host: this.host }, "eQSO proxy TCP error");
@@ -371,7 +351,6 @@ export class EqsoProxy extends EventEmitter {
   }
 
   disconnect(): void {
-    this.stopSilenceFrames();
     this.stopPttWatchdog();
     this.txingStations.clear();
     this.txStartTimes.clear();
@@ -475,8 +454,6 @@ export class EqsoProxy extends EventEmitter {
           this.handshakeDone = true;
           logger.info({ hex: pkt.toString("hex") }, "eQSO proxy: handshake from server");
           this.emit("event", { type: "connected" } as ProxyEvent);
-          // Start sending 0x02 silence heartbeats now that handshake is done
-          this.startSilenceFrames();
           // Flush any join that arrived before the handshake was complete
           if (this.pendingJoin) {
             const pj = this.pendingJoin;

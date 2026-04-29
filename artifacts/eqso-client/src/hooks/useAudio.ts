@@ -436,6 +436,7 @@ export function useAudio(): UseAudioReturn {
 
       // Inicializar worklet si aun no esta listo (primera llamada post-interaccion)
       if (!workletReadyRef.current) {
+        console.debug("[rx] playAudio: worklet not ready, initializing (ctx.state=" + ctx.state + ")");
         initPlaybackWorklet().catch(() => {});
         // Mientras el worklet no esta listo, descartar el paquete (son los primeros
         // 500ms tras la primera interaccion de usuario; el pre-fill los absorbe)

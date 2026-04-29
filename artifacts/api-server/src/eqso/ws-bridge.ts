@@ -374,7 +374,7 @@ function handleRemoteMode(
   // automáticamente sin cerrar el WS del browser.
   let proxyReconnectTimer: ReturnType<typeof setTimeout> | null = null;
   let proxyReconnectAttempts = 0;
-  const MAX_PROXY_RECONNECT = 5;
+  const MAX_PROXY_RECONNECT = 20;
 
   function scheduleProxyReconnect(): void {
     if (proxyReconnectTimer !== null) return;

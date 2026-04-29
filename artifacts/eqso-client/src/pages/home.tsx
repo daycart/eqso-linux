@@ -68,6 +68,9 @@ export default function HomePage() {
   const pttStart = useCallback(async () => {
     if (pttActive || !eqso.currentRoom) return;
     wantsPttRef.current = true;
+    // Inicializar AudioContext y worklet de playback en el gesto del usuario (PTT).
+    // Necesario cuando el usuario se reconecta automáticamente sin pulsar "Unirse".
+    audio.resumeContext();
     audio.muteRx(true);
     setPttActive(true);
     serial.keyDown();
@@ -107,12 +110,16 @@ export default function HomePage() {
   // permission dialog appears immediately — before the first PTT press.
   // This ensures getUserMedia resolves instantly when PTT is pressed and avoids
   // the eQSO server closing the connection while waiting for audio.
+  // Also initialize the playback worklet here so RX audio is ready before
+  // the first PTT press — covers auto-rejoin (session restore) where handleJoin
+  // is never called.
   const prevRoomRef = useRef<string | null>(null);
   useEffect(() => {
     if (eqso.currentRoom && eqso.currentRoom !== prevRoomRef.current) {
       prevRoomRef.current = eqso.currentRoom;
       const mode = eqso.selectedServer.mode === "remote" ? "remote" : "local";
       audio.prewarmMic(mode);
+      audio.resumeContext();
     }
   }, [eqso.currentRoom, eqso.selectedServer.mode, audio]);
 

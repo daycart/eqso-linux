@@ -239,6 +239,7 @@ export function useEqsoClient(
     // Remote audio: Float32 PCM decoded server-side from GSM
     if (cmd === WS_AUDIO_REMOTE) {
       if (view.length > 1) {
+        console.debug("[rx] audio packet len:", view.length);
         onAudioRef.current?.(data.slice(1), true);
       }
       return;
