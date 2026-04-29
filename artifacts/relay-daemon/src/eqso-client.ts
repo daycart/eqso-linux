@@ -5,10 +5,15 @@
  * Flujo:
  *  1. connect() → TCP socket → HANDSHAKE_CLIENT [0x0a 0x82 0x00 0x00 0x00]
  *  2. Server responde [0x0a 0xfa …] → emitimos "connected"
- *  3. Empezamos silence frames [0x02] cada 150ms (heartbeat de idle)
- *  4. sendJoin() → empezamos a recibir USER_UPDATE y AUDIO
- *  5. KEEPALIVE [0x0c] lo contestamos con [0x0c]
- *  6. TX: startTx() pausa silence, sendAudio() envía [0x01][33 GSM], endTx() → [0x0d]
+ *  3. sendJoin() → empezamos a recibir USER_UPDATE y AUDIO
+ *  4. KEEPALIVE [0x0c] lo contestamos con [0x0c] — mantiene la sesion viva
+ *  5. TX: startTx() [0x09], sendAudio() [0x01][33 GSM], endTx() [0x0d]
+ *
+ * NOTA: NO enviamos [0x02] (silence frame). El servidor externo 193.152.83.229
+ * lo interpreta como comando JOIN, respondiendo con "Salas disponibles" y
+ * luego parseando los bytes GSM del audio como callsign → "Indicativo invalido".
+ * La sesion se mantiene viva mediante: respuesta [0x0c] a los keepalives del
+ * servidor + reconexion automatica por idle en main.ts (IDLE_RECONNECT_MS).
  */
 
 import net from "net";
@@ -16,7 +21,6 @@ import { EventEmitter } from "events";
 
 const HANDSHAKE_CLIENT = Buffer.from([0x0a, 0x82, 0x00, 0x00, 0x00]);
 const AUDIO_PAYLOAD_SIZE = 33;
-const SILENCE_INTERVAL_MS = 150;
 const SOCKET_TIMEOUT_MS = 90_000;
 
 // ─── Packet parser ────────────────────────────────────────────────────────────
@@ -157,7 +161,6 @@ export class EqsoClient extends EventEmitter {
   private socket: net.Socket | null = null;
   private parser = new EqsoPacketParser();
   private handshakeDone = false;
-  private silenceTimer: ReturnType<typeof setInterval> | null = null;
   private transmitting = false;
   public connected = false;
   private txingStations = new Set<string>();
@@ -264,16 +267,9 @@ export class EqsoClient extends EventEmitter {
 
   // ── Privado ────────────────────────────────────────────────────────────────
 
-  private startSilence(): void {
-    if (this.silenceTimer) return;
-    this.silenceTimer = setInterval(() => {
-      if (!this.transmitting) this.write(Buffer.from([0x02]));
-    }, SILENCE_INTERVAL_MS);
-  }
-
-  private stopSilence(): void {
-    if (this.silenceTimer) { clearInterval(this.silenceTimer); this.silenceTimer = null; }
-  }
+  // No enviamos [0x02] — ver nota en el encabezado del modulo.
+  private startSilence(): void { /* no-op */ }
+  private stopSilence(): void { /* no-op */ }
 
   private write(data: Buffer): void {
     if (this.socket && !this.socket.destroyed && this.connected) {

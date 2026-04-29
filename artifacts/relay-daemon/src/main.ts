@@ -31,6 +31,26 @@ let usersInRoom: string[] = [];
 let forceReconnectRequested = false;
 let lastPttIgnoredLogMs = 0;   // Throttle del log "ptt_start ignorado" (max 1/s)
 
+// ─── Reconexion por idle (prevenir timeout de sesion del servidor) ────────────
+// Sin [0x02] heartbeat, el servidor externo cierra la conexion tras ~30-35s
+// de inactividad post-TX. Reconectamos proactivamente antes de ese umbral.
+const IDLE_RECONNECT_MS = 28_000; // 28s < timeout servidor observado (~34s)
+let idleReconnectTimer: ReturnType<typeof setTimeout> | null = null;
+
+function resetIdleTimer(): void {
+  if (idleReconnectTimer) clearTimeout(idleReconnectTimer);
+  idleReconnectTimer = setTimeout(() => {
+    idleReconnectTimer = null;
+    if (pttActive) return; // no reconectar durante TX activo
+    log("Reconectando por inactividad prolongada (prevenir timeout servidor)…");
+    eqsoClient?.disconnect();
+  }, IDLE_RECONNECT_MS);
+}
+
+function cancelIdleTimer(): void {
+  if (idleReconnectTimer) { clearTimeout(idleReconnectTimer); idleReconnectTimer = null; }
+}
+
 // ─── Inhibicion RX (anti-feedback acustico) ───────────────────────────────────
 // Cuando la radio reproduce audio del servidor, inhibimos el VOX durante ese
 // tiempo + margen para que el sonido del altavoz no active el micro.
@@ -200,6 +220,7 @@ vox.on("ptt_start", () => {
   }
 
   pttActive = true;
+  cancelIdleTimer(); // No reconectar mientras transmitimos
   audio.setTxEnabled(true);
   eqsoClient.startTx();
   log(`VOX: PTT activado — inicio transmision (suppress was ${new Date(postRxVoxSuppressUntil).toISOString()})`);
@@ -214,6 +235,7 @@ vox.on("ptt_end", () => {
   postTxSuppressUntil = Date.now() + POST_TX_SUPPRESS_MS;
   // Suprimir VOX 5s tras TX propio (squelch + eco CB + eco sala).
   postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, Date.now() + POST_TX_VOX_SUPPRESS_MS);
+  resetIdleTimer(); // Iniciar countdown de 28s post-TX para reconexion preventiva
   log(`VOX: PTT liberado — fin transmision (suppress hasta ${new Date(postRxVoxSuppressUntil).toISOString()})`);
 });
 
@@ -246,6 +268,7 @@ function connect(): void {
         reconnectAttempts = 0;
         log("Conectado — enviando JOIN…");
         client.sendJoin(cfg.callsign, cfg.room, cfg.message, cfg.password);
+        resetIdleTimer(); // Iniciar countdown; se reinicia tras cada TX
         break;
 
       case "room_list":
@@ -320,10 +343,12 @@ function connect(): void {
         break;
 
       case "keepalive":
-        // silencioso
+        log("Keepalive recibido del servidor [0x0c]");
+        resetIdleTimer(); // El servidor esta vivo — reiniciar countdown
         break;
 
       case "disconnected":
+        cancelIdleTimer();
         log("Desconectado del servidor eQSO");
         if (pttActive) {
           // El relay estaba transmitiendo cuando se perdió la conexión.

@@ -1,0 +1,35 @@
+journalctl -u eqso-relay@CB -f
+Apr 29 19:12:08 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:08.165Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 29 19:12:08 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:08.166Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 29 19:12:08 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:08.182Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 29 19:12:08 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:08.182Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 29 19:12:08 ubuntus eqso-relay-CB[3771]: [audio] 2026-04-29T19:12:08.269Z [nivel] pico RMS=7625 (-12.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:12:08 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:08.722Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 29 19:12:08 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:08.722Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 29 19:12:13 ubuntus eqso-relay-CB[3771]: [audio] 2026-04-29T19:12:13.269Z [nivel] pico RMS=6873 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:12:15 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:15.431Z PTT liberado [0x0d]
+Apr 29 19:12:15 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:15.434Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-29T19:12:17.934Z)
+Apr 29 19:12:18 ubuntus eqso-relay-CB[3771]: [audio] 2026-04-29T19:12:18.270Z [nivel] pico RMS=5 (-76.3 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:12:19 ubuntus eqso-relay-CB[3771]: [audio] 2026-04-29T19:12:19.165Z [arecord] GAP 86ms (chunk#3258, 160 muestras)
+Apr 29 19:12:19 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:19.945Z PTT anunciado [0x09]
+Apr 29 19:12:19 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:19.948Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-29T19:12:17.934Z)
+Apr 29 19:12:23 ubuntus eqso-relay-CB[3771]: [audio] 2026-04-29T19:12:23.274Z [nivel] pico RMS=7530 (-12.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:12:23 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:23.835Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+Apr 29 19:12:23 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:23.836Z Mensaje servidor: Indicativo invalido (max 30 chars)
+Apr 29 19:12:23 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:23.857Z TCP error: read ECONNRESET (Error)
+Apr 29 19:12:23 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:23.858Z Error TCP: read ECONNRESET
+Apr 29 19:12:23 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:23.858Z Reintento #1 en 2s\Uffffffff
+Apr 29 19:12:23 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:23.859Z TCP desconectado de 193.152.83.229:2172 \Uffffffff tras error TCP
+Apr 29 19:12:23 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:23.859Z Desconectado del servidor eQSO
+Apr 29 19:12:25 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:25.859Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+Apr 29 19:12:25 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:25.867Z TCP conectado a 193.152.83.229:2172
+Apr 29 19:12:25 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:25.892Z Handshake recibido \Uffffffff conexion establecida
+Apr 29 19:12:25 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:25.893Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 29 19:12:25 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:25.901Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 29 19:12:25 ubuntus eqso-relay-CB[3771]: [eqso] 2026-04-29T19:12:25.903Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 29 19:12:25 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:25.903Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 29 19:12:25 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:25.914Z Sala: 0R-DAVID_EA se ha unido
+Apr 29 19:12:25 ubuntus eqso-relay-CB[3771]: [main] 2026-04-29T19:12:25.915Z Sala: 0R-IN70WN se ha unido
+Apr 29 19:12:28 ubuntus eqso-relay-CB[3771]: [audio] 2026-04-29T19:12:28.273Z [nivel] pico RMS=6825 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:12:33 ubuntus eqso-relay-CB[3771]: [audio] 2026-04-29T19:12:33.276Z [nivel] pico RMS=6805 (-13.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 29 19:12:38 ubuntus eqso-relay-CB[3771]: [audio] 2026-04-29T19:12:38.277Z [nivel] pico RMS=5 (-76.1 dBFS)  VOXumbral=800  gain=0.15
