@@ -165,7 +165,17 @@ audio.on("pcm_chunk", (pcm: Int16Array) => {
 
 // Cuando el VOX o control HTTP activan PTT
 vox.on("ptt_start", () => {
-  if (!eqsoClient?.connected || pttActive || rxActive) return;
+  if (!eqsoClient?.connected) {
+    // Sin conexion: resetear VOX para evitar deadlock.
+    // Si no se llama resetState(), vox.active queda en true y nunca vuelve
+    // a emitir ptt_start (aunque el RMS siga sobre umbral) porque el VOX
+    // cree que ya esta en TX. El resetState() permite que el debounce
+    // vuelva a acumularse cuando la conexion se restablezca.
+    log("VOX: ptt_start ignorado — sin conexion, reseteando estado VOX");
+    vox.resetState();
+    return;
+  }
+  if (pttActive || rxActive) return;
 
   // Defensa en profundidad: doble verificacion del suppress.
   // El pcm_chunk verifica Date.now() > postRxVoxSuppressUntil antes de llamar

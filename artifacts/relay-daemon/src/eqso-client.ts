@@ -16,7 +16,6 @@ import { EventEmitter } from "events";
 
 const HANDSHAKE_CLIENT = Buffer.from([0x0a, 0x82, 0x00, 0x00, 0x00]);
 const AUDIO_PAYLOAD_SIZE = 33;
-const SILENCE_INTERVAL_MS = 150;
 const SOCKET_TIMEOUT_MS = 90_000;
 
 // ─── Packet parser ────────────────────────────────────────────────────────────
@@ -263,10 +262,12 @@ export class EqsoClient extends EventEmitter {
   // ── Privado ────────────────────────────────────────────────────────────────
 
   private startSilence(): void {
-    if (this.silenceTimer) return;
-    this.silenceTimer = setInterval(() => {
-      if (!this.transmitting) this.write(Buffer.from([0x02]));
-    }, SILENCE_INTERVAL_MS);
+    // El servidor externo (193.152.83.229) interpreta [0x02] como inicio de
+    // comando de union de usuarios, causando "Indicativo invalido" cuando los
+    // bytes siguientes del audio GSM se leen como un callsign (> 30 chars).
+    // La conexion se mantiene activa mediante el pong de keepalive [0x0c]
+    // (el servidor envia [0x0c] periodicamente y nosotros respondemos con [0x0c]).
+    // No se necesita heartbeat propio.
   }
 
   private stopSilence(): void {
