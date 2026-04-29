@@ -383,7 +383,7 @@ function handleRemoteMode(
       return;
     }
     proxyReconnectAttempts++;
-    const delay = Math.min(1500 * proxyReconnectAttempts, 8000);
+    const delay = Math.min(500 * proxyReconnectAttempts, 8000);
     logger.info({ host, port, attempt: proxyReconnectAttempts, delay }, "Remote proxy: scheduling reconnect");
     sendJson(ws, { type: "server_info", message: `Reconectando a ${host}:${port}...` });
     proxyReconnectTimer = setTimeout(() => {
