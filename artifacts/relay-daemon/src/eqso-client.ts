@@ -62,14 +62,26 @@ class EqsoPacketParser {
         const p = this.acc.slice(0, 5); this.acc = this.acc.slice(5); return p;
       }
       if (cmd === 0x14) {
+        // Sanity: un servidor eQSO tipico tiene <20 salas con nombres ASCII <30b.
+        // Si count o nlen son grandes, el parser se desincrono (bytes de audio GSM
+        // interpretados como 0x14) → descartar solo el byte 0x14 para re-sincronizar.
         if (this.acc.length < 5) return null;
-        const count = this.acc[1]; let off = 5;
+        const count = this.acc[1];
+        if (count > 32) { this.acc = this.acc.slice(1); continue; } // garbled
+        let off = 5; let garbled = false;
         for (let i = 0; i < count; i++) {
           if (off >= this.acc.length) return null;
           const nlen = this.acc[off++];
+          if (nlen > 50) { garbled = true; break; }
           if (off + nlen > this.acc.length) return null;
+          // Verificar que el nombre sea ASCII imprimible
+          for (let j = 0; j < nlen; j++) {
+            if (this.acc[off + j] < 0x20 || this.acc[off + j] > 0x7e) { garbled = true; break; }
+          }
+          if (garbled) break;
           off += nlen;
         }
+        if (garbled) { this.acc = this.acc.slice(1); continue; } // re-sync
         const p = this.acc.slice(0, off); this.acc = this.acc.slice(off); return p;
       }
       if (cmd === 0x16) {
