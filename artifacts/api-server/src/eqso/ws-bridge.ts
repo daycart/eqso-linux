@@ -516,6 +516,19 @@ function handleRemoteMode(
         if (currentRoom && currentName) {
           logger.info({ name: currentName, room: currentRoom }, "Remote proxy: auto-rejoining after reconnect");
           proxy.sendJoin(currentName, currentRoom, currentMessage, currentPassword);
+          // Si el TX estaba activo, re-grant INMEDIATAMENTE sin esperar "members".
+          // JOIN + [0x09] se envían secuencialmente por el mismo TCP → el servidor
+          // procesa JOIN primero y luego [0x09], por lo que el orden es seguro.
+          // Esto recorta el gap de audio de ~687ms a ~340ms (solo TCP + handshake).
+          if (pttWasActiveAtDisconnect) {
+            pttWasActiveAtDisconnect = false;
+            pttGranted = true;
+            pcmAccum = new Int16Array(0);
+            proxy.startTransmitting();
+            sendJson(ws, { type: "ptt_granted" });
+            roomManager.broadcastToRoom(currentRoom, buildPttStarted(currentName), id);
+            logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT re-granted early after reconnect (connected+joined)");
+          }
         }
         break;
       case "server_info":
@@ -537,8 +550,13 @@ function handleRemoteMode(
           pttWasActiveAtDisconnect = true;
           pttGranted = false;
           pcmAccum = new Int16Array(0);
-          sendJson(ws, { type: "ptt_released" });
-          // Unkey the local relay daemon's CB radio so it doesn't stay keyed
+          // Enviar "ptt_reconnecting" en lugar de "ptt_released": el browser mantiene
+          // pttGrantedRef=true y el botón PTT sigue rojo, evitando que el usuario
+          // suelte el botón creyendo que terminó la TX. El audio del browser se sigue
+          // capturando pero el servidor descarta los frames (pttGranted=false) hasta
+          // reconectar (~340ms). En onAir la pausa es imperceptible.
+          sendJson(ws, { type: "ptt_reconnecting" });
+          // Desactivar la radio CB del relay daemon para que no quede keyed
           if (currentRoom && currentName) {
             roomManager.broadcastToRoom(currentRoom, buildPttReleased(currentName), id);
           }
@@ -566,18 +584,8 @@ function handleRemoteMode(
           name: currentName,
           members: ev.data,
         });
-        // Auto-re-grant PTT if the user was TX'ing when the proxy dropped.
-        // This keeps TX seamless across the ~1.5s reconnect window without
-        // requiring the user to release and re-press the PTT button.
-        if (pttWasActiveAtDisconnect && currentRoom && currentName) {
-          pttWasActiveAtDisconnect = false;
-          pttGranted = true;
-          pcmAccum = new Int16Array(0);
-          proxy.startTransmitting();
-          sendJson(ws, { type: "ptt_granted" });
-          roomManager.broadcastToRoom(currentRoom, buildPttStarted(currentName), id);
-          logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT auto-re-granted after reconnect");
-        }
+        // El re-grant de PTT ya se realiza en el handler "connected" (early re-grant).
+        // Aquí no se necesita acción adicional: el TX ya está activo si pttGranted=true.
         break;
       case "user_joined": {
         const joined = ev.data as { name: string; message: string };

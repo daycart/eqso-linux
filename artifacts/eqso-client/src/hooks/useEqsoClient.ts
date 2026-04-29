@@ -179,6 +179,15 @@ export function useEqsoClient(
         }
         break;
 
+      case "ptt_reconnecting":
+        // El servidor perdió el TCP con eQSO y está reconectando (~340ms).
+        // Mantenemos pttGranted=true en el browser para que el botón PTT siga
+        // rojo y el usuario no lo suelte pensando que terminó la TX.
+        // El audio del mic sigue llegando al servidor pero se descarta durante el gap.
+        pttGrantedRef.current = true;
+        setPttGranted(true);
+        break;
+
       case "ptt_released":
         pttGrantedRef.current = false;
         setPttGranted(false);
