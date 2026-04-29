@@ -33,7 +33,7 @@
       "  Tipicamente 2.0-3.0 dependiendo del nivel de salida del CM108 y la sensibilidad del micro de la radio."
     ],
     "inputGain":  0.4,
-    "outputGain": 2.5
+    "outputGain": 1.2
   },
 
   "control": {

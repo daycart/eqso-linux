@@ -41,6 +41,11 @@ let rxInhibitTimer: ReturnType<typeof setTimeout> | null = null;
 // Retardo total después de que el browser suelta PTT:
 //   400ms hang + 500ms (kill aplay + reinicio arecord) = ~900ms hasta captura
 const RX_HANG_MS = 400;
+// IMPORTANTE: el suppress que aplica el rxInhibitTimer debe ser al menos
+// igual a POST_APLAY_VOX_SUPPRESS_MS para cubrir ráfagas cortas (< 1s) en
+// las que playback_ended llega DESPUÉS de que este suppress expira.
+// Sin esto el VOX disparaba 24ms después de una ventana de solo 800ms.
+// POST_APLAY_VOX_SUPPRESS_MS se define más abajo; se declara aquí la referencia.
 
 // ─── Supresion post-TX (descartar audio del servidor tras soltar VOX) ─────────
 // El relay NO recibe su propio eco (broadcastToTcpAndRelays excluye al emisor).
@@ -55,17 +60,18 @@ const POST_TX_SUPPRESS_MS = 1500;
 // ─── Supresion post-RX (anti-feedback acustico tras reproduccion) ─────────────
 // Tras terminar de reproducir audio del servidor, la radio CB necesita tiempo
 // para volver a RX y que arecord se reinicie (~350ms).
-// El suppress se calcula en dos etapas:
-//   1. POST_RX_SUPPRESS_MS (800ms) desde que el rxInhibitTimer dispara.
-//      Cubre el tiempo de drain de aplay y reinicio de arecord (~750ms).
-//   2. POST_APLAY_VOX_SUPPRESS_MS (3000ms) desde que aplay REALMENTE cierra
-//      (evento "playback_ended"). Cubre la cola de squelch de la radio CB
-//      (~2-3s de ruido cuando vuelve a RX) que provoca falsos VOX.
-// Medido en logs: RMS=13883 durante 2-3s tras fin de aplay con 1500ms no era
-// suficiente (suppress expiraba antes de que el squelch de la CB cerrara).
+// El suppress se aplica en DOS momentos, ambos con POST_APLAY_VOX_SUPPRESS_MS:
+//   1. Cuando el rxInhibitTimer dispara (400ms tras el último paquete RX):
+//      se aplican 2500ms de suppress inmediatamente. Esto cubre ráfagas cortas
+//      (< 1s) donde "playback_ended" llega tarde — sin esto el VOX disparaba
+//      24ms después de expirar un suppress de solo 800ms (observado en logs).
+//   2. Cuando aplay REALMENTE cierra ("playback_ended"): se extienden otros
+//      2500ms desde ese momento. Para ráfagas largas donde aplay tarda más,
+//      esto garantiza la supresión del squelch de la radio CB (~2-3s de ruido).
+// Resultado: suppress mínimo garantizado = 400ms (hang) + 2500ms = 2.9s desde
+// el último paquete RX, independientemente de cuándo expire aplay.
 let postRxVoxSuppressUntil = 0;
-const POST_RX_SUPPRESS_MS          = 800;   // desde rxInhibitTimer
-const POST_APLAY_VOX_SUPPRESS_MS   = 2500;  // desde cierre real de aplay (squelch HW bien ajustado)
+const POST_APLAY_VOX_SUPPRESS_MS = 2500;  // usado en ambos momentos
 
 // ─── Supresion VOX post-TX propio (anti-eco de squelch y canal CB) ────────────
 // Cuando el relay termina su propia TX (VOX ptt_end), la radio vuelve a RX y
@@ -91,10 +97,14 @@ function setRxActive(): void {
     rxInhibitTimer = null;
     serialPtt.set(false); // liberar PTT de la radio al finalizar el RX
     audio.endRx();        // parar aplay para evitar underruns entre transmisiones
-    // Extender inhibicion VOX: el altavoz deja eco residual en la sala que
-    // arecord capturaría al reiniciarse (400ms) → VOX dispara ruido de fondo.
-    // DIAGNÓSTICO: usar Math.max para NO reducir el suppress si post-TX lo fijó más largo.
-    const rxSuppressUntil = Date.now() + POST_RX_SUPPRESS_MS;
+    // Extender inhibicion VOX: usar POST_APLAY_VOX_SUPPRESS_MS (2500ms) y NO
+    // POST_RX_SUPPRESS_MS (800ms). Motivo: para ráfagas cortas (< 1s) el evento
+    // "playback_ended" puede llegar DESPUÉS de que los 800ms expiren, dejando
+    // una ventana en la que el VOX dispara falsamente (observado: VOX a 24ms de
+    // la expiración del suppress con ráfaga de 0.55s de 0R-DAVID_EA).
+    // Al usar 2500ms aquí, "playback_ended" solo puede EXTENDER el suppress
+    // si aplay tarda más; nunca lo recorta.
+    const rxSuppressUntil = Date.now() + POST_APLAY_VOX_SUPPRESS_MS;
     const prev = postRxVoxSuppressUntil;
     postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, rxSuppressUntil);
     log(`[rxInhibit] suppress: prev=${new Date(prev).toISOString()} new=${new Date(postRxVoxSuppressUntil).toISOString()}`);
