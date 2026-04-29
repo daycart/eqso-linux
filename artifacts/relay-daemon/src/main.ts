@@ -164,12 +164,13 @@ audio.on("playback_ended", () => {
   log(`[rxInhibit] playback_ended: suppress extendido → ${new Date(postRxVoxSuppressUntil).toISOString()} (prev=${new Date(prev).toISOString()})`);
 });
 
-// Cuando arecord se reinicia tras un xrun (Input/output error), ALSA emite
-// un nuevo burst de ruido de inicializacion. Reseteamos el startup suppress
-// para cubrir ese burst con el mismo margen que en el arranque inicial.
+// Cuando arecord se reinicia (semi-duplex tras RX), NO reseteamos startupSuppressUntil.
+// Motivo: postRxVoxSuppressUntil (2500ms) ya cubre el burst de inicio de ALSA
+// (RMS≈1303, dura <1s). Resetear startupSuppressUntil (4000ms) aquí hace que
+// expire 1.5s MÁS TARDE que postRxVoxSuppressUntil, eliminando la ventana de TX
+// de la radio CB y haciendo imposible que el VOX dispare entre transmisiones eQSO.
 audio.on("recorder_restarted", () => {
-  startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
-  log(`[vox] arecord reiniciado — startup suppress reseteado hasta ${new Date(startupSuppressUntil).toISOString()}`);
+  log(`[vox] arecord reiniciado (semi-duplex) — postRxVoxSuppressUntil hasta ${new Date(postRxVoxSuppressUntil).toISOString()}`);
 });
 
 // El audio emite chunks PCM crudos para que el VOX los analice
