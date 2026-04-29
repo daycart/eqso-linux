@@ -303,8 +303,8 @@ export class EqsoProxy extends EventEmitter {
         this.stopTxKeepalive();
         return;
       }
-      this.socketWrite(Buffer.from([0x0d, 0x09]));
-      logger.info("eQSO proxy: TX keepalive — sent [0x0d][0x09] to reset server TX timer");
+      this.socketWrite(Buffer.from([0x09]));
+      logger.info("eQSO proxy: TX keepalive — sent [0x09] PTT re-announce to refresh server TX session");
     }, TX_KEEPALIVE_INTERVAL_MS);
   }
 
