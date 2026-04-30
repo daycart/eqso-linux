@@ -258,6 +258,9 @@ export class EqsoProxy extends EventEmitter {
   private static readonly PTT_MAX_DURATION_MS = 30_000; // 30 seg máximo de TX continua
   private static readonly PTT_WATCHDOG_INTERVAL_MS = 15_000;
   private static readonly PTT_SUPPRESS_DURATION_MS = 5 * 60_000; // 5 min de supresión
+  // "members" emit — scheduled after room_list (JOIN confirmed) to collect initial user_updates
+  private pendingMembersTimer: ReturnType<typeof setTimeout> | null = null;
+  private pendingMembersData: Array<{ name: string; message: string }> = [];
 
   constructor(host: string, port: number) {
     super();
@@ -332,6 +335,8 @@ export class EqsoProxy extends EventEmitter {
       this.stopPttWatchdog();
       this.txingStations.clear();
       this.txStartTimes.clear();
+      if (this.pendingMembersTimer) { clearTimeout(this.pendingMembersTimer); this.pendingMembersTimer = null; }
+      this.pendingMembersData = [];
       this.emit("event", { type: "disconnected" } as ProxyEvent);
       logger.info({ host: this.host }, "eQSO proxy TCP closed");
     });
@@ -342,6 +347,8 @@ export class EqsoProxy extends EventEmitter {
       this.transmitting = false;
       this.pendingJoin = null;
       this.stopPttWatchdog();
+      if (this.pendingMembersTimer) { clearTimeout(this.pendingMembersTimer); this.pendingMembersTimer = null; }
+      this.pendingMembersData = [];
       this.emit("event", { type: "error", data: (err as Error).message } as ProxyEvent);
       logger.warn({ err, host: this.host }, "eQSO proxy TCP error");
     });
@@ -464,7 +471,7 @@ export class EqsoProxy extends EventEmitter {
         }
         break;
 
-      // ROOM LIST
+      // ROOM LIST — JOIN accepted by server; schedule "members" emit after collecting user_updates
       case 0x14: {
         const count = pkt[1];
         const rooms: string[] = [];
@@ -478,6 +485,17 @@ export class EqsoProxy extends EventEmitter {
         }
         logger.info({ rooms }, "eQSO proxy: room list received");
         this.emit("event", { type: "room_list", data: rooms } as ProxyEvent);
+        // Schedule "members" emit: the server sends user_update packets for all current room
+        // members right after the room list. We collect them for 500ms then emit "members"
+        // so that ws-bridge can re-grant PTT (pttWasActiveAtDisconnect) after a reconnect.
+        if (this.pendingMembersTimer) clearTimeout(this.pendingMembersTimer);
+        this.pendingMembersData = [];
+        this.pendingMembersTimer = setTimeout(() => {
+          this.pendingMembersTimer = null;
+          const members = this.pendingMembersData.splice(0);
+          logger.info({ count: members.length }, "eQSO proxy: emitting members after join confirmed");
+          this.emit("event", { type: "members", data: members } as ProxyEvent);
+        }, 500);
         break;
       }
 
@@ -535,6 +553,8 @@ export class EqsoProxy extends EventEmitter {
             this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
           } else {
             logger.info({ name, msg, action }, "eQSO proxy: user joined");
+            // If we are in the initial post-JOIN member collection window, accumulate for "members"
+            if (this.pendingMembersTimer) this.pendingMembersData.push({ name, message: msg });
             this.emit("event", { type: "user_joined", data: { name, message: msg } } as ProxyEvent);
           }
           break;
@@ -602,6 +622,7 @@ export class EqsoProxy extends EventEmitter {
             this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
           } else {
             logger.info({ name, msg }, "eQSO proxy: user joined (multi)");
+            if (this.pendingMembersTimer) this.pendingMembersData.push({ name, message: msg });
             this.emit("event", { type: "user_joined", data: { name, message: msg } } as ProxyEvent);
           }
           break;
