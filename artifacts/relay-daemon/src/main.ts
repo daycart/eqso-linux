@@ -280,6 +280,7 @@ function connect(): void {
         const u = ev.data as { name: string; message: string };
         if (!usersInRoom.includes(u.name)) usersInRoom.push(u.name);
         log(`Sala: ${u.name} se ha unido`);
+        resetIdleTimer(); // servidor activo — reiniciar countdown
         break;
       }
 
@@ -287,22 +288,26 @@ function connect(): void {
         const u = ev.data as { name: string };
         usersInRoom = usersInRoom.filter(n => n !== u.name);
         log(`Sala: ${u.name} ha salido`);
+        resetIdleTimer(); // servidor activo — reiniciar countdown
         break;
       }
 
       case "ptt_started": {
         const u = ev.data as { name: string };
         log(`TX: ${u.name} transmitiendo`);
+        resetIdleTimer(); // servidor activo — reiniciar countdown
         break;
       }
 
       case "ptt_released": {
         const u = ev.data as { name: string };
         log(`TX: ${u.name} libero canal`);
+        resetIdleTimer(); // servidor activo — reiniciar countdown
         break;
       }
 
       case "audio": {
+        resetIdleTimer(); // paquete de audio = servidor activo — reiniciar countdown
         const pkt = ev.data as Buffer;
         if (pkt.length < 1 + GSM_PACKET_BYTES) {
           log(`[audio] pkt demasiado corto: ${pkt.length} bytes (esperado ${1 + GSM_PACKET_BYTES})`);
