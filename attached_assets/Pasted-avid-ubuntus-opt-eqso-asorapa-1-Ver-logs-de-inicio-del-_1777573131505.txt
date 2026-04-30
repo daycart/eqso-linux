@@ -1,0 +1,137 @@
+avid@ubuntus:/opt/eqso-asorapa$ # 1. Ver logs de inicio del daemon (PTT serial listo = helper abri\Uffffffff dispositivo)
+sudo journalctl -u eqso-relay@CB --since "today" | grep -E "PTT serial|ptt-helper|error"
+
+# 2. Ver config actual en uso
+cat /etc/eqso-relay/CB.json
+
+# 3. Verificar el dispositivo serial
+ls -la /dev/ttyACM0 /dev/ttyUSB0 2>/dev/null || echo "No encontrado"
+
+# 4. Ver si el servicio tiene permiso al serial
+id eqso-relay 2>/dev/null || id | grep dialout
+
+# 5. Test manual de PTT (1s ON, luego OFF) - observa si la radio keyea
+python3 /opt/eqso-asorapa/dist/ptt-helper.py /dev/ttyACM0 rts false <<EOF
+1
+EOF
+sleep 1
+python3 /opt/eqso-asorapa/dist/ptt-helper.py /dev/ttyACM0 rts false <<EOF
+0
+EOF
+abr 30 05:56:49 ubuntus eqso-relay-CB[6525]: [audio] 2026-04-30T05:56:49.590Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 05:56:49 ubuntus eqso-relay-CB[6525]:       throw er; // Unhandled 'error' event
+abr 30 05:56:49 ubuntus eqso-relay-CB[6525]: Emitted 'error' event on Socket instance at:
+abr 30 05:56:52 ubuntus eqso-relay-CB[29293]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 05:56:56 ubuntus eqso-relay-CB[29310]: [ptt] 2026-04-30T05:56:56.976Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 05:56:57 ubuntus eqso-relay-CB[29310]: [ptt] 2026-04-30T05:56:57.634Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 06:30:17 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T06:30:17.734Z TCP error: read ECONNRESET (Error)
+abr 30 06:30:17 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T06:30:17.739Z TCP desconectado de 193.152.83.229:2172 \Uffffffff tras error TCP
+abr 30 06:53:25 ubuntus eqso-relay-CB[29310]:       throw er; // Unhandled 'error' event
+abr 30 06:53:25 ubuntus eqso-relay-CB[29310]: Emitted 'error' event on Socket instance at:
+abr 30 06:53:32 ubuntus eqso-relay-CB[32524]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 06:53:36 ubuntus eqso-relay-CB[32544]: [ptt] 2026-04-30T06:53:36.615Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 06:53:37 ubuntus eqso-relay-CB[32544]:       throw er; // Unhandled 'error' event
+abr 30 06:53:37 ubuntus eqso-relay-CB[32544]: Emitted 'error' event on Socket instance at:
+abr 30 06:53:44 ubuntus eqso-relay-CB[32627]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 06:53:47 ubuntus eqso-relay-CB[32660]: [ptt] 2026-04-30T06:53:47.998Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 06:53:48 ubuntus eqso-relay-CB[32660]: [ptt] 2026-04-30T06:53:48.647Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 06:53:50 ubuntus eqso-relay-CB[32660]:       throw er; // Unhandled 'error' event
+abr 30 06:53:50 ubuntus eqso-relay-CB[32660]: Emitted 'error' event on Socket instance at:
+abr 30 06:53:56 ubuntus eqso-relay-CB[32766]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 06:54:00 ubuntus eqso-relay-CB[32804]: [ptt] 2026-04-30T06:54:00.520Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 06:54:01 ubuntus eqso-relay-CB[32804]:       throw er; // Unhandled 'error' event
+abr 30 06:54:01 ubuntus eqso-relay-CB[32804]: Emitted 'error' event on Socket instance at:
+abr 30 06:54:08 ubuntus eqso-relay-CB[32895]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 06:54:12 ubuntus eqso-relay-CB[32919]: [ptt] 2026-04-30T06:54:12.286Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 06:54:12 ubuntus eqso-relay-CB[32919]: [ptt] 2026-04-30T06:54:12.675Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 06:54:14 ubuntus eqso-relay-CB[32919]:       throw er; // Unhandled 'error' event
+abr 30 06:54:14 ubuntus eqso-relay-CB[32919]: Emitted 'error' event on Socket instance at:
+abr 30 06:54:21 ubuntus eqso-relay-CB[33036]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 06:54:25 ubuntus eqso-relay-CB[33070]: [ptt] 2026-04-30T06:54:25.291Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 06:54:25 ubuntus eqso-relay-CB[33070]: [ptt] 2026-04-30T06:54:25.707Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 07:33:17 ubuntus eqso-relay-CB[33070]: [audio] 2026-04-30T07:33:17.083Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 07:33:17 ubuntus eqso-relay-CB[33070]:       throw er; // Unhandled 'error' event
+abr 30 07:33:17 ubuntus eqso-relay-CB[33070]: Emitted 'error' event on Socket instance at:
+abr 30 13:47:25 ubuntus eqso-relay-CB[976]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 13:47:31 ubuntus eqso-relay-CB[1011]: [ptt] 2026-04-30T13:47:31.002Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 13:47:31 ubuntus eqso-relay-CB[1011]: [ptt] 2026-04-30T13:47:31.595Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 13:48:26 ubuntus eqso-relay-CB[1011]: [audio] 2026-04-30T13:48:26.997Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 13:48:28 ubuntus eqso-relay-CB[1408]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 13:48:32 ubuntus eqso-relay-CB[1426]: [ptt] 2026-04-30T13:48:32.324Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 13:48:32 ubuntus eqso-relay-CB[1426]: [ptt] 2026-04-30T13:48:32.901Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 13:55:35 ubuntus eqso-relay-CB[1426]: [eqso] 2026-04-30T13:55:35.738Z TCP error: read ECONNRESET (Error)
+abr 30 13:55:35 ubuntus eqso-relay-CB[1426]: [eqso] 2026-04-30T13:55:35.741Z TCP desconectado de 193.152.83.229:2172 \Uffffffff tras error TCP
+abr 30 13:56:42 ubuntus eqso-relay-CB[1426]: [audio] 2026-04-30T13:56:42.643Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 13:56:44 ubuntus eqso-relay-CB[1881]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 13:56:48 ubuntus eqso-relay-CB[1898]: [ptt] 2026-04-30T13:56:48.009Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 13:56:48 ubuntus eqso-relay-CB[1898]: [ptt] 2026-04-30T13:56:48.361Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 14:05:10 ubuntus eqso-relay-CB[1898]: [eqso] 2026-04-30T14:05:10.003Z TCP error: read ECONNRESET (Error)
+abr 30 14:05:10 ubuntus eqso-relay-CB[1898]: [eqso] 2026-04-30T14:05:10.005Z TCP desconectado de 193.152.83.229:2172 \Uffffffff tras error TCP
+abr 30 14:20:57 ubuntus eqso-relay-CB[1898]: [audio] 2026-04-30T14:20:57.607Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 14:20:59 ubuntus eqso-relay-CB[3208]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 14:21:03 ubuntus eqso-relay-CB[3225]: [ptt] 2026-04-30T14:21:03.099Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 14:21:03 ubuntus eqso-relay-CB[3225]: [ptt] 2026-04-30T14:21:03.571Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 14:24:28 ubuntus eqso-relay-CB[3225]: [eqso] 2026-04-30T14:24:28.568Z TCP error: read ECONNRESET (Error)
+abr 30 14:24:28 ubuntus eqso-relay-CB[3225]: [eqso] 2026-04-30T14:24:28.569Z TCP desconectado de 193.152.83.229:2172 \Uffffffff tras error TCP
+abr 30 14:27:32 ubuntus eqso-relay-CB[3225]: [audio] 2026-04-30T14:27:32.632Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 14:27:33 ubuntus eqso-relay-CB[3713]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 14:27:38 ubuntus eqso-relay-CB[3730]: [ptt] 2026-04-30T14:27:38.002Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 14:27:38 ubuntus eqso-relay-CB[3730]: [ptt] 2026-04-30T14:27:38.631Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 14:30:17 ubuntus eqso-relay-CB[3730]: [eqso] 2026-04-30T14:30:17.129Z TCP error: read ECONNRESET (Error)
+abr 30 14:30:17 ubuntus eqso-relay-CB[3730]: [eqso] 2026-04-30T14:30:17.134Z TCP desconectado de 193.152.83.229:2172 \Uffffffff tras error TCP
+^[[Babr 30 14:43:52 ubuntus eqso-relay-CB[5043]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 14:43:56 ubuntus eqso-relay-CB[5066]: [ptt] 2026-04-30T14:43:56.959Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 14:43:57 ubuntus eqso-relay-CB[5066]: [ptt] 2026-04-30T14:43:57.292Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 14:59:33 ubuntus eqso-relay-CB[5066]: [audio] 2026-04-30T14:59:33.038Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 14:59:34 ubuntus eqso-relay-CB[6491]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 14:59:38 ubuntus eqso-relay-CB[6508]: [ptt] 2026-04-30T14:59:38.422Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 14:59:38 ubuntus eqso-relay-CB[6508]: [ptt] 2026-04-30T14:59:38.624Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 15:11:14 ubuntus eqso-relay-CB[6508]: [audio] 2026-04-30T15:11:14.347Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 15:11:15 ubuntus eqso-relay-CB[7122]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 15:11:19 ubuntus eqso-relay-CB[7146]: [ptt] 2026-04-30T15:11:19.410Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 15:11:19 ubuntus eqso-relay-CB[7146]: [ptt] 2026-04-30T15:11:19.696Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 15:25:27 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:25:27.410Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 15:25:28 ubuntus eqso-relay-CB[7814]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 15:25:32 ubuntus eqso-relay-CB[7832]: [ptt] 2026-04-30T15:25:32.919Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 15:25:33 ubuntus eqso-relay-CB[7832]: [ptt] 2026-04-30T15:25:33.282Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 16:10:29 ubuntus eqso-relay-CB[7832]: [audio] 2026-04-30T16:10:29.252Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 16:10:30 ubuntus eqso-relay-CB[9831]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 16:10:34 ubuntus eqso-relay-CB[9849]: [ptt] 2026-04-30T16:10:34.876Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 16:10:35 ubuntus eqso-relay-CB[9849]: [ptt] 2026-04-30T16:10:35.078Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 16:37:35 ubuntus eqso-relay-CB[9849]: [audio] 2026-04-30T16:37:35.970Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 16:37:37 ubuntus eqso-relay-CB[11049]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 16:37:41 ubuntus eqso-relay-CB[11067]: [ptt] 2026-04-30T16:37:41.381Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 16:37:41 ubuntus eqso-relay-CB[11067]: [ptt] 2026-04-30T16:37:41.885Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 17:09:42 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T17:09:42.452Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+abr 30 17:09:44 ubuntus eqso-relay-CB[12350]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 17:09:48 ubuntus eqso-relay-CB[12367]: [ptt] 2026-04-30T17:09:48.314Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 17:09:48 ubuntus eqso-relay-CB[12367]: [ptt] 2026-04-30T17:09:48.681Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 17:16:00 ubuntus eqso-relay-CB[12767]: USB reset error: [Errno 25] Inappropriate ioctl for device
+abr 30 17:16:04 ubuntus eqso-relay-CB[12785]: [ptt] 2026-04-30T17:16:04.392Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 17:16:04 ubuntus eqso-relay-CB[12785]: [ptt] 2026-04-30T17:16:04.652Z PTT serial listo (/dev/eqso-ptt, rts)
+{
+  "callsign": "0R-IN70WN",
+  "room": "CB",
+  "server": "193.152.83.229",
+  "port": 2172,
+  "audio": {
+    "captureDevice": "plughw:1,0",
+    "playbackDevice": "plughw:1,0",
+    "vox": true,
+    "voxThresholdRms": 800,
+    "voxHangMs": 5000,
+    "txGateRms": 0,
+    "voxDebounceChunks": 2,
+    "inputGain": 0.15
+  },
+  "ptt": {
+    "device": "/dev/eqso-ptt",
+    "method": "rts",
+    "inverted": false
+  }
+}
+crw-rw---- 1 root dialout 166, 0 Apr 30 13:47 /dev/ttyACM0
+No encontrado
+uid=1000(david) gid=1000(david) groups=1000(david),4(adm),20(dialout),24(cdrom),27(sudo),29(audio),30(dip),46(plugdev),101(lxd)
+python3: can't open file '/opt/eqso-asorapa/dist/ptt-helper.py': [Errno 2] No such file or directory
+python3: can't open file '/opt/eqso-asorapa/dist/ptt-helper.py': [Errno 2] No such file or directory
