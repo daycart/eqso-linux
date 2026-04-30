@@ -1,0 +1,51 @@
+Apr 30 06:54:23 ubuntus systemd[1]: Started eqso-relay.service - eQSO Radioenlace \Uffffffff sala .
+\Uffffffff\Uffffffff Subject: A start job for unit eqso-relay.service has finished successfully
+\Uffffffff\Uffffffff Defined-By: systemd
+\Uffffffff\Uffffffff Support: http://www.ubuntu.com/support
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff A start job for unit eqso-relay.service has finished successfully.
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff The job identifier is 14631.
+Apr 30 06:54:25 ubuntus systemd[1]: Stopping eqso-relay.service - eQSO Radioenlace \Uffffffff sala ...
+\Uffffffff\Uffffffff Subject: A stop job for unit eqso-relay.service has begun execution
+\Uffffffff\Uffffffff Defined-By: systemd
+\Uffffffff\Uffffffff Support: http://www.ubuntu.com/support
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff A stop job for unit eqso-relay.service has begun execution.
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff The job identifier is 14846.
+Apr 30 06:54:25 ubuntus systemd[1]: eqso-relay.service: Deactivated successfully.
+\Uffffffff\Uffffffff Subject: Unit succeeded
+\Uffffffff\Uffffffff Defined-By: systemd
+\Uffffffff\Uffffffff Support: http://www.ubuntu.com/support
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff The unit eqso-relay.service has successfully entered the 'dead' state.
+Apr 30 06:54:25 ubuntus systemd[1]: Stopped eqso-relay.service - eQSO Radioenlace \Uffffffff sala .
+\Uffffffff\Uffffffff Subject: A stop job for unit eqso-relay.service has finished
+\Uffffffff\Uffffffff Defined-By: systemd
+\Uffffffff\Uffffffff Support: http://www.ubuntu.com/support
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff A stop job for unit eqso-relay.service has finished.
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff The job identifier is 14846 and the job result is done.
+Apr 30 06:54:25 ubuntus systemd[1]: eqso-relay.service: Consumed 2.185s CPU time.
+\Uffffffff\Uffffffff Subject: Resources consumed by unit runtime
+\Uffffffff\Uffffffff Defined-By: systemd
+\Uffffffff\Uffffffff Support: http://www.ubuntu.com/support
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff The unit eqso-relay.service completed and consumed the indicated resources.
+Apr 30 06:54:25 ubuntus systemd[1]: eqso-relay.service: Start request repeated too quickly.
+Apr 30 06:54:25 ubuntus systemd[1]: eqso-relay.service: Failed with result 'start-limit-hit'.
+\Uffffffff\Uffffffff Subject: Unit failed
+\Uffffffff\Uffffffff Defined-By: systemd
+\Uffffffff\Uffffffff Support: http://www.ubuntu.com/support
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff The unit eqso-relay.service has entered the 'failed' state with result 'start-limit-hit'.
+Apr 30 06:54:25 ubuntus systemd[1]: Failed to start eqso-relay.service - eQSO Radioenlace \Uffffffff sala .
+\Uffffffff\Uffffffff Subject: A start job for unit eqso-relay.service has failed
+\Uffffffff\Uffffffff Defined-By: systemd
+\Uffffffff\Uffffffff Support: http://www.ubuntu.com/support
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff A start job for unit eqso-relay.service has finished with a failure.
+\Uffffffff\Uffffffff 
+\Uffffffff\Uffffffff The job identifier is 14846 and the job result is failed.
