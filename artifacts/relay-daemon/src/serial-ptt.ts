@@ -49,6 +49,15 @@ export class SerialPtt extends EventEmitter {
       String(this.cfg.inverted),
     ], { stdio: ["pipe", "pipe", "pipe"] });
 
+    // CRITICAL: suppress EPIPE on stdin so Node.js doesn't crash when the
+    // Python helper exits (e.g. device busy, permission error).
+    // stream.write() does NOT throw synchronously for EPIPE — it emits an
+    // async error event. Without this listener Node's default handler throws.
+    this.proc.stdin.on("error", (err: NodeJS.ErrnoException) => {
+      if (err.code === "EPIPE" || err.code === "ERR_STREAM_DESTROYED") return;
+      log(`PTT stdin error: ${err.message}`);
+    });
+
     this.proc.stdout.on("data", (data: Buffer) => {
       const msg = data.toString().trim();
       if (msg === "ready") {
