@@ -1,0 +1,31 @@
+sudo journalctl -u eqso-relay@CB -f --no-pager | grep -E "TOT|PTT|VOX|disconnected"
+abr 30 15:11:24 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:11:24.512Z [nivel] pico RMS=76 (-52.7 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:11:29 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:11:29.511Z [nivel] pico RMS=5 (-76.4 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:11:34 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:11:34.512Z [nivel] pico RMS=5 (-76.2 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:11:39 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:11:39.514Z [nivel] pico RMS=5 (-76.4 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:11:44 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:11:44.515Z [nivel] pico RMS=5 (-76.4 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:11:46 ubuntus eqso-relay-CB[7146]: [eqso] 2026-04-30T15:11:46.557Z PTT anunciado [0x09]
+abr 30 15:11:46 ubuntus eqso-relay-CB[7146]: [main] 2026-04-30T15:11:46.561Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z, streak=0)
+abr 30 15:11:49 ubuntus eqso-relay-CB[7146]: [eqso] 2026-04-30T15:11:49.066Z [session] Sesion TX renovada [0x1a JOIN + 0x09 PTT]
+abr 30 15:11:49 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:11:49.516Z [nivel] pico RMS=7563 (-12.7 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:11:49 ubuntus eqso-relay-CB[7146]: [eqso] 2026-04-30T15:11:49.670Z PTT liberado [0x0d]
+abr 30 15:11:49 ubuntus eqso-relay-CB[7146]: [eqso] 2026-04-30T15:11:49.698Z PTT anunciado [0x09]
+abr 30 15:11:49 ubuntus eqso-relay-CB[7146]: [main] 2026-04-30T15:11:49.699Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z, streak=0)
+abr 30 15:11:49 ubuntus eqso-relay-CB[7146]: [eqso] 2026-04-30T15:11:49.970Z PTT liberado [0x0d]
+abr 30 15:11:49 ubuntus eqso-relay-CB[7146]: [ptt] 2026-04-30T15:11:49.974Z PTT set(true) ? escribiendo "1" al helper
+abr 30 15:11:51 ubuntus eqso-relay-CB[7146]: [ptt] 2026-04-30T15:11:51.101Z PTT set(false) ? escribiendo "0" al helper
+abr 30 15:11:53 ubuntus eqso-relay-CB[7146]: [eqso] 2026-04-30T15:11:53.616Z PTT anunciado [0x09]
+abr 30 15:11:53 ubuntus eqso-relay-CB[7146]: [main] 2026-04-30T15:11:53.617Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T15:11:53.604Z, streak=0)
+abr 30 15:11:53 ubuntus eqso-relay-CB[7146]: [main] 2026-04-30T15:11:53.696Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=1) \Uffffffff suppress 4s hasta 2026-04-30T15:11:57.695Z
+abr 30 15:11:54 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:11:54.516Z [nivel] pico RMS=6840 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:11:59 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:11:59.518Z [nivel] pico RMS=6851 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:12:02 ubuntus eqso-relay-CB[7146]: [eqso] 2026-04-30T15:12:02.663Z PTT anunciado [0x09]
+abr 30 15:12:02 ubuntus eqso-relay-CB[7146]: [main] 2026-04-30T15:12:02.663Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T15:11:57.695Z, streak=1)
+abr 30 15:12:04 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:12:04.519Z [nivel] pico RMS=7620 (-12.7 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:12:04 ubuntus eqso-relay-CB[7146]: [main] 2026-04-30T15:12:04.999Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=2) \Uffffffff suppress 8s hasta 2026-04-30T15:12:12.999Z
+^[[B^[[B^[[B^[[B^[[Babr 30 15:12:09 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:12:09.520Z [nivel] pico RMS=6843 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:12:13 ubuntus eqso-relay-CB[7146]: [eqso] 2026-04-30T15:12:13.032Z PTT anunciado [0x09]
+abr 30 15:12:13 ubuntus eqso-relay-CB[7146]: [main] 2026-04-30T15:12:13.033Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T15:12:12.999Z, streak=2)
+abr 30 15:12:14 ubuntus eqso-relay-CB[7146]: [audio] 2026-04-30T15:12:14.522Z [nivel] pico RMS=6874 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+abr 30 15:12:15 ubuntus eqso-relay-CB[7146]: [eqso] 2026-04-30T15:12:15.536Z [session] Sesion TX renovada [0x1a JOIN + 0x09 PTT]
+abr 30 15:12:15 ubuntus eqso-relay-CB[7146]: [main] 2026-04-30T15:12:15.725Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=3) \Uffffffff suppress 16s hasta 2026-04-30T15:12:31.725Z
