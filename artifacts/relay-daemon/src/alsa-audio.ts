@@ -622,6 +622,13 @@ export class AlsaAudio extends EventEmitter {
     this.player = spawn("aplay", args, { stdio: ["pipe", "ignore", "pipe"] });
     const p = this.player;
 
+    // Suppress EPIPE/ERR_STREAM_DESTROYED when aplay dies and we still try to write.
+    // Without this Node throws an unhandled 'error' event and crashes the process.
+    p.stdin.on("error", (err: NodeJS.ErrnoException) => {
+      if (err.code === "EPIPE" || err.code === "ERR_STREAM_DESTROYED") return;
+      log(`[aplay] stdin error: ${err.message}`);
+    });
+
     p.stderr.on("data", (d: Buffer) => {
       const msg = d.toString().trim();
       if (msg) log(`[aplay] ${msg}`);
