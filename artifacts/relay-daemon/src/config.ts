@@ -60,7 +60,7 @@ const DEFAULTS: RelayConfig = {
   message: "Radio Enlace",
   server: "193.152.83.229",
   port: 2172,
-  reconnectMinMs: 2000,
+  reconnectMinMs: 500,
   reconnectMaxMs: 60000,
   audio: {
     captureDevice: "plughw:1,0",

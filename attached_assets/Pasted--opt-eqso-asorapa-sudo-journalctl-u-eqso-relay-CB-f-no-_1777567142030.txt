@@ -1,0 +1,49 @@
+:/opt/eqso-asorapa$ sudo journalctl -u eqso-relay@CB -f --no-pager | grep -E "TOT|PTT|VOX|session|disconnected"
+abr 30 16:37:46 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:37:46.466Z [nivel] pico RMS=132 (-47.9 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:37:51 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:37:51.465Z [nivel] pico RMS=5 (-76.3 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:37:56 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:37:56.465Z [nivel] pico RMS=5 (-76.8 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:01 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:38:01.465Z [nivel] pico RMS=5 (-77.0 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:01 ubuntus eqso-relay-CB[11067]: [eqso] 2026-04-30T16:38:01.923Z PTT anunciado [0x09]
+abr 30 16:38:01 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:01.934Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z, streak=0)
+abr 30 16:38:03 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:03.811Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=1) \Uffffffff suppress 4s
+abr 30 16:38:06 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:38:06.466Z [nivel] pico RMS=7464 (-12.8 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:07 ubuntus eqso-relay-CB[11067]: [eqso] 2026-04-30T16:38:07.863Z PTT anunciado [0x09]
+abr 30 16:38:07 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:07.864Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T16:38:07.810Z, streak=1)
+abr 30 16:38:10 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:10.366Z [session] Renovacion proactiva mid-TX (2500ms) \Uffffffff enviando JOIN
+abr 30 16:38:11 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:38:11.473Z [nivel] pico RMS=6823 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:12 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:12.869Z [session] Renovacion proactiva mid-TX (2500ms) \Uffffffff enviando JOIN
+abr 30 16:38:15 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:15.025Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=0) \Uffffffff suppress 0s
+abr 30 16:38:15 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:15.049Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+abr 30 16:38:16 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:16.077Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+abr 30 16:38:16 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:38:16.472Z [nivel] pico RMS=7342 (-13.0 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:17 ubuntus eqso-relay-CB[11067]: [eqso] 2026-04-30T16:38:17.121Z PTT anunciado [0x09]
+abr 30 16:38:17 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:17.122Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T16:38:07.810Z, streak=0)
+abr 30 16:38:19 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:19.622Z [session] Renovacion proactiva mid-TX (2500ms) \Uffffffff enviando JOIN
+abr 30 16:38:21 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:38:21.473Z [nivel] pico RMS=6867 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:22 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:22.122Z [session] Renovacion proactiva mid-TX (2500ms) \Uffffffff enviando JOIN
+abr 30 16:38:24 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:24.264Z [session] 0x08 durante renovacion de sesion \Uffffffff ignorado (esperando room_list)
+abr 30 16:38:24 ubuntus eqso-relay-CB[11067]: [ptt] 2026-04-30T16:38:24.564Z PTT set(true) ? escribiendo "1" al helper
+abr 30 16:38:24 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:24.624Z [session] Renovacion proactiva mid-TX (2500ms) \Uffffffff enviando JOIN
+abr 30 16:38:24 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:24.926Z [session] 0x08 durante renovacion de sesion \Uffffffff ignorado (esperando room_list)
+abr 30 16:38:24 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:24.941Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=0) \Uffffffff suppress 0s
+abr 30 16:38:25 ubuntus eqso-relay-CB[11067]: [ptt] 2026-04-30T16:38:25.326Z PTT set(false) ? escribiendo "0" al helper
+abr 30 16:38:26 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:38:26.473Z [nivel] pico RMS=6833 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:27 ubuntus eqso-relay-CB[11067]: [eqso] 2026-04-30T16:38:27.861Z PTT anunciado [0x09]
+abr 30 16:38:27 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:27.862Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T16:38:27.830Z, streak=0)
+abr 30 16:38:28 ubuntus eqso-relay-CB[11067]: [eqso] 2026-04-30T16:38:28.651Z PTT liberado [0x0d]
+abr 30 16:38:28 ubuntus eqso-relay-CB[11067]: [ptt] 2026-04-30T16:38:28.940Z PTT set(true) ? escribiendo "1" al helper
+abr 30 16:38:30 ubuntus eqso-relay-CB[11067]: [ptt] 2026-04-30T16:38:30.083Z PTT set(false) ? escribiendo "0" al helper
+abr 30 16:38:31 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:38:31.473Z [nivel] pico RMS=7014 (-13.4 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:32 ubuntus eqso-relay-CB[11067]: [eqso] 2026-04-30T16:38:32.648Z PTT anunciado [0x09]
+abr 30 16:38:32 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:32.648Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T16:38:32.601Z, streak=0)
+abr 30 16:38:35 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:35.149Z [session] Renovacion proactiva mid-TX (2500ms) \Uffffffff enviando JOIN
+abr 30 16:38:36 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:38:36.474Z [nivel] pico RMS=6853 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:37 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:37.648Z [session] Renovacion proactiva mid-TX (2500ms) \Uffffffff enviando JOIN
+abr 30 16:38:40 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:40.153Z [session] Renovacion proactiva mid-TX (2500ms) \Uffffffff enviando JOIN
+abr 30 16:38:40 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:40.279Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=0) \Uffffffff suppress 0s
+abr 30 16:38:40 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:40.324Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+abr 30 16:38:41 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:41.337Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+abr 30 16:38:41 ubuntus eqso-relay-CB[11067]: [audio] 2026-04-30T16:38:41.474Z [nivel] pico RMS=7692 (-12.6 dBFS)  VOXumbral=800  gain=0.15
+abr 30 16:38:42 ubuntus eqso-relay-CB[11067]: [eqso] 2026-04-30T16:38:42.353Z PTT anunciado [0x09]
+abr 30 16:38:42 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:42.354Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T16:38:32.601Z, streak=0)
+abr 30 16:38:44 ubuntus eqso-relay-CB[11067]: [main] 2026-04-30T16:38:44.854Z [session] Renovacion proactiva mid-TX (2500ms) \Uffffffff enviando JOIN
