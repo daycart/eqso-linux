@@ -1,0 +1,29 @@
+artifacts/relay-daemon/dist/main.mjs |  8 +++++++-
+ artifacts/relay-daemon/src/main.ts   | 16 +++++++++++++---
+ 2 files changed, 20 insertions(+), 4 deletions(-)
+abr 30 14:27:38 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:27:37.999Z   PTT Ser. : /dev/eqso-ptt (rts)
+abr 30 14:27:38 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:27:38.000Z   VOX Sup. : startup suppress 4000ms activo hasta 2026-04-30T14:27:41.979Z
+abr 30 14:27:38 ubuntus eqso-relay-CB[3730]: [ptt] 2026-04-30T14:27:38.002Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+abr 30 14:27:38 ubuntus eqso-relay-CB[3730]: [ptt] 2026-04-30T14:27:38.631Z PTT serial listo (/dev/eqso-ptt, rts)
+abr 30 14:27:42 ubuntus eqso-relay-CB[3730]: [eqso] 2026-04-30T14:27:42.020Z PTT anunciado [0x09]
+abr 30 14:27:42 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:27:42.020Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+abr 30 14:27:43 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:27:43.672Z [vox] PTT reseteado por desconexion \Uffffffff suppress VOX 4s hasta 2026-04-30T14:27:47.672Z
+abr 30 14:27:47 ubuntus eqso-relay-CB[3730]: [eqso] 2026-04-30T14:27:47.717Z PTT anunciado [0x09]
+abr 30 14:27:47 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:27:47.720Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T14:27:47.672Z)
+abr 30 14:27:48 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:27:48.791Z [vox] PTT reseteado por desconexion \Uffffffff suppress VOX 4s hasta 2026-04-30T14:27:52.791Z
+abr 30 14:27:52 ubuntus eqso-relay-CB[3730]: [eqso] 2026-04-30T14:27:52.832Z PTT anunciado [0x09]
+abr 30 14:27:52 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:27:52.834Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T14:27:52.791Z)
+abr 30 14:27:55 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:27:55.895Z [vox] PTT reseteado por desconexion \Uffffffff suppress VOX 4s hasta 2026-04-30T14:27:59.895Z
+abr 30 14:27:59 ubuntus eqso-relay-CB[3730]: [eqso] 2026-04-30T14:27:59.939Z PTT anunciado [0x09]
+abr 30 14:27:59 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:27:59.939Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T14:27:59.895Z)
+abr 30 14:28:01 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:28:01.029Z [vox] PTT reseteado por desconexion \Uffffffff suppress VOX 4s hasta 2026-04-30T14:28:05.029Z
+abr 30 14:28:05 ubuntus eqso-relay-CB[3730]: [eqso] 2026-04-30T14:28:05.055Z PTT anunciado [0x09]
+abr 30 14:28:05 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:28:05.055Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T14:28:05.029Z)
+abr 30 14:28:05 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:28:05.799Z [vox] PTT reseteado por desconexion \Uffffffff suppress VOX 4s hasta 2026-04-30T14:28:09.799Z
+abr 30 14:28:09 ubuntus eqso-relay-CB[3730]: [eqso] 2026-04-30T14:28:09.843Z PTT anunciado [0x09]
+abr 30 14:28:09 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:28:09.844Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T14:28:09.799Z)
+abr 30 14:28:10 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:28:10.397Z [vox] PTT reseteado por desconexion \Uffffffff suppress VOX 4s hasta 2026-04-30T14:28:14.397Z
+abr 30 14:28:14 ubuntus eqso-relay-CB[3730]: [eqso] 2026-04-30T14:28:14.436Z PTT anunciado [0x09]
+abr 30 14:28:14 ubuntus eqso-relay-CB[3730]: [main] 2026-04-30T14:28:14.440Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T14:28:14.397Z)
+^C
+david@ubuntus:/opt/eqso-asorapa$ 
