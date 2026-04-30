@@ -165,6 +165,16 @@ export function useEqsoClient(
       case "user_left": {
         const leftName = (msg.name as string ?? "").trim();
         setMembers((prev) => prev.filter((m) => m.name !== leftName));
+        // Defensive: if the leaving user was the active speaker, clear BREAK immediately.
+        // Normally ptt_released_remote arrives first (from proxy auto-release),
+        // but if the user disconnected abruptly without sending [0x0d] this is the safety net.
+        setActiveSpeaker((prev) => {
+          if (prev === leftName) {
+            setChannelBusy(false);
+            return null;
+          }
+          return prev;
+        });
         break;
       }
 

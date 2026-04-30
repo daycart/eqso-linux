@@ -201,6 +201,18 @@ vox.on("ptt_start", () => {
     }
     return;
   }
+  if (!eqsoClient.isReady()) {
+    // TCP conectado pero JOIN aún no aceptado (handshake o room_list pendiente).
+    // Enviar [0x09] ahora causaría "Indicativo invalido" + desconexión.
+    // Resetear VOX para que vuelva a disparar cuando el servidor acepte el JOIN.
+    vox.resetState();
+    const nowMs = Date.now();
+    if (nowMs - lastPttIgnoredLogMs > 1000) {
+      lastPttIgnoredLogMs = nowMs;
+      log("VOX: ptt_start ignorado — JOIN pendiente, reseteando estado VOX");
+    }
+    return;
+  }
   if (pttActive || rxActive) return;
 
   // Defensa en profundidad: doble verificacion del suppress.

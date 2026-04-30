@@ -175,7 +175,16 @@ export class EqsoClient extends EventEmitter {
   private handshakeDone = false;
   private transmitting = false;
   public connected = false;
+  // joinAccepted=true when the server confirms JOIN (room_list received).
+  // PTT [0x09] must NOT be sent before JOIN is accepted — the server will reject
+  // with "Indicativo invalido" and close the connection.
+  public joinAccepted = false;
   private txingStations = new Set<string>();
+
+  /** Returns true only when the connection is fully ready for TX (handshake done + JOIN accepted). */
+  isReady(): boolean {
+    return this.connected && this.handshakeDone && this.joinAccepted;
+  }
 
   constructor(
     private readonly host: string,
@@ -189,6 +198,7 @@ export class EqsoClient extends EventEmitter {
     this.socket = sock;
     this.parser = new EqsoPacketParser();
     this.handshakeDone = false;
+    this.joinAccepted = false;
     this.transmitting = false;
     let hadError = false;
 
@@ -205,6 +215,8 @@ export class EqsoClient extends EventEmitter {
 
     sock.on("close", (hadHalfOpen?: boolean) => {
       this.connected = false;
+      this.handshakeDone = false;
+      this.joinAccepted = false;
       this.stopSilence();
       const reason = hadError ? "tras error TCP" : "cierre limpio del servidor (FIN)";
       log(`TCP desconectado de ${this.host}:${this.port} — ${reason}`);
@@ -214,6 +226,8 @@ export class EqsoClient extends EventEmitter {
     sock.on("error", (err: Error) => {
       hadError = true;
       this.connected = false;
+      this.handshakeDone = false;
+      this.joinAccepted = false;
       this.stopSilence();
       log(`TCP error: ${err.message} (${err.name})`);
       this.emit("event", { type: "error", data: err.message } satisfies EqsoEvent);
@@ -252,6 +266,12 @@ export class EqsoClient extends EventEmitter {
 
   /** Anuncia PTT al servidor [0x09] y detiene el silence heartbeat síncronamente. */
   startTx(): void {
+    // Guard: require full JOIN acceptance before sending [0x09].
+    // Sending [0x09] before JOIN causes "Indicativo invalido" + disconnect.
+    if (!this.isReady()) {
+      log("startTx() ignorado — joinAccepted=false (handshake o JOIN pendiente)");
+      return;
+    }
     this.stopSilence();        // Detener timer ANTES del PTT para evitar race [0x02][0x09]
     this.transmitting = true;
     this.write(Buffer.from([0x09]));
@@ -336,6 +356,8 @@ export class EqsoClient extends EventEmitter {
         }
         const preview = rooms.slice(0, 5).join(", ") + (rooms.length > 5 ? ` … (+${rooms.length - 5} mas)` : "");
         log(`Salas disponibles: ${rooms.length} salas [${preview}]`);
+        // JOIN accepted — server confirmed our callsign. PTT [0x09] is now safe to send.
+        this.joinAccepted = true;
         this.emit("event", { type: "room_list", data: rooms } satisfies EqsoEvent);
         break;
       }

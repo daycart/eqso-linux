@@ -560,8 +560,17 @@ export class EqsoProxy extends EventEmitter {
           break;
         }
         case 0x01:
-          this.txingStations.delete(name);
-          this.txStartTimes.delete(name);
+          // If the user was transmitting, release PTT first so the browser clears BREAK.
+          if (this.txingStations.has(name)) {
+            this.txingStations.delete(name);
+            this.txStartTimes.delete(name);
+            this.suppressedTxers.delete(name);
+            logger.info({ name }, "eQSO proxy: user left while TX — auto-releasing PTT");
+            this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
+          } else {
+            this.txingStations.delete(name);
+            this.txStartTimes.delete(name);
+          }
           logger.info({ name }, "eQSO proxy: user left");
           this.emit("event", { type: "user_left", data: { name } } as ProxyEvent);
           break;
@@ -628,8 +637,17 @@ export class EqsoProxy extends EventEmitter {
           break;
         }
         case 0x01:
-          this.txingStations.delete(name);
-          this.txStartTimes.delete(name);
+          // If the user was transmitting, release PTT first so the browser clears BREAK.
+          if (this.txingStations.has(name)) {
+            this.txingStations.delete(name);
+            this.txStartTimes.delete(name);
+            this.suppressedTxers.delete(name);
+            logger.info({ name }, "eQSO proxy: user left while TX (multi) — auto-releasing PTT");
+            this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
+          } else {
+            this.txingStations.delete(name);
+            this.txStartTimes.delete(name);
+          }
           logger.info({ name }, "eQSO proxy: user left (multi)");
           this.emit("event", { type: "user_left", data: { name } } as ProxyEvent);
           break;
