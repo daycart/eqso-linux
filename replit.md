@@ -265,12 +265,10 @@ O copiar el dist/main.mjs compilado directamente desde Replit (más fiable).
 
 ### Despliegue en la VM
 ```bash
-# Los cambios de Replit NO llegan automáticamente a la VM.
-# Aplicar manualmente con sed + build, o cuando git pull funcione:
-cd /opt/eqso-asorapa/artifacts/relay-daemon
-node build.mjs
-sudo systemctl restart eqso-relay@CB.service
-sudo journalctl -u eqso-relay@CB.service -f
+# Ruta raíz del proyecto en la VM: /opt/eqso-asorapa
+# Servicio systemd: eqso-relay@CB.service   (¡OJO: NOT eqso-relay.service!)
+cd /opt/eqso-asorapa && git pull && sudo systemctl restart eqso-relay@CB.service
+sudo journalctl -u eqso-relay@CB -f
 ```
 
 ## VM Infrastructure (Ubuntu 192.168.1.25 / 193.152.83.229)
