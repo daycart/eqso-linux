@@ -1,0 +1,126 @@
+$ journalctl -u eqso-relay.service -f --no-pager
+Apr 30 07:41:32 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:41:32.899Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:41:34 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:41:34.657Z [nivel] pico RMS=5 (-76.4 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:41:39 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:41:39.658Z [nivel] pico RMS=5 (-76.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:41:40 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:41:40.906Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:41:44 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:41:44.658Z [nivel] pico RMS=5 (-76.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:41:48 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:41:48.914Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:41:49 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:41:49.658Z [nivel] pico RMS=5 (-76.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:41:54 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:41:54.658Z [nivel] pico RMS=5 (-76.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:41:56 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:41:56.933Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:41:59 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:41:59.659Z [nivel] pico RMS=5 (-76.4 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:42:04 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:04.661Z [nivel] pico RMS=5 (-76.2 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:42:04 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:04.927Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:42:08 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:08.412Z PTT anunciado [0x09]
+Apr 30 07:42:08 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:08.413Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 30 07:42:09 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:09.661Z [nivel] pico RMS=7548 (-12.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:42:09 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:09.993Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:09 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:09.993Z Mensaje servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:10 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:10.051Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+Apr 30 07:42:10 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:10.052Z Desconectado del servidor eQSO
+Apr 30 07:42:10 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:10.079Z [vox] Estado PTT reseteado por desconexion durante TX
+Apr 30 07:42:10 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:10.094Z Reintento #1 en 2s\Uffffffff
+Apr 30 07:42:10 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:10.094Z [arecord] GAP 144ms (chunk#7609, 320 muestras)
+Apr 30 07:42:10 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:10.116Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 30 07:42:10 ubuntus eqso-relay-[35341]: [gsm-enc] 2026-04-30T07:42:10.121Z GAP 170ms entre frames GSM de salida
+Apr 30 07:42:11 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:11.147Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:12.095Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:12.100Z TCP conectado a 193.152.83.229:2172
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:12.139Z Handshake recibido \Uffffffff conexion establecida
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:12.139Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:12.144Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:12.147Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:12.148Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:12.156Z PTT anunciado [0x09]
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:12.157Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 30 07:42:12 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:12.171Z Sala: 0R-IN70WN se ha unido
+Apr 30 07:42:14 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:14.639Z [audio] pkt#1 DESCARTADO \Uffffffff pttActive=true (TX local activo)
+Apr 30 07:42:14 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:14.660Z [nivel] pico RMS=6744 (-13.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:42:14 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:14.765Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:42:14 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:14.884Z [audio] pkt#2 DESCARTADO \Uffffffff pttActive=true (TX local activo)
+Apr 30 07:42:14 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:14.886Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:42:15 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:15.004Z [audio] pkt#3 DESCARTADO \Uffffffff pttActive=true (TX local activo)
+Apr 30 07:42:16 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:16.878Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:16 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:16.879Z Mensaje servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:16 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:16.883Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+Apr 30 07:42:16 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:16.883Z Desconectado del servidor eQSO
+Apr 30 07:42:16 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:16.883Z [vox] Estado PTT reseteado por desconexion durante TX
+Apr 30 07:42:16 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:16.884Z Reintento #1 en 2s\Uffffffff
+Apr 30 07:42:16 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:16.926Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 30 07:42:17 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:17.955Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:18.884Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:18.893Z TCP conectado a 193.152.83.229:2172
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:18.923Z Handshake recibido \Uffffffff conexion establecida
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:18.923Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:18.924Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:18.925Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:18.926Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:18.928Z Sala: 0R-IN70WN se ha unido
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:18.949Z PTT anunciado [0x09]
+Apr 30 07:42:18 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:18.951Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:19.460Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:19.461Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:19.663Z [nivel] pico RMS=6796 (-13.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:19.770Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:19.770Z Mensaje servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:19.781Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:19.781Z Desconectado del servidor eQSO
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:19.781Z [vox] Estado PTT reseteado por desconexion durante TX
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:19.782Z Reintento #1 en 2s\Uffffffff
+Apr 30 07:42:19 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:19.823Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 30 07:42:20 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:20.863Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:21.783Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:21.789Z TCP conectado a 193.152.83.229:2172
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:21.818Z Handshake recibido \Uffffffff conexion establecida
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:21.823Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:21.828Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:21.834Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:21.835Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:21.835Z Sala: 0R-IN70WN se ha unido
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:21.853Z PTT anunciado [0x09]
+Apr 30 07:42:21 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:21.854Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 30 07:42:22 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:22.847Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:42:22 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:22.968Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:42:24 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:24.662Z [nivel] pico RMS=6805 (-13.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:42:25 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:25.659Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:25 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:25.661Z Mensaje servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:25 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:25.663Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+Apr 30 07:42:25 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:25.665Z Desconectado del servidor eQSO
+Apr 30 07:42:25 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:25.665Z [vox] Estado PTT reseteado por desconexion durante TX
+Apr 30 07:42:25 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:25.667Z Reintento #1 en 2s\Uffffffff
+Apr 30 07:42:25 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:25.708Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 30 07:42:26 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:26.725Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:27.669Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:27.677Z TCP conectado a 193.152.83.229:2172
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:27.716Z Handshake recibido \Uffffffff conexion establecida
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:27.717Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:27.719Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:27.725Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:27.726Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:27.726Z Sala: 0R-IN70WN se ha unido
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:27.747Z PTT anunciado [0x09]
+Apr 30 07:42:27 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:27.781Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 30 07:42:28 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:28.376Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 30 07:42:28 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:28.378Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 30 07:42:29 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:29.404Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:29 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:29.404Z Mensaje servidor: Indicativo invalido (max 30 chars)
+Apr 30 07:42:29 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:29.430Z TCP error: read ECONNRESET (Error)
+Apr 30 07:42:29 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:29.439Z Error TCP: read ECONNRESET
+Apr 30 07:42:29 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:29.439Z Reintento #1 en 2s\Uffffffff
+Apr 30 07:42:29 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:29.439Z TCP desconectado de 193.152.83.229:2172 \Uffffffff tras error TCP
+Apr 30 07:42:29 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:29.439Z Desconectado del servidor eQSO
+Apr 30 07:42:29 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:29.663Z [nivel] pico RMS=6789 (-13.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:42:31 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:31.439Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+Apr 30 07:42:31 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:31.446Z TCP conectado a 193.152.83.229:2172
+Apr 30 07:42:31 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:31.485Z Handshake recibido \Uffffffff conexion establecida
+Apr 30 07:42:31 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:31.485Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 30 07:42:31 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:31.485Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 30 07:42:31 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:42:31.488Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 30 07:42:31 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:31.488Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 30 07:42:31 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:31.530Z Sala: 0R-IN70WN se ha unido
+Apr 30 07:42:34 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:34.664Z [nivel] pico RMS=6787 (-13.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:42:36 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:36.201Z [arecord] GAP 91ms (chunk#8779, 160 muestras)
+Apr 30 07:42:36 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:36.305Z [arecord] GAP 71ms (chunk#8781, 160 muestras)
+Apr 30 07:42:39 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:42:39.484Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:42:39 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:39.665Z [nivel] pico RMS=8 (-72.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:42:44 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:42:44.664Z [nivel] pico RMS=5 (-76.8 dBFS)  VOXumbral=800  gain=0.15

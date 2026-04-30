@@ -180,6 +180,9 @@ export class EqsoClient extends EventEmitter {
   // with "Indicativo invalido" and close the connection.
   public joinAccepted = false;
   private txingStations = new Set<string>();
+  // Debug raw TX/RX bytes — log first N events after PTT to trace server behavior
+  private txDbgCount = 0;
+  private readonly TX_DBG_MAX = 8;
 
   /** Returns true only when the connection is fully ready for TX (handshake done + JOIN accepted). */
   isReady(): boolean {
@@ -209,6 +212,10 @@ export class EqsoClient extends EventEmitter {
     });
 
     sock.on("data", (data: Buffer) => {
+      if (this.transmitting && this.txDbgCount < this.TX_DBG_MAX) {
+        this.txDbgCount++;
+        log(`[raw-rx #${this.txDbgCount}] ${data.length}b: ${data.slice(0, 48).toString("hex")}`);
+      }
       this.parser.feed(data);
       this.drainPackets();
     });
@@ -274,6 +281,7 @@ export class EqsoClient extends EventEmitter {
     }
     this.stopSilence();        // Detener timer ANTES del PTT para evitar race [0x02][0x09]
     this.transmitting = true;
+    this.txDbgCount = 0;       // Reset debug counter para nueva sesion TX
     this.write(Buffer.from([0x09]));
     log("PTT anunciado [0x09]");
   }
@@ -305,6 +313,10 @@ export class EqsoClient extends EventEmitter {
 
   private write(data: Buffer): void {
     if (this.socket && !this.socket.destroyed && this.connected) {
+      if (this.transmitting && this.txDbgCount === 0) {
+        // Log first outgoing packet right after PTT [0x09]
+        log(`[raw-tx ptt] ${data.length}b: ${data.toString("hex")}`);
+      }
       try { this.socket.write(data); } catch { /* ignore */ }
     }
   }
