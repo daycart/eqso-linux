@@ -1,0 +1,41 @@
+cd /opt/eqso-asorapa
+sudo systemctl stop eqso-relay@CB 2>/dev/null; sudo systemctl stop eqso-relay 2>/dev/null
+git pull
+sudo systemctl reset-failed eqso-relay.service
+sudo systemctl start eqso-relay.service
+sudo systemctl status eqso-relay.service --no-pager
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 6 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (6/6), 584 bytes | 22.00 KiB/s, done.
+From https://github.com/daycart/eqso-linux-client
+   d2974fa..2e1e08c  main       -> origin/main
+Updating d2974fa..2e1e08c
+Fast-forward
+ artifacts/relay-daemon/dist/main.mjs | 4 ++++
+ 1 file changed, 4 insertions(+)
+Failed to reset failed state of unit eqso-relay.service: Unit eqso-relay.service not loaded.
+? eqso-relay.service - eQSO Radioenlace \Uffffffff sala 
+     Loaded: loaded (/etc/systemd/system/eqso-relay.service; disabled; preset: enabled)
+     Active: active (running) since Thu 2026-04-30 07:33:23 UTC; 188ms ago
+       Docs: https://github.com/daycart/eqso-linux-client
+    Process: 34879 ExecStartPre=/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/usb-reset.sh (code=exited, status=0/SUCCESS)
+    Process: 34887 ExecStartPre=/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh (code=exited, status=0/SUCCESS)
+   Main PID: 34900 (node)
+      Tasks: 1 (limit: 19094)
+     Memory: 860.0K (peak: 5.9M)
+        CPU: 951ms
+     CGroup: /system.slice/eqso-relay.service
+             +-34900 /usr/bin/node --enable-source-maps dist/main.mjs
+
+abr 30 07:33:22 ubuntus eqso-relay-[34895]:   Front Right: Playback 151 [100%] [-0.06dB] [on]
+abr 30 07:33:22 ubuntus eqso-relay-[34887]:   Speaker   100%
+abr 30 07:33:22 ubuntus eqso-relay-[34898]: Simple mixer control 'Mic',0
+abr 30 07:33:22 ubuntus eqso-relay-[34898]:   Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+abr 30 07:33:22 ubuntus eqso-relay-[34898]:   Playback channels: Mono
+abr 30 07:33:22 ubuntus eqso-relay-[34898]:   Capture channels: Mono
+abr 30 07:33:22 ubuntus eqso-relay-[34898]:   Limits: Playback 0 - 127 Capture 0 - 16
+abr 30 07:33:22 ubuntus eqso-relay-[34898]:   Mono: Playback 51 [40%] [9.56dB] [on] Capture 6 [38%] [8.92dB] [on]
+abr 30 07:33:22 ubuntus eqso-relay-[34887]:   Mic        40%
+abr 30 07:33:23 ubuntus systemd[1]: Started eqso-relay.service - eQSO Radioenlace \Uffffffff sala .
