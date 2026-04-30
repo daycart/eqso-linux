@@ -11,7 +11,7 @@
 
 import { loadConfig } from "./config.js";
 import { EqsoClient } from "./eqso-client.js";
-import { AlsaAudio } from "./alsa-audio.js";
+import { AlsaAudio, GSM_SILENCE_FRAME } from "./alsa-audio.js";
 import { Vox } from "./vox.js";
 import { SerialPtt } from "./serial-ptt.js";
 import { startControlServer, RelayStatus } from "./control-server.js";
@@ -249,8 +249,16 @@ vox.on("ptt_end", () => {
   // Suprimir VOX 5s tras TX propio (squelch + eco CB + eco sala).
   postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, Date.now() + POST_TX_VOX_SUPPRESS_MS);
   resetIdleTimer(); // Iniciar countdown de 28s post-TX para reconexion preventiva
-  log(`VOX: PTT liberado — fin transmision (suppress hasta ${new Date(postRxVoxSuppressUntil).toISOString()})`);
+  const total = txRealFrames + txSilenceFrames;
+  const silencePct = total > 0 ? Math.round((txSilenceFrames / total) * 100) : 0;
+  log(`VOX: PTT liberado — fin transmision (suppress hasta ${new Date(postRxVoxSuppressUntil).toISOString()}) | frames: ${txRealFrames} real + ${txSilenceFrames} silencio = ${silencePct}% silencio`);
+  txRealFrames = 0;
+  txSilenceFrames = 0;
 });
+
+// Contadores de diagnostico: real vs silence frames enviados durante TX
+let txRealFrames    = 0;
+let txSilenceFrames = 0;
 
 // El audio emite paquetes GSM listos para enviar al servidor
 audio.on("gsm_tx", (gsm: Buffer) => {
@@ -258,6 +266,16 @@ audio.on("gsm_tx", (gsm: Buffer) => {
   // Gate de transmision: no enviar ruido de fondo durante el colgado del VOX.
   // Impide acumulacion de silencio en el buffer del navegador.
   if (latestPcmRms < TX_GATE_RMS) return;
+
+  // Detectar si el frame es silencio (comparar con el frame precomputado)
+  const isSilence = gsm.length === GSM_SILENCE_FRAME.length &&
+    gsm.equals(GSM_SILENCE_FRAME as Buffer);
+  if (isSilence) {
+    txSilenceFrames++;
+  } else {
+    txRealFrames++;
+  }
+
   eqsoClient.sendAudio(gsm);
   txPackets++;
 });
