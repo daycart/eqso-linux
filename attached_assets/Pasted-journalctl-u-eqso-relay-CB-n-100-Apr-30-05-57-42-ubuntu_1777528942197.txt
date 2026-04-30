@@ -1,0 +1,101 @@
+journalctl -u eqso-relay@CB -n 100
+Apr 30 05:57:42 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:57:42.055Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:57:45 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:57:45.205Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:57:47 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:57:47.055Z [nivel] pico RMS=5 (-76.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:57:48 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:57:48.221Z [arecord] GAP 57ms (chunk#2349, 160 muestras)
+Apr 30 05:57:52 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:57:52.055Z [nivel] pico RMS=5 (-76.9 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:57:53 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:57:53.214Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:57:53 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:57:53.325Z [arecord] GAP 53ms (chunk#2579, 160 muestras)
+Apr 30 05:57:57 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:57:57.055Z [nivel] pico RMS=5 (-76.5 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:01 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:58:01.228Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:58:02 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:02.054Z [nivel] pico RMS=6 (-75.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:07 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:07.055Z [nivel] pico RMS=5 (-76.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:09 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:58:09.233Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:58:12 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:12.058Z [nivel] pico RMS=6 (-75.4 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:17 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:17.058Z [nivel] pico RMS=6 (-75.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:17 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:58:17.233Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:58:22 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:22.060Z [nivel] pico RMS=6 (-74.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:25 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:58:25.243Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:58:27 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:27.059Z [nivel] pico RMS=5 (-75.9 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:32 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:32.060Z [nivel] pico RMS=6 (-74.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:33 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:58:33.244Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:58:37 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:37.061Z [nivel] pico RMS=6 (-74.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:41 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:58:41.247Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:58:42 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:42.062Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:47 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:47.064Z [nivel] pico RMS=10 (-70.3 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:49 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:58:49.256Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:58:49 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T05:58:49.384Z PTT anunciado [0x09]
+Apr 30 05:58:49 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:58:49.389Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+Apr 30 05:58:52 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:52.063Z [nivel] pico RMS=7063 (-13.3 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:52 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:52.232Z [arecord] GAP 57ms (chunk#5276, 160 muestras)
+Apr 30 05:58:52 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:52.422Z [arecord] GAP 59ms (chunk#5281, 160 muestras)
+Apr 30 05:58:57 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:58:57.064Z [nivel] pico RMS=7149 (-13.2 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:58:57 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:58:57.256Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:00 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T05:59:00.864Z PTT liberado [0x0d]
+Apr 30 05:59:00 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:00.867Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-30T05:59:03.367Z)
+Apr 30 05:59:01 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:01.176Z [audio] pkt#1 DESCARTADO \Uffffffff postTxSuppress en 1191ms
+Apr 30 05:59:01 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:01.307Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:01 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:01.417Z [audio] pkt#2 DESCARTADO \Uffffffff postTxSuppress en 950ms
+Apr 30 05:59:01 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:01.418Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:01 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:01.553Z [audio] pkt#3 DESCARTADO \Uffffffff postTxSuppress en 814ms
+Apr 30 05:59:02 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:02.065Z [nivel] pico RMS=65 (-54.0 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:05 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:05.257Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:07 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:07.066Z [nivel] pico RMS=1310 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:09 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T05:59:09.741Z PTT anunciado [0x09]
+Apr 30 05:59:09 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:09.742Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T05:59:03.367Z)
+Apr 30 05:59:12 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:12.066Z [nivel] pico RMS=6891 (-13.5 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:13 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:13.258Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:15 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T05:59:15.537Z PTT liberado [0x0d]
+Apr 30 05:59:15 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:15.538Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-30T05:59:18.038Z)
+Apr 30 05:59:15 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:15.966Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:16 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:16.086Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:17 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:17.066Z [nivel] pico RMS=35 (-59.4 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:18 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:18.363Z [arecord] GAP 65ms (chunk#6436, 160 muestras)
+Apr 30 05:59:18 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:18.430Z [arecord] GAP 67ms (chunk#6437, 160 muestras)
+Apr 30 05:59:18 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:18.673Z [arecord] GAP 53ms (chunk#6443, 160 muestras)
+Apr 30 05:59:18 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:18.728Z [arecord] GAP 55ms (chunk#6444, 160 muestras)
+Apr 30 05:59:21 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:21.264Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:22 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:22.067Z [nivel] pico RMS=5 (-76.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:27 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:27.067Z [nivel] pico RMS=5 (-76.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:29 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:29.272Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:32 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:32.068Z [nivel] pico RMS=5 (-75.9 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:37 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:37.069Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:37 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:37.276Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:42 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:42.068Z [nivel] pico RMS=5 (-76.4 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:45 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:45.285Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:47 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:47.070Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:52 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:52.071Z [nivel] pico RMS=5 (-76.3 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 05:59:53 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:53.294Z Keepalive recibido del servidor [0x0c]
+Apr 30 05:59:55 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T05:59:55.474Z PTT anunciado [0x09]
+Apr 30 05:59:55 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T05:59:55.475Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T05:59:18.038Z)
+Apr 30 05:59:57 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T05:59:57.071Z [nivel] pico RMS=7528 (-12.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 06:00:01 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:01.294Z Keepalive recibido del servidor [0x0c]
+Apr 30 06:00:02 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:02.072Z [nivel] pico RMS=6686 (-13.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 06:00:02 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T06:00:02.449Z PTT liberado [0x0d]
+Apr 30 06:00:02 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:02.452Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-30T06:00:04.950Z)
+Apr 30 06:00:02 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:02.882Z Keepalive recibido del servidor [0x0c]
+Apr 30 06:00:03 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:02.998Z Keepalive recibido del servidor [0x0c]
+Apr 30 06:00:05 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:05.609Z [arecord] GAP 58ms (chunk#8634, 160 muestras)
+Apr 30 06:00:05 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:05.680Z [arecord] GAP 71ms (chunk#8635, 160 muestras)
+Apr 30 06:00:05 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:05.784Z [arecord] GAP 65ms (chunk#8637, 160 muestras)
+Apr 30 06:00:05 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:05.893Z [arecord] GAP 52ms (chunk#8640, 160 muestras)
+Apr 30 06:00:07 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:07.073Z [nivel] pico RMS=5 (-76.2 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 06:00:09 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:09.302Z Keepalive recibido del servidor [0x0c]
+Apr 30 06:00:09 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T06:00:09.342Z PTT anunciado [0x09]
+Apr 30 06:00:09 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:09.343Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T06:00:04.950Z)
+Apr 30 06:00:12 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:12.073Z [nivel] pico RMS=7534 (-12.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 06:00:12 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T06:00:12.497Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 30 06:00:12 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:12.498Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 30 06:00:13 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:13.128Z [arecord] GAP 59ms (chunk#8971, 160 muestras)
+Apr 30 06:00:13 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:13.188Z [arecord] GAP 60ms (chunk#8972, 160 muestras)
+Apr 30 06:00:13 ubuntus eqso-relay-CB[29310]: [gsm-enc] 2026-04-30T06:00:13.259Z GAP 181ms entre frames GSM de salida
+Apr 30 06:00:13 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:13.338Z [arecord] GAP 67ms (chunk#8975, 160 muestras)
+Apr 30 06:00:17 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:17.073Z [nivel] pico RMS=6761 (-13.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 06:00:17 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:17.311Z Keepalive recibido del servidor [0x0c]
+Apr 30 06:00:20 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T06:00:20.613Z PTT liberado [0x0d]
+Apr 30 06:00:20 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:20.614Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-04-30T06:00:23.114Z)
+Apr 30 06:00:22 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:22.075Z [nivel] pico RMS=37 (-59.0 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 06:00:25 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:25.309Z Keepalive recibido del servidor [0x0c]
+Apr 30 06:00:27 ubuntus eqso-relay-CB[29310]: [audio] 2026-04-30T06:00:27.075Z [nivel] pico RMS=1204 (-28.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 06:00:28 ubuntus eqso-relay-CB[29310]: [eqso] 2026-04-30T06:00:28.277Z PTT anunciado [0x09]
+Apr 30 06:00:28 ubuntus eqso-relay-CB[29310]: [main] 2026-04-30T06:00:28.279Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-04-30T06:00:23.114Z)
