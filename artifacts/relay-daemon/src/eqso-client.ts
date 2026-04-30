@@ -37,7 +37,9 @@ class EqsoPacketParser {
       const cmd = this.acc[0];
 
       if (cmd === 0x0c) { const p = this.acc.slice(0, 1); this.acc = this.acc.slice(1); return p; }
-      if (cmd === 0x08 || cmd === 0x09) { this.acc = this.acc.slice(1); continue; }
+      // 0x08 = servidor señala "canal ocupado / PTT denegado" → emitir como paquete
+      if (cmd === 0x08) { const p = this.acc.slice(0, 1); this.acc = this.acc.slice(1); return p; }
+      if (cmd === 0x09) { this.acc = this.acc.slice(1); continue; }
       if (cmd === 0x06) {
         if (this.acc.length < 2) return null;
         const nlen = this.acc[1];
@@ -163,7 +165,8 @@ export interface EqsoEvent {
     | "ptt_started"
     | "ptt_released"
     | "audio"
-    | "keepalive";
+    | "keepalive"
+    | "channel_busy";
   data?: unknown;
 }
 
@@ -345,6 +348,13 @@ export class EqsoClient extends EventEmitter {
       case 0x0c: {
         this.write(Buffer.from([0x0c]));
         this.emit("event", { type: "keepalive" } satisfies EqsoEvent);
+        break;
+      }
+      case 0x08: {
+        // Canal ocupado / PTT denegado — servidor rechaza nuestra transmisión
+        // porque otro usuario ya tiene el canal.
+        log("[0x08] Canal ocupado — ceder TX al otro usuario");
+        this.emit("event", { type: "channel_busy" } satisfies EqsoEvent);
         break;
       }
       case 0x0b: {
