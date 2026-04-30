@@ -1,0 +1,61 @@
+ journalctl -u eqso-relay.service -n 60 --no-pager
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]:     "device": "/dev/eqso-ptt",
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]:     "method": "rts",
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]:     "inverted": false
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]:   }
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: }
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.534Z ============================================================
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.535Z eQSO Relay Daemon arrancado
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.536Z   Callsign : 0R-IN70WN
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.536Z   Sala     : CB
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.536Z   Servidor : 193.152.83.229:2172
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.537Z   VOX      : ON (umbral=800 hang=5000ms debounce=2chunks)
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.539Z   Captura  : plughw:1,0
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.539Z   Playback : plughw:1,0
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.539Z   PTT Ser. : /dev/eqso-ptt (rts)
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.540Z   VOX Sup. : startup suppress 4000ms activo hasta 2026-04-30T07:39:28.504Z
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.540Z ============================================================
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [ptt] 2026-04-30T07:39:24.543Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:24.614Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:24.646Z aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=24000 --period-size=800
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.676Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [control] 2026-04-30T07:39:24.758Z Control HTTP escuchando en http://127.0.0.1:8009
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [ptt] 2026-04-30T07:39:24.787Z PTT serial listo (/dev/eqso-ptt, rts)
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:24.800Z [arecord] chunk#1: 7724 bytes brutos ? 643 muestras 8kHz (decimate\Uffffffff)
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:39:24.857Z TCP conectado a 193.152.83.229:2172
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:24.884Z [arecord] chunk#2: 7680 bytes brutos ? 640 muestras 8kHz (decimate\Uffffffff)
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:24.885Z [arecord] GAP 84ms (chunk#2, 640 muestras)
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:39:24.914Z Handshake recibido \Uffffffff conexion establecida
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.920Z Conectado \Uffffffff enviando JOIN\Uffffffff
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:39:24.926Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [eqso] 2026-04-30T07:39:24.937Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.937Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:24.939Z [arecord] chunk#3: 5760 bytes brutos ? 480 muestras 8kHz (decimate\Uffffffff)
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:24.940Z [arecord] GAP 55ms (chunk#3, 480 muestras)
+Apr 30 07:39:24 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:24.949Z Sala: 0R-IN70WN se ha unido
+Apr 30 07:39:25 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:25.054Z [arecord] chunk#4: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+Apr 30 07:39:25 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:25.055Z [arecord] GAP 115ms (chunk#4, 160 muestras)
+Apr 30 07:39:25 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:25.074Z [arecord] chunk#5: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+Apr 30 07:39:25 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:25.093Z [arecord] chunk#6: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+Apr 30 07:39:25 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:25.114Z [arecord] chunk#7: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+Apr 30 07:39:25 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:25.137Z [arecord] chunk#8: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+Apr 30 07:39:29 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:29.641Z [nivel] pico RMS=93 (-50.9 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:39:32 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:32.778Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:39:34 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:34.641Z [nivel] pico RMS=5 (-76.4 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:39:39 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:39.641Z [nivel] pico RMS=5 (-76.3 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:39:40 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:40.785Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:39:44 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:44.642Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:39:46 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:46.239Z [arecord] GAP 63ms (chunk#987, 160 muestras)
+Apr 30 07:39:48 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:48.791Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:39:49 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:49.642Z [nivel] pico RMS=5 (-76.5 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:39:54 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:54.642Z [nivel] pico RMS=5 (-76.1 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:39:56 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:39:56.798Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:39:59 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:39:59.643Z [nivel] pico RMS=5 (-76.5 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:40:04 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:40:04.643Z [nivel] pico RMS=5 (-76.2 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:40:04 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:40:04.798Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:40:09 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:40:09.644Z [nivel] pico RMS=5 (-76.8 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:40:12 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:40:12.827Z Keepalive recibido del servidor [0x0c]
+Apr 30 07:40:12 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:40:12.853Z [arecord] GAP 58ms (chunk#2209, 160 muestras)
+Apr 30 07:40:14 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:40:14.646Z [nivel] pico RMS=5 (-76.5 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:40:19 ubuntus eqso-relay-[35341]: [audio] 2026-04-30T07:40:19.647Z [nivel] pico RMS=5 (-76.6 dBFS)  VOXumbral=800  gain=0.15
+Apr 30 07:40:20 ubuntus eqso-relay-[35341]: [main] 2026-04-30T07:40:20.831Z Keepalive recibido del servidor [0x0
