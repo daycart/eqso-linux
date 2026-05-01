@@ -55,15 +55,21 @@ export const GSM_SILENCE_FRAME = computeGsmSilenceFrame();
 const PCM_CHUNK_SAMPLES = GSM_FRAME_SAMPLES * FRAMES_PER_PACKET; // 160 muestras = 320 bytes (1 frame GSM)
 
 // Jitter buffer para RX: acumula muestras antes de abrir aplay.
-// 1920 = 2 paquetes = 240ms. Permite absorber variaciones de timing al arrancar.
-const JITTER_PRE_BUFFER_SAMPLES = 1920;
+// 480 = 3 paquetes = 60ms. Pre-roll mínimo para evitar glitches de inicio.
+// Reducido de 1920 (240ms): combinado con SILENCE_INJECT_BYTES=960 (60ms de
+// silencio en cola), el retraso total al inicio de cada RX es ~120ms.
+const JITTER_PRE_BUFFER_SAMPLES = 480;
 
 // Silencio inyectado en aplay para mantener el stream USB vivo.
-// En VirtualBox el scheduler puede retrasar setInterval hasta 400ms,
-// por eso usamos inyecciones grandes y buffer de aplay de 3s.
-// Para radio (relay eQSO) una latencia de inicio de RX de ~3s es aceptable.
+// IMPORTANTE: SILENCE_INJECT_BYTES debe igualar exactamente la tasa de reproducción
+// × el intervalo del timer para que el buffer no crezca ni se vacíe:
+//   8000 muestras/s × 2 bytes/muestra × 0.060s = 960 bytes por tick.
+// Con esto el buffer se mantiene estable (sin crecer) y el retraso al inicio
+// de cada RX es solo ~60ms (el silencio encolado antes del primer audio real).
+// Valor anterior: 8000 bytes (500ms) → buffer crecía a varios segundos → audio
+// llegaba a la radio con 3-4s de retraso → voz inaudible en transmisiones cortas.
 const SILENCE_THRESHOLD_MS  = 40;   // ms sin audio → inyectar silencio
-const SILENCE_INJECT_BYTES  = 8000; // 4000 muestras × 2 bytes = 500ms a 8kHz S16LE
+const SILENCE_INJECT_BYTES  = 960;  // 60ms a 8kHz S16LE (igual al intervalo del timer)
 
 export class AlsaAudio extends EventEmitter {
   private recorder: ChildProcessWithoutNullStreams | null = null;
@@ -194,6 +200,20 @@ export class AlsaAudio extends EventEmitter {
     if (this.rxGsmCount <= 3 || this.rxGsmCount % 50 === 0)
       log(`[playGsm] pkt#${this.rxGsmCount} len=${gsm.length} decoder_ready=${this.decoder.ready} player=${this.player ? "running" : "null"} rxActive=${this.rxActive}`);
     this.decoder.decode(gsm);
+  }
+
+  /**
+   * Llamado al inicio de cada RX (primer paquete de audio entrante).
+   * Limpia el jitter buffer de cualquier resto de una TX anterior corta
+   * (donde startPlayer nunca fue llamado) y para la inyección de silencio
+   * para que el buffer de aplay drene rápidamente antes de empezar el audio.
+   * El buffer queda con ~60ms de silencio (un tick del silenceTimer) que
+   * equivale a ~60ms de portadora antes de que empiece a escucharse la voz.
+   */
+  beginRx(): void {
+    this.jitterBuf = new Int16Array(0);
+    this.pcmChunkCount = 0;
+    this.stopSilenceInjection();
   }
 
   endRx(): void {
@@ -641,8 +661,10 @@ export class AlsaAudio extends EventEmitter {
       "-r", "8000",
       "-c", "1",
       "-q",
-      "--buffer-size=24000",   // 3s a 8kHz — absorbe jitter del scheduler VirtualBox
-      "--period-size=800",    // 100ms por periodo
+      "--buffer-size=3200",   // 400ms a 8kHz — suficiente para absorber jitter de red
+      "--period-size=400",    // 50ms por periodo (8 periodos en el buffer)
+      // Reducido de 24000 (3s): el buffer grande causaba que el silencio inyectado
+      // entre transmisiones se acumulara y retrasara el audio real 2-3 segundos.
     ];
     log(`aplay ${args.join(" ")}`);
     this.player = spawn("aplay", args, { stdio: ["pipe", "ignore", "pipe"] });

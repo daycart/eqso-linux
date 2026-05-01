@@ -163,7 +163,10 @@ let startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
 function setRxActive(): void {
   const wasActive = rxActive;
   rxActive = true;
-  if (!wasActive) serialPtt.set(true); // activar PTT de la radio al inicio del RX
+  if (!wasActive) {
+    serialPtt.set(true);  // activar PTT de la radio al inicio del RX
+    audio.beginRx();      // limpiar jitter buffer y parar silencio para mínimo retraso
+  }
   if (rxInhibitTimer) clearTimeout(rxInhibitTimer);
   rxInhibitTimer = setTimeout(() => {
     rxActive = false;
