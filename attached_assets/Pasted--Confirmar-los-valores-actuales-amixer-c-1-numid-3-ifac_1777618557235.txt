@@ -1,0 +1,60 @@
+# Confirmar los valores actuales:
+amixer -c 1
+numid=3,iface=MIXER,name='Mic Playback Switch'
+  ; type=BOOLEAN,access=rw------,values=1
+  : values=on
+numid=4,iface=MIXER,name='Mic Playback Volume'
+  ; type=INTEGER,access=rw---R--,values=1,min=0,max=127,step=0
+  : values=51
+  | dBminmax-min=0.00dB,max=23.81dB
+numid=7,iface=MIXER,name='Mic Capture Switch'
+  ; type=BOOLEAN,access=rw------,values=1
+  : values=on
+numid=8,iface=MIXER,name='Mic Capture Volume'
+  ; type=INTEGER,access=rw---R--,values=1,min=0,max=16,step=0
+  : values=6
+  | dBminmax-min=0.00dB,max=23.81dB
+numid=9,iface=MIXER,name='Auto Gain Control'
+  ; type=BOOLEAN,access=rw------,values=1
+  : values=off
+numid=5,iface=MIXER,name='Speaker Playback Switch'
+  ; type=BOOLEAN,access=rw------,values=1
+  : values=on
+numid=6,iface=MIXER,name='Speaker Playback Volume'
+  ; type=INTEGER,access=rw---R--,values=2,min=0,max=151,step=0
+  : values=151,151
+  | dBminmax-min=-28.37dB,max=-0.06dB
+numid=2,iface=PCM,name='Capture Channel Map'
+  ; type=INTEGER,access=r----R--,values=1,min=0,max=36,step=0
+  : values=0
+  | container
+    | chmap-fixed=MONO
+numid=1,iface=PCM,name='Playback Channel Map'
+  ; type=INTEGER,access=r----R--,values=2,min=0,max=36,step=0
+  : values=0,0
+  | container
+    | chmap-fixed=FL,FR
+Simple mixer control 'Speaker',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 151
+  Mono:
+  Front Left: Playback 151 [100%] [-0.06dB] [on]
+  Front Right: Playback 151 [100%] [-0.06dB] [on]
+Simple mixer control 'Speaker',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 151
+  Mono:
+  Front Left: Playback 151 [100%] [-0.06dB] [on]
+  Front Right: Playback 151 [100%] [-0.06dB] [on]
+Simple mixer control 'Mic',0
+  Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: Playback 0 - 127 Capture 0 - 16
+  Mono: Playback 51 [40%] [9.56dB] [on] Capture 6 [38%] [8.92dB] [on]
+Simple mixer control 'Auto Gain Control',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [off]
