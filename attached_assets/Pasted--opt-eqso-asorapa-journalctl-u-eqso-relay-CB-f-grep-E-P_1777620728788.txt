@@ -1,0 +1,46 @@
+/opt/eqso-asorapa$ journalctl -u eqso-relay@CB -f | grep -E "PTT|startTx|endTx"
+May 01 07:27:36 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:27:36.041Z PTT anunciado [0x09]
+May 01 07:27:36 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:27:36.043Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:21:53.034Z, streak=0)
+May 01 07:27:37 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:27:37.032Z PTT liberado [0x0d]
+May 01 07:27:37 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:27:37.331Z PTT set(true) → escribiendo "1" al helper
+May 01 07:27:38 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:27:38.480Z PTT set(false) → escribiendo "0" al helper
+May 01 07:27:41 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:27:41.072Z PTT anunciado [0x09]
+May 01 07:27:41 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:27:41.078Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:27:41.049Z, streak=0)
+May 01 07:27:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:27:43.035Z [vox] PTT reseteado por desconexion (TX duró 2s, streak=1) — suppress 4s
+May 01 07:30:24 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:30:24.703Z PTT anunciado [0x09]
+May 01 07:30:24 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:24.704Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:27:47.035Z, streak=1)
+May 01 07:30:28 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:28.459Z [vox] PTT reseteado por desconexion (TX duró 4s, streak=0) — suppress 0s
+May 01 07:30:29 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:30:29.729Z PTT anunciado [0x09]
+May 01 07:30:29 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:29.732Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:27:47.035Z, streak=0)
+May 01 07:30:32 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:32.179Z [vox] PTT reseteado por desconexion (TX duró 2s, streak=1) — suppress 4s
+May 01 07:30:36 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:30:36.213Z PTT anunciado [0x09]
+May 01 07:30:36 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:36.214Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:30:36.179Z, streak=1)
+May 01 07:30:39 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:39.797Z [vox] PTT reseteado por desconexion (TX duró 4s, streak=0) — suppress 0s
+May 01 07:30:40 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:30:40.500Z PTT anunciado [0x09]
+May 01 07:30:40 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:40.500Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:30:36.179Z, streak=0)
+May 01 07:30:41 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:41.736Z [vox] PTT reseteado por desconexion (TX duró 1s, streak=1) — suppress 4s
+May 01 07:30:45 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:30:45.789Z PTT anunciado [0x09]
+May 01 07:30:45 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:45.792Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:30:45.736Z, streak=1)
+May 01 07:30:49 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:49.214Z [vox] PTT reseteado por desconexion (TX duró 3s, streak=2) — suppress 8s
+May 01 07:30:57 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:30:57.263Z PTT anunciado [0x09]
+May 01 07:30:57 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:30:57.267Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:30:57.214Z, streak=2)
+May 01 07:30:57 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:30:57.984Z PTT liberado [0x0d]
+May 01 07:30:58 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:30:58.285Z PTT set(true) → escribiendo "1" al helper
+May 01 07:30:59 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:30:59.425Z PTT set(false) → escribiendo "0" al helper
+May 01 07:31:02 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:31:02.012Z PTT anunciado [0x09]
+May 01 07:31:02 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:31:02.018Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:31:01.976Z, streak=0)
+May 01 07:31:05 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:31:05.810Z [vox] PTT reseteado por desconexion (TX duró 4s, streak=0) — suppress 0s
+May 01 07:31:06 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:31:06.399Z PTT anunciado [0x09]
+May 01 07:31:06 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:31:06.415Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:31:01.976Z, streak=0)
+May 01 07:31:06 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:31:06.701Z PTT liberado [0x0d]
+May 01 07:31:07 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:31:07.009Z PTT set(true) → escribiendo "1" al helper
+May 01 07:31:08 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:31:08.161Z PTT set(false) → escribiendo "0" al helper
+May 01 07:31:10 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:31:10.753Z PTT anunciado [0x09]
+May 01 07:31:10 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:31:10.754Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:31:10.715Z, streak=0)
+May 01 07:31:19 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:31:19.618Z PTT liberado [0x0d]
+May 01 07:31:19 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:31:19.916Z PTT set(true) → escribiendo "1" al helper
+May 01 07:31:21 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:31:21.066Z PTT set(false) → escribiendo "0" al helper
+May 01 07:31:23 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:31:23.637Z PTT anunciado [0x09]
+May 01 07:31:23 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:31:23.638Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T07:31:23.605Z, streak=0)
+^C
+david@ubuntus:/opt/eqso-asorapa$ 
