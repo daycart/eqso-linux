@@ -512,6 +512,15 @@ function connect(): void {
         const u = ev.data as { name: string };
         log(`TX: ${u.name} transmitiendo`);
         resetIdleTimer(); // servidor activo — reiniciar countdown
+        // Suprimir VOX inmediatamente: evita colision en la ventana de ~150ms
+        // anterior al primer paquete de audio (antes de que rxActive=true bloquee
+        // el VOX). Sin este suppress, el squelch de la radio CB puede disparar
+        // VOX → [0x09] → [0x08] del servidor → RX cortado con solo 60ms de audio.
+        if (!pttActive) {
+          const suppUntil = Date.now() + cfg.audio.postRxSuppressMs;
+          postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, suppUntil);
+          log(`[vox] ptt_started(${u.name}): suppress VOX hasta ${new Date(postRxVoxSuppressUntil).toISOString()}`);
+        }
         break;
       }
 
