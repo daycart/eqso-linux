@@ -412,9 +412,11 @@ vox.on("ptt_start", () => {
   // eQSO no nos desconecte por TX excesivo (~70s de timeout en 193.152.83.229).
   if (txTotTimer) clearTimeout(txTotTimer);
   txTotTimer = setTimeout(totExpired, TOT_MAX_MS);
-  // Iniciar renovacion proactiva de sesion: el servidor tiene un timer ~4-9s
-  // que expira durante TX y busca 0x1a en el stream GSM si no se renueva.
-  startSessionRenewalTimer();
+  // NOTA: startSessionRenewalTimer() desactivado — nuestro propio servidor
+  // (127.0.0.1:2171) tiene keepalive cada 8s y timeout de 90s, no necesita
+  // renovación mid-TX. El JOIN cada 2.5s generaba un storm de pttStarted en
+  // los clientes Replit EqsoProxy al provocar múltiples pttRefreshTimers en
+  // el servidor. Solo activar si se conecta a servidor externo Windows eQSO.
   log(`VOX: PTT activado — inicio transmision (suppress was ${new Date(postRxVoxSuppressUntil).toISOString()}, streak=${txDisconnectStreak})`);
 });
 
