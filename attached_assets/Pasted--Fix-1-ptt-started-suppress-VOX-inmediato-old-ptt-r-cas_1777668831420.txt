@@ -1,0 +1,121 @@
+ Fix 1: ptt_started ? suppress VOX inmediato
+old_ptt = r"""      case "ptt_started": \{\n        const u = ev\.data as \{ name: string \};\n        log\(`TX: \$\{u\.name\} transmitiendo`\);\n        resetIdleTimer\(\); // servidor activo \Uffffffff reiniciar countdown\n        break;\n      \}"""
+new_ptt = '''      case "ptt_started": {
+        const u = ev.data as { name: string };
+        log(`TX: ${u.name} transmitiendo`);
+        resetIdleTimer(); // servidor activo \Uffffffff reiniciar countdown
+        if (!pttActive) {
+          const suppUntil = Date.now() + cfg.audio.postRxSuppressMs;
+          postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, suppUntil);
+          log(`[vox] ptt_started(${u.name}): suppress VOX hasta ${new Date(postRxVoxSuppressUntil).toISOString()}`);
+        }
+        break;
+      }'''
+if re.search(old_ptt, src):
+    src = re.sub(old_ptt, new_ptt, src)
+    print("[OK] Fix 1: ptt_started suppress")
+elif "ptt_started(${u.name}): suppress" in src:
+    print("[--] Fix 1 ya estaba")
+else:
+    print("[WARN] Fix 1: patr\Uffffffffo encontrado")
+
+# Fix 2a: rxSuppressUntil hardcodeado ? cfg
+p = r'(const rxSuppressUntil\s*=\s*Date\.now\(\)\s*\+\s*)(?:\d+|POST_APLAY_VOX_SUPPRESS_MS)'
+if re.search(p, src):
+    m = re.search(p, src).group(0)
+    src = re.sub(p, r'\1cfg.audio.postRxSuppressMs', src)
+    print(f"[OK] Fix 2a: '{m}' ? cfg.audio.postRxSuppressMs")
+else:
+    print("[--] Fix 2a ya estaba o patr\Uffffffffistinto")
+
+# Fix 2b: suppUntil hardcodeado ? cfg
+p2 = r'(const suppUntil\s*=\s*Date\.now\(\)\s*\+\s*)(?:\d+|POST_APLAY_VOX_SUPPRESS_MS)'
+if re.search(p2, src):
+sudo python3 /tmp/fix_audio.py"audio", {}), indent=2)).7ssMs")
+[sudo] password for david: 
+import re, json
+
+MAIN_TS = "/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts"
+CB_JSON  = "/etc/eqso-relay/CB.json"
+
+with open(MAIN_TS) as f:
+    src = f.read()
+orig = src
+
+# Fix 1: ptt_started ? suppress VOX inmediato
+old_ptt = r"""      case "ptt_started": \{\n        const u = ev\.data as \{ name: string \};\n        log\(`TX: \$\{u\.name\} transmitiendo`\);\n        resetIdleTimer\(\); // servidor activo \Uffffffff reiniciar countdown\n        break;\n      \}"""
+new_ptt = '''      case "ptt_started": {
+        const u = ev.data as { name: string };
+        log(`TX: ${u.name} transmitiendo`);
+        resetIdleTimer(); // servidor activo \Uffffffff reiniciar countdown
+        if (!pttActive) {
+          const suppUntil = Date.now() + cfg.audio.postRxSuppressMs;
+          postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, suppUntil);
+          log(`[vox] ptt_started(${u.name}): suppress VOX hasta ${new Date(postRxVoxSuppressUntil).toISOString()}`);
+        }
+        break;
+      }'''
+if re.search(old_ptt, src):
+    src = re.sub(old_ptt, new_ptt, src)
+    print("[OK] Fix 1: ptt_started suppress")
+elif "ptt_started(${u.name}): suppress" in src:
+    print("[--] Fix 1 ya estaba")
+else:
+    print("[WARN] Fix 1: patr\Uffffffffo encontrado")
+
+# Fix 2a: rxSuppressUntil hardcodeado ? cfg
+p = r'(const rxSuppressUntil\s*=\s*Date\.now\(\)\s*\+\s*)(?:\d+|POST_APLAY_VOX_SUPPRESS_MS)'
+if re.search(p, src):
+    m = re.search(p, src).group(0)
+    src = re.sub(p, r'\1cfg.audio.postRxSuppressMs', src)
+    print(f"[OK] Fix 2a: '{m}' ? cfg.audio.postRxSuppressMs")
+else:
+    print("[--] Fix 2a ya estaba o patr\Uffffffffistinto")
+
+# Fix 2b: suppUntil hardcodeado ? cfg
+p2 = r'(const suppUntil\s*=\s*Date\.now\(\)\s*\+\s*)(?:\d+|POST_APLAY_VOX_SUPPRESS_MS)'
+if re.search(p2, src):
+    m2 = re.search(p2, src).group(0)
+    src = re.sub(p2, r'\1cfg.audio.postRxSuppressMs', src)
+    print(f"[OK] Fix 2b: '{m2}' ? cfg.audio.postRxSuppressMs")
+else:
+    print("[--] Fix 2b ya estaba o patr\Uffffffffistinto")
+
+if src != orig:
+    with open(MAIN_TS, "w") as f:
+        f.write(src)
+    print("[OK] main.ts guardado")
+
+# Fix 3: CB.json outputGain 0.3 ? 0.7
+with open(CB_JSON) as f:
+    cfg_json = json.load(f)
+old = cfg_json.get("audio", {}).get("outputGain", "N/A")
+if old != 0.7:
+    cfg_json.setdefault("audio", {})["outputGain"] = 0.7
+    with open(CB_JSON, "w") as f:
+        json.dump(cfg_json, f, indent=2)
+    print(f"[OK] CB.json: outputGain {old} ? 0.7")
+else:
+    print("[--] outputGain ya es 0.7")
+
+print("\nConfig audio final:")
+print(json.dumps(cfg_json.get("audio", {}), indent=2))
+[OK] Fix 1: ptt_started suppress
+[OK] Fix 2a: 'const rxSuppressUntil = Date.now() + POST_APLAY_VOX_SUPPRESS_MS' ? cfg.audio.postRxSuppressMs
+[OK] Fix 2b: 'const suppUntil = Date.now() + POST_APLAY_VOX_SUPPRESS_MS' ? cfg.audio.postRxSuppressMs
+[OK] main.ts guardado
+[OK] CB.json: outputGain 0.3 ? 0.7
+
+Config audio final:
+{
+  "captureDevice": "plughw:1,0",
+  "playbackDevice": "plughw:1,0",
+  "vox": true,
+  "voxThresholdRms": 1500,
+  "voxHangMs": 5000,
+  "txGateRms": 0,
+  "voxDebounceChunks": 2,
+  "outputGain": 0.7,
+  "inputGain": 0.7,
+  "postRxSuppressMs": 6000
+}
