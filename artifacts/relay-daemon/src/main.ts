@@ -296,31 +296,12 @@ function totExpired(): void {
 }
 
 // ─── Renovacion proactiva de sesion TX ────────────────────────────────────────
-// El servidor 193.152.83.229 tiene un timer de sesion ~5-8s durante TX.
-// Enviamos JOIN a los 2.5s para resetear ese timer y ganar ~5s extra de TX.
-// El servidor puede no responder con room_list (ignora JOINs subsiguientes):
-//   - Si responde con room_list: re-anunciar PTT (caso feliz, TX continua)
-//   - Si no responde en 1s: cancelar renewingSession para que 0x08 de otros
-//     usuarios funcione normalmente (semi-duplex sin bloquear canal ajeno)
-// Solo una renovacion por TX (setTimeout, no setInterval): el servidor solo
-// acepta el primer JOIN mid-TX; los siguientes son ignorados.
+// DESACTIVADO: el servidor 193.152.83.229:2172 rechaza el JOIN mid-TX con
+// "Indicativo invalido" o "Nombre de sala invalido" y desconecta de inmediato.
+// El servidor envía keepalives cada ~8s, suficiente para mantener la sesion.
+// La funcion queda como no-op para no tener que cambiar todos sus call-sites.
 function startSessionRenewalTimer(): void {
-  if (sessionRenewalTimer) { clearTimeout(sessionRenewalTimer); sessionRenewalTimer = null; }
-  sessionRenewalTimer = setTimeout(() => {
-    sessionRenewalTimer = null;
-    if (!pttActive || !eqsoClient?.connected) return;
-    renewingSession = true;
-    log(`[session] Renovacion proactiva mid-TX (${SESSION_RENEWAL_MS}ms) — enviando JOIN`);
-    eqsoClient.sendJoin(cfg.callsign, cfg.room, cfg.message, cfg.password);
-    // Si el servidor no confirma con room_list en 1s, cancelar el estado de
-    // renovacion para que 0x08 de canal-ocupado funcione normalmente.
-    setTimeout(() => {
-      if (renewingSession) {
-        renewingSession = false;
-        log("[session] room_list no llegó en 1s — cancelando renovacion (semi-duplex normal)");
-      }
-    }, 1000);
-  }, SESSION_RENEWAL_MS);
+  return; // no-op permanente
 }
 
 function stopSessionRenewalTimer(): void {
