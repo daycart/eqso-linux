@@ -23,6 +23,13 @@ export interface AudioConfig {
    *  periodo el relay ya puede estar unido al servidor, pero no transmite.
    *  Defecto: 4000ms (4 segundos, cubre ~3 reintentos de arecord). */
   startupVoxSuppressMs: number;
+  /** Milisegundos de supresion de VOX tras terminar la reproduccion RX.
+   *  Evita que el loopback interno de la tarjeta de audio (PCM2902 y similares)
+   *  dispare falsos VOX despues de reproducir audio del servidor.
+   *  El PCM2902 filtra la salida DAC en la entrada ADC durante y poco despues
+   *  de la reproduccion — el suppress debe cubrir esa cola.
+   *  Defecto: 6000ms. Reducir solo si el squelch de la radio tarda menos. */
+  postRxSuppressMs: number;
   inputGain: number;
   outputGain: number;
 }
@@ -71,6 +78,7 @@ const DEFAULTS: RelayConfig = {
     txGateRms: 50,
     voxDebounceChunks: 1,
     startupVoxSuppressMs: 4000,
+    postRxSuppressMs: 6000,
     inputGain: 1.0,
     outputGain: 3.0,
   },

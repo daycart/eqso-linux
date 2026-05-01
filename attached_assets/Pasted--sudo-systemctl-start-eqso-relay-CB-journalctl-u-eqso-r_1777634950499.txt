@@ -1,0 +1,27 @@
+ sudo systemctl start eqso-relay@CB
+journalctl -u eqso-relay@CB -f | grep -E "PTT|VOX|Indicativo"
+May 01 11:27:58 ubuntus eqso-relay-CB[8513]: [main] 2026-05-01T11:27:58.924Z   VOX      : ON (umbral=800 hang=5000ms debounce=2chunks)
+May 01 11:27:58 ubuntus eqso-relay-CB[8513]: [main] 2026-05-01T11:27:58.925Z   PTT Ser. : /dev/eqso-ptt (rts)
+May 01 11:27:58 ubuntus eqso-relay-CB[8513]: [main] 2026-05-01T11:27:58.926Z   VOX Sup. : startup suppress 4000ms activo hasta 2026-05-01T11:28:02.906Z
+May 01 11:27:58 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:27:58.928Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+May 01 11:27:59 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:27:59.461Z PTT serial listo (/dev/eqso-ptt, rts)
+May 01 11:28:03 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:28:03.988Z [nivel] pico RMS=185 (-45.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:28:08 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:28:08.989Z [nivel] pico RMS=6 (-75.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:28:13 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:28:13.989Z [nivel] pico RMS=8 (-72.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:28:18 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:28:18.990Z [nivel] pico RMS=5 (-76.4 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:28:23 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:28:23.991Z [nivel] pico RMS=5 (-76.4 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:28:27 ubuntus eqso-relay-CB[8513]: [eqso] 2026-05-01T11:28:27.091Z PTT anunciado [0x09]
+May 01 11:28:27 ubuntus eqso-relay-CB[8513]: [main] 2026-05-01T11:28:27.094Z VOX: PTT activado — inicio transmision (suppress was 1970-01-01T00:00:00.000Z, streak=0)
+May 01 11:28:28 ubuntus eqso-relay-CB[8513]: [eqso] 2026-05-01T11:28:28.070Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+May 01 11:28:28 ubuntus eqso-relay-CB[8513]: [main] 2026-05-01T11:28:28.074Z Mensaje servidor: Indicativo invalido (max 30 chars)
+May 01 11:28:28 ubuntus eqso-relay-CB[8513]: [main] 2026-05-01T11:28:28.100Z [vox] PTT reseteado por desconexion (TX duró 1s, streak=1) — suppress 4s
+May 01 11:28:28 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:28:28.991Z [nivel] pico RMS=7678 (-12.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:28:32 ubuntus eqso-relay-CB[8513]: [eqso] 2026-05-01T11:28:32.133Z PTT anunciado [0x09]
+May 01 11:28:32 ubuntus eqso-relay-CB[8513]: [main] 2026-05-01T11:28:32.134Z VOX: PTT activado — inicio transmision (suppress was 2026-05-01T11:28:32.100Z, streak=1)
+May 01 11:28:32 ubuntus eqso-relay-CB[8513]: [eqso] 2026-05-01T11:28:32.704Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+May 01 11:28:32 ubuntus eqso-relay-CB[8513]: [main] 2026-05-01T11:28:32.707Z Mensaje servidor: Indicativo invalido (max 30 chars)
+May 01 11:28:32 ubuntus eqso-relay-CB[8513]: [main] 2026-05-01T11:28:32.714Z [vox] PTT reseteado por desconexion (TX duró 1s, streak=2) — suppress 8s
+May 01 11:28:33 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:28:33.991Z [nivel] pico RMS=6862 (-13.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:28:38 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:28:38.992Z [nivel] pico RMS=6895 (-13.5 dBFS)  VOXumbral=800  gain=0.15
+^C
+david@ubuntus:/opt/eqso-asorapa$ 

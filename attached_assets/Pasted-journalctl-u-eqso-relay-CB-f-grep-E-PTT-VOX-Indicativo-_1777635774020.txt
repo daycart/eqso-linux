@@ -1,0 +1,22 @@
+journalctl -u eqso-relay@CB -f | grep -E "PTT|VOX|Indicativo"
+May 01 11:40:24 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:40:24.146Z [nivel] pico RMS=5 (-75.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:40:29 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:40:29.148Z [nivel] pico RMS=6 (-75.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:40:34 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:40:34.150Z [nivel] pico RMS=6 (-75.3 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:40:39 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:40:39.153Z [nivel] pico RMS=6 (-75.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:40:44 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:40:44.152Z [nivel] pico RMS=5 (-75.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:40:49 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:40:49.151Z [nivel] pico RMS=5 (-75.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:40:49 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:40:49.281Z PTT set(true) ? escribiendo "1" al helper
+May 01 11:40:52 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:40:52.714Z PTT set(false) ? escribiendo "0" al helper
+May 01 11:40:54 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:40:54.152Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:40:54 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:40:54.316Z PTT set(true) ? escribiendo "1" al helper
+May 01 11:40:54 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:40:54.716Z PTT set(false) ? escribiendo "0" al helper
+May 01 11:40:55 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:40:55.125Z PTT set(true) ? escribiendo "1" al helper
+May 01 11:40:59 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:40:59.147Z PTT set(false) ? escribiendo "0" al helper
+May 01 11:40:59 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:40:59.226Z [nivel] pico RMS=5 (-76.3 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:40:59 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:40:59.961Z PTT set(true) ? escribiendo "1" al helper
+May 01 11:41:04 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:41:04.227Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:41:05 ubuntus eqso-relay-CB[8513]: [ptt] 2026-05-01T11:41:05.274Z PTT set(false) ? escribiendo "0" al helper
+May 01 11:41:09 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:41:09.230Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:41:14 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:41:14.231Z [nivel] pico RMS=5 (-75.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:41:19 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:41:19.231Z [nivel] pico RMS=5 (-75.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 11:41:24 ubuntus eqso-relay-CB[8513]: [audio] 2026-05-01T11:41:24.233Z [nivel] pico RMS=5 (-75.8 dBFS)  VOXumbral=800  gain=0.15

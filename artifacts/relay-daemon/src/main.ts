@@ -137,7 +137,8 @@ const POST_TX_SUPPRESS_MS = 1500;
 // Resultado: suppress mínimo garantizado = 400ms (hang) + 2500ms = 2.9s desde
 // el último paquete RX, independientemente de cuándo expire aplay.
 let postRxVoxSuppressUntil = 0;
-const POST_APLAY_VOX_SUPPRESS_MS = 2500;  // usado en ambos momentos
+// Duración del suppress post-RX: se lee de cfg.audio.postRxSuppressMs (default 6000ms).
+// Usar cfg.audio.postRxSuppressMs directamente en cada uso para evitar hoisting issues.
 
 // ─── Supresion VOX post-TX propio (anti-eco de squelch y canal CB) ────────────
 // Cuando el relay termina su propia TX (VOX ptt_end), la radio vuelve a RX y
@@ -176,7 +177,7 @@ function setRxActive(): void {
     // la expiración del suppress con ráfaga de 0.55s de 0R-DAVID_EA).
     // Al usar 2500ms aquí, "playback_ended" solo puede EXTENDER el suppress
     // si aplay tarda más; nunca lo recorta.
-    const rxSuppressUntil = Date.now() + POST_APLAY_VOX_SUPPRESS_MS;
+    const rxSuppressUntil = Date.now() + cfg.audio.postRxSuppressMs;
     const prev = postRxVoxSuppressUntil;
     postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, rxSuppressUntil);
     log(`[rxInhibit] suppress: prev=${new Date(prev).toISOString()} new=${new Date(postRxVoxSuppressUntil).toISOString()}`);
@@ -209,7 +210,7 @@ audio.on("error", (err: Error) => {
 // extender suppress VOX 1.5s desde ese momento exacto para cubrir la cola
 // de squelch de la radio CB (~1-2s de ruido al volver a RX).
 audio.on("playback_ended", () => {
-  const suppUntil = Date.now() + POST_APLAY_VOX_SUPPRESS_MS;
+  const suppUntil = Date.now() + cfg.audio.postRxSuppressMs;
   const prev = postRxVoxSuppressUntil;
   postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, suppUntil);
   log(`[rxInhibit] playback_ended: suppress extendido → ${new Date(postRxVoxSuppressUntil).toISOString()} (prev=${new Date(prev).toISOString()})`);
