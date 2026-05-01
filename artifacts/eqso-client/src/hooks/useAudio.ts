@@ -93,7 +93,7 @@ export function useAudio(): UseAudioReturn {
 
     const doInit = async () => {
       try {
-        const url = import.meta.env.BASE_URL + "playback-worklet.js?v=3";
+        const url = import.meta.env.BASE_URL + "playback-worklet.js?v=4";
         await ctx.audioWorklet.addModule(url);
         const node = new AudioWorkletNode(ctx, PLAYBACK_WORKLET_NAME, {
           numberOfInputs:  0,
@@ -103,7 +103,7 @@ export function useAudio(): UseAudioReturn {
         node.connect(gainNodeRef.current ?? ctx.destination);
         playbackWorkletRef.current = node;
         workletReadyRef.current = true;
-        console.debug("[audio] playback worklet inicializado (buffer max 600ms, pre-fill 300ms)");
+        console.debug("[audio] playback worklet inicializado (buffer max 600ms, pre-fill 60ms)");
       } catch (err) {
         console.error("[audio] playback worklet init error:", err);
         workletReadyRef.current = false;
