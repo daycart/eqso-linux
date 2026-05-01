@@ -1,0 +1,17 @@
+david@ubuntus:~$ journalctl -u eqso-relay@CB -f
+May 01 10:00:05 ubuntus eqso-relay-CB[1036]: [main] 2026-05-01T10:00:05.495Z Keepalive recibido del servidor [0x0c]
+May 01 10:00:09 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:09.819Z [nivel] pico RMS=7104 (-13.3 dBFS)  VOXumbral=800  gain=0.15
+May 01 10:00:13 ubuntus eqso-relay-CB[1036]: [main] 2026-05-01T10:00:13.500Z Keepalive recibido del servidor [0x0c]
+May 01 10:00:14 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:14.820Z [nivel] pico RMS=6956 (-13.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 10:00:19 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:19.821Z [nivel] pico RMS=6953 (-13.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 10:00:21 ubuntus eqso-relay-CB[1036]: [main] 2026-05-01T10:00:21.508Z Keepalive recibido del servidor [0x0c]
+May 01 10:00:24 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:24.288Z [arecord] GAP 55ms (chunk#97947, 160 muestras)
+May 01 10:00:24 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:24.666Z [arecord] GAP 65ms (chunk#97957, 160 muestras)
+May 01 10:00:24 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:24.823Z [nivel] pico RMS=6955 (-13.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 10:00:24 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:24.889Z [arecord] GAP 56ms (chunk#97962, 160 muestras)
+May 01 10:00:29 ubuntus eqso-relay-CB[1036]: [main] 2026-05-01T10:00:29.513Z Keepalive recibido del servidor [0x0c]
+May 01 10:00:29 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:29.824Z [nivel] pico RMS=6955 (-13.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 10:00:34 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:34.823Z [nivel] pico RMS=6939 (-13.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 10:00:37 ubuntus eqso-relay-CB[1036]: [main] 2026-05-01T10:00:37.524Z Keepalive recibido del servidor [0x0c]
+May 01 10:00:39 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:39.824Z [nivel] pico RMS=6946 (-13.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 10:00:44 ubuntus eqso-relay-CB[1036]: [audio] 2026-05-01T10:00:44.824Z [nivel] pico RMS=6938 (-13.5 dBFS)  VOXumbral=800  gain=0.15
