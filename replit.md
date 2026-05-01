@@ -273,6 +273,15 @@ sudo journalctl -u eqso-relay@CB -f
 
 ## VM Infrastructure (Ubuntu 192.168.1.25 / 193.152.83.229)
 
+> **ARQUITECTURA CLAVE — NO OLVIDAR:**
+> `193.152.83.229` ES NUESTRO PROPIO SERVIDOR. El router de EA4IKU hace port-forwarding:
+> - `193.152.83.229:2172` → VM:2171 (nuestro api-server Node.js, código en este repo)
+> - `193.152.83.229:8008` → VM:8008 (Windows eQSO server, software separado)
+>
+> Todo lo que pase en 193.152.83.229 lo controlamos nosotros. El TOT de TX, las salas,
+> los límites de tiempo, los mensajes del servidor — TODO es configurable.
+> Los cambios al api-server se despliegan con: `git pull && pnpm run build && sudo systemctl restart eqso`
+
 Servidor físico de producción ASORAPA en red local de EA4IKU.
 
 ### Servicios systemd en la VM
