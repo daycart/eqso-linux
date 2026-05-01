@@ -79,7 +79,11 @@ let renewingSession = false;
 // ─── Reconexion por idle (prevenir timeout de sesion del servidor) ────────────
 // Sin [0x02] heartbeat, el servidor externo cierra la conexion tras ~30-35s
 // de inactividad post-TX. Reconectamos proactivamente antes de ese umbral.
-const IDLE_RECONNECT_MS = 28_000; // 28s < timeout servidor observado (~34s)
+// Los logs muestran gaps de keepalive de 40-45s sin que el servidor desconecte.
+// El timeout real del servidor es >60s (posiblemente 90s). Con 28s reconectábamos
+// innecesariamente durante TX activas largas de otros usuarios, causando que la
+// sala apareciera vacía y los iconos de TX se atascasen tras el user_left/user_joined.
+const IDLE_RECONNECT_MS = 90_000; // 90s — margen amplio sobre el timeout real del servidor
 let idleReconnectTimer: ReturnType<typeof setTimeout> | null = null;
 
 function resetIdleTimer(): void {

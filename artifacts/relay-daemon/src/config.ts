@@ -80,7 +80,10 @@ const DEFAULTS: RelayConfig = {
     startupVoxSuppressMs: 4000,
     postRxSuppressMs: 6000,
     inputGain: 1.0,
-    outputGain: 3.0,
+    // outputGain=1.0: sin amplificacion. Con 3.0, senales por encima de -9.5 dBFS
+    // saturan (clampeo Int16) y la radio CB recibe ruido en lugar de voz clara.
+    // Ajustar en /etc/eqso-relay/CB.json si el nivel del altavoz es muy bajo.
+    outputGain: 1.0,
   },
   control: {
     enabled: true,

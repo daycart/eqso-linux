@@ -118,6 +118,8 @@ export function useEqsoClient(
   const [activeSpeaker, setActiveSpeaker] = useState<string | null>(null);
   const [pttGranted, setPttGranted] = useState(false);
   const pttGrantedRef = useRef(false);
+  // Timestamp del ultimo ptt_started recibido — para el watchdog de icono TX atascado.
+  const activeSpeakerSinceRef = useRef<number>(0);
   const [channelBusy, setChannelBusy] = useState(false);
   const [selectedServer, setSelectedServer] = useState<EqsoServer>(KNOWN_SERVERS[0]);
   const selectedServerRef = useRef<EqsoServer>(KNOWN_SERVERS[0]);
@@ -180,6 +182,7 @@ export function useEqsoClient(
 
       case "ptt_started":
         setActiveSpeaker(msg.name as string);
+        activeSpeakerSinceRef.current = Date.now();
         // Solo marcar canal ocupado si NO somos nosotros el TX.
         // Si pttGrantedRef.current es true, el server ya nos confirmó ptt_granted
         // y nosotros somos los que estamos transmitiendo; marcar channelBusy aquí
@@ -206,6 +209,7 @@ export function useEqsoClient(
       case "ptt_released_remote":
         setActiveSpeaker(null);
         setChannelBusy(false);
+        activeSpeakerSinceRef.current = 0;
         break;
 
       case "ptt_granted":
@@ -228,6 +232,7 @@ export function useEqsoClient(
         setMembers([]);
         setActiveSpeaker(null);
         setChannelBusy(false);
+        activeSpeakerSinceRef.current = 0;
         setError(null); // Limpiar errores de la sesion anterior
         break;
 
@@ -548,6 +553,27 @@ export function useEqsoClient(
       }
     } catch { /* ignore */ }
   }, [connectWs]);
+
+  // Watchdog anti-atasco de icono TX: si un activeSpeaker lleva más de 45s
+  // sin que llegue ptt_released_remote, forzamos el reset en el cliente.
+  // Causa habitual: el relay daemon reconecta al servidor eQSO mid-TX y la
+  // notificación de fin de TX (ptt_released_remote) se pierde en el gap.
+  // El eqso-proxy.ts ya tiene un watchdog de 30s, pero el cliente puede
+  // quedar out-of-sync si el WS se desconecta brevemente en ese momento.
+  useEffect(() => {
+    const STALE_TX_MS = 45_000;
+    const timer = setInterval(() => {
+      if (activeSpeakerSinceRef.current > 0) {
+        const elapsed = Date.now() - activeSpeakerSinceRef.current;
+        if (elapsed > STALE_TX_MS) {
+          activeSpeakerSinceRef.current = 0;
+          setActiveSpeaker(null);
+          setChannelBusy(false);
+        }
+      }
+    }, 5_000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     return () => {
