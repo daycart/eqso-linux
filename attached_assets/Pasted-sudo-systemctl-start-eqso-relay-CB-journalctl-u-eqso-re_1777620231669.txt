@@ -1,0 +1,403 @@
+sudo systemctl start eqso-relay@CB
+journalctl -u eqso-relay@CB -f
+May 01 07:14:42 ubuntus eqso-relay-CB[49855]:   Front Right: Playback 151 [100%] [-0.06dB] [on]
+May 01 07:14:42 ubuntus eqso-relay-CB[49847]:   Speaker   100%
+May 01 07:14:42 ubuntus eqso-relay-CB[49858]: Simple mixer control 'Mic',0
+May 01 07:14:42 ubuntus eqso-relay-CB[49858]:   Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+May 01 07:14:42 ubuntus eqso-relay-CB[49858]:   Playback channels: Mono
+May 01 07:14:42 ubuntus eqso-relay-CB[49858]:   Capture channels: Mono
+May 01 07:14:42 ubuntus eqso-relay-CB[49858]:   Limits: Playback 0 - 127 Capture 0 - 16
+May 01 07:14:42 ubuntus eqso-relay-CB[49858]:   Mono: Playback 51 [40%] [9.56dB] [on] Capture 6 [38%] [8.92dB] [on]
+May 01 07:14:42 ubuntus eqso-relay-CB[49847]:   Mic        40%
+May 01 07:14:42 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace — sala CB.
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [audio] GSM silence precomputado: d820a2e15a50004924924924500049249249245000492492492450004924924924
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [config] Cargado: /etc/eqso-relay/CB.json
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [config] Configuracion activa: {
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "callsign": "0R-IN70WN",
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "room": "CB",
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "password": "",
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "message": "Radio Enlace",
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "server": "193.152.83.229",
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "port": 2172,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "reconnectMinMs": 500,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "reconnectMaxMs": 60000,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "audio": {
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "captureDevice": "plughw:1,0",
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "playbackDevice": "plughw:1,0",
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "vox": true,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "voxThresholdRms": 800,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "voxHangMs": 5000,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "txGateRms": 0,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "voxDebounceChunks": 2,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "startupVoxSuppressMs": 4000,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "inputGain": 0.15,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "outputGain": 3
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   },
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "control": {
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "enabled": true,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "port": 8009,
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "host": "127.0.0.1"
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   },
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   "ptt": {
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "device": "/dev/eqso-ptt",
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "method": "rts",
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:     "inverted": false
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]:   }
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: }
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.729Z ============================================================
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.730Z eQSO Relay Daemon arrancado
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.730Z   Callsign : 0R-IN70WN
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.730Z   Sala     : CB
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.730Z   Servidor : 193.152.83.229:2172
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.731Z   VOX      : ON (umbral=800 hang=5000ms debounce=2chunks)
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.731Z   Captura  : plughw:1,0
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.732Z   Playback : plughw:1,0
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.732Z   PTT Ser. : /dev/eqso-ptt (rts)
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.732Z   VOX Sup. : startup suppress 4000ms activo hasta 2026-05-01T07:14:47.717Z
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.732Z ============================================================
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:14:43.734Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:43.780Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:43.803Z aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=24000 --period-size=800
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.818Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [control] 2026-05-01T07:14:43.873Z Control HTTP escuchando en http://127.0.0.1:8009
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:43.912Z [arecord] chunk#1: 44 bytes brutos → 3 muestras 8kHz (decimate×6)
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:14:43.921Z TCP conectado a 193.152.83.229:2172
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:43.930Z [arecord] chunk#2: 3840 bytes brutos → 320 muestras 8kHz (decimate×6)
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:43.951Z [arecord] chunk#3: 1920 bytes brutos → 160 muestras 8kHz (decimate×6)
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:14:43.977Z Handshake recibido — conexion establecida
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:43.982Z Conectado — enviando JOIN…
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:14:43.995Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+May 01 07:14:43 ubuntus eqso-relay-CB[49860]: [eqso] 2026-05-01T07:14:43.996Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:44.004Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:44.006Z [arecord] chunk#4: 5760 bytes brutos → 480 muestras 8kHz (decimate×6)
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:44.006Z [arecord] GAP 55ms (chunk#4, 480 muestras)
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:44.019Z Sala: 0R-IN70WN se ha unido
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:14:44.029Z PTT serial listo (/dev/eqso-ptt, rts)
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:44.030Z [arecord] chunk#5: 1920 bytes brutos → 160 muestras 8kHz (decimate×6)
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:44.039Z [arecord] chunk#6: 1920 bytes brutos → 160 muestras 8kHz (decimate×6)
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:44.059Z [arecord] chunk#7: 1920 bytes brutos → 160 muestras 8kHz (decimate×6)
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:44.080Z [arecord] chunk#8: 1920 bytes brutos → 160 muestras 8kHz (decimate×6)
+May 01 07:14:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:44.180Z [arecord] GAP 80ms (chunk#10, 160 muestras)
+May 01 07:14:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:48.801Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:14:51 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:51.917Z Keepalive recibido del servidor [0x0c]
+May 01 07:14:53 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:53.801Z [nivel] pico RMS=2 (-85.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:14:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:14:58.802Z [nivel] pico RMS=2 (-85.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:14:59 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:14:59.925Z Keepalive recibido del servidor [0x0c]
+May 01 07:15:03 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:03.803Z [nivel] pico RMS=2 (-85.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:07 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:15:07.926Z Keepalive recibido del servidor [0x0c]
+May 01 07:15:08 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:08.803Z [nivel] pico RMS=2 (-85.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:09 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:09.225Z [arecord] GAP 51ms (chunk#1207, 160 muestras)
+May 01 07:15:13 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:13.804Z [nivel] pico RMS=2 (-85.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:15 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:15:15.935Z Keepalive recibido del servidor [0x0c]
+May 01 07:15:18 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:18.804Z [nivel] pico RMS=2 (-85.4 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:23.804Z [nivel] pico RMS=2 (-85.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:23 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:15:23.944Z Keepalive recibido del servidor [0x0c]
+May 01 07:15:28 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:28.805Z [nivel] pico RMS=2 (-85.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:31 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:15:31.951Z Keepalive recibido del servidor [0x0c]
+May 01 07:15:33 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:33.805Z [nivel] pico RMS=2 (-85.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:38.805Z [nivel] pico RMS=2 (-85.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:39 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:15:39.956Z Keepalive recibido del servidor [0x0c]
+May 01 07:15:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:43.807Z [nivel] pico RMS=2 (-85.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:47 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:15:47.964Z Keepalive recibido del servidor [0x0c]
+May 01 07:15:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:48.807Z [nivel] pico RMS=2 (-86.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:53 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:53.807Z [nivel] pico RMS=2 (-85.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:15:55 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:15:55.973Z Keepalive recibido del servidor [0x0c]
+May 01 07:15:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:15:58.806Z [nivel] pico RMS=2 (-85.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:03 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:03.809Z [nivel] pico RMS=2 (-85.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:03 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:16:03.984Z Keepalive recibido del servidor [0x0c]
+May 01 07:16:08 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:08.811Z [nivel] pico RMS=2 (-86.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:11 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:16:11.989Z Keepalive recibido del servidor [0x0c]
+May 01 07:16:13 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:13.812Z [nivel] pico RMS=2 (-85.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:18 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:18.813Z [nivel] pico RMS=2 (-85.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:19 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:16:19.997Z Keepalive recibido del servidor [0x0c]
+May 01 07:16:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:23.815Z [nivel] pico RMS=2 (-86.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:28 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:16:28.015Z Keepalive recibido del servidor [0x0c]
+May 01 07:16:28 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:28.815Z [nivel] pico RMS=2 (-85.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:33 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:33.816Z [nivel] pico RMS=2 (-85.3 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:36 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:16:36.013Z Keepalive recibido del servidor [0x0c]
+May 01 07:16:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:38.817Z [nivel] pico RMS=2 (-85.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:43.819Z [nivel] pico RMS=2 (-85.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:44 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:16:44.023Z Keepalive recibido del servidor [0x0c]
+May 01 07:16:46 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:46.426Z [arecord] GAP 52ms (chunk#5828, 160 muestras)
+May 01 07:16:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:48.820Z [nivel] pico RMS=2 (-85.4 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:52 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:16:52.038Z Keepalive recibido del servidor [0x0c]
+May 01 07:16:53 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:53.821Z [nivel] pico RMS=2 (-86.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:16:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:16:58.822Z [nivel] pico RMS=2 (-86.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:00 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:17:00.041Z Keepalive recibido del servidor [0x0c]
+May 01 07:17:03 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:03.822Z [nivel] pico RMS=2 (-85.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:08 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:17:08.043Z Keepalive recibido del servidor [0x0c]
+May 01 07:17:08 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:08.822Z [nivel] pico RMS=2 (-85.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:13 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:13.821Z [nivel] pico RMS=2 (-85.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:16 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:17:16.051Z Keepalive recibido del servidor [0x0c]
+May 01 07:17:18 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:18.823Z [nivel] pico RMS=2 (-85.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:23.825Z [nivel] pico RMS=2 (-86.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:24 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:17:24.059Z Keepalive recibido del servidor [0x0c]
+May 01 07:17:28 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:28.826Z [nivel] pico RMS=2 (-85.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:32 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:17:32.078Z Keepalive recibido del servidor [0x0c]
+May 01 07:17:32 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:32.552Z [arecord] GAP 54ms (chunk#7993, 160 muestras)
+May 01 07:17:33 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:33.827Z [nivel] pico RMS=2 (-85.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:38.828Z [nivel] pico RMS=2 (-85.7 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:40 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:17:40.072Z Keepalive recibido del servidor [0x0c]
+May 01 07:17:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:43.829Z [nivel] pico RMS=22 (-63.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:48 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:17:48.080Z Keepalive recibido del servidor [0x0c]
+May 01 07:17:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:48.829Z [nivel] pico RMS=35 (-59.4 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:53 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:53.830Z [nivel] pico RMS=34 (-59.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:17:56 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:17:56.088Z Keepalive recibido del servidor [0x0c]
+May 01 07:17:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:17:58.831Z [nivel] pico RMS=23 (-63.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:03 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:03.832Z [nivel] pico RMS=23 (-63.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:04 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:18:04.097Z Keepalive recibido del servidor [0x0c]
+May 01 07:18:08 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:08.833Z [nivel] pico RMS=23 (-63.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:12 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:18:12.103Z Keepalive recibido del servidor [0x0c]
+May 01 07:18:13 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:13.833Z [nivel] pico RMS=24 (-62.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:18 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:18.833Z [nivel] pico RMS=24 (-62.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:20 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:18:20.111Z Keepalive recibido del servidor [0x0c]
+May 01 07:18:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:23.832Z [nivel] pico RMS=25 (-62.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:28 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:18:28.111Z Keepalive recibido del servidor [0x0c]
+May 01 07:18:28 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:28.833Z [nivel] pico RMS=24 (-62.7 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:33 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:33.833Z [nivel] pico RMS=24 (-62.7 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:36 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:18:36.120Z Keepalive recibido del servidor [0x0c]
+May 01 07:18:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:38.835Z [nivel] pico RMS=24 (-62.7 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:43.837Z [nivel] pico RMS=24 (-62.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:44 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:18:44.129Z Keepalive recibido del servidor [0x0c]
+May 01 07:18:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:48.838Z [nivel] pico RMS=24 (-62.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:52 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:18:52.138Z Keepalive recibido del servidor [0x0c]
+May 01 07:18:53 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:53.838Z [nivel] pico RMS=24 (-62.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:18:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:18:58.838Z [nivel] pico RMS=24 (-62.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:00 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:00.147Z Keepalive recibido del servidor [0x0c]
+May 01 07:19:03 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:03.840Z [nivel] pico RMS=24 (-62.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:06 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:06.216Z Sala: 0R-DAVID_EA se ha unido
+May 01 07:19:08 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:08.169Z Keepalive recibido del servidor [0x0c]
+May 01 07:19:08 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:08.841Z [nivel] pico RMS=23 (-63.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:13 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:13.842Z [nivel] pico RMS=24 (-62.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:16 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:16.168Z Keepalive recibido del servidor [0x0c]
+May 01 07:19:18 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:18.844Z [nivel] pico RMS=24 (-62.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:23.844Z [nivel] pico RMS=24 (-62.6 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:24 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:24.169Z Keepalive recibido del servidor [0x0c]
+May 01 07:19:28 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:28.845Z [nivel] pico RMS=24 (-62.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:32 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:32.166Z Keepalive recibido del servidor [0x0c]
+May 01 07:19:33 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:33.847Z [nivel] pico RMS=24 (-62.7 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:34.643Z TX: 0R-DAVID_EA transmitiendo
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:19:34.784Z PTT set(true) → escribiendo "1" al helper
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:34.787Z [playGsm] pkt#1 len=33 decoder_ready=true player=running rxActive=false
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:34.788Z [audio] pkt#1 → playGsm OK (pttActive=false rxActive=true)
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:34.788Z [playGsm] pkt#2 len=33 decoder_ready=true player=running rxActive=false
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:34.797Z [audio] pkt#2 → playGsm OK (pttActive=false rxActive=true)
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:34.798Z [playGsm] pkt#3 len=33 decoder_ready=true player=running rxActive=false
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:34.798Z [audio] pkt#3 → playGsm OK (pttActive=false rxActive=true)
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:34.806Z [arecord] GAP 453ms (chunk#13713, 160 muestras)
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:34.820Z [playPcm] chunk#1 → jitterBuf=160 rxActive=false
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:34.823Z [playPcm] chunk#2 → jitterBuf=320 rxActive=false
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:34.824Z [playPcm] chunk#3 → jitterBuf=480 rxActive=false
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:34.825Z [playPcm] chunk#4 → jitterBuf=640 rxActive=false
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:34.826Z [playPcm] chunk#5 → jitterBuf=800 rxActive=false
+May 01 07:19:34 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:19:34.847Z GAP 470ms entre frames GSM de salida
+May 01 07:19:35 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:35.100Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:19:35 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:35.183Z [arecord] Terminado (code 1)
+May 01 07:19:35 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:19:35.796Z PTT set(false) → escribiendo "0" al helper
+May 01 07:19:35 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:35.798Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:19:38.298Z (prev=1970-01-01T00:00:00.000Z)
+May 01 07:19:35 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:35.799Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:19:35 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:35.799Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:19:35 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:35.826Z [rxInhibit] suppress: prev=2026-05-01T07:19:38.298Z new=2026-05-01T07:19:38.325Z
+May 01 07:19:35 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:35.850Z [arecord] GAP 701ms (chunk#13729, 3 muestras)
+May 01 07:19:35 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:19:35.912Z GAP 781ms entre frames GSM de salida
+May 01 07:19:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:38.546Z [arecord] GAP 72ms (chunk#13848, 160 muestras)
+May 01 07:19:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:38.849Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:43.852Z [nivel] pico RMS=37 (-58.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:48.852Z [nivel] pico RMS=5 (-77.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:50 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:50.092Z TX: 0R-DAVID_EA libero canal
+May 01 07:19:50 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:50.093Z Keepalive recibido del servidor [0x0c]
+May 01 07:19:50 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:50.100Z Keepalive recibido del servidor [0x0c]
+May 01 07:19:50 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:50.112Z TX: 0R-DAVID_EA transmitiendo
+May 01 07:19:50 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:19:50.247Z PTT set(true) → escribiendo "1" al helper
+May 01 07:19:50 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:50.411Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:19:50 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:50.464Z [arecord] Terminado (code 1)
+May 01 07:19:50 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:50.595Z [playGsm] pkt#50 len=33 decoder_ready=true player=running rxActive=true
+May 01 07:19:50 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:50.595Z [audio] pkt#50 → playGsm OK (pttActive=false rxActive=true)
+May 01 07:19:51 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:19:51.250Z PTT set(false) → escribiendo "0" al helper
+May 01 07:19:51 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:51.251Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:19:53.751Z (prev=2026-05-01T07:19:38.325Z)
+May 01 07:19:51 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:51.251Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:19:51 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:51.251Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:19:51 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:51.272Z [rxInhibit] suppress: prev=2026-05-01T07:19:53.751Z new=2026-05-01T07:19:53.772Z
+May 01 07:19:51 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:51.295Z [arecord] GAP 845ms (chunk#14390, 3 muestras)
+May 01 07:19:51 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:19:51.358Z GAP 959ms entre frames GSM de salida
+May 01 07:19:53 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:53.854Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:54 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:54.908Z [arecord] GAP 53ms (chunk#14551, 160 muestras)
+May 01 07:19:54 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:54.978Z TX: 0R-DAVID_EA libero canal
+May 01 07:19:54 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:54.979Z TX: 0R-DAVID_EA libero canal
+May 01 07:19:55 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:55.532Z TX: 0R-DAVID_EA transmitiendo
+May 01 07:19:55 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:19:55.684Z PTT set(true) → escribiendo "1" al helper
+May 01 07:19:55 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:55.852Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:19:55 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:55.893Z [arecord] Terminado (code 1)
+May 01 07:19:56 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:19:56.682Z PTT set(false) → escribiendo "0" al helper
+May 01 07:19:56 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:56.683Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:19:59.183Z (prev=2026-05-01T07:19:53.772Z)
+May 01 07:19:56 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:56.683Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:19:56 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:56.683Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:19:56 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:56.706Z [rxInhibit] suppress: prev=2026-05-01T07:19:59.183Z new=2026-05-01T07:19:59.206Z
+May 01 07:19:56 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:56.728Z [arecord] GAP 858ms (chunk#14594, 3 muestras)
+May 01 07:19:56 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:19:56.792Z GAP 933ms entre frames GSM de salida
+May 01 07:19:58 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:19:58.022Z PTT set(true) → escribiendo "1" al helper
+May 01 07:19:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:58.177Z [playGsm] pkt#100 len=33 decoder_ready=true player=running rxActive=false
+May 01 07:19:58 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:58.177Z [audio] pkt#100 → playGsm OK (pttActive=false rxActive=true)
+May 01 07:19:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:58.182Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:19:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:58.223Z [arecord] Terminado (code 1)
+May 01 07:19:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:58.856Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:19:59 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:19:59.018Z PTT set(false) → escribiendo "0" al helper
+May 01 07:19:59 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:59.019Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:20:01.519Z (prev=2026-05-01T07:19:59.206Z)
+May 01 07:19:59 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:59.019Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:19:59 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:59.019Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:19:59 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:19:59.042Z [rxInhibit] suppress: prev=2026-05-01T07:20:01.519Z new=2026-05-01T07:20:01.542Z
+May 01 07:19:59 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:19:59.065Z [arecord] GAP 865ms (chunk#14660, 3 muestras)
+May 01 07:19:59 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:19:59.112Z GAP 971ms entre frames GSM de salida
+May 01 07:20:03 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:03.768Z PTT set(true) → escribiendo "1" al helper
+May 01 07:20:03 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:03.856Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:03 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:03.945Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:20:04 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:04.005Z [arecord] Terminado (code 1)
+May 01 07:20:04 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:04.213Z Keepalive recibido del servidor [0x0c]
+May 01 07:20:04 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:04.757Z PTT set(false) → escribiendo "0" al helper
+May 01 07:20:04 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:04.758Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:20:07.258Z (prev=2026-05-01T07:20:01.542Z)
+May 01 07:20:04 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:04.758Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:20:04 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:04.759Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:20:04 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:04.788Z [rxInhibit] suppress: prev=2026-05-01T07:20:07.258Z new=2026-05-01T07:20:07.288Z
+May 01 07:20:04 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:04.814Z [arecord] GAP 826ms (chunk#14882, 3 muestras)
+May 01 07:20:04 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:20:04.871Z GAP 894ms entre frames GSM de salida
+May 01 07:20:08 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:08.858Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:13 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:13.858Z [nivel] pico RMS=5 (-77.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:15 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:15.397Z [arecord] GAP 64ms (chunk#15364, 160 muestras)
+May 01 07:20:15 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:15.456Z [arecord] GAP 60ms (chunk#15365, 160 muestras)
+May 01 07:20:18 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:18.859Z [nivel] pico RMS=5 (-77.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:19 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:19.581Z TX: 0R-DAVID_EA libero canal
+May 01 07:20:19 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:19.582Z Keepalive recibido del servidor [0x0c]
+May 01 07:20:19 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:19.582Z TX: 0R-DAVID_EA transmitiendo
+May 01 07:20:19 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:19.726Z PTT set(true) → escribiendo "1" al helper
+May 01 07:20:19 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:19.878Z [playGsm] pkt#150 len=33 decoder_ready=true player=running rxActive=false
+May 01 07:20:19 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:19.878Z [audio] pkt#150 → playGsm OK (pttActive=false rxActive=true)
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:20.041Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:20.099Z [arecord] Terminado (code 1)
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:20.183Z Keepalive recibido del servidor [0x0c]
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:20.738Z PTT set(false) → escribiendo "0" al helper
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:20.740Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:20:23.240Z (prev=2026-05-01T07:20:07.288Z)
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:20.740Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:20.740Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:20.770Z [rxInhibit] suppress: prev=2026-05-01T07:20:23.240Z new=2026-05-01T07:20:23.270Z
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:20.797Z [arecord] GAP 713ms (chunk#15574, 3 muestras)
+May 01 07:20:20 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:20:20.854Z GAP 856ms entre frames GSM de salida
+May 01 07:20:23 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:23.194Z PTT set(true) → escribiendo "1" al helper
+May 01 07:20:23 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:23.346Z Keepalive recibido del servidor [0x0c]
+May 01 07:20:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:23.367Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:20:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:23.416Z [arecord] Terminado (code 1)
+May 01 07:20:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:23.859Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:24 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:24.262Z PTT set(false) → escribiendo "0" al helper
+May 01 07:20:24 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:24.263Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:20:26.763Z (prev=2026-05-01T07:20:23.270Z)
+May 01 07:20:24 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:24.263Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:20:24 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:24.263Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:20:24 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:24.294Z [rxInhibit] suppress: prev=2026-05-01T07:20:26.763Z new=2026-05-01T07:20:26.794Z
+May 01 07:20:24 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:24.310Z [arecord] GAP 919ms (chunk#15691, 3 muestras)
+May 01 07:20:24 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:20:24.360Z GAP 1039ms entre frames GSM de salida
+May 01 07:20:26 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:26.081Z [arecord] GAP 52ms (chunk#15769, 160 muestras)
+May 01 07:20:26 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:26.176Z [arecord] GAP 64ms (chunk#15771, 160 muestras)
+May 01 07:20:28 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:28.181Z Keepalive recibido del servidor [0x0c]
+May 01 07:20:28 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:28.859Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:33 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:33.860Z [nivel] pico RMS=33 (-60.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:36 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:36.184Z Keepalive recibido del servidor [0x0c]
+May 01 07:20:37 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:37.713Z PTT set(true) → escribiendo "1" al helper
+May 01 07:20:37 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:37.866Z [playGsm] pkt#200 len=33 decoder_ready=true player=running rxActive=false
+May 01 07:20:37 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:37.866Z [audio] pkt#200 → playGsm OK (pttActive=false rxActive=true)
+May 01 07:20:37 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:37.888Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:20:37 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:37.930Z [arecord] Terminado (code 1)
+May 01 07:20:38 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:38.577Z PTT set(false) → escribiendo "0" al helper
+May 01 07:20:38 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:38.579Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:20:41.079Z (prev=2026-05-01T07:20:26.794Z)
+May 01 07:20:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:38.579Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:20:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:38.579Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:20:38 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:38.615Z [rxInhibit] suppress: prev=2026-05-01T07:20:41.079Z new=2026-05-01T07:20:41.115Z
+May 01 07:20:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:38.644Z [arecord] GAP 732ms (chunk#16311, 3 muestras)
+May 01 07:20:38 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:20:38.708Z GAP 807ms entre frames GSM de salida
+May 01 07:20:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:38.859Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:43.861Z [nivel] pico RMS=36 (-59.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:44 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:44.186Z Keepalive recibido del servidor [0x0c]
+May 01 07:20:48 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:48.493Z PTT set(true) → escribiendo "1" al helper
+May 01 07:20:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:48.667Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:20:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:48.715Z [arecord] Terminado (code 1)
+May 01 07:20:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:48.862Z [nivel] pico RMS=52 (-56.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:49 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:20:49.371Z PTT set(false) → escribiendo "0" al helper
+May 01 07:20:49 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:49.372Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:20:51.872Z (prev=2026-05-01T07:20:41.115Z)
+May 01 07:20:49 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:49.373Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:20:49 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:49.374Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:20:49 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:49.396Z [rxInhibit] suppress: prev=2026-05-01T07:20:51.872Z new=2026-05-01T07:20:51.896Z
+May 01 07:20:49 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:49.421Z [arecord] GAP 727ms (chunk#16766, 3 muestras)
+May 01 07:20:49 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:20:49.485Z GAP 843ms entre frames GSM de salida
+May 01 07:20:52 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:20:52.193Z Keepalive recibido del servidor [0x0c]
+May 01 07:20:53 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:53.862Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:20:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:20:58.864Z [nivel] pico RMS=5 (-77.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:00 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:00.191Z Keepalive recibido del servidor [0x0c]
+May 01 07:21:03 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:03.866Z [nivel] pico RMS=4 (-77.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:04 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:04.556Z [arecord] GAP 78ms (chunk#17439, 160 muestras)
+May 01 07:21:08 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:08.188Z Keepalive recibido del servidor [0x0c]
+May 01 07:21:08 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:08.866Z [nivel] pico RMS=5 (-77.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:13 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:13.868Z [nivel] pico RMS=18 (-65.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:15 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:15.243Z [arecord] GAP 52ms (chunk#17919, 160 muestras)
+May 01 07:21:16 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:16.187Z Keepalive recibido del servidor [0x0c]
+May 01 07:21:18 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:18.868Z [nivel] pico RMS=5 (-77.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:23.869Z [nivel] pico RMS=5 (-77.1 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:24 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:24.191Z Keepalive recibido del servidor [0x0c]
+May 01 07:21:28 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:28.036Z [arecord] GAP 52ms (chunk#18491, 160 muestras)
+May 01 07:21:28 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:28.870Z [nivel] pico RMS=5 (-77.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:32 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:32.190Z Keepalive recibido del servidor [0x0c]
+May 01 07:21:33 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:33.872Z [nivel] pico RMS=33 (-60.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:38 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:38.873Z [nivel] pico RMS=33 (-59.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:40 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:40.197Z Keepalive recibido del servidor [0x0c]
+May 01 07:21:43 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:43.874Z [nivel] pico RMS=5 (-77.2 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:44 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:21:44.188Z PTT set(true) → escribiendo "1" al helper
+May 01 07:21:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:44.190Z [playGsm] pkt#250 len=33 decoder_ready=true player=running rxActive=false
+May 01 07:21:44 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:44.190Z [audio] pkt#250 → playGsm OK (pttActive=false rxActive=true)
+May 01 07:21:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:44.357Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:21:44 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:44.397Z [arecord] Terminado (code 1)
+May 01 07:21:45 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:21:45.211Z PTT set(false) → escribiendo "0" al helper
+May 01 07:21:45 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:45.212Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:21:47.712Z (prev=2026-05-01T07:20:51.896Z)
+May 01 07:21:45 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:45.212Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:21:45 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:45.212Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:21:45 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:45.340Z [rxInhibit] suppress: prev=2026-05-01T07:21:47.712Z new=2026-05-01T07:21:47.836Z
+May 01 07:21:45 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:45.368Z [arecord] GAP 987ms (chunk#19228, 3 muestras)
+May 01 07:21:45 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:21:45.413Z GAP 1087ms entre frames GSM de salida
+May 01 07:21:47 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:21:47.112Z PTT set(true) → escribiendo "1" al helper
+May 01 07:21:47 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:47.302Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:21:47 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:47.360Z [arecord] Terminado (code 1)
+May 01 07:21:47 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:47.576Z [playGsm] pkt#300 len=33 decoder_ready=true player=running rxActive=true
+May 01 07:21:47 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:47.577Z [audio] pkt#300 → playGsm OK (pttActive=false rxActive=true)
+May 01 07:21:48 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:21:48.218Z PTT set(false) → escribiendo "0" al helper
+May 01 07:21:48 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:48.219Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:21:50.719Z (prev=2026-05-01T07:21:47.836Z)
+May 01 07:21:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:48.219Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:21:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:48.219Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:21:48 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:48.246Z [rxInhibit] suppress: prev=2026-05-01T07:21:50.719Z new=2026-05-01T07:21:50.746Z
+May 01 07:21:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:48.271Z [arecord] GAP 929ms (chunk#19316, 3 muestras)
+May 01 07:21:48 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:21:48.310Z GAP 1084ms entre frames GSM de salida
+May 01 07:21:48 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:48.333Z Keepalive recibido del servidor [0x0c]
+May 01 07:21:48 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:48.875Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:49 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:21:49.679Z PTT set(true) → escribiendo "1" al helper
+May 01 07:21:49 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:49.861Z [audio] Semi-duplex: matando arecord — evitar realimentacion altavoz→micro
+May 01 07:21:49 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:49.896Z [arecord] Terminado (code 1)
+May 01 07:21:50 ubuntus eqso-relay-CB[49860]: [ptt] 2026-05-01T07:21:50.482Z PTT set(false) → escribiendo "0" al helper
+May 01 07:21:50 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:50.484Z [rxInhibit] playback_ended: suppress extendido → 2026-05-01T07:21:52.984Z (prev=2026-05-01T07:21:50.746Z)
+May 01 07:21:50 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:50.485Z [audio] RX terminado — reanudando arecord (aplay sigue activo con silencio)
+May 01 07:21:50 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:50.485Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+May 01 07:21:50 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:50.534Z [rxInhibit] suppress: prev=2026-05-01T07:21:52.984Z new=2026-05-01T07:21:53.034Z
+May 01 07:21:50 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:50.550Z [arecord] GAP 674ms (chunk#19388, 3 muestras)
+May 01 07:21:50 ubuntus eqso-relay-CB[49860]: [gsm-enc] 2026-05-01T07:21:50.600Z GAP 771ms entre frames GSM de salida
+May 01 07:21:51 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:51.538Z Sala: 0R-DAVID_EA ha salido
+May 01 07:21:53 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:53.876Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:21:56 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:21:56.199Z Keepalive recibido del servidor [0x0c]
+May 01 07:21:58 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:21:58.875Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:22:03 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:22:03.877Z [nivel] pico RMS=5 (-76.8 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:22:04 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:22:04.201Z Keepalive recibido del servidor [0x0c]
+May 01 07:22:08 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:22:08.880Z [nivel] pico RMS=5 (-76.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:22:12 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:22:12.206Z Keepalive recibido del servidor [0x0c]
+May 01 07:22:13 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:22:13.880Z [nivel] pico RMS=5 (-76.9 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:22:14 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:22:14.695Z [arecord] GAP 58ms (chunk#20490, 160 muestras)
+May 01 07:22:18 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:22:18.881Z [nivel] pico RMS=5 (-76.5 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:22:20 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:22:20.211Z Keepalive recibido del servidor [0x0c]
+May 01 07:22:23 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:22:23.882Z [nivel] pico RMS=5 (-76.7 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:22:28 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:22:28.216Z Keepalive recibido del servidor [0x0c]
+May 01 07:22:28 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:22:28.883Z [nivel] pico RMS=5 (-77.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:22:33 ubuntus eqso-relay-CB[49860]: [audio] 2026-05-01T07:22:33.892Z [nivel] pico RMS=5 (-77.0 dBFS)  VOXumbral=800  gain=0.15
+May 01 07:22:36 ubuntus eqso-relay-CB[49860]: [main] 2026-05-01T07:22:36.223Z Keepalive recibido del servidor [0x0c]
+^C
+david@ubuntus:/opt/eqso-asorapa$ 
