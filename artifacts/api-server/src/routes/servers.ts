@@ -18,9 +18,9 @@ publicServersRouter.get("/servers", async (_req, res) => {
       .from(serversTable)
       .where(eq(serversTable.isActive, true))
       .orderBy(asc(serversTable.sortOrder), asc(serversTable.id));
-    res.json(rows.map(toClient));
+    return void res.json(rows.map(toClient));
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -35,9 +35,9 @@ adminServersRouter.get("/servers", async (_req, res) => {
       .select()
       .from(serversTable)
       .orderBy(asc(serversTable.sortOrder), asc(serversTable.id));
-    res.json(rows.map(toClient));
+    return void res.json(rows.map(toClient));
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -57,9 +57,9 @@ adminServersRouter.post("/servers", async (req, res) => {
       isActive:        isActive !== false,
       sortOrder:       sortOrder ? Number(sortOrder) : 0,
     }).returning();
-    res.status(201).json(toClient(row));
+    return void res.status(201).json(toClient(row));
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -85,9 +85,9 @@ adminServersRouter.put("/servers/:id", async (req, res) => {
       .where(eq(serversTable.id, id))
       .returning();
     if (!row) return void res.status(404).json({ error: "Servidor no encontrado" });
-    res.json(toClient(row));
+    return void res.json(toClient(row));
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -96,9 +96,9 @@ adminServersRouter.delete("/servers/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
     await db.delete(serversTable).where(eq(serversTable.id, id));
-    res.json({ ok: true });
+    return void res.json({ ok: true });
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 

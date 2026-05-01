@@ -14,7 +14,7 @@ adminRelaysRouter.get("/relays", async (_req, res) => {
     const liveStatus = relayManager.getStatus();
     const statusById = new Map(liveStatus.map(s => [s.id, s]));
 
-    res.json(rows.map(row => ({
+    return void res.json(rows.map(row => ({
       id:          row.id,
       label:       row.label,
       callsign:    row.callsign,
@@ -32,7 +32,7 @@ adminRelaysRouter.get("/relays", async (_req, res) => {
       txPackets:   statusById.get(row.id)?.txPackets ?? 0,
     })));
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -61,9 +61,9 @@ adminRelaysRouter.post("/relays", async (req, res) => {
 
     await relayManager.reloadRelay(row.id);
 
-    res.status(201).json(row);
+    return void res.status(201).json(row);
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -91,13 +91,13 @@ adminRelaysRouter.put("/relays/:id", async (req, res) => {
       enabled:    enabled === true,
     }).where(eq(relayConnectionsTable.id, id)).returning();
 
-    if (!row) return res.status(404).json({ error: "Enlace no encontrado" });
+    if (!row) return void res.status(404).json({ error: "Enlace no encontrado" });
 
     await relayManager.reloadRelay(id);
 
-    res.json(row);
+    return void res.json(row);
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -107,9 +107,9 @@ adminRelaysRouter.delete("/relays/:id", async (req, res) => {
     const id = Number(req.params.id);
     relayManager.deleteRelay(id);
     await db.delete(relayConnectionsTable).where(eq(relayConnectionsTable.id, id));
-    res.json({ ok: true });
+    return void res.json({ ok: true });
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -123,9 +123,9 @@ adminRelaysRouter.post("/relays/:id/start", async (req, res) => {
       .returning();
     if (!row) return void res.status(404).json({ error: "Enlace no encontrado" });
     await relayManager.reloadRelay(id);
-    res.json({ ok: true });
+    return void res.json({ ok: true });
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -139,8 +139,8 @@ adminRelaysRouter.post("/relays/:id/stop", async (req, res) => {
       .returning();
     if (!row) return void res.status(404).json({ error: "Enlace no encontrado" });
     await relayManager.reloadRelay(id);
-    res.json({ ok: true });
+    return void res.json({ ok: true });
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return void res.status(500).json({ error: "Error interno" });
   }
 });
