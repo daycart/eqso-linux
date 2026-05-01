@@ -224,15 +224,40 @@ audio.on("recorder_restarted", () => {
   log(`[vox] arecord reiniciado (semi-duplex) — postRxVoxSuppressUntil hasta ${new Date(postRxVoxSuppressUntil).toISOString()}`);
 });
 
+// Diagnóstico VOX: muestra estado cada 10s para detectar qué bloquea el VOX
+let voxDiagLastMs = 0;
+let voxDiagChunksTotal   = 0;  // chunks recibidos desde último diagnóstico
+let voxDiagChunksAbove   = 0;  // chunks con RMS > threshold
+let voxDiagChunksBlocked = 0;  // chunks bloqueados por rxActive/suppress
+
 // El audio emite chunks PCM crudos para que el VOX los analice
 audio.on("pcm_chunk", (pcm: Int16Array) => {
   // Calcular RMS para el gate de transmision
   let sum = 0;
   for (let i = 0; i < pcm.length; i++) sum += pcm[i] * pcm[i];
   latestPcmRms = Math.sqrt(sum / pcm.length);
+  voxDiagChunksTotal++;
+  if (latestPcmRms >= cfg.audio.voxThresholdRms) voxDiagChunksAbove++;
 
-  if (cfg.audio.vox && !rxActive && Date.now() > postRxVoxSuppressUntil && Date.now() > startupSuppressUntil) {
+  const voxGo = cfg.audio.vox && !rxActive
+    && Date.now() > postRxVoxSuppressUntil
+    && Date.now() > startupSuppressUntil;
+  if (!voxGo) voxDiagChunksBlocked++;
+
+  if (voxGo) {
     vox.processPcm(pcm);
+  }
+
+  // Log diagnóstico cada 10s
+  const now = Date.now();
+  if (now - voxDiagLastMs >= 10_000) {
+    voxDiagLastMs = now;
+    const rxSuppRest   = Math.max(0, postRxVoxSuppressUntil - now);
+    const startSuppRest = Math.max(0, startupSuppressUntil - now);
+    log(`[vox-diag] chunks=${voxDiagChunksTotal} above_umbral=${voxDiagChunksAbove} blocked=${voxDiagChunksBlocked} | rxActive=${rxActive} rxSuppRest=${rxSuppRest}ms startSuppRest=${startSuppRest}ms | umbral=${cfg.audio.voxThresholdRms} vox=${cfg.audio.vox} voxActive=${vox.isActive}`);
+    voxDiagChunksTotal   = 0;
+    voxDiagChunksAbove   = 0;
+    voxDiagChunksBlocked = 0;
   }
 });
 
