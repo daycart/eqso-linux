@@ -85,6 +85,11 @@ export class AlsaAudio extends EventEmitter {
   // audio RX para evitar el ciclo open/close que corrompe el estado USB de
   // VirtualBox. rxActive controla si playPcm escribe audio o sigue en pre-buffer.
   private rxActive = false;
+  // rxSessionOpen: true entre beginRx() y endRx().
+  // Bloquea el pre-buffer en playPcm() cuando la sesion ya cerro (endRx llamado)
+  // para que el PCM retrasado del decoder ffmpeg no dispare startPlayer() sobre
+  // el arecord recien reiniciado (bug "Device or resource busy" en cascada).
+  private rxSessionOpen = false;
   private stopping = false;
   // Metricas de nivel en captura
   private levelPeakRms   = 0;
@@ -211,12 +216,15 @@ export class AlsaAudio extends EventEmitter {
    * equivale a ~60ms de portadora antes de que empiece a escucharse la voz.
    */
   beginRx(): void {
+    this.rxSessionOpen = true;      // nueva sesion RX — habilitar pre-buffer
     this.jitterBuf = new Int16Array(0);
     this.pcmChunkCount = 0;
     this.stopSilenceInjection();
   }
 
   endRx(): void {
+    this.rxSessionOpen = false;     // sesion cerrada — bloquear pre-buffer
+    this.jitterBuf = new Int16Array(0); // descartar jitter pendiente (evita ghost audio)
     this.stopPlayer();
   }
 
@@ -327,6 +335,16 @@ export class AlsaAudio extends EventEmitter {
     this.pcmChunkCount++;
 
     if (!this.rxActive) {
+      // Guard: si la sesion RX ya cerro (endRx llamado), descartar PCM retrasado
+      // del decoder ffmpeg. Sin este guard, el PCM fantasma llena el jitter buffer
+      // y dispara startPlayer() sobre el arecord recien reiniciado → mata arecord
+      // → rxActive=true permanente → bucle "Device or resource busy" en cascada.
+      if (!this.rxSessionOpen) {
+        if (this.pcmChunkCount <= 5)
+          log(`[playPcm] chunk#${this.pcmChunkCount} DESCARTADO (sesion cerrada — PCM fantasma del decoder)`);
+        this.jitterBuf = new Int16Array(0);
+        return;
+      }
       // Pre-buffer phase: aplay corre con silencio, acumulamos audio hasta tener
       // suficiente pre-roll antes de activar modo RX para evitar glitches iniciales.
       const merged = new Int16Array(this.jitterBuf.length + samples.length);
