@@ -83,11 +83,19 @@ const POST_TX_VOX_SUPPRESS_MS = 5000;
 
 
 function setRxActive(): void {
+  const wasActive = rxActive;
   rxActive = true;
+  // Activar PTT serial para que la radio CB retransmita el audio de eQSO en el
+  // canal CB. La walkie-talkie recibe el audio a través de la frecuencia CB.
+  // El VOX está suprimido (postRxVoxSuppressMs=6000ms) durante este tiempo para
+  // evitar que el audio del altavoz CB re-dispare el TX hacia eQSO (bucle).
+  if (!wasActive && cfg.ptt.device) serialPtt.set(true);
   if (rxInhibitTimer) clearTimeout(rxInhibitTimer);
   rxInhibitTimer = setTimeout(() => {
     rxActive = false;
     rxInhibitTimer = null;
+    // Desactivar PTT serial: la radio CB vuelve a modo RX
+    if (cfg.ptt.device) serialPtt.set(false);
     audio.endRx();        // parar aplay para evitar underruns entre transmisiones
     // Extender inhibicion VOX: el altavoz deja eco residual en la sala que
     // arecord capturaría al reiniciarse (400ms) → VOX dispara ruido de fondo.
