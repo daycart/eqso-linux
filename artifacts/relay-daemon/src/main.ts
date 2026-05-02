@@ -82,14 +82,11 @@ let postRxVoxSuppressUntil = 0;
 const POST_TX_VOX_SUPPRESS_MS = 5000;
 
 function setRxActive(): void {
-  const wasActive = rxActive;
   rxActive = true;
-  if (!wasActive) serialPtt.set(true); // activar PTT de la radio al inicio del RX
   if (rxInhibitTimer) clearTimeout(rxInhibitTimer);
   rxInhibitTimer = setTimeout(() => {
     rxActive = false;
     rxInhibitTimer = null;
-    serialPtt.set(false); // liberar PTT de la radio al finalizar el RX
     audio.endRx();        // parar aplay para evitar underruns entre transmisiones
     // Extender inhibicion VOX: el altavoz deja eco residual en la sala que
     // arecord capturaría al reiniciarse (400ms) → VOX dispara ruido de fondo.
