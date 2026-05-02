@@ -8,7 +8,6 @@ import { roomManager } from "../eqso/room-manager";
 import { inactivityManager } from "../eqso/inactivity-manager";
 import { moderationManager } from "../eqso/moderation-manager";
 import { relayManager } from "../eqso/relay-manager";
-import { courtesyBeepManager } from "../eqso/courtesy-beep-manager";
 
 const router = Router();
 router.use(requireAdmin);
@@ -295,17 +294,9 @@ router.delete("/moderation/ban/:callsign", async (req, res) => {
 
 // ── Moderación — Kick ─────────────────────────────────────────────────────────
 
-// POST /api/admin/moderation/kick/:clientId — expulsar cliente por UUID
+// POST /api/admin/moderation/kick/:clientId — expulsar cliente conectado
 router.post("/moderation/kick/:clientId", (req, res) => {
   moderationManager.kickClient(req.params["clientId"]);
-  res.json({ ok: true });
-});
-
-// POST /api/admin/moderation/kick-callsign — expulsar cliente por indicativo
-router.post("/moderation/kick-callsign", (req, res) => {
-  const { callsign } = req.body as { callsign?: string };
-  if (!callsign?.trim()) { res.status(400).json({ error: "callsign requerido" }); return; }
-  moderationManager.kickByCallsign(callsign.trim().toUpperCase());
   res.json({ ok: true });
 });
 
@@ -438,27 +429,6 @@ router.post("/relays/:id/stop", async (req, res) => {
     res.json({ ok: true, id, enabled: false });
   } catch {
     res.status(500).json({ error: "Error interno del servidor" });
-  }
-});
-
-// ── Courtesy beep ─────────────────────────────────────────────────────────────
-
-// GET /api/admin/courtesy-beep — get current config + available tones
-router.get("/courtesy-beep", (_req, res) => {
-  res.json(courtesyBeepManager.getConfig());
-});
-
-// PATCH /api/admin/courtesy-beep — update config
-router.patch("/courtesy-beep", async (req, res) => {
-  const { selectedId, enabled } = req.body as { selectedId?: string; enabled?: boolean };
-  try {
-    await courtesyBeepManager.setConfig(
-      selectedId ?? courtesyBeepManager.getSelectedId(),
-      enabled  !== undefined ? Boolean(enabled) : courtesyBeepManager.isEnabled()
-    );
-    res.json(courtesyBeepManager.getConfig());
-  } catch (err) {
-    res.status(500).json({ error: err instanceof Error ? err.message : String(err) });
   }
 });
 

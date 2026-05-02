@@ -7,29 +7,6 @@ export interface AudioConfig {
   vox: boolean;
   voxThresholdRms: number;
   voxHangMs: number;
-  /** Gate de TX: RMS mínimo para enviar un paquete durante el VOX hang.
-   *  0 = sin gate (envía todo durante VOX active). Por defecto 50 (elimina
-   *  silencio absoluto sin cortar voz suave). */
-  txGateRms: number;
-  /** Chunks consecutivos sobre umbral antes de emitir ptt_start (anti-click).
-   *  1 chunk = 60ms (period=480 a 8kHz). Defecto 1 = sin debounce.
-   *  Aumentar a 2-3 solo si hay clics de squelch muy breves que no filtra el umbral.
-   *  IMPORTANTE: si la voz fluctua alrededor del umbral, aumentar debounce
-   *  impide la activacion (necesitas N chunks consecutivos, no N de M). */
-  voxDebounceChunks: number;
-  /** Milisegundos de supresion de VOX al inicio del relay.
-   *  ALSA genera un burst de ruido al inicializar arecord (chunks enormes de
-   *  inicio que disparan falsos VOX incluso con umbral alto). Durante este
-   *  periodo el relay ya puede estar unido al servidor, pero no transmite.
-   *  Defecto: 4000ms (4 segundos, cubre ~3 reintentos de arecord). */
-  startupVoxSuppressMs: number;
-  /** Milisegundos de supresion de VOX tras terminar la reproduccion RX.
-   *  Evita que el loopback interno de la tarjeta de audio (PCM2902 y similares)
-   *  dispare falsos VOX despues de reproducir audio del servidor.
-   *  El PCM2902 filtra la salida DAC en la entrada ADC durante y poco despues
-   *  de la reproduccion — el suppress debe cubrir esa cola.
-   *  Defecto: 6000ms. Reducir solo si el squelch de la radio tarda menos. */
-  postRxSuppressMs: number;
   inputGain: number;
   outputGain: number;
 }
@@ -65,24 +42,17 @@ const DEFAULTS: RelayConfig = {
   room: "CB",
   password: "",
   message: "Radio Enlace",
-  server: "193.152.83.229",
-  port: 2172,
-  reconnectMinMs: 500,
+  server: "127.0.0.1",
+  port: 2171,
+  reconnectMinMs: 2000,
   reconnectMaxMs: 60000,
   audio: {
     captureDevice: "plughw:1,0",
     playbackDevice: "plughw:1,0",
     vox: true,
     voxThresholdRms: 600,
-    voxHangMs: 2500,
-    txGateRms: 50,
-    voxDebounceChunks: 1,
-    startupVoxSuppressMs: 4000,
-    postRxSuppressMs: 6000,
+    voxHangMs: 1000,
     inputGain: 1.0,
-    // outputGain=1.0: sin amplificacion. Con 3.0, senales por encima de -9.5 dBFS
-    // saturan (clampeo Int16) y la radio CB recibe ruido en lugar de voz clara.
-    // Ajustar en /etc/eqso-relay/CB.json si el nivel del altavoz es muy bajo.
     outputGain: 1.0,
   },
   control: {
@@ -113,10 +83,9 @@ function deepMerge<T>(base: T, override: Partial<T>): T {
 }
 
 export function loadConfig(): RelayConfig {
-  const instance = process.env["RELAY_INSTANCE"] || "CB";
   const configFile =
     process.env["CONFIG_FILE"] ??
-    `/etc/eqso-relay/${instance}.json`;
+    `/etc/eqso-relay/${process.env["RELAY_INSTANCE"] ?? "default"}.json`;
 
   let fromFile: Partial<RelayConfig> = {};
   if (fs.existsSync(configFile)) {

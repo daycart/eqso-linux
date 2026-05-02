@@ -10,8 +10,6 @@ export interface UseAudioReturn {
   inputLevel: number;
   /** Mute or unmute RX audio (use during TX to prevent acoustic feedback). */
   muteRx: (muted: boolean) => void;
-  /** Pre-initialize the microphone so the first PTT press has no delay. */
-  prewarmMic: (mode?: "local" | "remote") => Promise<void>;
 }
 
 // Remote mode: Int16 signed PCM, 960 samples (6 GSM frames × 160) per chunk = 1920 bytes.
@@ -23,12 +21,14 @@ const LOCAL_CHUNK_BYTES = 160;
 // Target sample rate for GSM encoding
 const GSM_RATE = 8000;
 
+// Maximum seconds the audio scheduler can be ahead of real time.
+// FFmpeg puede enviar rafagas de 3-5 paquetes juntos; necesitamos absorberlas
+// sin reiniciar el scheduler (el reinicio a "now" causa solapamiento).
+const MAX_QUEUE_AHEAD_SEC = 3.0;
+
 // Warmup: discard the first 80 ms of mic audio to absorb hardware startup pop.
 // 80 ms is enough; 500 ms was wasting ~400 ms of every PTT press.
 const TX_WARMUP_SECONDS = 0.08;
-
-// Nombre del AudioWorklet de reproduccion. Debe coincidir con registerProcessor() en el worklet.
-const PLAYBACK_WORKLET_NAME = "playback-processor-v1";
 
 export function useAudio(): UseAudioReturn {
   const ctxRef = useRef<AudioContext | null>(null);
@@ -39,12 +39,8 @@ export function useAudio(): UseAudioReturn {
   const levelTimerRef = useRef<ReturnType<typeof requestAnimationFrame> | null>(null);
   const accumLocalRef = useRef<Uint8Array>(new Uint8Array(0));
   const accumRemoteRef = useRef<Int16Array>(new Int16Array(0));
-  const gainNodeRef = useRef<GainNode | null>(null);
   const nextPlayTimeRef = useRef<number>(0);
-  // Worklet de reproduccion (circular buffer, inmune a jitter)
-  const playbackWorkletRef = useRef<AudioWorkletNode | null>(null);
-  const workletReadyRef = useRef<boolean>(false);
-  const workletInitPromiseRef = useRef<Promise<void> | null>(null);
+  const gainNodeRef = useRef<GainNode | null>(null);
 
   // The chunk callback and mode are stored in refs so they can be updated on
   // each PTT press without recreating the worklet message handler.
@@ -71,9 +67,7 @@ export function useAudio(): UseAudioReturn {
       gain.gain.value = 2;
       gain.connect(ctxRef.current.destination);
       gainNodeRef.current = gain;
-      playbackWorkletRef.current = null;
-      workletReadyRef.current = false;
-      workletInitPromiseRef.current = null;
+      nextPlayTimeRef.current = 0;
     }
     if (ctxRef.current.state === "suspended") {
       ctxRef.current.resume().catch(() => {});
@@ -81,48 +75,12 @@ export function useAudio(): UseAudioReturn {
     return ctxRef.current;
   }, []);
 
-  /**
-   * Inicializa el AudioWorklet de reproduccion (async, una sola vez por contexto).
-   * Carga el modulo del worklet y crea el nodo conectado al gainNode.
-   * Si ya esta inicializado o en proceso, no hace nada.
-   */
-  const initPlaybackWorklet = useCallback(async (): Promise<void> => {
-    const ctx = getOrCreateCtx();
-    if (workletReadyRef.current) return;
-    if (workletInitPromiseRef.current) return workletInitPromiseRef.current;
-
-    const doInit = async () => {
-      try {
-        const url = import.meta.env.BASE_URL + "playback-worklet.js?v=4";
-        await ctx.audioWorklet.addModule(url);
-        const node = new AudioWorkletNode(ctx, PLAYBACK_WORKLET_NAME, {
-          numberOfInputs:  0,
-          numberOfOutputs: 1,
-          outputChannelCount: [1],
-        });
-        node.connect(gainNodeRef.current ?? ctx.destination);
-        playbackWorkletRef.current = node;
-        workletReadyRef.current = true;
-        console.debug("[audio] playback worklet inicializado (buffer max 600ms, pre-fill 60ms)");
-      } catch (err) {
-        console.error("[audio] playback worklet init error:", err);
-        workletReadyRef.current = false;
-        workletInitPromiseRef.current = null;
-      }
-    };
-
-    workletInitPromiseRef.current = doInit();
-    return workletInitPromiseRef.current;
-  }, [getOrCreateCtx]);
-
   const resumeContext = useCallback(() => {
     const ctx = getOrCreateCtx();
     if (ctx.state !== "running") {
       ctx.resume().catch(() => {});
     }
-    // Iniciar el worklet de reproduccion en cuanto hay interaccion del usuario
-    initPlaybackWorklet().catch(() => {});
-  }, [getOrCreateCtx, initPlaybackWorklet]);
+  }, [getOrCreateCtx]);
 
   /**
    * Tear down the mic chain (source → analyser → worklet → silentSink).
@@ -211,7 +169,7 @@ export function useAudio(): UseAudioReturn {
 
         // Version suffix forces the browser to bypass the service-worker / HTTP
         // cache and fetch the latest worklet whenever this constant is bumped.
-        const WORKLET_VERSION = "24";
+        const WORKLET_VERSION = "23";
         const workletUrl = import.meta.env.BASE_URL + "mic-worklet.js?v=" + WORKLET_VERSION;
         try {
           await ctx.audioWorklet.addModule(workletUrl);
@@ -416,17 +374,6 @@ export function useAudio(): UseAudioReturn {
     setInputLevel(0);
   }, []);
 
-  /**
-   * Reproduce audio recibido del servidor via el AudioWorklet de buffer circular.
-   *
-   * El worklet mantiene un buffer de 3s a 8kHz con pre-fill de 1s. Esto absorbe
-   * hasta 1s de jitter (red, event-loop, FFmpeg) sin silencio audible. El scheduler
-   * basado en createBufferSource() era fragil: cualquier retraso >buffer causaba
-   * un "reset" con silencio del mismo tamaño. El worklet elimina ese problema:
-   * solo hay silencio si el buffer llega a cero (jitter > 1s continuo).
-   *
-   * Latencia de inicio: ~1s (pre-fill). Durante la transmision continua: 0 silencio.
-   */
   const playAudio = useCallback((data: ArrayBuffer, isFloat32 = false) => {
     try {
       const ctx = getOrCreateCtx();
@@ -434,19 +381,8 @@ export function useAudio(): UseAudioReturn {
         ctx.resume().catch(() => {});
       }
 
-      // Inicializar worklet si aun no esta listo (primera llamada post-interaccion)
-      if (!workletReadyRef.current) {
-        console.debug("[rx] playAudio: worklet not ready, initializing (ctx.state=" + ctx.state + ")");
-        initPlaybackWorklet().catch(() => {});
-        // Mientras el worklet no esta listo, descartar el paquete (son los primeros
-        // 500ms tras la primera interaccion de usuario; el pre-fill los absorbe)
-        return;
-      }
-
-      const worklet = playbackWorkletRef.current;
-      if (!worklet) return;
-
       let float32: Float32Array;
+
       if (isFloat32) {
         float32 = new Float32Array(data.slice(0));
       } else {
@@ -457,15 +393,45 @@ export function useAudio(): UseAudioReturn {
         }
       }
 
-      if (float32.length === 0) return;
+      if (float32.length === 0) {
+        console.warn("[audio] playAudio: empty buffer");
+        return;
+      }
 
-      // Transferir al worklet (transferable: evita copia de memoria)
-      const buf = float32.buffer.slice(float32.byteOffset, float32.byteOffset + float32.byteLength);
-      worklet.port.postMessage({ type: "push", buffer: buf }, [buf]);
+      const buffer = ctx.createBuffer(1, float32.length, GSM_RATE);
+      buffer.getChannelData(0).set(float32);
+
+      const now = ctx.currentTime;
+
+      // Si el scheduler quedó atrás (silencio entre transmisiones), adelantarlo a now.
+      if (nextPlayTimeRef.current < now) {
+        nextPlayTimeRef.current = now;
+      }
+
+      // Si la cola ya tiene MAX_QUEUE_AHEAD_SEC de audio programado, DESCARTAR este
+      // paquete en lugar de reiniciar a "now". Reiniciar causa solapamiento con el
+      // audio ya programado → efecto "bucle". Descartar produce una pausa minima
+      // (el tiempo que tarda la cola en drenarse) sin audio doble.
+      if (nextPlayTimeRef.current > now + MAX_QUEUE_AHEAD_SEC) {
+        console.warn(`[audio] playAudio: cola llena (${(nextPlayTimeRef.current - now).toFixed(2)}s), descartando paquete`);
+        return;
+      }
+
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      const dest = gainNodeRef.current ?? ctx.destination;
+      source.connect(dest);
+      // Liberar el nodo cuando termine para no acumular recursos de audio
+      source.onended = () => source.disconnect();
+
+      source.start(nextPlayTimeRef.current);
+      nextPlayTimeRef.current += buffer.duration;
+
+      console.debug(`[audio] playAudio: ${float32.length} samples, ctx=${ctx.state}, lag=${(nextPlayTimeRef.current - now).toFixed(3)}s`);
     } catch (err) {
       console.error("[audio] playAudio error:", err);
     }
-  }, [getOrCreateCtx, initPlaybackWorklet]);
+  }, [getOrCreateCtx]);
 
   const muteRx = useCallback((muted: boolean) => {
     const ctx = getOrCreateCtx();
@@ -504,14 +470,6 @@ export function useAudio(): UseAudioReturn {
     };
   }, [releaseMic]);
 
-  const prewarmMic = useCallback(async (mode: "local" | "remote" = "remote"): Promise<void> => {
-    try {
-      await initMicOnce(mode);
-    } catch {
-      // Silent — prewarm is best-effort. User will see the permission prompt on first PTT if needed.
-    }
-  }, [initMicOnce]);
-
   return {
     isRecording,
     isMicAllowed,
@@ -521,6 +479,5 @@ export function useAudio(): UseAudioReturn {
     resumeContext,
     inputLevel,
     muteRx,
-    prewarmMic,
   };
 }

@@ -2,14 +2,9 @@ import net from "net";
 import { randomUUID } from "crypto";
 import { logger } from "../lib/logger";
 import { roomManager, ClientInfo } from "./room-manager";
-import { GsmFfmpegDecoder } from "./gsm-decoder-ffmpeg";
+import { FfmpegGsmDecoder } from "./ffmpeg-gsm";
 import { inactivityManager } from "./inactivity-manager";
 import { moderationManager } from "./moderation-manager";
-import { courtesyBeepManager } from "./courtesy-beep-manager";
-import { db } from "@workspace/db";
-import { usersTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
-import { pcmToFloat32Normalized } from "./pcm-utils";
 import {
   EQSO_COMMANDS,
   AUDIO_PAYLOAD_SIZE,
@@ -29,14 +24,8 @@ import {
 
 const SERVER_VERSION = "eQSO Linux Server v1.0";
 
-// Un decoder GSM FFmpeg por cliente TCP (stateful, clave = UUID del cliente).
-// Se crea al conectar y se destruye al desconectar.
-const tcpDecoders = new Map<string, GsmFfmpegDecoder>();
-
-// Si un cliente TCP tiene el canal bloqueado pero no envía audio durante este tiempo,
-// el servidor libera el PTT automáticamente. Evita que el canal quede "muerto"
-// cuando el relay pierde acceso al dispositivo de audio (ej: arecord falla).
-const PTT_MAX_HOLD_MS = 15_000;
+// One FFmpeg GSM decoder per TCP client (keyed by client UUID)
+const tcpDecoders = new Map<string, FfmpegGsmDecoder>();
 
 interface TcpClientState {
   id: string;
@@ -46,28 +35,10 @@ interface TcpClientState {
   multiByteCmd: number;
   handshakeDone: boolean;
   disconnected: boolean; // guard against double-disconnect (error + close both fire)
-  /** Timer que reenvía pttStarted a clientes TCP cada PTT_REFRESH_MS durante TX activa.
-   *  Mantiene vivo el watchdog timer interno de los relays Windows (0R-ASORAPA).
-   *  Sin este refresco, los relays desconectan ~2.3s después del primer pttStarted. */
-  pttRefreshTimer: ReturnType<typeof setInterval> | null;
-  /** Watchdog anti-bloqueo: libera el PTT si no llega audio en PTT_MAX_HOLD_MS.
-   *  Se reinicia con cada paquete de audio recibido. */
-  pttWatchdog: ReturnType<typeof setTimeout> | null;
-}
-
-/** Arma (o reinicia) el watchdog de inactividad de PTT para un cliente TCP.
- *  Si no llega ningún paquete de audio en PTT_MAX_HOLD_MS, libera el canal
- *  automáticamente y notifica a todos los clientes de la sala. */
-function armPttWatchdog(state: TcpClientState, room: string, name: string): void {
-  if (state.pttWatchdog) { clearTimeout(state.pttWatchdog); state.pttWatchdog = null; }
-  state.pttWatchdog = setTimeout(() => {
-    state.pttWatchdog = null;
-    if (state.disconnected || !roomManager.isLockedBy(room, state.id)) return;
-    logger.warn({ id: state.id, name, room }, "TCP PTT watchdog: canal liberado por inactividad de audio");
-    if (state.pttRefreshTimer) { clearInterval(state.pttRefreshTimer); state.pttRefreshTimer = null; }
-    roomManager.broadcastToRoom(room, buildPttReleased(name), state.id);
-    roomManager.unlockRoom(room, state.id);
-  }, PTT_MAX_HOLD_MS);
+  /** Drena inmediatamente los paquetes GSM pendientes en el pace queue.
+   *  Llamado desde processSingleByte cuando el cliente envía RELEASE_PTT (0x0d),
+   *  así los últimos frames llegan al navegador sin el retardo de 120ms/paquete. */
+  flushPaceQueue?: () => void;
 }
 
 function sendRoomList(state: TcpClientState): void {
@@ -116,37 +87,6 @@ function processSingleByte(state: TcpClientState, byte: number): void {
   const client = roomManager.getClient(state.id);
 
   switch (byte) {
-    case EQSO_COMMANDS.PTT_ANNOUNCE:
-      // [0x09] PTT announce: el relay-daemon (y clientes Windows eQSO estándar)
-      // envían este byte ANTES del primer paquete de audio para anunciar TX al servidor.
-      // El servidor real (193.152.83.229) lo requiere obligatoriamente.
-      // Aquí hacemos el lock de sala + broadcast pttStarted para que los demás
-      // clientes entren en modo receive ANTES de que llegue el audio.
-      if (client?.room && !moderationManager.isMuted(client.name)) {
-        const wasAlreadyOurs = roomManager.isLockedBy(client.room, state.id);
-        const lockAcquired = roomManager.tryLockRoom(client.room, state.id);
-        if (lockAcquired && !wasAlreadyOurs) {
-          roomManager.broadcastToRoom(client.room, buildPttStarted(client.name), state.id);
-          if (state.pttRefreshTimer) clearInterval(state.pttRefreshTimer);
-          const refreshName = client.name;
-          const refreshRoom = client.room;
-          state.pttRefreshTimer = setInterval(() => {
-            if (state.disconnected || !roomManager.isLockedBy(refreshRoom, state.id)) {
-              if (state.pttRefreshTimer) { clearInterval(state.pttRefreshTimer); state.pttRefreshTimer = null; }
-              return;
-            }
-            roomManager.broadcastToTcpClientsInRoom(refreshRoom, buildPttStarted(refreshName), state.id);
-          }, 1500);
-          armPttWatchdog(state, client.room, client.name);
-          inactivityManager.recordActivity(client.room);
-          logger.info({ id: state.id, name: client.name, room: client.room }, "eQSO TCP: PTT announce [0x09] — sala bloqueada");
-        }
-        // Responder con [0x09] para confirmar PTT grant (protocolo eQSO estándar).
-        // El relay-daemon lo descarta pero clientes Windows lo necesitan para confirmar TX.
-        safeWrite(state, Buffer.from([0x09]));
-      }
-      break;
-
     case EQSO_COMMANDS.VOICE:
       if (client?.room && !moderationManager.isMuted(client.name)) {
         // Solo emitir ptt_started en el PRIMER paquete de cada sesión TX.
@@ -156,36 +96,11 @@ function processSingleByte(state: TcpClientState, byte: number): void {
         // Sin esta guarda, ptt_started se emitía cada 120ms (un broadcast por
         // cada paquete GSM), lo que hacía que los clientes eQSO externos
         // (Windows ASORAPA) los recibieran como ráfagas y desconectaran.
-        // NOTA: si el cliente envió [0x09] antes, el lock y pttStarted ya se
-        // hicieron allí — isLockedBy devolverá true y wasAlreadyOurs será true.
         const wasAlreadyOurs = roomManager.isLockedBy(client.room, state.id);
-        const lockAcquired = roomManager.tryLockRoom(client.room, state.id);
-        if (lockAcquired && !wasAlreadyOurs) {
-          // Enviamos pttStarted a TODOS (broadcastToRoom): WS + TCP + relay-listeners.
-          // Los relays Windows eQSO (0R-ASORAPA) NECESITAN action=0x02 para entrar en
-          // "modo receive". Sin él, desconectan en ~870ms por timeout interno.
-          // El watchdog interno de 0R-ASORAPA dura ~2.3s, por lo que hay que refrescar
-          // pttStarted periódicamente (ver pttRefreshTimer abajo).
+        roomManager.tryLockRoom(client.room, state.id);
+        if (!wasAlreadyOurs) {
           roomManager.broadcastToRoom(client.room, buildPttStarted(client.name), state.id);
-          // Timer de refresco: reenvía pttStarted a clientes TCP cada 1.5s durante la TX.
-          // Mantiene vivo el watchdog timer de relays Windows como 0R-ASORAPA.
-          // Solo va a TCP (broadcastToTcpClientsInRoom) para evitar eventos duplicados
-          // en clientes WS y relay-listeners.
-          if (state.pttRefreshTimer) clearInterval(state.pttRefreshTimer);
-          const refreshName = client.name;
-          const refreshRoom = client.room;
-          state.pttRefreshTimer = setInterval(() => {
-            if (state.disconnected || !roomManager.isLockedBy(refreshRoom, state.id)) {
-              if (state.pttRefreshTimer) { clearInterval(state.pttRefreshTimer); state.pttRefreshTimer = null; }
-              return;
-            }
-            roomManager.broadcastToTcpClientsInRoom(refreshRoom, buildPttStarted(refreshName), state.id);
-          }, 1500);
         }
-        // Watchdog anti-bloqueo: si no llega más audio en PTT_MAX_HOLD_MS, liberar el canal.
-        // Protege contra relays que pierden acceso al audio (arecord falla) pero mantienen
-        // el PTT activo indefinidamente, bloqueando el canal para todos los demás.
-        armPttWatchdog(state, client.room, client.name);
         inactivityManager.recordActivity(client.room);
       }
       state.readMultiByte = true;
@@ -195,25 +110,15 @@ function processSingleByte(state: TcpClientState, byte: number): void {
 
     case EQSO_COMMANDS.IGNORE:
       // [0x02] silence frame — el relay-daemon lo envía como 1 BYTE solo (cada 150ms).
+      // Lo reenviamos inmediatamente a todos los demás miembros de la sala.
       // Los relays Windows eQSO usan este byte como indicador "servidor vivo":
-      // si no reciben datos en ~10-15s, se desconectan.
-      //
-      // CRÍTICO: durante TX activa NO enviamos [0x02] a clientes TCP.
-      // Los relays Windows (0R-ASORAPA) interpretan [0x02] como "fin de TX" o
-      // "canal libre", lo que les hace salir del modo receive y desconectarse
-      // ~800ms después del inicio de TX. Durante TX, los frames de audio (0x01)
-      // ya mantienen el TCP vivo — no hace falta [0x02].
-      //
-      // Cuando NO hay TX: broadcast normal a todos para keepalive.
+      // si no reciben datos en ~10-15s, se desconectan. Con 7 frames/s (150ms)
+      // el timer de desconexión Windows nunca se dispara.
+      // NOTA: NO entramos en modo multi-byte — consumir los 4 [0x02] siguientes
+      // como "payload" retrasaba el broadcast a 750ms y enviaba 4 bytes [0x00]
+      // extra que podían corromper el parser de los relays Windows.
       if (client?.room) {
-        const silencePkt = Buffer.from([0x02]);
-        if (roomManager.isRoomLocked(client.room)) {
-          // TX activa: solo a clientes WS (el audio (0x01) ya mantiene TCP vivo).
-          roomManager.broadcastToWsClientsAndListeners(client.room, silencePkt, state.id);
-        } else {
-          // Sin TX: broadcast a todos para keepalive de relays Windows.
-          roomManager.broadcastToRoom(client.room, silencePkt, state.id);
-        }
+        roomManager.broadcastToRoom(client.room, Buffer.from([0x02]), state.id);
       }
       break;
 
@@ -226,17 +131,6 @@ function processSingleByte(state: TcpClientState, byte: number): void {
 
     case EQSO_COMMANDS.RELEASE_PTT:
       if (client?.room) {
-        // Paramos el timer de refresco: ya no hace falta mantener el watchdog de 0R-ASORAPA.
-        if (state.pttRefreshTimer) { clearInterval(state.pttRefreshTimer); state.pttRefreshTimer = null; }
-        // Cancelar el watchdog anti-bloqueo: la liberación fue limpia y voluntaria.
-        if (state.pttWatchdog) { clearTimeout(state.pttWatchdog); state.pttWatchdog = null; }
-        // Enviamos buildPttReleased (action=0x03) a TODOS los clientes (broadcastToRoom).
-        // Los relays Windows eQSO (0R-ASORAPA) necesitan este paquete para salir del modo
-        // receive limpiamente y preparar su estado para la siguiente TX.
-        // Sin este paquete, el watchdog de 0R-ASORAPA expira ~2.3s después de la TX y
-        // puede dejar el relay en estado inconsistente para la siguiente TX.
-        // NOTA: 0R-ASORAPA puede desconectarse ~358ms después de recibir action=0x03,
-        // pero eso ocurre DESPUÉS de que la TX ha terminado — es aceptable.
         const rel = buildPttReleased(client.name);
         roomManager.broadcastToRoom(client.room, rel, state.id);
         // Solo [0x08] (canal liberado OK). El [0x06, 0x00] que enviábamos antes
@@ -244,22 +138,12 @@ function processSingleByte(state: TcpClientState, byte: number): void {
         // liberar PTT (lo interpretaban como "expulsado de sala").
         safeWrite(state, Buffer.from([0x08]));
         roomManager.unlockRoom(client.room, state.id);
-
-        // Tono de cortesía: solo si es un cliente relay (radio CB).
-        // El relay-daemon tiene POST_TX_SUPPRESS_MS=100ms. Con 300ms de espera
-        // el beep llega 200ms después de que expire la ventana de supresión.
-        if (client.isRelay) {
-          const beepPackets = courtesyBeepManager.getPackets();
-          if (beepPackets.length > 0) {
-            let i = 0;
-            const sendBeep = () => {
-              if (state.disconnected || i >= beepPackets.length) return;
-              safeWrite(state, beepPackets[i++]!);
-              if (i < beepPackets.length) setTimeout(sendBeep, 120);
-            };
-            setTimeout(sendBeep, 300);
-          }
-        }
+        // Drena inmediatamente los paquetes GSM que quedaron en el pace queue.
+        // Sin esto, los últimos 3-5 paquetes GSM del relay CB se entregan al
+        // navegador 360-600ms tarde → suena como eco/cola de la voz.
+        // Con flush: los paquetes llegan juntos (<1 tick de Node.js) y el
+        // Web Audio del navegador los encola en nextPlayTimeRef sin solapamiento.
+        state.flushPaceQueue?.();
       }
       break;
 
@@ -325,8 +209,7 @@ function processMultiByte(state: TcpClientState, byte: number): void {
           { id: state.id, name: parsed.name, room: parsed.room, bufLen: state.buf.length },
           "eQSO TCP JOIN parsed"
         );
-        handleJoin(state, parsed.name, parsed.room, parsed.message, parsed.password)
-          .catch(err => logger.error({ err }, "handleJoin async error"));
+        handleJoin(state, parsed.name, parsed.room, parsed.message, parsed.password);
         state.readMultiByte = false;
         state.multiByteCmd = 0;
         state.buf = Buffer.alloc(0);
@@ -344,9 +227,8 @@ function processMultiByte(state: TcpClientState, byte: number): void {
           const gsmPkt = Buffer.concat([Buffer.from([0x01]), gsmPayload]);
           roomManager.broadcastToTcpAndRelays(client.room, gsmPkt, state.id);
 
-          // Decode GSM → Float32 vía FFmpeg (asíncrono).
-          // El handler del evento "pcm" (registrado al conectar) envía a clientes WS.
-          tcpDecoders.get(state.id)?.decode(gsmPayload);
+          // Feed to per-client FFmpeg decoder; WS broadcast happens in "pcm" event
+          tcpDecoders.get(state.id)?.decode(Buffer.from(gsmPayload));
         }
         state.buf = state.buf.slice(AUDIO_PAYLOAD_SIZE);
         if (state.buf.length === 0) {
@@ -362,13 +244,13 @@ function processMultiByte(state: TcpClientState, byte: number): void {
   }
 }
 
-async function handleJoin(
+function handleJoin(
   state: TcpClientState,
   name: string,
   room: string,
   message: string,
   password: string
-): Promise<void> {
+): void {
   const existing = roomManager.getClient(state.id);
   const oldRoom = existing?.room ?? "";
 
@@ -403,31 +285,14 @@ async function handleJoin(
   if (roomManager.isNameTaken(name, state.id)) {
     safeWrite(state, buildErrorMessage(`Indicativo "${name}" ya en uso`));
     logger.warn({ id: state.id, name }, "TCP client rejected: callsign already in use — destroying socket");
-    state.socket.destroy();
+    state.socket.destroy(); // destroy so the anonymous connection does not linger for 2 minutes
     return;
-  }
-
-  // Detect relay: callsigns starting with "0R-" are always relays (eQSO convention).
-  // Also check the DB users table for manually-flagged relays.
-  let isRelay = name.toUpperCase().startsWith("0R-");
-  if (!isRelay) {
-    try {
-      const [user] = await db.select({ isRelay: usersTable.isRelay })
-        .from(usersTable)
-        .where(eq(usersTable.callsign, name.toUpperCase()))
-        .limit(1);
-      isRelay = user?.isRelay ?? false;
-    } catch (err) {
-      logger.warn({ err, name }, "TCP handleJoin: DB isRelay lookup failed");
-    }
   }
 
   const client = roomManager.getClient(state.id);
   if (client) {
     client.name = name;
     client.message = message;
-    client.isRelay = isRelay;
-    if (isRelay) logger.info({ id: state.id, name }, "TCP client identified as relay");
   }
 
   const oldMembers = oldRoom ? roomManager.getRoomMembers(oldRoom) : [];
@@ -476,11 +341,11 @@ function handleDisconnect(state: TcpClientState): void {
   if (state.disconnected) return; // guard: error event is always followed by close event
   state.disconnected = true;
 
-  if (state.pttRefreshTimer) { clearInterval(state.pttRefreshTimer); state.pttRefreshTimer = null; }
-  if (state.pttWatchdog) { clearTimeout(state.pttWatchdog); state.pttWatchdog = null; }
-
-  const dec = tcpDecoders.get(state.id);
-  if (dec) { dec.stop(); tcpDecoders.delete(state.id); }
+  const decoder = tcpDecoders.get(state.id);
+  if (decoder) {
+    decoder.stop();
+    tcpDecoders.delete(state.id);
+  }
 
   const client = roomManager.getClient(state.id);
   if (client?.room) {
@@ -494,10 +359,6 @@ function handleDisconnect(state: TcpClientState): void {
 
 export function startTcpServer(port: number): net.Server {
   const server = net.createServer((socket) => {
-    // Deshabilitar Nagle: cada socket.write() se envía inmediatamente.
-    // Sin esto, TCP agrupa varios writes de 34 bytes en un solo chunk de tamaño
-    // no-múltiplo-de-34 (p.ej. 199 bytes), lo que desalinea el parser del relay.
-    socket.setNoDelay(true);
     const id = randomUUID();
     logger.info({ id, addr: socket.remoteAddress }, "New TCP eQSO connection");
 
@@ -509,8 +370,6 @@ export function startTcpServer(port: number): net.Server {
       multiByteCmd: 0,
       handshakeDone: false,
       disconnected: false,
-      pttRefreshTimer: null,
-      pttWatchdog: null,
     };
 
     if (!roomManager.isEnabled()) {
@@ -536,32 +395,58 @@ export function startTcpServer(port: number): net.Server {
     roomManager.addClient(clientInfo);
     logger.info({ id, addr: socket.remoteAddress }, "eQSO TCP client registered — waiting for handshake");
 
-    // Decoder GSM vía FFmpeg por cliente TCP (async, event-based).
-    // Cuando el relay daemon envía GSM, ffmpeg lo decodifica a PCM y emite
-    // el evento "pcm" que aquí se reenvía a los clientes WS del navegador.
-    const tcpDecoder = new GsmFfmpegDecoder();
-    let lastPcmMs = 0;
-    let pktCount = 0;
-    tcpDecoder.on("pcm", (pcm: Int16Array) => {
-      const client = roomManager.getClient(state.id);
-      if (client?.room) {
-        const nowMs = Date.now();
-        pktCount++;
-        if (lastPcmMs > 0) {
-          const gap = nowMs - lastPcmMs;
-          // Log si el intervalo se desvía más de 40ms del ideal 120ms
-          if (gap > 160 || gap < 80) {
-            logger.warn({ pkt: pktCount, gap, client: client.name }, "pcm gap fuera de rango (esperado ~120ms)");
-          }
-        }
-        lastPcmMs = nowMs;
-        const float32 = pcmToFloat32Normalized(pcm);
-        const wsPkt = Buffer.concat([Buffer.from([0x11]), Buffer.from(float32.buffer)]);
-        roomManager.broadcastBinToLocalWsClients(client.room, wsPkt, state.id);
+    // Spawn per-client FFmpeg GSM decoder.  The 500ms startup warmup happens here
+    // so the process is ready by the time the client starts transmitting audio.
+    const decoder = new FfmpegGsmDecoder();
+    tcpDecoders.set(id, decoder);
+
+    // Cola de paquetes PCM con limitador de tasa: un paquete cada AUDIO_PACE_MS.
+    // Sin esto, FFmpeg puede emitir varios paquetes en el mismo tick de Node.js
+    // (rafaga), el navegador los recibe todos a la vez y el scheduler Web Audio
+    // API desborda → solapamiento / "bucle".
+    // 120ms = duración exacta de un paquete GSM (960 samples a 8000 Hz).
+    // Usar 110ms causaba que el scheduler del navegador se adelantara ~10ms por
+    // paquete → en 12 segundos = ~1s de "cola fantasma" que se reproducía como
+    // eco de lo ya hablado tras terminar la transmisión.
+    const AUDIO_PACE_MS = 120; // igual a la duración real del paquete GSM
+    const audioPaceQueue: Buffer[] = [];
+    let audioPaceTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const sendNextAudioPkt = () => {
+      const pkt = audioPaceQueue.shift();
+      if (!pkt) { audioPaceTimer = null; return; }
+      const room = roomManager.getClient(id)?.room;
+      if (room) roomManager.broadcastBinToLocalWsClients(room, pkt, id);
+      audioPaceTimer = setTimeout(sendNextAudioPkt, AUDIO_PACE_MS);
+    };
+
+    // Cuando el cliente envía RELEASE_PTT (0x0d), drenamos el pace queue sin
+    // esperar los 120ms entre paquetes. Los últimos N paquetes GSM del relay CB
+    // llegan en el mismo tick de Node.js; el navegador los encola secuencialmente
+    // en su nextPlayTimeRef (sin solapamiento) pero sin el retardo del pace timer.
+    // Efecto: el final de la transmisión llega al cliente sin cola de eco.
+    state.flushPaceQueue = () => {
+      if (audioPaceTimer) { clearTimeout(audioPaceTimer); audioPaceTimer = null; }
+      const room = roomManager.getClient(id)?.room;
+      if (!room) { audioPaceQueue.length = 0; return; }
+      while (audioPaceQueue.length > 0) {
+        const pkt = audioPaceQueue.shift()!;
+        roomManager.broadcastBinToLocalWsClients(room, pkt, id);
       }
+    };
+
+    decoder.on("pcm", (pcm: Int16Array) => {
+      const cli = roomManager.getClient(id);
+      if (!cli?.room) return;
+      const float32 = new Float32Array(pcm.length);
+      for (let i = 0; i < pcm.length; i++) {
+        float32[i] = Math.max(-0.45, Math.min(0.45, pcm[i] / 32768.0));
+      }
+      const wsPkt = Buffer.concat([Buffer.from([0x11]), Buffer.from(float32.buffer)]);
+      audioPaceQueue.push(wsPkt);
+      if (!audioPaceTimer) sendNextAudioPkt(); // primer paquete sale inmediatamente
     });
-    tcpDecoder.start();
-    tcpDecoders.set(id, tcpDecoder);
+    decoder.start();
 
     // TCP keepalive a nivel kernel: tras 30s de inactividad de aplicacion, el
     // OS envía probes TCP al extremo remoto. Si este responde (connection alive),

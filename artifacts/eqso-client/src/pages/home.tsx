@@ -28,11 +28,10 @@ export default function HomePage() {
   const [showPTTConfig, setShowPTTConfig] = useState(false);
   const [callsign, setCallsign] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("GENERAL");
-  const [statusMessage, setStatusMessage] = useState("CB27 eQSO");
+  const [statusMessage, setStatusMessage] = useState("CB27 link via internet. ");
   const [password, setPassword] = useState("");
   const [pttActive, setPttActive] = useState(false);
   const pttChunkRef = useRef<(data: ArrayBuffer) => void>(() => {});
-  const wantsPttRef = useRef(false);
 
   const handleAuth = (session: AuthSession) => {
     setAuth(session);
@@ -67,32 +66,19 @@ export default function HomePage() {
 
   const pttStart = useCallback(async () => {
     if (pttActive || !eqso.currentRoom) return;
-    wantsPttRef.current = true;
-    // Inicializar AudioContext y worklet de playback en el gesto del usuario (PTT).
-    // Necesario cuando el usuario se reconecta automáticamente sin pulsar "Unirse".
-    audio.resumeContext();
     audio.muteRx(true);
+    eqso.pttStart();
     setPttActive(true);
     serial.keyDown();
 
     const mode = eqso.selectedServer.mode === "remote" ? "remote" : "local";
-
-    // Init mic FIRST — if permission is denied or dismissed, don't open the TX channel
-    // on the eQSO server (which would cause a timeout disconnect).
     await audio.startRecording((chunk) => {
       pttChunkRef.current(chunk);
     }, mode);
-
-    // Only open the server TX channel after the mic is confirmed ready and user
-    // still has PTT held down (wantsPttRef guards against release during mic init).
-    if (wantsPttRef.current) {
-      eqso.pttStart();
-    }
   }, [pttActive, eqso, audio, serial]);
 
   const pttEnd = useCallback(() => {
     if (!pttActive) return;
-    wantsPttRef.current = false;
     audio.stopRecording();
     eqso.pttEnd();
     setPttActive(false);
@@ -105,39 +91,6 @@ export default function HomePage() {
       eqso.sendAudio(data);
     };
   }, [eqso]);
-
-  // Pre-warm the microphone as soon as the user enters a room so the browser
-  // permission dialog appears immediately — before the first PTT press.
-  // This ensures getUserMedia resolves instantly when PTT is pressed and avoids
-  // the eQSO server closing the connection while waiting for audio.
-  // Also initialize the playback worklet here so RX audio is ready before
-  // the first PTT press — covers auto-rejoin (session restore) where handleJoin
-  // is never called.
-  const prevRoomRef = useRef<string | null>(null);
-  useEffect(() => {
-    if (eqso.currentRoom && eqso.currentRoom !== prevRoomRef.current) {
-      prevRoomRef.current = eqso.currentRoom;
-      const mode = eqso.selectedServer.mode === "remote" ? "remote" : "local";
-      audio.prewarmMic(mode);
-      audio.resumeContext();
-    }
-  }, [eqso.currentRoom, eqso.selectedServer.mode, audio]);
-
-  // Auto-stop PTT when the room is lost (WS disconnect, server restart, etc.)
-  // Without this, the microphone keeps recording indefinitely after disconnection
-  // because pttActive (local state) is never cleared.
-  const pttActiveRef = useRef(false);
-  pttActiveRef.current = pttActive;
-  useEffect(() => {
-    if (!eqso.currentRoom && pttActiveRef.current) {
-      audio.stopRecording();
-      setPttActive(false);
-      wantsPttRef.current = false;
-      audio.muteRx(false);
-      serial.keyUp();
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [eqso.currentRoom]);
 
   useEffect(() => {
     if (showAdmin) return;
@@ -286,10 +239,10 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
             Conectado
           </span>
         )}
-        {(eqsoStatus === "connecting" || eqsoStatus === "reconnecting") && (
+        {eqsoStatus === "connecting" && (
           <span className="flex items-center gap-1.5 text-xs text-yellow-400">
-            <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-            {eqsoStatus === "reconnecting" ? "Reconectando..." : "Conectando..."}
+            <span className="w-2 h-2 rounded-full bg-yellow-400" />
+            Conectando...
           </span>
         )}
         {(eqsoStatus === "disconnected" || eqsoStatus === "error") && (

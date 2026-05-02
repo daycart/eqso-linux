@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getWsUrl } from "../lib/homeServer";
 
-export type ConnectionStatus = "disconnected" | "connecting" | "connected" | "reconnecting" | "error";
+export type ConnectionStatus = "disconnected" | "connecting" | "connected" | "error";
 
 export interface RoomMember {
   name: string;
@@ -27,18 +27,9 @@ export const KNOWN_SERVERS: EqsoServer[] = [
     defaultRooms: ["GENERAL", "CB", "ASORAPA", "PRUEBAS"],
   },
   {
-    id: "vm-asorapa",
-    label: "VM ASORAPA (desarrollo)",
-    description: "Servidor Node.js en VM Ubuntu · puerto 2172",
-    mode: "remote",
-    host: "193.152.83.229",
-    port: 2172,
-    defaultRooms: ["GENERAL", "CB", "ASORAPA", "PRUEBAS"],
-  },
-  {
     id: "asorapa",
     label: "ASORAPA — Radio Club Iria Flavia",
-    description: "Enlace CB27 ASORAPA · Galicia (Windows)",
+    description: "Enlace CB27 ASORAPA · Galicia",
     mode: "remote",
     host: "193.152.83.229",
     port: 8008,
@@ -91,10 +82,6 @@ const WS_AUDIO_LOCAL  = 0x01; // local relay: Uint8 unsigned PCM
 const WS_AUDIO_REMOTE = 0x11; // remote RX:   Float32 PCM decoded from GSM
 const WS_PCM_TX       = 0x05; // remote TX:   Int16 signed PCM → GSM encode on server
 
-interface ConnectParams { server: EqsoServer; customHost?: string; customPort?: number; }
-interface JoinParams   { name: string; room: string; message: string; password: string; token?: string; }
-const SESSION_KEY = "eqso_session";
-
 export function useEqsoClient(
   onAudio?: (data: ArrayBuffer, isFloat32: boolean) => void
 ): EqsoState & EqsoActions {
@@ -102,12 +89,6 @@ export function useEqsoClient(
   useEffect(() => { onAudioRef.current = onAudio; }, [onAudio]);
   const wsRef = useRef<WebSocket | null>(null);
   const pendingJoinRef = useRef<{ name: string; room: string } | null>(null);
-
-  const isUserDisconnectRef = useRef(false);
-  const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastConnectRef = useRef<ConnectParams | null>(null);
-  const lastJoinRef    = useRef<JoinParams   | null>(null);
-  const autoRejoinRef  = useRef<JoinParams   | null>(null);
 
   const [status, setStatus] = useState<ConnectionStatus>("disconnected");
   const [error, setError] = useState<string | null>(null);
@@ -118,8 +99,6 @@ export function useEqsoClient(
   const [activeSpeaker, setActiveSpeaker] = useState<string | null>(null);
   const [pttGranted, setPttGranted] = useState(false);
   const pttGrantedRef = useRef(false);
-  // Timestamp del ultimo ptt_started recibido — para el watchdog de icono TX atascado.
-  const activeSpeakerSinceRef = useRef<number>(0);
   const [channelBusy, setChannelBusy] = useState(false);
   const [selectedServer, setSelectedServer] = useState<EqsoServer>(KNOWN_SERVERS[0]);
   const selectedServerRef = useRef<EqsoServer>(KNOWN_SERVERS[0]);
@@ -167,38 +146,12 @@ export function useEqsoClient(
       case "user_left": {
         const leftName = (msg.name as string ?? "").trim();
         setMembers((prev) => prev.filter((m) => m.name !== leftName));
-        // Defensive: if the leaving user was the active speaker, clear BREAK immediately.
-        // Normally ptt_released_remote arrives first (from proxy auto-release),
-        // but if the user disconnected abruptly without sending [0x0d] this is the safety net.
-        setActiveSpeaker((prev) => {
-          if (prev === leftName) {
-            setChannelBusy(false);
-            return null;
-          }
-          return prev;
-        });
         break;
       }
 
       case "ptt_started":
         setActiveSpeaker(msg.name as string);
-        activeSpeakerSinceRef.current = Date.now();
-        // Solo marcar canal ocupado si NO somos nosotros el TX.
-        // Si pttGrantedRef.current es true, el server ya nos confirmó ptt_granted
-        // y nosotros somos los que estamos transmitiendo; marcar channelBusy aquí
-        // causaría que el botón PTT se bloquee durante nuestra propia TX.
-        if (!pttGrantedRef.current) {
-          setChannelBusy(true);
-        }
-        break;
-
-      case "ptt_reconnecting":
-        // El servidor perdió el TCP con eQSO y está reconectando (~340ms).
-        // Mantenemos pttGranted=true en el browser para que el botón PTT siga
-        // rojo y el usuario no lo suelte pensando que terminó la TX.
-        // El audio del mic sigue llegando al servidor pero se descarta durante el gap.
-        pttGrantedRef.current = true;
-        setPttGranted(true);
+        setChannelBusy(true);
         break;
 
       case "ptt_released":
@@ -209,7 +162,6 @@ export function useEqsoClient(
       case "ptt_released_remote":
         setActiveSpeaker(null);
         setChannelBusy(false);
-        activeSpeakerSinceRef.current = 0;
         break;
 
       case "ptt_granted":
@@ -231,9 +183,6 @@ export function useEqsoClient(
         setCurrentName(null);
         setMembers([]);
         setActiveSpeaker(null);
-        setChannelBusy(false);
-        activeSpeakerSinceRef.current = 0;
-        setError(null); // Limpiar errores de la sesion anterior
         break;
 
       case "error":
@@ -254,7 +203,6 @@ export function useEqsoClient(
     // Remote audio: Float32 PCM decoded server-side from GSM
     if (cmd === WS_AUDIO_REMOTE) {
       if (view.length > 1) {
-        console.debug("[rx] audio packet len:", view.length);
         onAudioRef.current?.(data.slice(1), true);
       }
       return;
@@ -271,21 +219,15 @@ export function useEqsoClient(
     if (cmd === 0x16 && view.length >= 2) {
       const count = view[1];
       if (count === 1 && view.length >= 10) {
-        // eQSO single-entry format — our server format (matches protocol.ts buildPtt*/buildUser*):
+        // eQSO single-event format:
         //   [0x16][0x01][0x00][0x00][0x00][action][0x00][0x00][0x00][nameLen][name...]
-        //   idx:   0     1     2     3     4       5      6     7     8       9
+        // action is at index 5, nameLen is at index 9 (not 4 and 8).
         const action = view[5];
         let off = 9;
         if (off >= view.length) return;
         const nameLen = view[off++];
         if (off + nameLen > view.length) return;
-        let name = "";
-        for (let j = off; j < off + nameLen; j++) {
-          const b = view[j];
-          if (b >= 0x20 && b <= 0x7e) name += String.fromCharCode(b);
-        }
-        name = name.trim();
-        if (!name) return;
+        const name = new TextDecoder().decode(view.slice(off, off + nameLen));
         off += nameLen;
 
         if (action === 0x00) {
@@ -306,34 +248,20 @@ export function useEqsoClient(
           setChannelBusy(false);
         }
       } else if (count > 1) {
-        // Multi-entry user list: header is [0x16][count][0x00][0x00][0x00] (5 bytes),
-        // then per entry: [action][0x00][0x00][0x00][nameLen][name...][msgLen][msg...][0x00]
         const newMembers: RoomMember[] = [];
         const nameSeen = new Set<string>();
-        let off = 5; // skip 5-byte header
+        let off = 4;
         for (let i = 0; i < count; i++) {
           if (off + 5 >= view.length) break;
-          // action + 3 padding bytes (skip 4), then nameLen byte (1)
-          off += 4; // skip action + 3 padding
+          off += 5;
           if (off >= view.length) break;
           const nameLen = view[off++];
-          // Validate nameLen
-          if (nameLen === 0 || nameLen > 32 || off + nameLen > view.length) break;
-          // Sanitize name: only printable ASCII 0x20–0x7E
-          let name = "";
-          for (let j = off; j < off + nameLen; j++) {
-            const b = view[j];
-            if (b >= 0x20 && b <= 0x7e) name += String.fromCharCode(b);
-          }
-          name = name.trim();
+          if (off + nameLen > view.length) break;
+          const name = new TextDecoder().decode(view.slice(off, off + nameLen)).trim();
           off += nameLen;
-          if (off >= view.length) break;
           const msgLen = view[off++];
-          const msg = msgLen > 0 && off + msgLen <= view.length
-            ? new TextDecoder().decode(view.slice(off, off + msgLen)).trim()
-            : "";
+          const msg = msgLen > 0 ? new TextDecoder().decode(view.slice(off, off + msgLen)) : "";
           off += msgLen;
-          off += 1; // trailing 0x00 terminator per entry
           if (name && !nameSeen.has(name)) {
             nameSeen.add(name);
             newMembers.push({ name, message: msg });
@@ -344,12 +272,11 @@ export function useEqsoClient(
     }
   }, []);
 
-  const connectWs = useCallback((server: EqsoServer, customHost?: string, customPort?: number) => {
+  const connect = useCallback((server: EqsoServer, customHost?: string, customPort?: number) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
       wsRef.current.close();
     }
 
-    lastConnectRef.current = { server, customHost, customPort };
     setSelectedServer(server);
     selectedServerRef.current = server;
     setStatus("connecting");
@@ -358,7 +285,6 @@ export function useEqsoClient(
     setCurrentName(null);
     setMembers([]);
     setActiveSpeaker(null);
-    setChannelBusy(false);
     pttGrantedRef.current = false;
     setPttGranted(false);
 
@@ -377,21 +303,6 @@ export function useEqsoClient(
       }
       setStatus("connected");
       setError(null);
-
-      const rejoin = autoRejoinRef.current;
-      if (rejoin) {
-        autoRejoinRef.current = null;
-        pendingJoinRef.current = { name: rejoin.name, room: rejoin.room };
-        const msg: Record<string, unknown> = {
-          type: "join",
-          name: rejoin.name,
-          room: rejoin.room.toUpperCase(),
-          message: rejoin.message,
-          password: rejoin.password,
-        };
-        if (rejoin.token) msg.token = rejoin.token;
-        ws.send(JSON.stringify(msg));
-      }
     };
 
     ws.onmessage = (ev) => {
@@ -405,32 +316,14 @@ export function useEqsoClient(
       }
     };
 
-    ws.onclose = (ev) => {
-      console.error("[eqso] WS closed — code:", ev.code, "reason:", ev.reason || "(sin razón)", "wasClean:", ev.wasClean);
+    ws.onclose = () => {
+      setStatus("disconnected");
       setCurrentRoom(null);
       setCurrentName(null);
       setMembers([]);
       setActiveSpeaker(null);
       pttGrantedRef.current = false;
       setPttGranted(false);
-
-      if (isUserDisconnectRef.current) {
-        isUserDisconnectRef.current = false;
-        setStatus("disconnected");
-        return;
-      }
-
-      const lc = lastConnectRef.current;
-      const lj = lastJoinRef.current;
-      if (lc && lj) {
-        setStatus("reconnecting");
-        reconnectTimerRef.current = setTimeout(() => {
-          autoRejoinRef.current = lj;
-          connectWs(lc.server, lc.customHost, lc.customPort);
-        }, 3000);
-      } else {
-        setStatus("disconnected");
-      }
     };
 
     ws.onerror = () => {
@@ -439,27 +332,7 @@ export function useEqsoClient(
     };
   }, [handleTextMessage, handleBinary]);
 
-  const connect = useCallback((server: EqsoServer, customHost?: string, customPort?: number) => {
-    isUserDisconnectRef.current = false;
-    lastJoinRef.current = null;
-    autoRejoinRef.current = null;
-    if (reconnectTimerRef.current) {
-      clearTimeout(reconnectTimerRef.current);
-      reconnectTimerRef.current = null;
-    }
-    try { localStorage.removeItem(SESSION_KEY); } catch { /* ignore */ }
-    connectWs(server, customHost, customPort);
-  }, [connectWs]);
-
   const disconnect = useCallback(() => {
-    isUserDisconnectRef.current = true;
-    lastJoinRef.current = null;
-    autoRejoinRef.current = null;
-    if (reconnectTimerRef.current) {
-      clearTimeout(reconnectTimerRef.current);
-      reconnectTimerRef.current = null;
-    }
-    try { localStorage.removeItem(SESSION_KEY); } catch { /* ignore */ }
     wsRef.current?.close();
     wsRef.current = null;
     setStatus("disconnected");
@@ -477,21 +350,14 @@ export function useEqsoClient(
 
     let nodeName: string;
     if (token) {
+      // Authenticated: callsign comes from session, server handles prefix/padding
       nodeName = name.toUpperCase().trim();
     } else {
+      // Legacy / unauthenticated: apply 0R- prefix, suffix up to 10 chars
       const upper = name.toUpperCase().trim();
       const withPrefix = upper.startsWith("0R-") ? upper : `0R-${upper}`;
-      nodeName = withPrefix.slice(0, 13);
+      nodeName = withPrefix.slice(0, 13); // "0R-" (3) + 10 chars max
     }
-
-    const joinParams: JoinParams = { name: nodeName, room, message, password, token };
-    lastJoinRef.current = joinParams;
-    try {
-      const lc = lastConnectRef.current;
-      if (lc) {
-        localStorage.setItem(SESSION_KEY, JSON.stringify({ connect: lc, join: joinParams }));
-      }
-    } catch { /* ignore */ }
 
     pendingJoinRef.current = { name: nodeName, room };
     const msg: Record<string, unknown> = {
@@ -508,10 +374,6 @@ export function useEqsoClient(
   const pttStart = useCallback(() => {
     const ws = wsRef.current;
     if (!ws || ws.readyState !== WebSocket.OPEN) return;
-    // Grant optimistically so sendAudio() no descarta el primer chunk mientras
-    // el servidor procesa el ptt_start (latencia de red ~50-150ms).
-    // Si el servidor deniega (canal ocupado), devuelve ptt_denied y reseteamos.
-    pttGrantedRef.current = true;
     ws.send(JSON.stringify({ type: "ptt_start" }));
   }, []);
 
@@ -540,46 +402,7 @@ export function useEqsoClient(
   }, []);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(SESSION_KEY);
-      if (raw) {
-        const saved = JSON.parse(raw) as { connect: ConnectParams; join: JoinParams };
-        if (saved?.connect?.server && saved?.join?.name) {
-          lastConnectRef.current = saved.connect;
-          lastJoinRef.current    = saved.join;
-          autoRejoinRef.current  = saved.join;
-          connectWs(saved.connect.server, saved.connect.customHost, saved.connect.customPort);
-        }
-      }
-    } catch { /* ignore */ }
-  }, [connectWs]);
-
-  // Watchdog anti-atasco de icono TX: si un activeSpeaker lleva más de 45s
-  // sin que llegue ptt_released_remote, forzamos el reset en el cliente.
-  // Causa habitual: el relay daemon reconecta al servidor eQSO mid-TX y la
-  // notificación de fin de TX (ptt_released_remote) se pierde en el gap.
-  // El eqso-proxy.ts ya tiene un watchdog de 30s, pero el cliente puede
-  // quedar out-of-sync si el WS se desconecta brevemente en ese momento.
-  useEffect(() => {
-    const STALE_TX_MS = 45_000;
-    const timer = setInterval(() => {
-      if (activeSpeakerSinceRef.current > 0) {
-        const elapsed = Date.now() - activeSpeakerSinceRef.current;
-        if (elapsed > STALE_TX_MS) {
-          activeSpeakerSinceRef.current = 0;
-          setActiveSpeaker(null);
-          setChannelBusy(false);
-        }
-      }
-    }, 5_000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      wsRef.current?.close();
-      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
-    };
+    return () => { wsRef.current?.close(); };
   }, []);
 
   return {

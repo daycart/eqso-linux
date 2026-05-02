@@ -41,15 +41,10 @@ def main():
         print(f"error abriendo {device}: {e}", file=sys.stderr)
         sys.exit(1)
 
-    # Aseguramos que PTT empieza en OFF (respetando inversion)
-    # inverted=False → PTT OFF = pin LOW (mask cleared)
-    # inverted=True  → PTT OFF = pin HIGH (mask set)
+    # Aseguramos que PTT empieza en OFF
     try:
         mctl = get_mctrl(fd)
-        if inverted:
-            mctl |= mask
-        else:
-            mctl &= ~mask
+        mctl &= ~mask
         set_mctrl(fd, mctl)
     except OSError as e:
         print(f"error ioctl inicial: {e}", file=sys.stderr)
@@ -74,13 +69,10 @@ def main():
         except OSError as e:
             print(f"error ioctl PTT: {e}", file=sys.stderr)
 
-    # Apagar PTT al salir (respetando inversion)
+    # Apagar PTT al salir
     try:
         mctl = get_mctrl(fd)
-        if inverted:
-            mctl |= mask
-        else:
-            mctl &= ~mask
+        mctl &= ~mask
         set_mctrl(fd, mctl)
     except OSError:
         pass

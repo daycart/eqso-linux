@@ -109,7 +109,6 @@ export function ServerMonitor({ token }: Props) {
   const [banCallsignInput, setBanCallsignInput] = useState("");
   const [banReasonInput, setBanReasonInput] = useState("");
   const [showManualBan, setShowManualBan] = useState(false);
-  const [kickCallsignInput, setKickCallsignInput] = useState("");
   const [msg, setMsg] = useState<string | null>(null);
 
   const base = getApiBase();
@@ -159,22 +158,6 @@ export function ServerMonitor({ token }: Props) {
     try {
       await fetch(`${base}/api/admin/moderation/kick/${clientId}`, { method: "POST", headers });
       flash(`${name} expulsado`);
-      await fetchStatus();
-    } catch { /* ignore */ } finally {
-      setActionKey(null);
-    }
-  }
-
-  async function kickByCallsign(callsign: string) {
-    if (!callsign.trim()) return;
-    setActionKey(`kick-cs-${callsign}`);
-    try {
-      await fetch(`${base}/api/admin/moderation/kick-callsign`, {
-        method: "POST", headers,
-        body: JSON.stringify({ callsign: callsign.trim().toUpperCase() }),
-      });
-      flash(`${callsign.toUpperCase()} expulsado`);
-      setKickCallsignInput("");
       await fetchStatus();
     } catch { /* ignore */ } finally {
       setActionKey(null);
@@ -283,29 +266,6 @@ export function ServerMonitor({ token }: Props) {
         </div>
       </div>
 
-      {/* Kick by callsign — expulsar indicativo remoto */}
-      <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
-        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Expulsar indicativo</h3>
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={kickCallsignInput}
-            onChange={e => setKickCallsignInput(e.target.value.toUpperCase())}
-            onKeyDown={e => e.key === "Enter" && kickByCallsign(kickCallsignInput)}
-            placeholder="Ej: 0R-IN70WN"
-            className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm font-mono text-gray-200 placeholder-gray-600 focus:outline-none focus:border-red-600"
-          />
-          <button
-            onClick={() => kickByCallsign(kickCallsignInput)}
-            disabled={!kickCallsignInput.trim() || actionKey === `kick-cs-${kickCallsignInput.trim().toUpperCase()}`}
-            className="px-4 py-2 rounded-lg text-sm font-medium bg-red-900 hover:bg-red-800 text-red-200 disabled:opacity-40 transition-colors"
-          >
-            Expulsar
-          </button>
-        </div>
-        <p className="text-[10px] text-gray-600 mt-2">Desconecta el indicativo indicado del servidor. Útil para liberar un PTT bloqueado por un relay externo.</p>
-      </div>
-
       {/* Active rooms with moderation controls */}
       <div className="space-y-3">
         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide px-1">
@@ -322,17 +282,8 @@ export function ServerMonitor({ token }: Props) {
               <div className="flex items-center gap-2">
                 <span className="text-sm font-semibold text-gray-100">{room.room}</span>
                 {room.locked && (
-                  <span className="flex items-center gap-1.5 text-[10px] bg-orange-900 text-orange-300 border border-orange-700 rounded-full px-2 py-0.5">
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
-                    TX: {room.lockedBy}
-                    <button
-                      onClick={() => kickByCallsign(room.lockedBy)}
-                      disabled={actionKey === `kick-cs-${room.lockedBy}`}
-                      className="ml-1 text-[9px] bg-red-800 hover:bg-red-700 text-red-200 rounded px-1 py-0 disabled:opacity-50 transition-colors"
-                      title={`Expulsar ${room.lockedBy}`}
-                    >
-                      ✕
-                    </button>
+                  <span className="text-[10px] bg-orange-900 text-orange-300 border border-orange-700 rounded-full px-2 py-0.5">
+                    PTT: {room.lockedBy}
                   </span>
                 )}
               </div>

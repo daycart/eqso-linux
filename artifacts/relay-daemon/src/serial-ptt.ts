@@ -49,15 +49,6 @@ export class SerialPtt extends EventEmitter {
       String(this.cfg.inverted),
     ], { stdio: ["pipe", "pipe", "pipe"] });
 
-    // CRITICAL: suppress EPIPE on stdin so Node.js doesn't crash when the
-    // Python helper exits (e.g. device busy, permission error).
-    // stream.write() does NOT throw synchronously for EPIPE — it emits an
-    // async error event. Without this listener Node's default handler throws.
-    this.proc.stdin.on("error", (err: NodeJS.ErrnoException) => {
-      if (err.code === "EPIPE" || err.code === "ERR_STREAM_DESTROYED") return;
-      log(`PTT stdin error: ${err.message}`);
-    });
-
     this.proc.stdout.on("data", (data: Buffer) => {
       const msg = data.toString().trim();
       if (msg === "ready") {
@@ -91,20 +82,11 @@ export class SerialPtt extends EventEmitter {
   /** Activar (true) o desactivar (false) el PTT. */
   set(active: boolean): void {
     const cmd = active ? "1" : "0";
-    if (!this.enabled) {
-      log(`PTT set(${active}) ignorado — PTT serial deshabilitado (device vacio en config)`);
-      return;
-    }
-    if (!this.proc) {
-      log(`PTT set(${active}) → helper caido, reiniciando...`);
-      this.start();
-    }
+    if (!this.enabled) return;
     if (!this.ready) {
-      log(`PTT set(${active}) → pendingCmd=${cmd} (helper no listo aun)`);
       this.pendingCmd = cmd;
       return;
     }
-    log(`PTT set(${active}) → escribiendo "${cmd}" al helper`);
     this._write(cmd);
   }
 

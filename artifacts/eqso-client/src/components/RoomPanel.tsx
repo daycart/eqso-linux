@@ -93,7 +93,7 @@ export function RoomPanel({
             Usuarios en #{currentRoom} ({allMembers.length})
           </p>
           <div className="space-y-1">
-            {allMembers.map((m, i) => {
+            {allMembers.map((m) => {
               const isRadioLink = m.name.startsWith("0R-");
               const isSelf = m.name === currentName;
               const isSelfTx = isSelf && pttActive && pttGranted;
@@ -101,7 +101,7 @@ export function RoomPanel({
               const initials = m.name.replace(/^0R-/, "").slice(0, 2).toUpperCase();
               return (
                 <div
-                  key={m.name || `member-${i}`}
+                  key={m.name}
                   className={`flex items-center gap-2 px-2 py-1.5 rounded-lg transition-colors ${
                     isSelfTx
                       ? "bg-red-900/30"
@@ -252,24 +252,24 @@ export function RoomPanel({
                 onMouseUp={onPttEnd}
                 onTouchStart={(e) => { e.preventDefault(); onPttStart(); }}
                 onTouchEnd={(e) => { e.preventDefault(); onPttEnd(); }}
-                onTouchCancel={(e) => { e.preventDefault(); onPttEnd(); }}
+                disabled={channelBusy && !pttActive}
                 className={`w-40 h-40 rounded-full flex flex-col items-center justify-center gap-2 transition-all duration-150 select-none touch-none
                   ${pttActive && pttGranted
                     ? "bg-red-600 scale-95 shadow-lg shadow-red-900/50 border-4 border-red-400"
                     : pttActive && !pttGranted
                     ? "bg-orange-700 scale-95 border-4 border-orange-500"
                     : channelBusy
-                    ? "bg-amber-900/60 hover:bg-amber-800/70 active:scale-95 border-4 border-amber-700 cursor-pointer"
+                    ? "bg-gray-800 border-4 border-gray-700 cursor-not-allowed opacity-60"
                     : "bg-green-700 hover:bg-green-600 active:scale-95 border-4 border-green-500 shadow-lg shadow-green-900/30 cursor-pointer"
                   }`}
               >
-                <svg viewBox="0 0 24 24" fill="currentColor" className={`w-14 h-14 ${pttActive && pttGranted ? "text-red-100" : channelBusy && !pttActive ? "text-amber-400" : "text-white"}`}>
+                <svg viewBox="0 0 24 24" fill="currentColor" className={`w-14 h-14 ${pttActive && pttGranted ? "text-red-100" : "text-white"}`}>
                   <path d="M12 2a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
                   <path d="M19 10v1a7 7 0 0 1-14 0v-1h2v1a5 5 0 0 0 10 0v-1h2z"/>
                   <rect x="11" y="18" width="2" height="4"/>
                 </svg>
-                <span className={`text-xs font-bold uppercase tracking-widest ${channelBusy && !pttActive ? "text-amber-400/80" : "text-white/80"}`}>
-                  {pttActive && pttGranted ? "TX" : pttActive ? "..." : channelBusy ? "BREAK" : "PTT"}
+                <span className="text-xs font-bold text-white/80 uppercase tracking-widest">
+                  {pttActive && pttGranted ? "TX" : pttActive ? "..." : "PTT"}
                 </span>
               </button>
 
@@ -290,13 +290,13 @@ export function RoomPanel({
             </div>
 
             <div className="text-center">
-              <p className={`text-sm ${channelBusy && !pttActive ? "text-amber-500/80" : "text-gray-500"}`}>
+              <p className="text-gray-500 text-sm">
                 {pttActive && pttGranted
                   ? "Transmitiendo... suelta para dejar de hablar"
                   : pttActive
-                  ? "Esperando canal..."
+                  ? "Esperando..."
                   : channelBusy
-                  ? `Canal ocupado${activeSpeaker ? ` — ${activeSpeaker}` : ""} — pulsa BREAK para interrumpir`
+                  ? "Canal ocupado"
                   : "Mantén pulsado para hablar"}
               </p>
               <p className="text-gray-600 text-xs mt-1">

@@ -5,11 +5,10 @@ import { existsSync } from "fs";
 import { logger } from "../lib/logger";
 import { roomManager } from "./room-manager";
 import { buildPttStarted, buildPttReleased, buildUserJoined, buildUserLeft, AUDIO_PAYLOAD_SIZE } from "./protocol";
-import { db } from "@workspace/db";
-import { systemSettingsTable } from "@workspace/db";
-import { sql } from "drizzle-orm";
 
-const PACKET_INTERVAL_MS = 120;
+const PACKET_INTERVAL_MS = 120; // 6 GSM frames × 20ms = 120ms per eQSO audio packet
+// Remote WebSocket clients receive Float32 PCM at 8000 Hz.
+// 960 samples = 6 GSM frames × 160 samples each (matches eQSO packet timing).
 const REMOTE_CHUNK_SAMPLES = 960;
 const SERVER_CALLSIGN = "SERVIDOR";
 const DEFAULT_TIMEOUT_MIN = 10;
@@ -22,30 +21,6 @@ class InactivityManager {
   private audioFile = process.env.INACTIVITY_AUDIO_FILE ?? DEFAULT_AUDIO_FILE;
   private checkTimer: ReturnType<typeof setInterval> | null = null;
   private playing = new Set<string>();
-
-  // ── Startup: load persisted config from DB ────────────────────────────────
-
-  async init(): Promise<void> {
-    try {
-      const rows = await db.select().from(systemSettingsTable);
-      const map = new Map(rows.map(r => [r.key, r.value]));
-      const savedEnabled = map.get("inactivity_enabled");
-      const savedTimeout = map.get("inactivity_timeout_min");
-      if (savedEnabled !== undefined) {
-        this.enabled = savedEnabled === "1";
-        if (this.enabled) this.startCheckLoop();
-      }
-      if (savedTimeout !== undefined) {
-        this.timeoutMs = Math.max(1, Number(savedTimeout)) * 60_000;
-      }
-      logger.info(
-        { enabled: this.enabled, timeoutMs: this.timeoutMs },
-        "InactivityManager: config loaded from DB"
-      );
-    } catch (err) {
-      logger.warn({ err }, "InactivityManager: could not load config from DB (using defaults)");
-    }
-  }
 
   // ── Public config ────────────────────────────────────────────────────────────
 
@@ -63,13 +38,11 @@ class InactivityManager {
     if (v) this.startCheckLoop();
     else this.stopCheckLoop();
     logger.info({ enabled: v }, "Inactivity manager toggled");
-    this.persistConfig();
   }
 
   setTimeoutMinutes(minutes: number): void {
     this.timeoutMs = Math.max(1, minutes) * 60_000;
     logger.info({ minutes }, "Inactivity timeout updated");
-    this.persistConfig();
   }
 
   setAudioFile(filePath: string): void {
@@ -78,6 +51,7 @@ class InactivityManager {
 
   // ── Activity tracking ────────────────────────────────────────────────────────
 
+  /** Call this whenever a room has a real PTT event */
   recordActivity(room: string): void {
     this.lastActivity.set(room, Date.now());
   }
@@ -110,6 +84,7 @@ class InactivityManager {
         continue;
       }
 
+      // Initialize activity timestamp the first time we see occupied rooms
       if (!this.lastActivity.has(room)) {
         this.lastActivity.set(room, now);
         continue;
@@ -154,17 +129,21 @@ class InactivityManager {
 
     this.playing.add(room);
     try {
+      // Add SERVIDOR as a virtual member so the UI can show VU bar animation
       roomManager.broadcastToRoom(room, buildUserJoined(SERVER_CALLSIGN, INACT_MSG));
       roomManager.broadcastJsonToRemoteRoom(room, { type: "user_joined", name: SERVER_CALLSIGN, message: INACT_MSG });
 
+      // PTT start
       roomManager.broadcastToRoom(room, buildPttStarted(SERVER_CALLSIGN));
       roomManager.broadcastJsonToRemoteRoom(room, { type: "ptt_started", name: SERVER_CALLSIGN });
 
       await this.streamAudio(room);
 
+      // PTT release
       roomManager.broadcastToRoom(room, buildPttReleased(SERVER_CALLSIGN));
       roomManager.broadcastJsonToRemoteRoom(room, { type: "ptt_released_remote", name: SERVER_CALLSIGN });
 
+      // Remove virtual member
       roomManager.broadcastToRoom(room, buildUserLeft(SERVER_CALLSIGN));
       roomManager.broadcastJsonToRemoteRoom(room, { type: "user_left", name: SERVER_CALLSIGN });
     } finally {
@@ -178,8 +157,13 @@ class InactivityManager {
     const packets = await this.convertWavToEqsoPackets(this.audioFile);
     if (packets.length === 0) return;
 
+    // Also prepare decoded Float32 packets for remote WebSocket clients.
+    // Do the PCM conversion in parallel so we don't delay local playback.
     const remotePacketsPromise = this.convertWavToFloat32Packets(this.audioFile);
 
+    // GSM packets → TCP clients only (Windows eQSO clients, radio gateways)
+    // Float32 packets → local WS browser clients AND remote WS clients
+    // This bypasses the JS GSM decoder which produces too-low amplitude.
     const localDone = new Promise<void>((resolve) => {
       let i = 0;
       const timer = setInterval(() => {
@@ -188,10 +172,11 @@ class InactivityManager {
           resolve();
           return;
         }
-        roomManager.broadcastToTcpClientsInRoom(room, packets[i++]!);
+        roomManager.broadcastToTcpClientsInRoom(room, packets[i++]);
       }, PACKET_INTERVAL_MS);
     });
 
+    // Float32 packets → local WS browser clients + remote WS clients
     const wsDone = remotePacketsPromise.then((remotePackets) => new Promise<void>((resolve) => {
       let j = 0;
       const timer = setInterval(() => {
@@ -200,15 +185,16 @@ class InactivityManager {
           resolve();
           return;
         }
-        const pkt = remotePackets[j++]!;
-        roomManager.broadcastBinToLocalWsClients(room, pkt);
-        roomManager.broadcastBinToRemoteRoom(room, pkt);
+        const pkt = remotePackets[j++];
+        roomManager.broadcastBinToLocalWsClients(room, pkt);  // local browser clients
+        roomManager.broadcastBinToRemoteRoom(room, pkt);       // ASORAPA-connected clients
       }, PACKET_INTERVAL_MS);
     }));
 
     await Promise.all([localDone, wsDone]);
   }
 
+  /** Convert WAV → Float32 PCM packets with 0x11 opcode for browser WebSocket clients */
   private convertWavToFloat32Packets(filePath: string): Promise<Buffer[]> {
     return new Promise((resolve, reject) => {
       const ff = spawn("ffmpeg", [
@@ -230,7 +216,7 @@ class InactivityManager {
           return;
         }
         const raw = Buffer.concat(chunks);
-        const totalSamples = raw.byteLength / 2;
+        const totalSamples = raw.byteLength / 2; // s16le = 2 bytes per sample
         const packets: Buffer[] = [];
         const bytesPerChunk = REMOTE_CHUNK_SAMPLES * 2;
 
@@ -238,11 +224,11 @@ class InactivityManager {
           const pcm16 = new Int16Array(raw.buffer, raw.byteOffset + off, REMOTE_CHUNK_SAMPLES);
           const float32 = new Float32Array(REMOTE_CHUNK_SAMPLES);
           for (let i = 0; i < REMOTE_CHUNK_SAMPLES; i++) {
-            float32[i] = Math.max(-0.85, Math.min(0.85, pcm16[i]! / 32768));
+            float32[i] = Math.max(-0.85, Math.min(0.85, pcm16[i] / 32768));
           }
           const payload = Buffer.from(float32.buffer);
           const out = Buffer.allocUnsafe(1 + payload.length);
-          out[0] = 0x11;
+          out[0] = 0x11; // WS_AUDIO_REMOTE opcode
           payload.copy(out, 1);
           packets.push(out);
         }
@@ -266,7 +252,7 @@ class InactivityManager {
 
       const chunks: Buffer[] = [];
       ff.stdout.on("data", (chunk: Buffer) => chunks.push(chunk));
-      ff.stderr.on("data", () => {});
+      ff.stderr.on("data", () => {}); // suppress ffmpeg stderr
 
       ff.on("error", reject);
       ff.on("close", (code) => {
@@ -280,6 +266,7 @@ class InactivityManager {
           const payload = raw.slice(off, off + AUDIO_PAYLOAD_SIZE);
           packets.push(Buffer.concat([Buffer.from([0x01]), payload]));
         }
+        // Pad last partial packet if needed
         const remaining = raw.length % AUDIO_PAYLOAD_SIZE;
         if (remaining > 0) {
           const padded = Buffer.alloc(AUDIO_PAYLOAD_SIZE, 0);
@@ -292,25 +279,12 @@ class InactivityManager {
     });
   }
 
+  /** Save a WAV buffer uploaded by the admin */
   async saveAudioFile(data: Buffer): Promise<void> {
     const dir = path.dirname(this.audioFile);
     await fs.mkdir(dir, { recursive: true });
     await fs.writeFile(this.audioFile, data);
     logger.info({ file: this.audioFile, bytes: data.length }, "Inactivity audio file saved");
-  }
-
-  // ── Private: persist config to DB ────────────────────────────────────────────
-
-  private persistConfig(): void {
-    const doSave = async () => {
-      await db.insert(systemSettingsTable)
-        .values({ key: "inactivity_enabled", value: this.enabled ? "1" : "0" })
-        .onConflictDoUpdate({ target: systemSettingsTable.key, set: { value: sql`excluded.value` } });
-      await db.insert(systemSettingsTable)
-        .values({ key: "inactivity_timeout_min", value: String(this.timeoutMs / 60_000) })
-        .onConflictDoUpdate({ target: systemSettingsTable.key, set: { value: sql`excluded.value` } });
-    };
-    doSave().catch(err => logger.warn({ err }, "InactivityManager: failed to persist config"));
   }
 }
 

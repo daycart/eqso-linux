@@ -31,7 +31,6 @@ export interface ClientInfo {
   txBytes: number;
   rxBytes: number;
   pingMs: number;
-  isRelay?: boolean;
   send: (data: Buffer) => void;
   close: () => void;
 }
@@ -140,11 +139,6 @@ export class RoomManager extends EventEmitter {
     return this.roomLocks.get(room) === clientId;
   }
 
-  /** true si la sala está bloqueada por CUALQUIER cliente (hay TX activa). */
-  isRoomLocked(room: string): boolean {
-    return this.roomLocks.has(room);
-  }
-
   unlockRoom(room: string, clientId: string): void {
     if (this.roomLocks.get(room) === clientId) this.roomLocks.delete(room);
   }
@@ -187,27 +181,6 @@ export class RoomManager extends EventEmitter {
         if (id === excludeId) continue;
         const c = this.clients.get(id);
         if (c?.protocol === "tcp") {
-          try { c.send(data); } catch { /* ignore */ }
-        }
-      }
-    }
-    for (const listener of this.roomListeners.values()) {
-      if (listener.rooms.has(room)) {
-        try { listener.onData(room, data, excludeId ?? ""); } catch { /* ignore */ }
-      }
-    }
-  }
-
-  /** Send PTT control packets (pttStarted/pttReleased) to local WS browser clients
-   *  and room listeners (relay-manager), but NOT to TCP clients (Windows relays like
-   *  0R-ASORAPA that disconnect when they receive action=0x02/0x03 user-update packets). */
-  broadcastToWsClientsAndListeners(room: string, data: Buffer, excludeId?: string): void {
-    const members = this.rooms.get(room);
-    if (members) {
-      for (const id of members) {
-        if (id === excludeId) continue;
-        const c = this.clients.get(id);
-        if (c?.protocol === "ws") {
           try { c.send(data); } catch { /* ignore */ }
         }
       }
@@ -325,14 +298,10 @@ export class RoomManager extends EventEmitter {
     for (const c of allClients) {
       if (!c.room) continue;
       if (!byRoom[c.room]) {
-        const lockedById = this.roomLocks.get(c.room);
-        const lockedByClient = lockedById
-          ? allClients.find(cl => cl.id === lockedById)
-          : undefined;
         byRoom[c.room] = {
           room:     c.room,
-          locked:   !!lockedById,
-          lockedBy: lockedByClient?.name ?? lockedById ?? "",
+          locked:   !!this.roomLocks.get(c.room),
+          lockedBy: this.roomLocks.get(c.room) ?? "",
           clients:  [],
         };
       }

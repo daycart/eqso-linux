@@ -5,8 +5,6 @@ import { EqsoProxy, type ProxyEvent } from "./eqso-proxy";
 import { roomManager } from "./room-manager";
 import { AUDIO_PAYLOAD_SIZE } from "./protocol";
 import { buildPttStarted, buildPttReleased, buildUserJoined, buildUserLeft } from "./protocol";
-import { GsmFfmpegDecoder } from "./gsm-decoder-ffmpeg";
-import { pcmToFloat32Normalized } from "./pcm-utils";
 
 interface RelayConfig {
   id: number;
@@ -31,7 +29,6 @@ interface RelayState {
   txPackets: number;
   remoteUsers: string[];
   transmitting: boolean;
-  decoder: GsmFfmpegDecoder;
 }
 
 const MAX_RECONNECT_DELAY_MS = 10_000;
@@ -79,7 +76,6 @@ class RelayManager {
       txPackets: 0,
       remoteUsers: [],
       transmitting: false,
-      decoder: new GsmFfmpegDecoder(),
     };
   }
 
@@ -93,14 +89,6 @@ class RelayManager {
     this.relays.set(config.id, state);
 
     const listenerId = `relay-${config.id}`;
-
-    // Configurar decoder FFmpeg: cuando llega PCM, enviar Float32 a clientes WS.
-    state.decoder.on("pcm", (pcm: Int16Array) => {
-      const float32 = pcmToFloat32Normalized(pcm);
-      const wsPkt = Buffer.concat([Buffer.from([0x11]), Buffer.from(float32.buffer)]);
-      roomManager.broadcastBinToLocalWsClients(config.localRoom, wsPkt, listenerId);
-    });
-    state.decoder.start();
 
     // Subscribe to local room: forward local audio/PTT to remote server
     roomManager.addRoomListener(listenerId, [config.localRoom], (_room, data, senderId) => {
@@ -174,15 +162,9 @@ class RelayManager {
           break;
 
         case "audio": {
-          const audioPkt = event.data as Buffer; // [0x01][198 bytes GSM]
-          // Send raw GSM packet to TCP eQSO clients and other relay listeners
-          roomManager.broadcastToTcpAndRelays(config.localRoom, audioPkt, listenerId);
-          // Decode GSM → Float32 vía FFmpeg (async).
-          // El evento "pcm" del decoder (configurado en startRelay) envía a clientes WS.
-          if (audioPkt.length >= 1 + AUDIO_PAYLOAD_SIZE) {
-            const gsmPayload = Buffer.from(audioPkt.buffer, audioPkt.byteOffset + 1, AUDIO_PAYLOAD_SIZE);
-            state.decoder.decode(gsmPayload);
-          }
+          const audioPkt = event.data as Buffer;
+          // Broadcast [0x01][GSM] to local room — WS clients will decode via FfmpegGsmDecoder
+          roomManager.broadcastToRoom(config.localRoom, audioPkt, listenerId);
           state.rxPackets++;
           break;
         }
@@ -251,9 +233,6 @@ class RelayManager {
       try { state.proxy.sendPttEnd(); } catch {}
       state.transmitting = false;
     }
-
-    state.decoder.stop();
-    state.decoder.removeAllListeners();
 
     state.proxy?.disconnect();
     state.proxy = null;

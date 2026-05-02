@@ -14,7 +14,7 @@ adminRelaysRouter.get("/relays", async (_req, res) => {
     const liveStatus = relayManager.getStatus();
     const statusById = new Map(liveStatus.map(s => [s.id, s]));
 
-    return void res.json(rows.map(row => ({
+    res.json(rows.map(row => ({
       id:          row.id,
       label:       row.label,
       callsign:    row.callsign,
@@ -32,7 +32,7 @@ adminRelaysRouter.get("/relays", async (_req, res) => {
       txPackets:   statusById.get(row.id)?.txPackets ?? 0,
     })));
   } catch {
-    return void res.status(500).json({ error: "Error interno" });
+    res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -44,9 +44,9 @@ adminRelaysRouter.post("/relays", async (req, res) => {
       localRoom?: string; remoteRoom?: string; password?: string; enabled?: boolean;
     };
 
-    if (!label?.trim()) return void res.status(400).json({ error: "El nombre es obligatorio" });
-    if (!callsign?.trim()) return void res.status(400).json({ error: "El indicativo es obligatorio" });
-    if (!server?.trim()) return void res.status(400).json({ error: "El servidor es obligatorio" });
+    if (!label?.trim()) return res.status(400).json({ error: "El nombre es obligatorio" });
+    if (!callsign?.trim()) return res.status(400).json({ error: "El indicativo es obligatorio" });
+    if (!server?.trim()) return res.status(400).json({ error: "El servidor es obligatorio" });
 
     const [row] = await db.insert(relayConnectionsTable).values({
       label:      label.trim(),
@@ -61,9 +61,9 @@ adminRelaysRouter.post("/relays", async (req, res) => {
 
     await relayManager.reloadRelay(row.id);
 
-    return void res.status(201).json(row);
+    res.status(201).json(row);
   } catch {
-    return void res.status(500).json({ error: "Error interno" });
+    res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -76,9 +76,9 @@ adminRelaysRouter.put("/relays/:id", async (req, res) => {
       localRoom?: string; remoteRoom?: string; password?: string; enabled?: boolean;
     };
 
-    if (!label?.trim()) return void res.status(400).json({ error: "El nombre es obligatorio" });
-    if (!callsign?.trim()) return void res.status(400).json({ error: "El indicativo es obligatorio" });
-    if (!server?.trim()) return void res.status(400).json({ error: "El servidor es obligatorio" });
+    if (!label?.trim()) return res.status(400).json({ error: "El nombre es obligatorio" });
+    if (!callsign?.trim()) return res.status(400).json({ error: "El indicativo es obligatorio" });
+    if (!server?.trim()) return res.status(400).json({ error: "El servidor es obligatorio" });
 
     const [row] = await db.update(relayConnectionsTable).set({
       label:      label.trim(),
@@ -91,13 +91,13 @@ adminRelaysRouter.put("/relays/:id", async (req, res) => {
       enabled:    enabled === true,
     }).where(eq(relayConnectionsTable.id, id)).returning();
 
-    if (!row) return void res.status(404).json({ error: "Enlace no encontrado" });
+    if (!row) return res.status(404).json({ error: "Enlace no encontrado" });
 
     await relayManager.reloadRelay(id);
 
-    return void res.json(row);
+    res.json(row);
   } catch {
-    return void res.status(500).json({ error: "Error interno" });
+    res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -107,9 +107,9 @@ adminRelaysRouter.delete("/relays/:id", async (req, res) => {
     const id = Number(req.params.id);
     relayManager.deleteRelay(id);
     await db.delete(relayConnectionsTable).where(eq(relayConnectionsTable.id, id));
-    return void res.json({ ok: true });
+    res.json({ ok: true });
   } catch {
-    return void res.status(500).json({ error: "Error interno" });
+    res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -121,11 +121,11 @@ adminRelaysRouter.post("/relays/:id/start", async (req, res) => {
       .set({ enabled: true })
       .where(eq(relayConnectionsTable.id, id))
       .returning();
-    if (!row) return void res.status(404).json({ error: "Enlace no encontrado" });
+    if (!row) return res.status(404).json({ error: "Enlace no encontrado" });
     await relayManager.reloadRelay(id);
-    return void res.json({ ok: true });
+    res.json({ ok: true });
   } catch {
-    return void res.status(500).json({ error: "Error interno" });
+    res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -137,10 +137,10 @@ adminRelaysRouter.post("/relays/:id/stop", async (req, res) => {
       .set({ enabled: false })
       .where(eq(relayConnectionsTable.id, id))
       .returning();
-    if (!row) return void res.status(404).json({ error: "Enlace no encontrado" });
+    if (!row) return res.status(404).json({ error: "Enlace no encontrado" });
     await relayManager.reloadRelay(id);
-    return void res.json({ ok: true });
+    res.json({ ok: true });
   } catch {
-    return void res.status(500).json({ error: "Error interno" });
+    res.status(500).json({ error: "Error interno" });
   }
 });

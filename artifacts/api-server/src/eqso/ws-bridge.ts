@@ -17,7 +17,6 @@ import {
 } from "./protocol";
 import { EqsoProxy, ProxyEvent } from "./eqso-proxy";
 import { validateSession } from "../lib/auth";
-import { pcmToFloat32Normalized } from "./pcm-utils";
 import { moderationManager } from "./moderation-manager";
 import {
   FfmpegGsmEncoder,
@@ -35,7 +34,7 @@ const WS_PCM_TX       = 0x05; // remote TX:   Int16 signed PCM (→ encode to GS
 const PCM_CHUNK_SAMPLES = GSM_FRAME_SAMPLES * FRAMES_PER_PACKET; // 960 samples per GSM packet
 
 const SERVER_VERSION = "eQSO Linux Server v1.0";
-const KEEPALIVE_MS = 3_000;
+const KEEPALIVE_MS = 30_000;
 
 interface WsMessage {
   type:
@@ -98,7 +97,12 @@ function handleLocalMode(
   });
 
   localDecoder.on("pcm", (pcm: Int16Array) => {
-    const float32 = pcmToFloat32Normalized(pcm);
+    const float32 = new Float32Array(pcm.length);
+    for (let i = 0; i < pcm.length; i++) {
+      // Clamp to ±0.45 so that with the browser's 2× gain node the peak is
+      // 0.9 FS — prevents hard clipping on full-scale radio audio.
+      float32[i] = Math.max(-0.45, Math.min(0.45, pcm[i] / 32768));
+    }
     const payload = Buffer.from(float32.buffer);
     const out = Buffer.allocUnsafe(1 + payload.length);
     out[0] = WS_AUDIO_REMOTE;
@@ -127,42 +131,20 @@ function handleLocalMode(
         return;
       }
 
-      // eQSO 0x16 single-event packet — any action (user_joined / user_left / ptt_start / ptt_release).
-      // The action byte lives at offset 5 (count=1 → bytes [0x16][0x01][0x00][0x00][0x00][action]…).
-      // Convert ALL four actions to JSON so handleTextMessage picks them up — same path as remote mode.
-      // Sanitize names to printable ASCII 0x20–0x7E to avoid garbled chars from Windows relay packets.
+      // eQSO 0x16 single-event packet: PTT start (action=0x02) / PTT release (action=0x03)
+      // The action byte lives at offset 5, not offset 4 (client binary parser would misread it).
+      // Convert to JSON so handleTextMessage picks it up — same path as remote mode.
       if (data[0] === 0x16 && data.length > 1 && data[1] === 0x01 && data.length >= 10) {
         const action = data[5];
-        if (action === 0x00 || action === 0x01 || action === 0x02 || action === 0x03) {
+        if (action === 0x02 || action === 0x03) {
           const nameLen = data[9];
-          if (nameLen > 0 && nameLen <= 32 && 10 + nameLen <= data.length) {
-            let name = "";
-            for (let i = 10; i < 10 + nameLen; i++) {
-              const b = data[i];
-              if (b >= 0x20 && b <= 0x7e) name += String.fromCharCode(b);
-            }
-            name = name.trim();
-            if (name) {
-              if (action === 0x00) {
-                let off = 10 + nameLen;
-                let message = "";
-                if (off < data.length) {
-                  const msgLen = data[off++];
-                  if (msgLen > 0 && off + msgLen <= data.length) {
-                    message = data.slice(off, off + msgLen).toString("ascii").trim();
-                  }
-                }
-                sendJson(ws, { type: "user_joined", name, message });
-              } else if (action === 0x01) {
-                sendJson(ws, { type: "user_left", name });
-              } else if (action === 0x02) {
-                sendJson(ws, { type: "ptt_started", name });
-              } else {
-                sendJson(ws, { type: "ptt_released_remote", name });
-              }
-              return;
-            }
+          const name = data.slice(10, 10 + nameLen).toString("ascii");
+          if (action === 0x02) {
+            sendJson(ws, { type: "ptt_started", name });
+          } else {
+            sendJson(ws, { type: "ptt_released_remote", name });
           }
+          return;
         }
       }
 
@@ -179,8 +161,6 @@ function handleLocalMode(
   sendJson(ws, { type: "server_info", message: SERVER_VERSION + " (Local)" });
 
   const pingTimer = setInterval(() => {
-    if (ws.readyState !== WebSocket.OPEN) return;
-    ws.ping();
     sendJson(ws, { type: "keepalive" });
   }, KEEPALIVE_MS);
 
@@ -360,40 +340,9 @@ function handleRemoteMode(
 } {
   const proxy = new EqsoProxy(host, port);
   let pttGranted = false;
-  /** True when PTT was active at the moment the external proxy disconnected.
-   *  Cleared on manual ptt_end or when auto-re-grant succeeds on reconnect.
-   *  Allows seamless PTT recovery when the external server kicks the proxy mid-TX. */
-  let pttWasActiveAtDisconnect = false;
   let pttTailTimer: ReturnType<typeof setTimeout> | null = null;
   let currentName = "";
   let currentRoom = "";
-  let currentMessage = "";
-  let currentPassword = "";
-
-  // Auto-reconexión: cuando el servidor externo cierra la TCP, reintentamos
-  // automáticamente sin cerrar el WS del browser.
-  let proxyReconnectTimer: ReturnType<typeof setTimeout> | null = null;
-  let proxyReconnectAttempts = 0;
-  const MAX_PROXY_RECONNECT = 20;
-
-  function scheduleProxyReconnect(): void {
-    if (proxyReconnectTimer !== null) return;
-    if (proxyReconnectAttempts >= MAX_PROXY_RECONNECT) {
-      sendJson(ws, { type: "disconnected", message: "Servidor remoto no disponible tras varios intentos" });
-      return;
-    }
-    proxyReconnectAttempts++;
-    // Primer intento: inmediato (0ms) — el servidor puede cortar la TX cada ~10s
-    // y queremos re-grant lo más rápido posible para minimizar el silencio.
-    // Intentos sucesivos: backoff progresivo por si hay error de red real.
-    const delay = proxyReconnectAttempts === 1 ? 0 : Math.min(300 * (proxyReconnectAttempts - 1), 5000);
-    logger.info({ host, port, attempt: proxyReconnectAttempts, delay }, "Remote proxy: scheduling reconnect");
-    sendJson(ws, { type: "server_info", message: `Reconectando a ${host}:${port}...` });
-    proxyReconnectTimer = setTimeout(() => {
-      proxyReconnectTimer = null;
-      if (ws.readyState === WebSocket.OPEN) proxy.connect();
-    }, delay);
-  }
 
   // Register this outgoing connection in the room manager for monitoring
   const remoteConnInfo: RemoteConnectionInfo = {
@@ -428,49 +377,11 @@ function handleRemoteMode(
   // the last voice frames make it through before the channel closes.
   const PTT_TAIL_MS = 300;
 
-  // GSM frame rate limiter: eQSO protocol expects 1 frame every 20ms (50 fps).
-  // ffmpeg batches 960 PCM samples → 6 GSM frames all at once (one burst per
-  // browser AudioWorklet chunk = 120ms). Sending 6×33 bytes in a burst causes
-  // Windows eQSO relay clients (e.g. 0R-ASORAPA) to disconnect.
-  // Fix: queue frames and drain via setInterval at 20ms so each frame is
-  // delivered at the correct protocol rate.
-  const GSM_FRAME_INTERVAL_MS = 20;
-  const gsmFrameQueue: Buffer[] = [];
-  let gsmFrameTimer: ReturnType<typeof setInterval> | null = null;
-
-  function startGsmFrameTimer(): void {
-    if (gsmFrameTimer) return;
-    gsmFrameTimer = setInterval(() => {
-      const frame = gsmFrameQueue.shift();
-      if (frame) {
-        proxy.sendAudio(frame);
-        roomManager.updateRemoteConn(id, {
-          txBytes: (roomManager.getRemoteConn(id)?.txBytes ?? 0) + frame.length,
-        });
-        logger.info({ bytes: frame.length }, "Remote TX: sent GSM packet");
-      } else {
-        clearInterval(gsmFrameTimer!);
-        gsmFrameTimer = null;
-      }
-    }, GSM_FRAME_INTERVAL_MS);
-  }
-
-  function stopGsmFrameTimer(): void {
-    if (gsmFrameTimer) { clearInterval(gsmFrameTimer); gsmFrameTimer = null; }
-    gsmFrameQueue.length = 0;
-  }
-
   function releasePtt(): void {
-    stopGsmFrameTimer();
     pttGranted = false;
-    pttWasActiveAtDisconnect = false; // user explicitly released PTT — cancel any pending auto-re-grant
     pcmAccum = new Int16Array(0);
     proxy.sendPttEnd();
     logger.info({ name: currentName }, "Remote TX: PTT end sent to eQSO server");
-    // Mirror PTT release to local relay daemon so the CB radio unkeys
-    if (currentRoom && currentName) {
-      roomManager.broadcastToRoom(currentRoom, buildPttReleased(currentName), id);
-    }
   }
 
   // ── FFmpeg codec instances (pre-warmed at connection time) ──────────────────
@@ -481,92 +392,51 @@ function handleRemoteMode(
 
   // When decoder produces a decoded PCM packet, send it to browser
   decoder.on("pcm", (pcm: Int16Array) => {
-    const float32 = pcmToFloat32Normalized(pcm);
+    let peak = 0;
+    const float32 = new Float32Array(pcm.length);
+    for (let i = 0; i < pcm.length; i++) {
+      const a = Math.abs(pcm[i]);
+      if (a > peak) peak = a;
+      // Clamp a ±0.45 para que el nodo gain×2 del navegador no supere 0.90 FS.
+      // ±0.85 anterior causaba clipping (0.85×2=1.70) con el radioenlace amplificado.
+      float32[i] = Math.max(-0.45, Math.min(0.45, pcm[i] / 32768));
+    }
     const header = Buffer.alloc(1);
     header[0] = WS_AUDIO_REMOTE;
     const payload = Buffer.from(float32.buffer);
     sendBin(ws, Buffer.concat([header, payload]));
+    logger.info({ samples: pcm.length, peak }, "Remote RX: sent Float32 to browser");
   });
 
-  // When encoder produces a GSM packet, queue it for rate-limited delivery.
-  // Do NOT call proxy.sendAudio() directly — that would burst 6 frames at once
-  // and disconnect Windows eQSO relay clients (see rate limiter comment above).
-  // ALSO mirror the frame to the local TCP relay daemon (same local room name
-  // as the remote room) so the CB radio receives audio when the web client TXes.
+  // When encoder produces a GSM packet, forward it to the eQSO server
   encoder.on("gsm", (gsm: Buffer) => {
     if (!pttGranted) return; // discard if PTT released mid-frame
-    gsmFrameQueue.push(Buffer.from(gsm));
-    startGsmFrameTimer();
-    // Mirror to local relay daemon: build [0x01][GSM] and broadcast to TCP clients
-    if (currentRoom) {
-      const gsmPkt = Buffer.allocUnsafe(1 + gsm.length);
-      gsmPkt[0] = 0x01;
-      gsm.copy(gsmPkt, 1);
-      roomManager.broadcastToTcpAndRelays(currentRoom, gsmPkt, id);
-    }
+    proxy.sendAudio(gsm);
+    roomManager.updateRemoteConn(id, {
+      txBytes: (roomManager.getRemoteConn(id)?.txBytes ?? 0) + gsm.length,
+    });
+    logger.info({ bytes: gsm.length }, "Remote TX: sent GSM packet");
   });
 
   proxy.on("event", (ev: ProxyEvent) => {
     switch (ev.type) {
       case "connected":
         roomManager.updateRemoteConn(id, { status: "connected", connectedAt: Date.now() });
-        proxyReconnectAttempts = 0;
         sendJson(ws, { type: "server_info", message: `Conectado a ${host}:${port}` });
-        // Si reconectamos automáticamente (currentRoom ya establecida), re-unirse a la sala.
-        // NO re-grant de PTT aquí: el servidor eQSO externo necesita confirmar el JOIN
-        // (via user_update/members) antes de aceptar [0x09]. Si mandamos [0x09] antes,
-        // el servidor responde "Nombre de sala invalido" y desconecta otra vez.
-        // El re-grant se hace en el handler "members" (ver abajo).
-        if (currentRoom && currentName) {
-          logger.info({ name: currentName, room: currentRoom }, "Remote proxy: auto-rejoining after reconnect");
-          proxy.sendJoin(currentName, currentRoom, currentMessage, currentPassword);
-        }
         break;
       case "server_info":
-        // Informacion del servidor remoto (hello eQSO, nombre del servidor).
-        // NO reenviar como "error" — era lo que causaba el texto garbled en el
-        // panel rojo del cliente web cuando el servidor Windows eQSO mandaba
-        // el paquete 0x0b de bienvenida al conectar en modo remoto.
-        sendJson(ws, { type: "server_info", message: String(ev.data) });
+        sendJson(ws, { type: "error", message: String(ev.data) });
         break;
       case "disconnected":
         roomManager.updateRemoteConn(id, { status: "disconnected" });
         remoteConnInfo.remoteMembers = [];
-        // Si el TX estaba activo, liberarlo antes de reconectar
-        if (pttGranted) {
-          if (pttTailTimer) { clearTimeout(pttTailTimer); pttTailTimer = null; }
-          stopGsmFrameTimer();
-          // Remember PTT was active so we can auto-re-grant after reconnect
-          // (user is still holding the button — don't force a re-press).
-          pttWasActiveAtDisconnect = true;
-          pttGranted = false;
-          pcmAccum = new Int16Array(0);
-          // Enviar "ptt_reconnecting" en lugar de "ptt_released": el browser mantiene
-          // pttGrantedRef=true y el botón PTT sigue rojo, evitando que el usuario
-          // suelte el botón creyendo que terminó la TX. El audio del browser se sigue
-          // capturando pero el servidor descarta los frames (pttGranted=false) hasta
-          // reconectar (~340ms). En onAir la pausa es imperceptible.
-          sendJson(ws, { type: "ptt_reconnecting" });
-          // Desactivar la radio CB del relay daemon para que no quede keyed
-          if (currentRoom && currentName) {
-            roomManager.broadcastToRoom(currentRoom, buildPttReleased(currentName), id);
-          }
-          logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT released on disconnect — will auto-re-grant on reconnect");
-        }
-        // Auto-reconexión: si estábamos en una sala, reintentar sin cerrar el WS
-        if (currentRoom && currentName) {
-          scheduleProxyReconnect();
-        } else {
-          sendJson(ws, { type: "disconnected", message: "Servidor desconectado" });
-        }
+        sendJson(ws, { type: "disconnected", message: "Servidor desconectado" });
         break;
       case "error":
         sendJson(ws, { type: "error", message: `Error de conexión: ${ev.data}` });
         break;
       case "room_list":
-        // No reenviar la lista de salas del servidor externo al browser.
-        // El browser sólo debe ver las salas locales (ya enviadas al conectar).
-        // La lista del servidor externo puede contener entradas binarias/corruptas.
+        sendJson(ws, { type: "room_list", rooms: ev.data as string[] });
         break;
       case "members":
         sendJson(ws, {
@@ -575,19 +445,6 @@ function handleRemoteMode(
           name: currentName,
           members: ev.data,
         });
-        // Re-grant de PTT AQUÍ: el servidor ya confirmó el JOIN via user_update.
-        // Ahora sí podemos enviar [0x09] sin que el servidor responda
-        // "Nombre de sala invalido". El gap de audio aumenta ~400ms respecto al
-        // early-grant anterior, pero se eliminan los desconectes en cascada.
-        if (pttWasActiveAtDisconnect) {
-          pttWasActiveAtDisconnect = false;
-          pttGranted = true;
-          pcmAccum = new Int16Array(0);
-          proxy.startTransmitting();
-          sendJson(ws, { type: "ptt_granted" });
-          roomManager.broadcastToRoom(currentRoom, buildPttStarted(currentName), id);
-          logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT re-granted after join confirmed (members received)");
-        }
         break;
       case "user_joined": {
         const joined = ev.data as { name: string; message: string };
@@ -622,13 +479,13 @@ function handleRemoteMode(
         break;
       }
       case "audio": {
-        // Incoming GSM packet from remote eQSO server: [0x01][33 bytes GSM]
+        // Incoming GSM packet from remote eQSO server: [0x01][198 bytes GSM]
         const pkt = ev.data as Buffer;
         if (pkt.length < 1 + AUDIO_PAYLOAD_SIZE) break;
         roomManager.updateRemoteConn(id, {
           rxBytes: (roomManager.getRemoteConn(id)?.rxBytes ?? 0) + pkt.length,
         });
-        // Feed 33-byte GSM frame into the streaming decoder
+        // Feed 198-byte GSM payload into the streaming decoder
         const gsmBuf = Buffer.from(
           pkt.buffer,
           pkt.byteOffset + 1,
@@ -720,9 +577,6 @@ function handleRemoteMode(
 
           currentName = resolvedName;
           currentRoom = room;
-          currentMessage = message;
-          currentPassword = password;
-          proxyReconnectAttempts = 0; // nueva sala: resetear intentos de reconexión
           remoteConnInfo.remoteMembers = []; // reset list when joining a new room
           rmAddMember(resolvedName, message);    // add self to member list
           roomManager.updateRemoteConn(id, { name: resolvedName, room });
@@ -743,10 +597,6 @@ function handleRemoteMode(
           proxy.startTransmitting();
           sendJson(ws, { type: "ptt_granted" });
           logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT start (first voice frame will open channel)");
-          // Mirror PTT start to local relay daemon so the CB radio keys up
-          if (currentRoom && currentName) {
-            roomManager.broadcastToRoom(currentRoom, buildPttStarted(currentName), id);
-          }
           break;
         case "ptt_end":
           rmSetTx(currentName, false);
@@ -765,10 +615,7 @@ function handleRemoteMode(
     },
 
     onClose: () => {
-      // Cancelar cualquier reconexión pendiente (el usuario cerró la sesión)
-      if (proxyReconnectTimer) { clearTimeout(proxyReconnectTimer); proxyReconnectTimer = null; }
       if (pttTailTimer) { clearTimeout(pttTailTimer); pttTailTimer = null; }
-      stopGsmFrameTimer();
       if (pttGranted) proxy.sendPttEnd(); // release channel before disconnecting
       pttGranted = false;
       pcmAccum = new Int16Array(0);
@@ -802,8 +649,6 @@ export function startWsBridge(httpServer: HttpServer): WebSocketServer {
         clearInterval(keepaliveTimer);
         return;
       }
-      ws.ping();
-      sendJson(ws, { type: "keepalive" });
     }, KEEPALIVE_MS);
 
     sendJson(ws, {
