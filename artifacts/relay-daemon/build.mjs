@@ -18,6 +18,5 @@ await build({
 // Copiar helpers Python junto al .mjs
 mkdirSync("dist", { recursive: true });
 copyFileSync("src/ptt-helper.py", "dist/ptt-helper.py");
-copyFileSync("src/ptt-test.py",   "dist/ptt-test.py");
 
 console.log("relay-daemon build OK");

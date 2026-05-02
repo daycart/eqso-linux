@@ -86,6 +86,27 @@ export class AlsaAudio extends EventEmitter {
     this.decoder.decode(gsm);
   }
 
+  /**
+   * Suspende arecord INMEDIATAMENTE al inicio del RX, sin esperar a que el
+   * jitter buffer se llene. El jitter se acumula mientras arecord cierra en
+   * paralelo → el primer chunk de audio llega al aplay ~500ms antes.
+   *
+   * Llamar en el primer paquete de audio de cada sesion RX (!wasActive).
+   * Las llamadas siguientes son no-op (recorderSuspended ya es true).
+   */
+  suspendRecorderForRx(): void {
+    if (this.recorderSuspended || !this.recorder) return;
+    log("[audio] Semi-duplex: suspendiendo arecord para RX (preventivo)");
+    this.recorderSuspended = true;
+    const rec = this.recorder;
+    this.recorder = null;
+    const watchdog = setTimeout(() => {
+      try { rec.kill("SIGKILL"); } catch { /* ignore */ }
+    }, 500);
+    rec.once("close", () => clearTimeout(watchdog));
+    try { rec.kill("SIGTERM"); } catch { clearTimeout(watchdog); }
+  }
+
   endRx(): void {
     this.stopPlayer();
   }
