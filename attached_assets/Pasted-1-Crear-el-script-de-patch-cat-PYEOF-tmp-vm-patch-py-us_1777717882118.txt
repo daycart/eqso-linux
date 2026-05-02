@@ -1,0 +1,78 @@
+1. Crear el script de patch
+cat << 'PYEOF' > /tmp/vm_patch.py
+#!/usr/bin/env python3
+import sys, re
+
+def patch_config(path):
+    with open(path) as f:
+        src = f.read()
+    if "postRxSuppressMs" in src:
+        print("[config] postRxSuppressMs ya existe, sin cambios")
+        return False
+    src = src.replace(
+        "  outputGain: number;\n}",
+        "  outputGain: number;\n  postRxSuppressMs: number;\n}",
+        1
+    )
+    src = re.sub(
+        r"(outputGain:\s*[\d.]+,\s*\n)(\s*}\s*,\s*\n\s*control:)",
+        r"\1    postRxSuppressMs: 2500,\n\2",
+        src
+    )
+    with open(path, "w") as f:
+        f.write(src)
+    print("[config] postRxSuppressMs a\Uffffffffdo")
+    return True
+
+def patch_main(path):
+    with open(path) as f:
+        src = f.read()
+    changed = False
+
+    if "cfg.audio.postRxSuppressMs" not in src:
+        new_src = re.sub(
+            r"Date\.now\(\)\s*\+\s*POST_RX_SUPPRESS_MS",
+            "Date.now() + cfg.audio.postRxSuppressMs",
+            src
+        )
+        if new_src != src:
+            src = new_src
+            print("[main] Fix 2: POST_RX_SUPPRESS_MS ? cfg.audio.postRxSuppressMs")
+            changed = True
+        else:
+            print("[main] AVISO fix2: POST_RX_SUPPRESS_MS no encontrado")
+    else:
+CB -n 15 --no-pager-filter @workspace/relay-daemon run build && echo "BUILD OK" && sudo systemctl restart eqso-relay@CB && sleep 2 && sudo journalctl -u eqso-relay@
+[config] postRxSuppressMs a\Uffffffffdo
+[main] AVISO fix2: POST_RX_SUPPRESS_MS no encontrado
+[main] Fix 3: ptt_started suppress a\Uffffffffdo
+Traceback (most recent call last):
+  File "/tmp/vm_patch.py", line 80, in <module>
+    c2 = patch_main("/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts")
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/vm_patch.py", line 74, in patch_main
+    with open(path, "w") as f:
+         ^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts'
+[sudo] password for david: 
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+BUILD OK
+may 02 10:30:34 ubuntus eqso-relay-CB[8361]: [eqso] 2026-05-02T10:30:34.962Z Handshake recibido \Uffffffff conexion establecida
+may 02 10:30:34 ubuntus eqso-relay-CB[8361]: [main] 2026-05-02T10:30:34.964Z Conectado \Uffffffff enviando JOIN\Uffffffff
+may 02 10:30:34 ubuntus eqso-relay-CB[8361]: [eqso] 2026-05-02T10:30:34.973Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+may 02 10:30:34 ubuntus eqso-relay-CB[8361]: [eqso] 2026-05-02T10:30:34.985Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 02 10:30:34 ubuntus eqso-relay-CB[8361]: [main] 2026-05-02T10:30:34.993Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [audio] 2026-05-02T10:30:35.002Z [arecord] chunk#3: 7680 bytes brutos ? 640 muestras 8kHz (decimate\Uffffffff)
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [audio] 2026-05-02T10:30:35.006Z [arecord] GAP 71ms (chunk#3, 640 muestras)
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [main] 2026-05-02T10:30:35.037Z Sala: 0R-IN70WN se ha unido
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [audio] 2026-05-02T10:30:35.058Z [arecord] chunk#4: 5760 bytes brutos ? 480 muestras 8kHz (decimate\Uffffffff)
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [audio] 2026-05-02T10:30:35.058Z [arecord] GAP 56ms (chunk#4, 480 muestras)
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [audio] 2026-05-02T10:30:35.089Z [arecord] chunk#5: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [audio] 2026-05-02T10:30:35.099Z [arecord] chunk#6: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [audio] 2026-05-02T10:30:35.125Z [arecord] chunk#7: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [audio] 2026-05-02T10:30:35.142Z [arecord] chunk#8: 1920 bytes brutos ? 160 muestras 8kHz (decimate\Uffffffff)
+may 02 10:30:35 ubuntus eqso-relay-CB[8361]: [audio] 2026-05-02T10:30:35.203Z [arecord] GAP 61ms (chunk#9, 160 muestras)
