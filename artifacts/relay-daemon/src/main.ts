@@ -242,9 +242,10 @@ function connect(): void {
       case "ptt_started": {
         const u = ev.data as { name: string };
         log(`TX: ${u.name} transmitiendo`);
-        // FIX: inhibir VOX inmediatamente cuando otro usuario empieza a TX.
-        // Sin esto, el relay intenta activar PTT en la ventana entre ptt_started
-        // y la llegada del primer paquete de audio (altavoz CB→micro→VOX loop).
+        // Suprimir silence [0x02] mientras el canal está ocupado por otro usuario.
+        // Sin esto el servidor responde [0x08] "canal ocupado" cada 150ms.
+        client.setRxBusy(true);
+        // Inhibir VOX inmediatamente cuando otro usuario empieza a TX.
         {
           const suppUntil = Date.now() + cfg.audio.postRxSuppressMs;
           const prev = postRxVoxSuppressUntil;
@@ -258,6 +259,8 @@ function connect(): void {
       case "ptt_released": {
         const u = ev.data as { name: string };
         log(`TX: ${u.name} libero canal`);
+        // Reanudar silence [0x02] cuando el canal queda libre
+        client.setRxBusy(false);
         break;
       }
 

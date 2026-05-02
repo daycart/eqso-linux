@@ -146,6 +146,7 @@ export class EqsoClient extends EventEmitter {
   private handshakeDone = false;
   private silenceTimer: ReturnType<typeof setInterval> | null = null;
   private transmitting = false;
+  private rxBusy = false; // canal ocupado por otro usuario → no enviar silence
   public connected = false;
 
   constructor(
@@ -218,6 +219,15 @@ export class EqsoClient extends EventEmitter {
     log(`JOIN enviado: callsign="${name}" sala="${room}"`);
   }
 
+  /**
+   * Notifica al cliente que el canal esta ocupado por otro usuario (RX activo).
+   * Durante ese tiempo se suprime el silence frame [0x02] para evitar que el
+   * servidor responda [0x08] "canal ocupado" en cada intervalo de 150ms.
+   */
+  setRxBusy(busy: boolean): void {
+    this.rxBusy = busy;
+  }
+
   /** Pausa el silence heartbeat para que podamos transmitir. */
   startTx(): void {
     this.transmitting = true;
@@ -246,7 +256,8 @@ export class EqsoClient extends EventEmitter {
   private startSilence(): void {
     if (this.silenceTimer) return;
     this.silenceTimer = setInterval(() => {
-      if (!this.transmitting) this.write(Buffer.from([0x02]));
+      // No enviar silence si el canal esta ocupado por otro (evita [0x08] spam)
+      if (!this.transmitting && !this.rxBusy) this.write(Buffer.from([0x02]));
     }, SILENCE_INTERVAL_MS);
   }
 
