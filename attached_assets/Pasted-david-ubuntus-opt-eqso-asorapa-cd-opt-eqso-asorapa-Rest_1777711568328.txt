@@ -1,0 +1,54 @@
+david@ubuntus:/opt/eqso-asorapa$ cd /opt/eqso-asorapa
+
+# Restaurar TODOS los archivos relay-daemon a su estado HEAD (sobreescribe los vac\Uffffffff)
+git checkout HEAD -- artifacts/relay-daemon/src/
+
+# Verificar que ya no est\Uffffffffvac\Uffffffff:
+wc -l artifacts/relay-daemon/src/main.ts artifacts/relay-daemon/src/alsa-audio.ts
+
+# Rebuild:
+sudo chown -R eqso:eqso /opt/eqso-asorapa/artifacts/relay-daemon/dist
+sudo -u eqso pnpm --filter @workspace/relay-daemon run build && echo "BUILD OK"
+
+# Si el build es OK, restart:
+sudo systemctl restart eqso-relay@CB
+sudo journalctl -u eqso-relay@CB -n 30 --no-pager
+  709 artifacts/relay-daemon/src/main.ts
+  759 artifacts/relay-daemon/src/alsa-audio.ts
+ 1468 total
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+BUILD OK
+may 02 08:45:20 ubuntus eqso-relay-CB[3902]: [main] 2026-05-02T08:45:20.273Z Se\UffffffffSIGTERM recibida \Uffffffff apagando (graceful)\Uffffffff
+may 02 08:45:20 ubuntus systemd[1]: Stopping eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB...
+may 02 08:45:20 ubuntus eqso-relay-CB[3902]: [eqso] 2026-05-02T08:45:20.291Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+may 02 08:45:20 ubuntus eqso-relay-CB[3902]: [main] 2026-05-02T08:45:20.292Z Desconectado del servidor eQSO
+may 02 08:45:20 ubuntus eqso-relay-CB[3902]: [audio] 2026-05-02T08:45:20.293Z [aplay] aplay: pcm_write:2146: write error: Interrupted system call
+may 02 08:45:20 ubuntus eqso-relay-CB[3902]: [audio] 2026-05-02T08:45:20.369Z [arecord] Terminado (code null)
+may 02 08:45:20 ubuntus eqso-relay-CB[3902]: [audio] 2026-05-02T08:45:20.374Z [aplay] Terminado (code 1)
+may 02 08:45:20 ubuntus eqso-relay-CB[3902]: [main] 2026-05-02T08:45:20.376Z Apagado completado.
+may 02 08:45:20 ubuntus systemd[1]: eqso-relay@CB.service: Deactivated successfully.
+may 02 08:45:20 ubuntus systemd[1]: Stopped eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
+may 02 08:45:20 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 10.691s CPU time.
+may 02 08:45:20 ubuntus systemd[1]: Starting eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB...
+may 02 08:45:21 ubuntus eqso-relay-CB[4012]: USB reset error: [Errno 25] Inappropriate ioctl for device
+may 02 08:45:23 ubuntus eqso-relay-CB[4017]: ALSA setup: configurando tarjeta 1
+may 02 08:45:23 ubuntus eqso-relay-CB[4025]: Simple mixer control 'Speaker',0
+may 02 08:45:23 ubuntus eqso-relay-CB[4025]:   Capabilities: pvolume pswitch pswitch-joined
+may 02 08:45:23 ubuntus eqso-relay-CB[4025]:   Playback channels: Front Left - Front Right
+may 02 08:45:23 ubuntus eqso-relay-CB[4025]:   Limits: Playback 0 - 151
+may 02 08:45:23 ubuntus eqso-relay-CB[4025]:   Mono:
+may 02 08:45:23 ubuntus eqso-relay-CB[4025]:   Front Left: Playback 151 [100%] [-0.06dB] [on]
+may 02 08:45:23 ubuntus eqso-relay-CB[4025]:   Front Right: Playback 151 [100%] [-0.06dB] [on]
+may 02 08:45:23 ubuntus eqso-relay-CB[4017]:   Speaker   100%
+may 02 08:45:24 ubuntus eqso-relay-CB[4028]: Simple mixer control 'Mic',0
+may 02 08:45:24 ubuntus eqso-relay-CB[4028]:   Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+may 02 08:45:24 ubuntus eqso-relay-CB[4028]:   Playback channels: Mono
+may 02 08:45:24 ubuntus eqso-relay-CB[4028]:   Capture channels: Mono
+may 02 08:45:24 ubuntus eqso-relay-CB[4028]:   Limits: Playback 0 - 127 Capture 0 - 16
+may 02 08:45:24 ubuntus eqso-relay-CB[4028]:   Mono: Playback 51 [40%] [9.56dB] [on] Capture 6 [38%] [8.92dB] [on]
+may 02 08:45:24 ubuntus eqso-relay-CB[4017]:   Mic        40%
+may 02 08:45:24 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
