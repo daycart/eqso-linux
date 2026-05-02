@@ -1,0 +1,62 @@
+
+# Rebuild y restart
+sudo chown -R eqso:eqso /opt/eqso-asorapa/artifacts/relay-daemon/dist
+sudo -u eqso pnpm --filter @workspace/relay-daemon run build
+sudo systemctl restart eqso-relay@CB
+sudo journalctl -u eqso-relay@CB -n 20 --no-pager
+-bash: artifacts/relay-daemon/src/main.ts: Permission denied
+[sudo] password for david: 
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+? [ERROR] No matching export in "src/alsa-audio.ts" for import "GSM_SILENCE_FRAME"
+
+    src/main.ts:14:20:
+      14 \Uffffffff import { AlsaAudio, GSM_SILENCE_FRAME } from "./alsa-audio.js";
+         ?                     ~~~~~~~~~~~~~~~~~
+
+/opt/eqso-asorapa/node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js:1467
+  let error = new Error(text);
+              ^
+
+Error: Build failed with 1 error:
+src/main.ts:14:20: ERROR: No matching export in "src/alsa-audio.ts" for import "GSM_SILENCE_FRAME"
+    at failureErrorWithLog (/opt/eqso-asorapa/node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js:1467:15)
+    at /opt/eqso-asorapa/node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js:926:25
+    at /opt/eqso-asorapa/node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js:878:52
+    at buildResponseToResult (/opt/eqso-asorapa/node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js:924:7)
+    at /opt/eqso-asorapa/node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js:951:16
+    at responseCallbacks.<computed> (/opt/eqso-asorapa/node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js:603:9)
+    at handleIncomingPacket (/opt/eqso-asorapa/node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js:658:12)
+    at Socket.readFromStdout (/opt/eqso-asorapa/node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js:581:7)
+    at Socket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12) {
+  errors: [Getter/Setter],
+  warnings: [Getter/Setter]
+}
+
+Node.js v20.20.2
+/opt/eqso-asorapa/artifacts/relay-daemon:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/relay-daemon@1.0.0 build: `node ./build.mjs`
+Exit status 1
+may 02 08:39:33 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 5min 17.419s CPU time, 134.6M memory peak, 0B memory swap peak.
+may 02 08:39:33 ubuntus systemd[1]: Starting eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB...
+may 02 08:39:34 ubuntus eqso-relay-CB[3187]: USB reset error: [Errno 25] Inappropriate ioctl for device
+may 02 08:39:36 ubuntus eqso-relay-CB[3191]: ALSA setup: configurando tarjeta 1
+may 02 08:39:36 ubuntus eqso-relay-CB[3199]: Simple mixer control 'Speaker',0
+may 02 08:39:36 ubuntus eqso-relay-CB[3199]:   Capabilities: pvolume pswitch pswitch-joined
+may 02 08:39:36 ubuntus eqso-relay-CB[3199]:   Playback channels: Front Left - Front Right
+may 02 08:39:36 ubuntus eqso-relay-CB[3199]:   Limits: Playback 0 - 151
+may 02 08:39:36 ubuntus eqso-relay-CB[3199]:   Mono:
+may 02 08:39:36 ubuntus eqso-relay-CB[3199]:   Front Left: Playback 151 [100%] [-0.06dB] [on]
+may 02 08:39:36 ubuntus eqso-relay-CB[3199]:   Front Right: Playback 151 [100%] [-0.06dB] [on]
+may 02 08:39:36 ubuntus eqso-relay-CB[3191]:   Speaker   100%
+may 02 08:39:36 ubuntus eqso-relay-CB[3202]: Simple mixer control 'Mic',0
+may 02 08:39:36 ubuntus eqso-relay-CB[3202]:   Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+may 02 08:39:36 ubuntus eqso-relay-CB[3202]:   Playback channels: Mono
+may 02 08:39:36 ubuntus eqso-relay-CB[3202]:   Capture channels: Mono
+may 02 08:39:36 ubuntus eqso-relay-CB[3202]:   Limits: Playback 0 - 127 Capture 0 - 16
+may 02 08:39:36 ubuntus eqso-relay-CB[3202]:   Mono: Playback 51 [40%] [9.56dB] [on] Capture 6 [38%] [8.92dB] [on]
+may 02 08:39:36 ubuntus eqso-relay-CB[3191]:   Mic        40%
+may 02 08:39:36 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
