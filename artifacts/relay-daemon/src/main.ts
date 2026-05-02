@@ -81,39 +81,6 @@ let postRxVoxSuppressUntil = 0;
 // entre transmisiones es >5s, por lo que no penaliza el uso normal.
 const POST_TX_VOX_SUPPRESS_MS = 5000;
 
-// ─── Renovacion proactiva de sesion TX ───────────────────────────────────────
-// El servidor 193.152.83.229 tiene un timer de sesion ~4-9s durante TX.
-// Enviamos JOIN a los 2.5s para resetear ese timer y ganar ~5s extra de TX.
-// El servidor puede no responder con room_list (ignora JOINs subsiguientes):
-//   - Si responde con room_list: re-anunciar PTT (caso feliz, TX continua)
-//   - Si no responde en 1s: cancelar renewingSession para que 0x08 de otros
-//     usuarios funcione normalmente (semi-duplex sin bloquear canal ajeno)
-const SESSION_RENEWAL_MS = 2500;
-let sessionRenewalTimer: ReturnType<typeof setTimeout> | null = null;
-let renewingSession = false;
-
-function startSessionRenewalTimer(): void {
-  if (sessionRenewalTimer) return;
-  sessionRenewalTimer = setTimeout(() => {
-    sessionRenewalTimer = null;
-    if (!pttActive || !eqsoClient?.connected) return;
-    renewingSession = true;
-    log("[session] Renovando sesion TX — enviando JOIN mid-TX");
-    eqsoClient.sendJoin(cfg.callsign, cfg.room, cfg.message, cfg.password);
-    // Si el servidor no responde con room_list en 1s, cancelar renewingSession
-    setTimeout(() => {
-      if (renewingSession) {
-        renewingSession = false;
-        log("[session] Renovacion sin confirmacion — continuando TX normal");
-      }
-    }, 1000);
-  }, SESSION_RENEWAL_MS);
-}
-
-function stopSessionRenewalTimer(): void {
-  if (sessionRenewalTimer) { clearTimeout(sessionRenewalTimer); sessionRenewalTimer = null; }
-  renewingSession = false;
-}
 
 function setRxActive(): void {
   rxActive = true;
@@ -193,13 +160,11 @@ vox.on("ptt_start", () => {
 
   pttActive = true;
   eqsoClient.startTx();
-  startSessionRenewalTimer();
   log(`VOX: PTT activado — inicio transmision (suppress was ${new Date(postRxVoxSuppressUntil).toISOString()})`);
 });
 
 vox.on("ptt_end", () => {
   if (!eqsoClient?.connected || !pttActive) return;
-  stopSessionRenewalTimer();
   pttActive = false;
   audio.setTxEnabled(false);
   eqsoClient.endTx();
