@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { getWsUrl } from "../lib/homeServer";
 
-export type ConnectionStatus = "disconnected" | "connecting" | "connected" | "error";
+export type ConnectionStatus = "disconnected" | "connecting" | "connected" | "reconnecting" | "error";
 
 export interface RoomMember {
   name: string;
@@ -27,9 +27,18 @@ export const KNOWN_SERVERS: EqsoServer[] = [
     defaultRooms: ["GENERAL", "CB", "ASORAPA", "PRUEBAS"],
   },
   {
+    id: "vm-asorapa",
+    label: "VM ASORAPA (desarrollo)",
+    description: "Servidor Node.js en VM Ubuntu · puerto 2172",
+    mode: "remote",
+    host: "193.152.83.229",
+    port: 2172,
+    defaultRooms: ["GENERAL", "CB", "ASORAPA", "PRUEBAS"],
+  },
+  {
     id: "asorapa",
     label: "ASORAPA — Radio Club Iria Flavia",
-    description: "Enlace CB27 ASORAPA · Galicia",
+    description: "Enlace CB27 ASORAPA · Galicia (Windows)",
     mode: "remote",
     host: "193.152.83.229",
     port: 8008,

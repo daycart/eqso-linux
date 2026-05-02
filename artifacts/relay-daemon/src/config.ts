@@ -42,9 +42,9 @@ const DEFAULTS: RelayConfig = {
   room: "CB",
   password: "",
   message: "Radio Enlace",
-  server: "127.0.0.1",
-  port: 2171,
-  reconnectMinMs: 2000,
+  server: "193.152.83.229",
+  port: 2172,
+  reconnectMinMs: 500,
   reconnectMaxMs: 60000,
   audio: {
     captureDevice: "plughw:1,0",
