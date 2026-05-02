@@ -1,0 +1,71 @@
+git show HASH:artifacts/relay-daemon/src/main.ts > artifacts/relay-daemon/src/main.ts
+git show HASH:artifacts/relay-daemon/src/alsa-audio.ts > artifacts/relay-daemon/src/alsa-audio.ts
+git show HASH:artifacts/relay-daemon/src/config.ts > artifacts/relay-daemon/src/config.ts
+git show HASH:artifacts/relay-daemon/src/eqso-client.ts > artifacts/relay-daemon/src/eqso-client.ts
+git show HASH:artifacts/relay-daemon/src/vox.ts > artifacts/relay-daemon/src/vox.ts
+
+# Rebuild y restart
+sudo chown -R eqso:eqso /opt/eqso-asorapa/artifacts/relay-daemon/dist
+sudo -u eqso pnpm --filter @workspace/relay-daemon run build
+sudo systemctl restart eqso-relay@CB
+sudo journalctl -u eqso-relay@CB -n 20 --no-pager
+-bash: artifacts/relay-daemon/src/main.ts: Permission denied
+fatal: invalid object name 'HASH'.
+fatal: invalid object name 'HASH'.
+fatal: invalid object name 'HASH'.
+fatal: invalid object name 'HASH'.
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+? [WARNING] Import "loadConfig" will always be undefined because the file "src/config.ts" has no exports [import-is-undefined]
+
+    src/main.ts:12:9:
+      12 \Uffffffff import { loadConfig } from "./config.js";
+         ?          ~~~~~~~~~~
+
+? [WARNING] Import "EqsoClient" will always be undefined because the file "src/eqso-client.ts" has no exports [import-is-undefined]
+
+    src/main.ts:13:9:
+      13 \Uffffffff import { EqsoClient } from "./eqso-client.js";
+         ?          ~~~~~~~~~~
+
+? [WARNING] Import "AlsaAudio" will always be undefined because the file "src/alsa-audio.ts" has no exports [import-is-undefined]
+
+    src/main.ts:14:9:
+      14 \Uffffffff import { AlsaAudio, GSM_SILENCE_FRAME } from "./alsa-audio.js";
+         ?          ~~~~~~~~~
+
+? [WARNING] Import "GSM_SILENCE_FRAME" will always be undefined because the file "src/alsa-audio.ts" has no exports [import-is-undefined]
+
+    src/main.ts:14:20:
+      14 \Uffffffff import { AlsaAudio, GSM_SILENCE_FRAME } from "./alsa-audio.js";
+         ?                     ~~~~~~~~~~~~~~~~~
+
+? [WARNING] Import "Vox" will always be undefined because the file "src/vox.ts" has no exports [import-is-undefined]
+
+    src/main.ts:15:9:
+      15 \Uffffffff import { Vox } from "./vox.js";
+         ?          ~~~
+
+relay-daemon build OK
+may 02 08:42:20 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 26.751s CPU time.
+may 02 08:42:20 ubuntus systemd[1]: Starting eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB...
+may 02 08:42:21 ubuntus eqso-relay-CB[3353]: USB reset error: [Errno 25] Inappropriate ioctl for device
+may 02 08:42:23 ubuntus eqso-relay-CB[3358]: ALSA setup: configurando tarjeta 1
+may 02 08:42:23 ubuntus eqso-relay-CB[3366]: Simple mixer control 'Speaker',0
+may 02 08:42:23 ubuntus eqso-relay-CB[3366]:   Capabilities: pvolume pswitch pswitch-joined
+may 02 08:42:23 ubuntus eqso-relay-CB[3366]:   Playback channels: Front Left - Front Right
+may 02 08:42:23 ubuntus eqso-relay-CB[3366]:   Limits: Playback 0 - 151
+may 02 08:42:23 ubuntus eqso-relay-CB[3366]:   Mono:
+may 02 08:42:23 ubuntus eqso-relay-CB[3366]:   Front Left: Playback 151 [100%] [-0.06dB] [on]
+may 02 08:42:23 ubuntus eqso-relay-CB[3366]:   Front Right: Playback 151 [100%] [-0.06dB] [on]
+may 02 08:42:23 ubuntus eqso-relay-CB[3358]:   Speaker   100%
+may 02 08:42:23 ubuntus eqso-relay-CB[3369]: Simple mixer control 'Mic',0
+may 02 08:42:23 ubuntus eqso-relay-CB[3369]:   Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+may 02 08:42:23 ubuntus eqso-relay-CB[3369]:   Playback channels: Mono
+may 02 08:42:23 ubuntus eqso-relay-CB[3369]:   Capture channels: Mono
+may 02 08:42:23 ubuntus eqso-relay-CB[3369]:   Limits: Playback 0 - 127 Capture 0 - 16
+may 02 08:42:23 ubuntus eqso-relay-CB[3369]:   Mono: Playback 51 [40%] [9.56dB] [on] Capture 6 [38%] [8.92dB] [on]
+may 02 08:42:23 ubuntus eqso-relay-CB[3358]:   Mic        40%
+may 02 08:42:23 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
