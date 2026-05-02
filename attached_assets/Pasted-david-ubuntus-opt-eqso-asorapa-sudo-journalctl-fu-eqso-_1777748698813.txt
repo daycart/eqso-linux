@@ -1,0 +1,493 @@
+david@ubuntus:/opt/eqso-asorapa$ sudo journalctl -fu eqso-relay@CB
+may 02 19:03:08 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:08.807Z [audio] pkt#3 ? playGsm OK (pttActive=false rxActive=true)
+may 02 19:03:08 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:08.818Z [playPcm] chunk#3 ? jitterBuf=480 rxActive=false
+may 02 19:03:09 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:09.206Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:03:09 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:09.208Z [rxInhibit] suppress: prev=2026-05-02T19:03:14.509Z new=2026-05-02T19:03:15.207Z
+may 02 19:03:12 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:12.692Z [nivel] pico RMS=100 (-50.3 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:03:15 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:15.895Z [arecord] GAP 51ms (chunk#4953, 160 muestras)
+may 02 19:03:17 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:17.693Z [nivel] pico RMS=1 (-87.2 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:03:22 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:22.693Z [nivel] pico RMS=1 (-87.2 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:03:27 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:27.695Z [nivel] pico RMS=1 (-87.1 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:03:32 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:32.695Z [nivel] pico RMS=1 (-87.6 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:03:36 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:36.806Z Reconectando por inactividad prolongada (prevenir timeout servidor)\Uffffffff
+may 02 19:03:36 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:36.824Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+may 02 19:03:36 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:36.825Z Desconectado del servidor eQSO
+may 02 19:03:36 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:36.826Z Reintento #1 en 1s\Uffffffff
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:37.328Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:37.338Z TCP conectado a 193.152.83.229:2172
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:37.365Z Handshake recibido \Uffffffff conexion establecida
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:37.366Z Conectado \Uffffffff enviando JOIN\Uffffffff
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:37.367Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:37.381Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:37.381Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:37.417Z Sala: EA4IKU se ha unido
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:37.418Z Sala: 0R-IN70WN se ha unido
+may 02 19:03:37 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:37.695Z [nivel] pico RMS=1 (-87.2 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:03:38 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:38.702Z TX: EA4IKU transmitiendo
+may 02 19:03:38 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:38.703Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-05-02T19:03:44.703Z (6000ms)
+may 02 19:03:38 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:38.704Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:03:38 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:38.710Z [playPcm] chunk#4 ? jitterBuf=640 rxActive=false
+may 02 19:03:38 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:38.839Z [playPcm] chunk#5 ? jitterBuf=800 rxActive=false
+may 02 19:03:39 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:39.382Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:03:39 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:39.383Z [rxInhibit] suppress: prev=2026-05-02T19:03:44.703Z new=2026-05-02T19:03:45.382Z
+may 02 19:03:41 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:41.990Z Sala: *Jb9`"1*#,w6$p,<MhcblKK_U%C`#28lj<-AKm7K`5+l#DTeRe#5IGekn'NK<kAcY3(GlV6Ud[mcS)LqUl?J_C(TLU5qMA'Sd%Ti5n,?J+0J{A(WkI/AI6&AiJ[U'5-+?(:kGA()[]@*D[2]A'"f;G se ha unido
+may 02 19:03:41 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:41.991Z Sala: U*}ribA,6i.fZ9Z6nE+Miq%YUdDmc>*+D5Q]GiV\6jpGJ(+Mt+qhGiW/U&D%IgmtZbkXM)IvbHUIjB3Mv*U&<eZI\F+.GH=fl)EY2rEhY\PTgDeE&Bl?NEF3&,rEe/Bek)SU_T(4 "C%,Q@h<.GT%9e9ovA)6a|D:Ub,![@X6WA(IcE1iI!+c5<C*'\J(V3a>(q7kC ha salido
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:42.136Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:42.285Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:42.585Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:42.684Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:42.685Z [rxInhibit] suppress: prev=2026-05-02T19:03:45.382Z new=2026-05-02T19:03:48.685Z
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:42.696Z [nivel] pico RMS=100 (-50.4 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:42.726Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:42.770Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:42.771Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:42 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:42.775Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:43.279Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:43.280Z [rxInhibit] suppress: prev=2026-05-02T19:03:48.685Z new=2026-05-02T19:03:49.280Z
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:43.337Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:43.341Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:43.348Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:43.351Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:43.358Z [audio] Semi-duplex: matando arecord \Uffffffff evitar realimentacion altavoz?micro
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:43.401Z [arecord] Terminado (code 1)
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:43.625Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:43.753Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:43.755Z [rxInhibit] playback_ended: suppress extendido ? 2026-05-02T19:03:49.755Z (prev=2026-05-02T19:03:49.280Z)
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:43.755Z [audio] RX terminado \Uffffffff reanudando arecord (aplay sigue activo con silencio)
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:43.756Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:43.803Z [rxInhibit] suppress: prev=2026-05-02T19:03:49.755Z new=2026-05-02T19:03:49.803Z
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:43.817Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:43.827Z [arecord] GAP 452ms (chunk#6260, 3 muestras)
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [gsm-enc] 2026-05-02T19:03:43.869Z GAP 543ms entre frames GSM de salida
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:43.934Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:43.938Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:43 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:43.944Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:44 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:44.389Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:44 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:44.531Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:44 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:44.545Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:44 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:44.992Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:45.297Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:45.298Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:45.301Z [audio] Semi-duplex: matando arecord \Uffffffff evitar realimentacion altavoz?micro
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:45.348Z [arecord] Terminado (code 1)
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:45.376Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:45.446Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:45.448Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:45.451Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:45.452Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:45.605Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:45 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:45.745Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:46 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:46.018Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:03:46 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:46.019Z [rxInhibit] playback_ended: suppress extendido ? 2026-05-02T19:03:52.019Z (prev=2026-05-02T19:03:49.803Z)
+may 02 19:03:46 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:46.019Z [audio] RX terminado \Uffffffff reanudando arecord (aplay sigue activo con silencio)
+may 02 19:03:46 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:46.019Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+may 02 19:03:46 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:46.044Z [rxInhibit] suppress: prev=2026-05-02T19:03:52.019Z new=2026-05-02T19:03:52.044Z
+may 02 19:03:46 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:46.068Z [arecord] GAP 742ms (chunk#6326, 3 muestras)
+may 02 19:03:46 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:46.118Z TX: EA4IKU libero canal
+may 02 19:03:46 ubuntus eqso-relay-CB[24695]: [gsm-enc] 2026-05-02T19:03:46.151Z GAP 861ms entre frames GSM de salida
+may 02 19:03:47 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:47.204Z [arecord] GAP 57ms (chunk#6372, 160 muestras)
+may 02 19:03:47 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:47.697Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:03:49 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:49.303Z TX: EA4IKU transmitiendo
+may 02 19:03:49 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:49.304Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-05-02T19:03:55.304Z (6000ms)
+may 02 19:03:49 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:49.315Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:03:49 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:49.607Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:49 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:49.610Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:49 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:49.784Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:50.047Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:50.197Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:50.199Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:50.351Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:50.355Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:50.356Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:50.363Z [audio] Semi-duplex: matando arecord \Uffffffff evitar realimentacion altavoz?micro
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:50.414Z [arecord] Terminado (code 1)
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:50.947Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:50 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:50.949Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:51 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:51.244Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:51 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:51.245Z Keepalive recibido del servidor [0x0c]
+may 02 19:03:51 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:51.247Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:51 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:03:51.552Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:03:51 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:03:51.947Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:03:51 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:51.949Z [rxInhibit] playback_ended: suppress extendido ? 2026-05-02T19:03:57.949Z (prev=2026-05-02T19:03:55.304Z)
+may 02 19:03:51 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:51.949Z [audio] RX terminado \Uffffffff reanudando arecord (aplay sigue activo con silencio)
+may 02 19:03:51 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:51.949Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+may 02 19:03:51 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:03:51.970Z [rxInhibit] suppress: prev=2026-05-02T19:03:57.949Z new=2026-05-02T19:03:57.969Z
+may 02 19:03:52 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:52.000Z [arecord] GAP 1607ms (chunk#6513, 3 muestras)
+may 02 19:03:52 ubuntus eqso-relay-CB[24695]: [gsm-enc] 2026-05-02T19:03:52.075Z GAP 1738ms entre frames GSM de salida
+may 02 19:03:52 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:52.696Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:03:57 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:03:57.697Z [nivel] pico RMS=2 (-83.5 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:04:00 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:00.283Z Sala:  se ha unido
+may 02 19:04:00 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:00.286Z Sala: bWhEt\bpWr\'oCX7mYGag&U&3h%Y)\yWbPHO'JdXif"p(?;;%,U%9dj")96R;Pb'^u6rhYcZ5\ZhH\V_#(lZ2&.O+_Ite)I$aZM6z{koW4d&j.IK)evVE*Rk(|/l],H!N^U";yrcHv ha salido
+may 02 19:04:00 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:04:00.288Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:04:00 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:00.289Z [playGsm] pkt#50 len=33 decoder_ready=true player=running rxActive=false
+may 02 19:04:00 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:00.289Z [audio] pkt#50 ? playGsm OK (pttActive=false rxActive=true)
+may 02 19:04:01 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:01.370Z Keepalive recibido del servidor [0x0c]
+may 02 19:04:01 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:01.642Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:04:01 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:01.643Z [audio] Semi-duplex: matando arecord \Uffffffff evitar realimentacion altavoz?micro
+may 02 19:04:01 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:01.699Z [arecord] Terminado (code 1)
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:04:02.039Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:02.041Z [rxInhibit] playback_ended: suppress extendido ? 2026-05-02T19:04:08.040Z (prev=2026-05-02T19:03:57.969Z)
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:02.041Z [audio] RX terminado \Uffffffff reanudando arecord (aplay sigue activo con silencio)
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:02.041Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:02.064Z [rxInhibit] suppress: prev=2026-05-02T19:04:08.040Z new=2026-05-02T19:04:08.064Z
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:04:02.086Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:02.093Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:02.093Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:02.105Z [arecord] GAP 427ms (chunk#6951, 3 muestras)
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [gsm-enc] 2026-05-02T19:04:02.162Z GAP 554ms entre frames GSM de salida
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:02.226Z Keepalive recibido del servidor [0x0c]
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:02.226Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:02.665Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:02.666Z Keepalive recibido del servidor [0x0c]
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:02.667Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:02.669Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:02.697Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:02.819Z Keepalive recibido del servidor [0x0c]
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:02.819Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:04:02 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:02.820Z Keepalive recibido del servidor [0x0c]
+may 02 19:04:03 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:02.999Z TX: EA4IKU libero canal
+may 02 19:04:03 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:04:03.215Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:04:03 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:03.224Z [rxInhibit] suppress: prev=2026-05-02T19:04:08.064Z new=2026-05-02T19:04:09.224Z
+may 02 19:04:04 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:04.242Z TX: EA4IKU transmitiendo
+may 02 19:04:04 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:04.243Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-05-02T19:04:10.243Z (6000ms)
+may 02 19:04:04 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:04:04.249Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:04:04 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:04:04.789Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:04:04 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:04.791Z [rxInhibit] suppress: prev=2026-05-02T19:04:10.243Z new=2026-05-02T19:04:10.791Z
+may 02 19:04:04 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:04:04.836Z PTT set(true) ? escribiendo "1" al helper
+may 02 19:04:04 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:04.989Z [0x08] Canal ocupado \Uffffffff ceder TX al otro usuario
+may 02 19:04:04 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:04.990Z [audio] Semi-duplex: matando arecord \Uffffffff evitar realimentacion altavoz?micro
+may 02 19:04:05 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:05.054Z [arecord] Terminado (code 1)
+may 02 19:04:06 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:06.559Z TX: EA4IKU libero canal
+may 02 19:04:06 ubuntus eqso-relay-CB[24695]: [ptt] 2026-05-02T19:04:06.596Z PTT set(false) ? escribiendo "0" al helper
+may 02 19:04:06 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:06.597Z [rxInhibit] playback_ended: suppress extendido ? 2026-05-02T19:04:12.597Z (prev=2026-05-02T19:04:10.791Z)
+may 02 19:04:06 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:06.597Z [audio] RX terminado \Uffffffff reanudando arecord (aplay sigue activo con silencio)
+may 02 19:04:06 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:06.597Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+may 02 19:04:06 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:06.614Z [rxInhibit] suppress: prev=2026-05-02T19:04:12.597Z new=2026-05-02T19:04:12.614Z
+may 02 19:04:06 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:06.639Z [arecord] GAP 1608ms (chunk#7083, 3 muestras)
+may 02 19:04:06 ubuntus eqso-relay-CB[24695]: [gsm-enc] 2026-05-02T19:04:06.703Z GAP 1723ms entre frames GSM de salida
+may 02 19:04:07 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:07.697Z [nivel] pico RMS=1303 (-28.0 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:04:09 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:09.378Z Keepalive recibido del servidor [0x0c]
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.642Z [raw-tx ptt] 1b: 09
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.643Z PTT anunciado [0x09]
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:12.643Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-05-02T19:04:12.614Z, streak=0)
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.686Z [raw-tx ptt] 34b: 01d724ab692aa9f65a9bce469f5b759d226eac2aa1329f623ec1cb6f5357eb56f2e5
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:12.699Z [nivel] pico RMS=7259 (-13.1 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.704Z [raw-tx ptt] 34b: 01d7a3a3259b8f15d69d8cbeb4bd35a3ecb2b542e954cad81e9d1ed136095d90b76c
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.725Z [raw-tx ptt] 34b: 01d7e293a9ea7c948614b76074dad4a5a37570f5d4d4e8219ae81dcaf65942adb82c
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.746Z [raw-tx ptt] 34b: 01d7a6b3696460d5fa4abd666570d5721e659f8790d50d7289aca95555cc60372736
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.773Z [raw-tx ptt] 34b: 01d727ab65e2a155a167a899cb50f41ced8303d6d1576513517460e494fa6d316a57
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.793Z [raw-tx ptt] 34b: 01d7e1b3e1abbed4be12bf10b664b6256e0adb6272940a25a747a1baf58f2fac3cbd
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.814Z [raw-tx ptt] 34b: 01d764bb6962def4b8358eea17b0d3ff44786dc0d2d551ee5205f17955176e444b21
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.833Z [raw-tx ptt] 34b: 01d825ab2da36b362564558aefe2d48c2387dd61b13651f589491568d5b24ebad612
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.857Z [raw-tx ptt] 34b: 01d7a3a325a3ccd6fb602ead225f3594a3914cb8a8b62cce0e66a4a8f4530e903226
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.877Z [raw-tx ptt] 34b: 01d7e69b6533ccf65b4434d99a66d5d902b1957388f4710cab06fe90b487a6c13bb2
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.897Z [raw-tx ptt] 34b: 01d7a3a321e2dad4ad44e8c1b5f0d5ba21f2b28eb4f3d14f48fbee90b5892d81f906
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.919Z [raw-tx ptt] 34b: 01d724aba9e3a13541358228acd334308db61d6566f5036a7abb19797444e554371f
+may 02 19:04:12 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:12.984Z [raw-tx ptt] 34b: 01d726b3e5ead335b8e3884eabb175131fa206b568d4c711cf81ab7493780eb2272c
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.005Z [raw-tx ptt] 34b: 01d01e9b219aa8071523bdd1f1ca2741f130dd8ade067453b2371b7a4035ab6a371b
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.038Z [raw-tx ptt] 34b: 01d09a9b68dbd04044b56946e3cc00471b9246dbe02038dc71b6dce00046db6db6dc
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.064Z [raw-tx ptt] 34b: 01d2967a65996c0038e39238e3d80046e471c8e45020471b91c8e46c20371b8e36e4
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.084Z [raw-tx ptt] 34b: 01d0999a29226c2036dc6e3723b200471b8e38e46c0038e472471c9a00371c71c8e4
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.106Z [raw-tx ptt] 34b: 01d05a9ae12256e0471c7147236200471c8e38e3a04038e371c8e3ec0048e471b91c
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.127Z [raw-tx ptt] 34b: 01d05e9aa51a7e40471c8e37237e00491c723923d040472471c91cba0048e48e4724
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.147Z [raw-tx ptt] 34b: 01d05e9325196a803923723723cc8038e391b91ba200391c923924920049238e391c
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.168Z [raw-tx ptt] 34b: 01d05da2a51ac600392392491cc8c038a46db91c7400392491c924aa00471c9248e3
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.188Z [raw-tx ptt] 34b: 01d05db2e15ae440392491c7247c8036dc8e48e3560049237238e46e00471c71c91c
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.217Z [raw-tx ptt] 34b: 01d05b9b611aa4a046dc91b91b880049238dc71c5a2049249248e4e800392491c91b
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.248Z [raw-tx ptt] 34b: 01d099a2a1935ac038db6e46dc600049249248dc5a6049238db8db796036e46db71b
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.269Z [raw-tx ptt] 34b: 01d05ba2e1215600391c723924602048e491c923ce2048e492471c52004924924924
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.291Z [raw-tx ptt] 34b: 01d05bab1d22aa00472392492478c038db7236db5e6048e4923923d2c0371b8e4724
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.313Z [raw-tx ptt] 34b: 01d0d692a55af020492491c923d480391b8e3923e22048e38e3923c04048e4924724
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.334Z [raw-tx ptt] 34b: 01d09a82a5d2c20049249249247600392492471cec80371b6dc71cd1a046db6e46db
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.355Z [raw-tx ptt] 34b: 01d09992d969540038db924924ce2048e38e391cec60492491c8e370c0371c71c6dc
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.376Z [raw-tx ptt] 34b: 01d09883a121a68038db6db8e36a00371c724924dc004924924924e80049249248e3
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.396Z [raw-tx ptt] 34b: 01d1d472e0a38ba038db6db6db600039247248e49a00472492491bc0a048dc8e371b
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.417Z [raw-tx ptt] 34b: 01d1947aa199800039248e49249e40391c8e4724f02049248e39247e80491c6e36db
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.436Z [raw-tx ptt] 34b: 01d2136a9d917c00372491c724c02039238e3923580048e491c8e4aa80471b8e471b
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.457Z [raw-tx ptt] 34b: 01d29650e19b6600392492471c7c20472491c924d000492372492494a038db8dc723
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.480Z [raw-tx ptt] 34b: 01d3546a505aa400471c91c724660046e4924924d600492471c8e4842049248e471b
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.504Z [raw-tx ptt] 34b: 01d55559d0d89c20491b7245248440471b8dc91c78004924924924dc00491c9238db
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.525Z [raw-tx ptt] 34b: 01d755688d42ca20371c924924942037238e471c8a20492492472464c048db6dc8db
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.547Z [raw-tx ptt] 34b: 01daa4c478e3660038dc924923ae00492492491c94a0471b6e48e458204924924923
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.569Z [raw-tx ptt] 34b: 01d7db698cd159a036db6db6dbb880471c91c924e2a049249246e4e60049249248db
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.589Z [raw-tx ptt] 34b: 01d89e595110908048dc723924ee0049249249246fe036e36e371ba5a036db6db6db
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.609Z [raw-tx ptt] 34b: 01d99f6a58d8b800492491c923c04038e48e4924aac049249246db87a0371b6db6db
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.632Z [raw-tx ptt] 34b: 01d71a594811d98037236db8db6e4049247246e59a0038e48e4924a2804924924924
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.654Z [raw-tx ptt] 34b: 01d5d6794c4abc0038e4723923ab8036db6dc6dc7e4049249238db8a804723724924
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.675Z [raw-tx ptt] 34b: 01d4954898d96620491c6e46dbd26049248dc6e3e40048e36dc924520036dc924924
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.695Z [raw-tx ptt] 34b: 01d615711450da4037248dc91ce42047247246db62a0471c71c6dc9a004924924924
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.715Z [raw-tx ptt] 34b: 01d5556118128c00392491b9235000491c91c9249c0048e491b91c524048e371b8dc
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.736Z [raw-tx ptt] 34b: 01d31652145a5200492492472482404924724924e600472491c8e45a004924924724
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.757Z [raw-tx ptt] 34b: 01d4955218c2606049249248dbc6a0391c71c8db580049249238dca440492491c8e4
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.777Z [raw-tx ptt] 34b: 01d396694d107ca0491b9238dbcc0048e492492452a0492492492455e0371b6e36db
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.798Z [raw-tx ptt] 34b: 01d49470d09abfc036db6db6dbaca046e37246e4a20049248dc6dbe02048dc8e4723
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.839Z [raw-tx ptt] 34b: 01d3d369200a900049249249249820492471c71cec20391c92391c5800492492491c
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.860Z [raw-tx ptt] 34b: 01d3546910dba26049247238e46400472492492454004924724924e62049248e46e3
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.879Z [raw-tx ptt] 34b: 01d4d57194d97dc036db8db6db52004924924924e60049249248d481e036dc6db6db
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.900Z [raw-tx ptt] 34b: 01d5d4629110820049248e4924c220492492471c8ac048e37238db50004924924924
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.922Z [raw-tx ptt] 34b: 01d5555110d95400492492392483c036dc6dc6e3540049239249248260492492491b
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.943Z [raw-tx ptt] 34b: 01d5566190d9d22049249248dce1c038dc6db8e3ae004924924924538036db6db6dc
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.963Z [raw-tx ptt] 34b: 01d4d4694d19da0048e491b9236e2049248e4724ae0039249249247040492472491b
+may 02 19:04:13 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:13.984Z [raw-tx ptt] 34b: 01d4936160d25800492492491cbe0049249248e3bea0391b8e38db822049249246e4
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.004Z [raw-tx ptt] 34b: 01d3d66188d9d020492492471c5e20392491c9235000492492492456004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.024Z [raw-tx ptt] 34b: 01d59858d091a5a036db6db6db8c40492491c8e350e038e38e48e3e44047247246e4
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.066Z [raw-tx ptt] 34b: 01d294799920c420391c924724be2048e4924924520049249248e450004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.087Z [raw-tx ptt] 34b: 01d51461d4588e6049239249237880391c8e36e3a6003724923924ee404924924723
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.109Z [raw-tx ptt] 34b: 01d71950d0509ca048e38dc7236800395b91c91b680039238e3924b6004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.130Z [raw-tx ptt] 34b: 01d413715119558036db6db6db6c20492392491c640038dc91b924c0004923924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.155Z [raw-tx ptt] 34b: 01d4d3498c9c50004924924924a4004924724924524049249249238000372391b8dc
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.176Z [raw-tx ptt] 34b: 01d61868d0189ac046db91c91c9800491c923724a800492391c72452004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.196Z [raw-tx ptt] 34b: 01d555605461b4a049248dc92372a046dc8db8e47600391b91c91c50004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.217Z [raw-tx ptt] 34b: 01d71b48d159518036db6db6db5000492492492450204924923923658036db6db6e4
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.238Z [raw-tx ptt] 34b: 01d65759101adb8036db71b71b6c40472492471c98004724924924b4403924924723
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.261Z [raw-tx ptt] 34b: 01d555694c9ab080492491c6db840039248db8dc50004924924924ac404924924923
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.282Z [raw-tx ptt] 34b: 01d4956a98515a004924924924500049249249249600492492491b6c20491b924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.302Z [raw-tx ptt] 34b: 01d758819410b7c036db6db6dbdaa046e491c71cd6c046dc92471cc2c0472391c8dc
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.344Z [raw-tx ptt] 34b: 01d8e270d411ca0049247239249c0048e491c8dc5e8038e371c8dcd2c047238dc91c
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.364Z [raw-tx ptt] 34b: 01d6dd695410ae0038e491c9246c00492492492475c036db8db6dba18036db6db6db
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.384Z [raw-tx ptt] 34b: 01d09b9ae15a50004924924924cc0049249249245000492492492450004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.406Z [raw-tx ptt] 34b: 01d09b9ae15a50004924924924500049249249245000492492492450004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.435Z [raw-tx ptt] 34b: 01d7dc610c1099a036db6db71bbda036e371b6dbc8c04924923724cc00471c8e491b
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.454Z [raw-tx ptt] 34b: 01d89d69d459bcc046d49247245c20492491c8dc944038e491c923d280491c724923
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.479Z [raw-tx ptt] 34b: 01d9dd71d8085ce037238e3723c20038dc71b91ba040391c91c724ee403724924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.501Z [raw-tx ptt] 34b: 01d7d768d41052c0491b7248e3a28048e49249245480492492492489a036db6db6db
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.522Z [raw-tx ptt] 34b: 01d3946158da542048db6db72450004924924924c800372492492450004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.542Z [raw-tx ptt] 34b: 01d4145954da50004924924924500049249249245000492492492450203924924724
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.562Z [raw-tx ptt] 34b: 01d4145954da5000492491c924500049249249245000492492492450004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.581Z [raw-tx ptt] 34b: 01d95b89189153a036db6dc6db64004924924923b4a036e49248dbcec048e46db71c
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.604Z [raw-tx ptt] 34b: 01d9a5c2d559ac00392492371c780038db8e491c8a40392372491b6220491b6e4923
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.625Z [raw-tx ptt] 34b: 01da218a9850a4c038dc8e3724a8a038e46db9237840391c6e39635420492491c8e4
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.665Z [raw-tx ptt] 34b: 01d8de6190906c8036e371b8dcc680491b91c924622048e49249247a80376492491c
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.686Z [raw-tx ptt] 34b: 01d3946158da8600492492491cca0049249239245c0049249248e45000492492491c
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.705Z [raw-tx ptt] 34b: 01d3945958da500049249249245000492492492450004924924924520048e4924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.728Z [raw-tx ptt] 34b: 01d0e0a2e15a50004924924924960039249249245000492492492450004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.751Z [raw-tx ptt] 34b: 01d820a2e15a50004924924924500049249249245000492492492450004924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.780Z [raw-tx ptt] 34b: 01da66c3a56250004924924924500049247249245000492492492450004924923924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.800Z [raw-tx ptt] 34b: 01daa6c3a9a2d6004724924924500049249249245000492492492452204924924923
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.825Z [raw-tx ptt] 34b: 01daa6c3a9a2524048e49249245000492492492450004924924924500049248e4924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.846Z [raw-tx ptt] 34b: 01daa6aba9587020492492491c7dc036db8e491b5820491c963924700048e472471b
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.867Z [raw-tx ptt] 34b: 01da24b3a119c6a046e46dc8dcd28038dc8e38e47200392492391cbc204924924924
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.887Z [raw-tx ptt] 34b: 01dae4a2dcd159a0371c6e36dc6e0049238e38e4702048e392371ce240471b91c91c
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.909Z [raw-tx ptt] 34b: 01da64a29d087e00472391c723828049238dc8db9e0039248e47248220472471c923
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.930Z [raw-tx ptt] 34b: 01da1faa1451ac20391c91b92496c048e491b8e4c0e0472471c8e3646039239248dc
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.951Z [raw-tx ptt] 34b: 01da629220106a40391c8e47247080491c72471b92a048e48dc71beaa0492471b91c
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.973Z [raw-tx ptt] 34b: 01daa5ab2561c64047239236e4e62047239236e4b64047248e4924e020492391b91c
+may 02 19:04:14 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:14.992Z [raw-tx ptt] 34b: 01dae8c361e2cc8036e46e36e4a6203924923924d600492391c92460a036db7236e3
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.015Z [raw-tx ptt] 34b: 01daa6dba59a6a4038e49248dbde20491b8e4924c800491b924723520039239246e4
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.038Z [raw-tx ptt] 34b: 01daa7cbe9e350004924924924b00049248dc924ec4048dc92492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.059Z [raw-tx ptt] 34b: 01daa7cbe9e3500049249249245600492492491b52004924924924942049249246e4
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.079Z [raw-tx ptt] 34b: 01d820a2e15a50004924924924500049249249245000492492492450004924924923
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.100Z [raw-tx ptt] 34b: 01d820a2e15a50004924924924500049249249245000492492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.121Z [raw-tx ptt] 34b: 01d820a2e15a50004924924924500049249249245000492492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.142Z [raw-tx ptt] 34b: 01d820a2e15a50004924924924500049249249245000492492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.162Z [raw-tx ptt] 34b: 01d820a2e15a50004924924924500049249249245000492492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.183Z [raw-tx ptt] 34b: 01d820a2e15a50004924924924500049249249245000492492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.204Z [raw-tx ptt] 34b: 01d820a2e15a50004924924924500049249249245000492492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.224Z [raw-tx ptt] 34b: 01d820a2e15a500049249249245000492492492450004924924924500048e4924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.243Z [raw-tx ptt] 34b: 01daa6c3a9a292604924924923940039249249245000492492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.284Z [raw-tx ptt] 34b: 01daa6c3a9a25220491c92492450004924924924544048e492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.305Z [raw-tx ptt] 34b: 01daa6c3a9a250004924924924500049249249245000492492492450003924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.325Z [raw-tx ptt] 34b: 01daa6c3a9a25000492492492450004924924924522048e492492454004924724924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.344Z [raw-tx ptt] 34b: 01daa6c3a9a250004924924924544049249239245200492491c92454404923924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.366Z [raw-tx ptt] 34b: 01daa6c4e11a5000492492492454404924924924540048e492472450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.386Z [raw-tx ptt] 34b: 01daa6c3a9a25440492492491c580049249249245a00392492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.428Z [raw-tx ptt] 34b: 01daa6c3a9a2d200492492392454c038db6dc8db500048e49248e450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.448Z [raw-tx ptt] 34b: 01daa6c3a9a2e6003924924724500049249239245000492492492450004924924924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.470Z [raw-tx ptt] 34b: 01da66b36d1a7b8036db8db71b5e20492492392350004924924924b6e048db8e36e3
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.490Z [raw-tx ptt] 34b: 01daa6c3a9a3500049248e39248e20491c8e4923c62048e491c92454004924724924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.511Z [raw-tx ptt] 34b: 01daa6c3a9a250004924924924500049249249245040492491c9235040492492491c
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.532Z [raw-tx ptt] 34b: 01da26c3ad9a50004924924923a26048e4924924a680371c6db6e362004924724724
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.553Z [raw-tx ptt] 34b: 01da66dba15ae24049248e49249ca046dc71c8dcc60047249249247e60492391c923
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.577Z [raw-tx ptt] 34b: 01da26b1e4ca6aa036dc91b924a68038e491c6e4502048e471c8dbe8604924723724
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.598Z [raw-tx ptt] 34b: 01d9a4b321a0ce4037248e38e45e0049249246e46240491b7249247e40491c72391c
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.619Z [raw-tx ptt] 34b: 01d9e4a21d5962a0491b71c9245a00372391b8e392204723724724dc0037249246dc
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.639Z [raw-tx ptt] 34b: 01dae4d2e91a78a0492492b91cbc2037236e38dc802046e48e391be420492392471c
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.660Z [raw-tx ptt] 34b: 01da68cba9a2ae80392372391be80036e491c8dca820371c6e49237200491c71c8db
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.700Z [raw-tx ptt] 34b: 01db65cba9e36880471b9236db6c20371c7238e3c06048dc8dc71b9620471c8db724
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.723Z [raw-tx ptt] 34b: 01d965d3a5ea6c4039246e471c800036db8e3723c02036e471c6dc5420371b72491b
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.743Z [raw-tx ptt] 34b: 01dae6c42a22b42038e391b6e38440391b91b91cb00047246db91b5c2038db91c924
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.763Z [raw-tx ptt] 34b: 01daa7bc29ac7640391b8e36dc5e0048dc6dc71b5e2048e371b71b6a40471c8e3923
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.784Z [raw-tx ptt] 34b: 01da68c3ad5cac40371b91c91b542039236e4924ec0046dc923723c4c037236e48e3
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.808Z [raw-tx ptt] 34b: 01da66c3ea228c6048db9238e3e40038dc91c6e39aa048e39238e36840391c8db8e3
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.830Z [raw-tx ptt] 34b: 01daa7cc2daac60038e37246db6640371c6db8e3ea404925924724b240371b8e36e4
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.853Z [raw-tx ptt] 34b: 01da67c3a9e3b62046dc9246dca26047238e3723da6038e46e38e3e200372491b71b
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.874Z [raw-tx ptt] 34b: 01dae5daf1e1520036e371b724684048dc8db924a60048e48e48e4544049239248dc
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.894Z [raw-tx ptt] 34b: 01da67c429e2dc20491b6e471c5c0038dc71c91ca640395c8e3723840039246e4723
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.915Z [raw-tx ptt] 34b: 01dae5cbede27640471c8e48e3e2c049248e37257000492371c91b7080492495b92b
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.935Z [raw-tx ptt] 34b: 01db23c36cdace6036dc7246e3cc2048db6e491bdc0038db71b6e4de60491c71c71b
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.955Z [raw-tx ptt] 34b: 01da67e371a3ba4048db9248e48e6036e38e471bb620391c8db71bb64046dc9238db
+may 02 19:04:15 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:15.975Z [raw-tx ptt] 34b: 01da27c42d63842039248dc8e3722048db7236e35e20391c6dcadb5640472391b71b
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.020Z [raw-tx ptt] 34b: 01d9e6d46e23902039239248e3e66038dc9238e3e600471c6e48e38e0039248e38db
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.042Z [raw-tx ptt] 34b: 01da28c3a9635a20491c92471b8020472c8dc6dbce0036dc6e46e4da2036dc71b724
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.062Z [raw-tx ptt] 34b: 01da65c36da25c6046dc91c6e3e0403924ae49235ac047246e391cdc2047237248dc
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.083Z [raw-tx ptt] 34b: 01daa8c3f162e88036e371b8e3980046dbb246db500046dc91c6db8220491b8dc6e4
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.104Z [raw-tx ptt] 34b: 01da29cb69646020491b6e46dc540038db91c9236000471b9238e4da2038e46dc924
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.125Z [raw-tx ptt] 34b: 01da66cbedaad42048e371c71b5a60371c8db6db7e40471c6dc91ce20046dc6dc924
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.146Z [raw-tx ptt] 34b: 01da26c3edebea4036e38e46e3782036e491c723824037239236e4662046e372371b
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.167Z [raw-tx ptt] 34b: 01dae7cbed62bc00491b6dc923ea00492371b8e49c2046db8dc91b6e20471b92491c
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.188Z [raw-tx ptt] 34b: 01db26e3e1db720038e471b92456c038e48e4723b60036dc8dc923ac203723723924
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.208Z [raw-tx ptt] 34b: 01daa7bbe9a2800036e472471c724038e48e48e36220491b9247237820492491c71c
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.230Z [raw-tx ptt] 34b: 01da26cb722280e0391c8e48e37e0038e47238dba8a048dc8dc7236e4048db71c8db
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.251Z [raw-tx ptt] 34b: 01daa5d42da2a820492391b8e4e86039248dc92358e0472491c91c62e04724923924
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.273Z [raw-tx ptt] 34b: 01dae5dbe9a3ca2038e48dc9246c00392491c91b6360392371b8e3da80471c8dc924
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.295Z [raw-tx ptt] 34b: 01dae4bba56cf08038e48e49248620471c6e4924ba20472492371bdca036e36dc91c
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.317Z [raw-tx ptt] 34b: 01daa7c3e5a2544038e36db91ca82046dc724924e40038dc7239235c60391b8e36e4
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.338Z [raw-tx ptt] 34b: 01da67b4ad64c04038dc71c8e48800471c71c723664038e39238e3800037236e491c
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.358Z [raw-tx ptt] 34b: 01dae6d42562680038dc9238dcd800491b91b8e48ca038dc7247237a2038dc924724
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.379Z [raw-tx ptt] 34b: 01da25cbea2b7e00371c7238e48c20492c8dc8dc868049249239246a8048e4b2d923
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.400Z [raw-tx ptt] 34b: 01daa7cb692b504047238db724bc0038e371b723d640472471b924942048dc71c8dc
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.421Z [raw-tx ptt] 34b: 01dae9db695be200491c8e46dca600371c8dc91b9620492391b71b740048e37246dc
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.461Z [raw-tx ptt] 34b: 01daa7c3edea8e00471b8e3724ec2049247249246ea0391c91c7235e4036db72471c
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.483Z [raw-tx ptt] 34b: 01da66b3ae22ba8048e37246e356603924723723ca00492372471ccc2048db8e3724
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.505Z [raw-tx ptt] 34b: 01da67b4262a886049238dc6e3dc40472491c91b58c047236e3924782046e472391c
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.525Z [raw-tx ptt] 34b: 01d9e8cc6963dc0049248e48e3c0003724924724588038e371c9235c00472491c6e4
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.546Z [raw-tx ptt] 34b: 01daa8c3e9e2dc4048e39246dcb40048db8e4923a820471c8e49247ca048e471b8dc
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.567Z [raw-tx ptt] 34b: 01da27d369ea5800491c91c6dcf0a0471c91b91c5c40471c91c8e45cc0371c71c723
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.589Z [raw-tx ptt] 34b: 01daa5d3e5a2e46039246dc8e3682048e47248dccc0038dc8dc924c200391c6e471c
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.610Z [raw-tx ptt] 34b: 01da65c36223be4058e48dc91c9620472471c8e4d020491c7248e4a60038e37238e3
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.651Z [raw-tx ptt] 34b: 01daa7db2e12a080471b71c91c6c20471c72471c6840491c8db91ce44036db91b724
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.672Z [raw-tx ptt] 34b: 01daa6d3e5e1aa00371c7248e4ac2038e38e46e37aa0392392471b5440391c9236db
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.694Z [raw-tx ptt] 34b: 01da68cba9eb6860491b8db75bee20492472491c820038db91c924dac047239248e4
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.716Z [raw-tx ptt] 34b: 01db26c3699b5800471c8e39238a2048e36e48db604037248e4723642048db71c723
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.736Z [raw-tx ptt] 34b: 01daa8d2e9eba06039246e4723f060371c6e48e390003723b24923820037246e3724
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.757Z [raw-tx ptt] 34b: 01da26d36623c6c0391b7238dbe62039237248dba420472371c71ba640371c8e471c
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.778Z [raw-tx ptt] 34b: 01da28d369ebd02046e46dc724c40036e38e38e47420391b9246dcde0038dc71c923
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.800Z [raw-tx ptt] 34b: 01daa2d3ee2b8c20471c8e38e47a80491b91b6e49440472391b8e3ae6047249238db
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.821Z [raw-tx ptt] 34b: 01daa7c3ede35aa049246e58dc8420492391c6e4e440391b8e36e4d240472371c723
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.845Z [raw-tx ptt] 34b: 01daa8c2f1a3da2039238dc8e35240492491b8e4920039237238db8cc04723924723
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.867Z [raw-tx ptt] 34b: 01daa5bba9a28420392491c8e4ca40471c923724d22039239248e4d0e047248e4923
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.889Z [raw-tx ptt] 34b: 01da66bc25da76c0371b8e38e3722047236dc6e47640492472491bdc0039246e491b
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.910Z [raw-tx ptt] 34b: 01daa9bb6d6bbae036dc8dc923824048e36e36e36e20491b8e3924ee4037239248dc
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.932Z [raw-tx ptt] 34b: 01dae4bb726bb44048e38e491ce80048e4923923d480392391c6e47ea036e38dc724
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.954Z [raw-tx ptt] 34b: 01da66cbed6aa84038e4925724ae40491b92472394a047248e36dcc620371b924923
+may 02 19:04:16 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:16.974Z [raw-tx ptt] 34b: 01daa7a3ea22bc0046db91b71cbe6046e48dc723d020491c91c6e3560037237248e4
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.017Z [raw-tx ptt] 34b: 01dae7d3a56a8440492391b723a42048e491c724ace046e48e38e3604049247248dc
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.039Z [raw-tx ptt] 34b: 01da66dc691a5620492372391b5c20392491b91c784037246dc91c5e0039247236dc
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.061Z [raw-tx ptt] 34b: 01da28d365a26cc0392371b723ba4048e58dc8e3e64037248dc71cb42038e46e371c
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.083Z [raw-tx ptt] 34b: 01daa7cb6d2a9240372492371cdc2048dc8e491b5a2049246dc91c508037239238dc
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.103Z [raw-tx ptt] 34b: 01daa5dbeda3646037248e48e4d040492476472456c039246db8db7c8037248e48dc
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.128Z [raw-tx ptt] 34b: 01dae6cbe962ea8039236e48e3e42038dc92391b8a4036e46e3723c420491c8db91c
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.170Z [raw-tx ptt] 34b: 01db24bc29a4784038dc7248e4ba2036e491c924820037249248e49680372471c8e4
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.191Z [raw-tx ptt] 34b: 01daa5cb6531b2a0492472391c920048dc724924606049248dc71ca4a039246e48dc
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.214Z [raw-tx ptt] 34b: 01da28dbe5eb722048e471b91c9240491c9247647a60372491c6db6a60391b71c71b
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.235Z [raw-tx ptt] 34b: 01da67c32a22b840391b8e48dcd20049237239247e0036e472392354603723924723
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.255Z [raw-tx ptt] 34b: 01da66b3a5e364c0472372391b920038db91c924b24038e471c91c560048e491c91c
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.277Z [raw-tx ptt] 34b: 01dae4cb69ebec8046e46e4924c4c0471c72471b9c20492491b8ddac60472472491c
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.298Z [raw-tx ptt] 34b: 01dae7d3a9e16280372471c8dba8c0391c7248dbc480392371b8e36c0048db71b924
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.319Z [raw-tx ptt] 34b: 01d9e8dba5daa240391c7248e3840038db924723ca00392492471c7ee0372471c6dc
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.364Z [raw-tx ptt] 34b: 01daa4cb30e3de404724723723728039248dc9238440491b91b8e3e22049248dc8dc
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.371Z [raw-rx #1] 1b: 0c
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:17.375Z Keepalive recibido del servidor [0x0c]
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:17.700Z [nivel] pico RMS=6693 (-13.8 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:17.946Z PTT liberado [0x0d]
+may 02 19:04:17 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:17.947Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-05-02T19:04:20.447Z) | frames: 223 real + 7 silencio = 3% silencio
+may 02 19:04:18 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:18.348Z [arecord] GAP 68ms (chunk#7602, 160 muestras)
+may 02 19:04:18 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:18.452Z [arecord] GAP 64ms (chunk#7604, 160 muestras)
+may 02 19:04:18 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:18.631Z [arecord] GAP 72ms (chunk#7608, 160 muestras)
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.458Z [raw-tx ptt] 1b: 09
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.459Z PTT anunciado [0x09]
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:20.459Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-05-02T19:04:20.447Z, streak=0)
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.481Z [raw-tx ptt] 34b: 01d6b5a224dbb0ce70e28bbc49d88f67c173784adbccf8e54d2133b92fc5178da963
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.501Z [raw-tx ptt] 34b: 01d6b5a2a154b36a12ad91d25fb3ca1a95e7c908d6ecfb605b25a2b18ae8328dae65
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.542Z [raw-tx ptt] 34b: 01d6b4b2a521d2ae92af90ab1cad6e546b8aa634ceaff40cdb0362a370d8c6725685
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.564Z [raw-tx ptt] 34b: 01d6f2ca6561a54f7b4259bd0b9dd0ccc56eba5a9b31fb1a6a56a69554d6df70c95b
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.584Z [raw-tx ptt] 34b: 01d6f3da286264d0b35d35cac287504b8ac98d648131a4aeacabd3a110a68fb1a867
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.606Z [raw-tx ptt] 34b: 01d732c2e4a27b51b0e58ec4b5dad112dcd115d35eb3be7468bd9f5a928856ada76b
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.626Z [raw-tx ptt] 34b: 01d6f5c5212074d12c23eda92ccef019724ba932eeed2135b03b5decad9c6d812de3
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.648Z [raw-tx ptt] 34b: 01d734b511607930a6ec6dc3d9a73029db75b924a94e956cb085f85f4f8adbb6b6d5
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.689Z [raw-tx ptt] 34b: 01d731ea60a39330f8ca575a138d4eba13f0a57d9d13345cd68a57bacf99066e4b61
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.710Z [raw-tx ptt] 34b: 01d6f2aaa8a2a0d19bf1522964e6ec812b7cd525c4b10da30a691ab96dcc9cda2157
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.732Z [raw-tx ptt] 34b: 01d6b3aaa1528d0f8fe07322f6da8d325c9e916ab9cdeadba69f1dbaed1bea2b2d80
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.752Z [raw-tx ptt] 34b: 01d6b5a2e553b90e17f13d48d4dab07ad2734898b56fe8a569c56fb7100474893b5b
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.797Z [raw-tx ptt] 34b: 01d6b4a3215aab0e972591b4bbab3038e8b64416aeae748bbd1b15c5cde66a56604e
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.818Z [raw-tx ptt] 34b: 01d6f3cb1d9a5a4de214e95c9f9d31351595a16d66d334e391a9e1915042b7c01965
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.838Z [raw-tx ptt] 34b: 01d730d26822935147115ba4bebef086bb525ad0df91a93d55a59d7f0f410df089ab
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.859Z [raw-tx ptt] 34b: 01d6f2c2a0ab7f6e362de8b33d7b30440ea6d2648111a663d596f9ae8e9b80fa5111
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.880Z [raw-tx ptt] 34b: 01d735b41ca1db2f652b716ea9dcb02bea2ba9317cab1faa2ecf187d4d1f3445bb74
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.900Z [raw-tx ptt] 34b: 01d735b50dd1832e3aeb6a5e23aecc975ec827b4872db25ce5d8648709656172c958
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.921Z [raw-tx ptt] 34b: 01d6f6b458d18f0ddf82526923673017ac81cb24c2cbc22497700bbb6e4f460e7393
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.942Z [raw-tx ptt] 34b: 01d734b3d163708b4cfd91c61eb20d595788ccddd151d6719a156f5210b80bde32ae
+may 02 19:04:20 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:20.985Z [raw-tx ptt] 34b: 01d6f4a9e8a3b6ad22ae6b86a5b6ae0b292ef90abaf0db1a96347a810a9c5dd80b60
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.006Z [raw-tx ptt] 34b: 01d6b49a65137af13e2cadcb13a2cd99f321ef0bb76d3714915047b74d6a42de30dc
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.029Z [raw-tx ptt] 34b: 01d6b3c26192bfce5214aee50debaf5e109ab4ceeb8e68d29a32bfdb6d99049d1cde
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.050Z [raw-tx ptt] 34b: 01d6f4ab6562af8e84ae889f3f9f12353d22d754c0902dad4d62be971125b06ebd19
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.071Z [raw-tx ptt] 34b: 01d734cadd5a94f0fb5b8958e7bfd25142f1366c8af2c91369eee1929295e33236ad
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.093Z [raw-tx ptt] 34b: 01d732c2e0a284f1d60ef89962e2b12b54516c8281504e5c6d7b517d30356e613f16
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.113Z [raw-tx ptt] 34b: 01d735ac1cd9908e88bdcf12df84b0784e56764d7b4d58d97e16f97b0bd5c937ca82
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.133Z [raw-tx ptt] 34b: 01d773bccd617f2cf6935dc6a3a28d5f9a49dfc0858cec298eb754ab11c8dbb12720
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.155Z [raw-tx ptt] 34b: 01d735c414a1ab8fef5919e91b606f14efa036fe9b30310bf9a2ab9ccd396c40ef24
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.175Z [raw-tx ptt] 34b: 01d733d318a2c35241cb9534adeeacf21a792d8aaf32b71cccd667ccb3f8ca7248dd
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.196Z [raw-tx ptt] 34b: 01d6f3b9e4ea9af1256663a522dcb0c13b45cd13b9703ae4920730b992696311eadb
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.215Z [raw-tx ptt] 34b: 01d6f2ba651ae4cde845d3302fced1c6b996252de6d2a5da911babbcb0113e84b9b2
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.236Z [raw-tx ptt] 34b: 01d6b2a22963b6f02d1bc64c98ba8f57ea0a6d4ab1ce0b396cc722df51a1616f6892
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.256Z [raw-tx ptt] 34b: 01d730d1a4e26b2f5969778ba9c512933d41d9e2a150353c63a3a29ed4092d694923
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.297Z [raw-tx ptt] 34b: 01d732b264aa9b3093339139a89c9165ec69c76b950f09a0ececd2952fdb2ba1e6b4
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.318Z [raw-tx ptt] 34b: 01d731daa4aa91ce1c16897689ded2d70551c8eba0b2c693d39524d6303ae952db50
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.339Z [raw-tx ptt] 34b: 01d6f6ac5191852f096d30476c84af2326b0973abacdc81cd2a236852ccb525c3b13
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.360Z [raw-tx ptt] 34b: 01d734b4ca12baecf907eca36d9f2c34a4bd2726ce2bfb484f7cd67fac410c6dda99
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.381Z [raw-tx ptt] 34b: 01d772dadca395b0bdeb442f9a9590c3de29d6db9d31688a77682058b2bee232d4e4
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.403Z [raw-tx ptt] 34b: 01d76fca20eaa4f0b06ed9923bcaf23ec299d6e39eb0371cd90da4c0b4d8d54a5a23
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.422Z [raw-tx ptt] 34b: 01d6f3c1ecdae4ce4615fd00f3a6b0c8d3e9c853c6d078da96c69cb3adf29573d315
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.444Z [raw-tx ptt] 34b: 01d6b1aa6163b5cde1a58c2b75b14e24ddb52907b10c9ed9cdc6a5a88cfc8baa5c17
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.485Z [raw-tx ptt] 34b: 01d733b2e4a1a7d1b76c0edaa1c94e6a90bcbc87bdd04a2872335ce6cf40662b51ab
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.505Z [raw-tx ptt] 34b: 01d772c320e292b43a95d0291c6e8fc8b45c0de0a0d09b247ab61fdad22a2788bbbb
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.526Z [raw-tx ptt] 34b: 01d772b318eb5d34116d86c5657b6fb2d5f415d97ad0e626ae06f678d1b49cae982d
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.547Z [raw-tx ptt] 34b: 01d770b44d6055514a52f997da792dfd4375ad23770df5149242a4eeacc718ba13cd
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.572Z [raw-tx ptt] 34b: 01d82dad461aef0adcd8d7d4847f2d389d1da324a0ec5a137bd24783502b1a72443e
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.593Z [raw-tx ptt] 34b: 01d7afc3cce9c52fd683ba58457d325a22b19da1b6cec9b425b7fc9eb20a5fb18564
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.615Z [raw-tx ptt] 34b: 01d76fba58f396cc58e1277978a53225dba999ae604f409bd24a8daf33392d4cf622
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.638Z [raw-tx ptt] 34b: 01d6ee99e12bd931f64bb6349dbb5039a44dd1eaba90d62e9139a2b96c9f6b74ab57
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.658Z [raw-tx ptt] 34b: 01d6efaa2522b9ced3517d568578b16d5333b56be55109999a2555e52dce11f9a117
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.679Z [raw-tx ptt] 34b: 01d6f1baa0e9a8aee0e376a90da9ed8b98b336e3a1f078945238e8a1cda8ee026d09
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.699Z [raw-tx ptt] 34b: 01d6f1b2612a9b3178ec4ec6eb9bf13b544edae0930f756272ac1c94d2c0d58db6e4
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.724Z [raw-tx ptt] 34b: 01d72fba61328df019ac31db1f8bd0455e92a12d85ed76027b9681ecf13b9859e0df
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.765Z [raw-tx ptt] 34b: 01d72fc2dceae3733165b1182ecef00dba49df9276b11b7b31c32eeef436e591a798
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.795Z [raw-tx ptt] 34b: 01d734bc4d19713174ec71392c8c3213272db4eea8ae5253deb0168b2d70cf96451a
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.815Z [raw-tx ptt] 34b: 01d72eb9e0fae4f2c9624e4b17d93402f471c4eb8ef2ca939644cfa1524931126ad3
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.837Z [raw-tx ptt] 34b: 01d732ab1d61604dec9bde8124ab51e54c4d5f088f6fbedcb2d34d8f0e8f30f5969e
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.858Z [raw-tx ptt] 34b: 01d6f4bb215ad45044948dcb20b10ef4e74cbeca64b0cf925256e4ad4ea1db9918f6
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.882Z [raw-tx ptt] 34b: 01d6f1c22922d08d0165ada8dbad6f39298ab82ecd2d4882b7d0ada79032ed3d3792
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.903Z [raw-tx ptt] 34b: 01d72fb25d6aa7ac8d692674e2a31046dc7c4950a290db8f8d396b811188decc9739
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.927Z [raw-tx ptt] 34b: 01d6efd21cacced32cd29668a890b00f8ba6252da0d2448cd9d0acd0cd32c68725bb
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.950Z [raw-tx ptt] 34b: 01d734b390a18cf1a52e11671cf06e548bfe005eb950d8d276e11d64ce4974094d9c
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.970Z [raw-tx ptt] 34b: 01d6f5b34d228fee196a39611c62cd485b7b9880918b745aa9cc22934cc57491172f
+may 02 19:04:21 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:21.990Z [raw-tx ptt] 34b: 01d72fba192c97f026ae718b216ccfc7740da7fc9f5260be26291d66305b2013eac9
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.011Z [raw-tx ptt] 34b: 01d6efa21de2a3522bdbc05f626c709b6276bf11941027ed6db91cec51c91b6f0d60
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.031Z [raw-tx ptt] 34b: 01d6ee7a5e15eece8faa69d56c90cda6ee1e2175b04a4056ed0775a04bc494d2b704
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.052Z [raw-tx ptt] 34b: 01d6e46b9adcca4968a4c0adabea8ac894cbd0dc66a5be8ae70e1ec8a63b0d6e2e2b
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.073Z [raw-tx ptt] 34b: 01d7a79ba5dada45cc58eac875d6c846939db70ac6a3cfd54849af5cc4c4cbd3c05c
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.094Z [raw-tx ptt] 34b: 01d7e893da5c64a666d6ae32efd92408da96467dc32838d48e8b61bc84a5e48a3636
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.116Z [raw-tx ptt] 34b: 01d827b45ddca0a428248fb29de8a5ab0b95a5e3b6a3067e82e0d470c5db4588db1c
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.137Z [raw-tx ptt] 34b: 01d8688ba25bec850aee655b438aa54f525d37e164a497dd42769b96a34d4e154575
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.159Z [raw-tx ptt] 34b: 01d8299c21dbc0c3b714e996f4d746271aabc41b5c0659d95252ed9ea6a5ab32d82c
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.179Z [raw-tx ptt] 34b: 01d92a9ca26381c6c4e4c31aac7b6698c5d9b266a4c7b2b24df703a0c5cf42b4b564
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.200Z [raw-tx ptt] 34b: 01d86ab4221a7ce526e25eb6cbc2a67893915adb6aa302fda1e522f0c44b905dca8e
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.221Z [raw-tx ptt] 34b: 01d7259b665da7c7e65f69591252a3cfcb2b9cfbb6c40aadcc29d2e0c466c68a3b1a
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.263Z [raw-tx ptt] 34b: 01d667945a1c7325517f48aaded3ad471b7251d25c4978ca9eb26a7cab6ad872d8d3
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.283Z [raw-tx ptt] 34b: 01d869a3d59ada0499bb60c7abdc24072badf2a984c2fbd44317f0e0a393e44a4c62
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.303Z [raw-tx ptt] 34b: 01d36a8b69ed60c429e451c5166b434f1489b954c7cab6e4a8ec045f4bf9045d6689
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.324Z [raw-tx ptt] 34b: 01d5278b215c6991e1247226f4513024d79136b4798c40a0eab8e451c95b1e66a633
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.370Z [raw-tx ptt] 34b: 01d4e77b9da5798b1ce08a3ad0a1eadb405eea4aa12bf16e5146ac7a0c64129ad48a
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.391Z [raw-tx ptt] 34b: 01d5e2839de2d64c4b615cb8dce446dae347bb30ec84fd8f70f924ea63dd3403af8e
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.413Z [raw-tx ptt] 34b: 01d4a87bdde4e76c36ec7236bd534e09ea0e6942510daf5514f729556f3ce8aa4944
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.432Z [raw-tx ptt] 34b: 01d4e873d99d790cc1e42de719a14ccedc5276c4c96c5ed892c70489ac98575246ab
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.453Z [raw-tx ptt] 34b: 01d3e7835e1e508dd12672291da846f22477c6d0ea05ffe263376ccae4bc70972b19
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.464Z [raw-rx #1] 41b: 0b264e6f6d6272652064652073616c6120696e76616c69646f20286d61782033302063686172732903
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.464Z Mensaje del servidor: Nombre de sala invalido (max 30 chars)
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:22.464Z Mensaje servidor: Nombre de sala invalido (max 30 chars)
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.477Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:22.478Z Desconectado del servidor eQSO
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:22.479Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=1) \Uffffffff suppress 4s
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:22.480Z Reintento #1 en 1s\Uffffffff
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:22.701Z [nivel] pico RMS=7316 (-13.0 dBFS)  VOXumbral=1500  gain=0.15
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:22.981Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+may 02 19:04:22 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:22.988Z TCP conectado a 193.152.83.229:2172
+may 02 19:04:23 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:23.026Z Handshake recibido \Uffffffff conexion establecida
+may 02 19:04:23 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:23.028Z Conectado \Uffffffff enviando JOIN\Uffffffff
+may 02 19:04:23 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:23.029Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+may 02 19:04:23 ubuntus eqso-relay-CB[24695]: [eqso] 2026-05-02T19:04:23.038Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 02 19:04:23 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:23.038Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 02 19:04:23 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:23.093Z Sala: EA4IKU se ha unido
+may 02 19:04:23 ubuntus eqso-relay-CB[24695]: [main] 2026-05-02T19:04:23.094Z Sala: 0R-IN70WN se ha unido
+may 02 19:04:24 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:24.585Z [arecord] GAP 80ms (chunk#7868, 480 muestras)
+may 02 19:04:27 ubuntus eqso-relay-CB[24695]: [audio] 2026-05-02T19:04:27.700Z [nivel] pico RMS=6062 (-14.7 dBFS)  VOXumbral=1500  gain=0.15
