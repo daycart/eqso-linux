@@ -9,6 +9,7 @@ export interface AudioConfig {
   voxHangMs: number;
   inputGain: number;
   outputGain: number;
+  postRxSuppressMs: number;
 }
 
 export interface ControlConfig {
@@ -54,6 +55,7 @@ const DEFAULTS: RelayConfig = {
     voxHangMs: 1000,
     inputGain: 1.0,
     outputGain: 1.0,
+    postRxSuppressMs: 2500,
   },
   control: {
     enabled: true,

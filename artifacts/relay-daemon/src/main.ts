@@ -61,13 +61,12 @@ const POST_TX_SUPPRESS_MS = 800;
 // (full duplex: arecord siempre activo), el VOX puede dispararse con ruido.
 // Inhibimos el VOX durante este margen despues de que rxActive baje a false.
 let postRxVoxSuppressUntil = 0;
-// 1200ms: 300ms drain aplay + ~350ms arecord restart + 550ms margen eco CB.
-// Con setup de cables fisicos (CM108 line-out → CB mic, CB speaker → CM108 line-in)
-// no hay camino acustico → el eco residual desaparece en <100ms.
-// 1200ms cubre el reinicio de arecord + margen y permite que el operador CB
-// responda rapidamente sin quedar fuera de la ventana de captura.
-// Antes de b207244 esta supresion no existia y funcionaba bien (0ms).
-const POST_RX_SUPPRESS_MS = 1200;
+// postRxSuppressMs (cfg): tiempo de inhibicion VOX tras RX del altavoz.
+// 300ms drain aplay + ~350ms arecord restart + margen eco acustico CB.
+// El valor por defecto (2500ms) se puede sobreescribir en CB.json con
+// "audio": { "postRxSuppressMs": 6000 } para salas con mucho eco.
+// TAMBIEN se aplica cuando otro usuario empieza a transmitir (ptt_started),
+// para inhibir el VOX durante la ventana antes de que llegue el primer paquete.
 
 // ─── Supresion VOX post-TX propio (anti-eco de squelch y canal CB) ────────────
 // Cuando el relay termina su propia TX (VOX ptt_end), la radio vuelve a modo
@@ -95,10 +94,10 @@ function setRxActive(): void {
     // Extender inhibicion VOX: el altavoz deja eco residual en la sala que
     // arecord capturaría al reiniciarse (400ms) → VOX dispara ruido de fondo.
     // DIAGNÓSTICO: usar Math.max para NO reducir el suppress si post-TX lo fijó más largo.
-    const rxSuppressUntil = Date.now() + POST_RX_SUPPRESS_MS;
+    const rxSuppressUntil = Date.now() + cfg.audio.postRxSuppressMs;
     const prev = postRxVoxSuppressUntil;
     postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, rxSuppressUntil);
-    log(`[rxInhibit] suppress: prev=${new Date(prev).toISOString()} new=${new Date(postRxVoxSuppressUntil).toISOString()}`);
+    log(`[rxInhibit] playback_ended: suppress extendido → ${new Date(postRxVoxSuppressUntil).toISOString()} (prev=${new Date(prev).toISOString()})`);
   }, RX_HANG_MS);
 }
 
@@ -230,6 +229,16 @@ function connect(): void {
       case "ptt_started": {
         const u = ev.data as { name: string };
         log(`TX: ${u.name} transmitiendo`);
+        // FIX: inhibir VOX inmediatamente cuando otro usuario empieza a TX.
+        // Sin esto, el relay intenta activar PTT en la ventana entre ptt_started
+        // y la llegada del primer paquete de audio (altavoz CB→micro→VOX loop).
+        {
+          const suppUntil = Date.now() + cfg.audio.postRxSuppressMs;
+          const prev = postRxVoxSuppressUntil;
+          postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, suppUntil);
+          if (prev !== postRxVoxSuppressUntil)
+            log(`[rxInhibit] ptt_started: VOX inhibido hasta ${new Date(postRxVoxSuppressUntil).toISOString()} (${cfg.audio.postRxSuppressMs}ms)`);
+        }
         break;
       }
 
