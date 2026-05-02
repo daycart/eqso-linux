@@ -1,0 +1,41 @@
+ # 1. Ejecutar con sudo para poder escribir main.ts
+sudo python3 /tmp/vm_patch.py
+
+# 2. Encontrar el nombre real de la constante para Fix 2
+grep -n "SUPPRESS_MS\|postRx\|POST_RX" /opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts | head -20
+
+# 3. Rebuild y restart
+cd /opt/eqso-asorapa && sudo -u eqso pnpm --filter @workspace/relay-daemon run build && echo "BUILD OK" && sudo systemctl restart eqso-relay@CB
+[sudo] password for david: 
+[config] postRxSuppressMs ya existe, sin cambios
+[main] AVISO fix2: POST_RX_SUPPRESS_MS no encontrado
+[main] Fix 3: ptt_started suppress a\Uffffffffdo
+[main] Guardado
+
+? Patch OK \Uffffffff rebuild y restart pendiente
+53:// (postRxVoxSuppressUntil) antes de permitir nuevo TX.
+61:// Base: TOT_BREAK_MS, duplicando con cada fallo hasta TX_FAIL_MAX_SUPPRESS_MS.
+63:const TX_FAIL_MAX_SUPPRESS_MS = 60_000;  // m\Uffffffffmo 60s de pausa tras fallos
+111:// igual a POST_APLAY_VOX_SUPPRESS_MS para cubrir r\Uffffffffgas cortas (< 1s) en
+114:// POST_APLAY_VOX_SUPPRESS_MS se define m\Uffffffffabajo; se declara aqu\Uffffffffa referencia.
+124:const POST_TX_SUPPRESS_MS = 1500;
+129:// El suppress se aplica en DOS momentos, ambos con POST_APLAY_VOX_SUPPRESS_MS:
+139:let postRxVoxSuppressUntil = 0;
+140:const POST_APLAY_VOX_SUPPRESS_MS = 2500;  // usado en ambos momentos
+147:const POST_TX_VOX_SUPPRESS_MS = 2500;  // antes 5000ms (squelch HW ajustado)
+153:const CHANNEL_YIELD_SUPPRESS_MS = 2_000;
+172:    // Extender inhibicion VOX: usar POST_APLAY_VOX_SUPPRESS_MS (2500ms) y NO
+173:    // POST_RX_SUPPRESS_MS (800ms). Motivo: para r\Uffffffffgas cortas (< 1s) el evento
+179:    const rxSuppressUntil = Date.now() + POST_APLAY_VOX_SUPPRESS_MS;
+180:    const prev = postRxVoxSuppressUntil;
+181:    postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, rxSuppressUntil);
+182:    log(`[rxInhibit] suppress: prev=${new Date(prev).toISOString()} new=${new Date(postRxVoxSuppressUntil).toISOString()}`);
+212:  const suppUntil = Date.now() + POST_APLAY_VOX_SUPPRESS_MS;
+213:  const prev = postRxVoxSuppressUntil;
+214:  postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, suppUntil);
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+BUILD OK
