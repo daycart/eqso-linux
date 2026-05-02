@@ -1,0 +1,236 @@
+ sudo journalctl -fu eqso-relay@CB
+may 02 11:25:27 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:25:27.627Z [nivel] pico RMS=9 (-71.2 dBFS)  VOXumbral=1500  gain=1
+may 02 11:25:28 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:28.013Z Keepalive recibido del servidor [0x0c]
+may 02 11:25:32 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:25:32.627Z [nivel] pico RMS=10 (-70.5 dBFS)  VOXumbral=1500  gain=1
+may 02 11:25:36 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:36.007Z Keepalive recibido del servidor [0x0c]
+may 02 11:25:37 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:25:37.628Z [nivel] pico RMS=9 (-71.2 dBFS)  VOXumbral=1500  gain=1
+may 02 11:25:42 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:25:42.647Z [nivel] pico RMS=10 (-70.4 dBFS)  VOXumbral=1500  gain=1
+may 02 11:25:44 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:44.007Z Keepalive recibido del servidor [0x0c]
+may 02 11:25:47 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:25:47.647Z [nivel] pico RMS=9 (-71.0 dBFS)  VOXumbral=1500  gain=1
+may 02 11:25:52 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:52.016Z Keepalive recibido del servidor [0x0c]
+may 02 11:25:52 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:25:52.649Z [nivel] pico RMS=9 (-70.9 dBFS)  VOXumbral=1500  gain=1
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.126Z [raw-tx ptt] 1b: 09
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.127Z PTT anunciado [0x09]
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:56.128Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-05-02T11:24:26.346Z, streak=0)
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.167Z [raw-tx ptt] 34b: 01d6ad9522e458882435aeb85abfccc7246d39cf6bd24325a64a2e531552a6507a25
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.186Z [raw-tx ptt] 34b: 01d72babaa3463b8745d9c44965d5c496816d66a6c9b75e912e3c2b91d97a21637aa
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.207Z [raw-tx ptt] 34b: 01d6657426ebdebb3ccb9a4546c6dc892c71c9648e9a20ecd187aae0da68c25eb2cb
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.229Z [raw-tx ptt] 34b: 01d5e0749f2bb6b7f9699c07ed6899a8faa5ab258c96052b37b822d696f7841de69b
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.249Z [raw-tx ptt] 34b: 01d5dd7d223a8af7ab2b85c970b136c723a2d2678976b51c921a7a87183e2a8a591b
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.281Z [raw-tx ptt] 34b: 01d6218425747bf970b1b2451e6099abe34d5b53859475cb94aae38538a673862ce8
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.305Z [raw-tx ptt] 34b: 01d62193e97583b5bac68aba9483956ac45d770e8336d9c31e63168136ce1c81591b
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.326Z [raw-tx ptt] 34b: 01d5639365ed81967113962567833b372b6e3adf8ad63525e2076cea11da1057f889
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.346Z [raw-tx ptt] 34b: 01d6a68390e5e6124d651236ecc40cd0a69798dbc84cd998799d6fdc8d1199f332ec
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.367Z [raw-tx ptt] 34b: 01d7ac8495ed7cd059a86dcd23c3303466da2685c1d35eb162dc4d75d54edb13a3ab
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.430Z [raw-tx ptt] 34b: 01d5659369765319256f604fcc7f198f9a76d49392d942b59e0857d2b846dc85c8b9
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.450Z [raw-tx ptt] 34b: 01d52693a9b598bb372494b82ddcf822dd4e49caa8d91d6b88494fd0d842cf91276c
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.483Z [raw-tx ptt] 34b: 01d52684e63b68f604ef4e319f60d6b89c8d57e0ab57f27475a3bd58969499f0bd12
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.504Z [raw-tx ptt] 34b: 01d6aaaa21bdbeb8b984b4b9b1bdfabb2a872f1bbd5b44b3b1e0f2c159295b82bbc8
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.525Z [raw-tx ptt] 34b: 01d7a884692c5699dd15cd2367c11a1667529a5d92b7fd224eab739eb725ab6e5635
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.546Z [raw-tx ptt] 34b: 01d7e6b3de93d0b5266a9d5292c6d75cc4b1bae25b34d7198be03c54b7c5a083dc83
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.567Z [raw-tx ptt] 34b: 01d72ac466939738469aa6ece890b89d56a9ba3468b6f0e5663f4bdaf8d8578f20df
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.589Z [raw-tx ptt] 34b: 01d569a3999c6c98d8c4b1b6e49810b12cb1445cd26c401d75d758e64beb7a9c9634
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.609Z [raw-tx ptt] 34b: 01d7e69b195ad96c4657d9b6cedacda9ac31b32f9b2d0cf1625d1256e9bf6d500cf8
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.629Z [raw-tx ptt] 34b: 01d5a6ce1d23d3f949236e2e8f5a34e503dab0758179ac5c7198babd3af694d41973
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.650Z [raw-tx ptt] 34b: 01d3e99ca15d6a5601ad8e2725a03245c4c6bb5be81025f2cc19eaeed3c758f0a5ed
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.671Z [raw-tx ptt] 34b: 01d42893e1adcff323de283b706d7838e58cc5b05b587813caa8b2745550bad21563
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.694Z [raw-tx ptt] 34b: 01d6236d9965ad3856ba2e4b1250d86d446ae89b68b7e7b219b6915b357ce8322f6f
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.714Z [raw-tx ptt] 34b: 01d9a76cde5564958d5a524424c9554a95bd86bcd8b83e94cc997a92f684f63693d6
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.752Z [raw-tx ptt] 34b: 01d8e69c9aa6533ab72d0a76da6ad92f2113474b50b70a7718c59bb2b6d74d9cb6ce
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.772Z [raw-tx ptt] 34b: 01d823abe5dd915934e38a6d90dab836fea217a498b57415cd2a5bd474d553cd8bad
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.792Z [raw-tx ptt] 34b: 01d5a88c21edd339272ba2ca9c64b5da83f62854ab3a491c55aed452d65b50975020
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.813Z [raw-tx ptt] 34b: 01d4ea83a23a6cda48e44e3af0e296ee83f896b560997853b5a6e4aab565287a3790
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.833Z [raw-tx ptt] 34b: 01d5e87c5a3bb897d90749db0a7095df5a2adbd0cd7525eaa611b3ceb40b6146ecc8
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.854Z [raw-tx ptt] 34b: 01d6298b5a736af62dd3474f0ab9b4d16c71d4d469147a0417b550d338c924538a55
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.875Z [raw-tx ptt] 34b: 01d6a89ad6f490f421b44d46a874b53bad066bc5e69786e587252576f51d1193a4a2
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.896Z [raw-tx ptt] 34b: 01d7ebbb5de49f752914674d585b359fe464d9d6b555a167c9996188b84ea1b13728
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.916Z [raw-tx ptt] 34b: 01d669a39ea46895e3919686e48cb4c7650ecb23a673b99a9e1527ec6f88d0d93bc2
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.936Z [raw-tx ptt] 34b: 01d5a6946e5bd08fabd34dbacaf0b350dd91e45c94d025067d07f5aacf936c898e6d
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.961Z [raw-tx ptt] 34b: 01d722ac65d9d0eef585aea2ff6ab0a424f512f662b189976ec6948acfb8e0f1872e
+may 02 11:25:56 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:56.983Z [raw-tx ptt] 34b: 01d7a28be25bb8ce06a16fc80ce4ad1d186dd897a0ed2694d1d650ea90772a6e44ea
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.003Z [raw-tx ptt] 34b: 01d8247bde2372ca9c589738589d0cbf28ae494eb52c3d435268d492aab393a9ea40
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.025Z [raw-tx ptt] 34b: 01d8a78be19bea8be1e54547dba36db55c6ec81ba4ee7a9c6acaa496eaa4af697c4a
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.066Z [raw-tx ptt] 34b: 01d65fac65eba2c9355728cdc2ad2cc721b5d815a5d2bc8f7147585db55ae1a9f2a5
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.088Z [raw-tx ptt] 34b: 01d523b4ea6ba1518d41cec4ec904f9b732f2e8dd470483baa3d1abd0f9d7a16455c
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.109Z [raw-tx ptt] 34b: 01d529aca65c5730ae654cec1d66916560ee4399e772d3244d7a5992aff86c990992
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.130Z [raw-tx ptt] 34b: 01d625a3e29cf0f15d833a726578f141eaa5c7a1829149285b28db7acc419dc26659
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.152Z [raw-tx ptt] 34b: 01d6e284e264c0edfcc07af84956cd4b83e72498d35063db760763668d8e9cf40bb4
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.172Z [raw-tx ptt] 34b: 01d8b0b452a3adf5c9226e4b5051da54f262e2ee56588e93f0a9ea7ad815673893fa
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.214Z [raw-tx ptt] 34b: 01d9259395e17cb57213d5cb09b652daf8c54b14ec5058958a6a31c80f532650f2ce
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.235Z [raw-tx ptt] 34b: 01d5a4b4e1e4ecaf34bb5294339b0fee3459d4de7573996272382571b4cc15b9a6fc
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.256Z [raw-tx ptt] 34b: 01d5e594aa6a5291052a5da6c4b8d53894c935cbe8b1f446bc474584f3cf52633d1b
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.275Z [raw-tx ptt] 34b: 01d7a59c25e4bc2bc58bfd326fb26dc467686962dc6c368fb1a51788eda9cc6c5b55
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.297Z [raw-tx ptt] 34b: 01d66584aaa3d88e1a559caa96956b571fcc0f21bbed24d7bc251edbf298dbd497da
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.317Z [raw-tx ptt] 34b: 01d6a58c261b58906503164cd9926ccb467630b6ccac0b244e499ed8ac0b3832da5a
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.338Z [raw-tx ptt] 34b: 01d7639c661b894ddb50573e5b58cdb2baaea51668caf31a2f59539eedb77952ba14
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.361Z [raw-tx ptt] 34b: 01d5e4b4ea6b66cf76d17a569b948e54e37d4521d8ce4b1729eadb61f246ba4d1953
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.380Z [raw-tx ptt] 34b: 01d82a835ee3b1d4c9515f24f358b2443ba7bb028bb85c9a3b460652da4a9a573547
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.401Z [raw-tx ptt] 34b: 01d76672aa6392928e3572343f94b5d0ead332afbaf8bb4d51ad107b39bf2156d305
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.421Z [raw-tx ptt] 34b: 01d6228b61a252fc461af2b2df777c4662f628dc73d6ac6c4eaaf0b33bd19cf431a7
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.442Z [raw-tx ptt] 34b: 01d6628aaa225a9b02a66eb2dea0db445e7133dea159086bd626a57afe451d713758
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.483Z [raw-tx ptt] 34b: 01d524646624d4b9df3329798b56d6533411c8c5ea355ce92af8e3d095d0b670c4e5
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.505Z [raw-tx ptt] 34b: 01d4e35caae59695d52b81e964a335381f54e4f17093c4d74ce94fa0b49a573996f1
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.547Z [raw-tx ptt] 34b: 01d4e283a5eb7376691bacbee2633ab6d57529db7b370aa65cb902bc97e9a529aee7
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.568Z [raw-tx ptt] 34b: 01d5de9b69a29f7836bbadb7245e98f45a7a5c12bbbdc4dc71ba2caab8d7908bbad3
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.589Z [raw-tx ptt] 34b: 01d6257be1e5eb79d5247688dcaf5c4d02954b226ad9b3e47497a6971a0e5e82471b
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.610Z [raw-tx ptt] 34b: 01d62493aa246ab9cd15614bb6979919d48a5307953875525675c395182a9f78b39f
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.632Z [raw-tx ptt] 34b: 01d6648b296d957c44e475b7ddf0bb092e28d95a915abd2085689a6ab9d953566097
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:25:57.650Z [nivel] pico RMS=29334 (-1.0 dBFS)  VOXumbral=1500  gain=1 SATURACION: 1503 muestras (4.27%)
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.653Z [raw-tx ptt] 34b: 01d5a283a59eb6bb4aa8b5a772f05896fcad25e5c0d68e262e3c8be6764ced293d67
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.674Z [raw-tx ptt] 34b: 01d76863a125eeb9875a92c65a95795b1972db83aab74af3b590f675182b8612c6a5
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.697Z [raw-tx ptt] 34b: 01d6a482e9a6deb826657f125f975a4e1c8eb71c86f78732455f2fb51a02ebaa3a85
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.729Z [raw-tx ptt] 34b: 01d5e29ae9a66377cab0d228378f7a430f55bea0b17a376631c7278ff8c7066e3b4f
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.749Z [raw-tx ptt] 34b: 01d6e093255f8db845cc7156958f7898eb69cb208ed8c7a5313f048f5669056b44d9
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.770Z [raw-tx ptt] 34b: 01d6e39320aed9993bd54e1b646ad894df6cb3ed6fbb3c1bae4695b9381f1390cce5
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.790Z [raw-tx ptt] 34b: 01d8649495dc991a20fcc9276d70352a65e78c91c276bf58c646f3b6b62e059e3a8a
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.812Z [raw-tx ptt] 34b: 01d7e98be22ba118552384f59aef583a97653cec6c96091993b4e4ccd8d7a34ea47d
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.831Z [raw-tx ptt] 34b: 01d7e95be1b3ed58245e7d638366b6dc63b520fcdf39c893b27036ccdab734492fa0
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.873Z [raw-tx ptt] 34b: 01d6e56aedac957b48ec7c33dec75bb184f0b52e9aba967cad33dda139175f90b564
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.894Z [raw-tx ptt] 34b: 01d6a46421ebdcbd4e5b6f38a258baf6f32dd922e0989cae26e708aaf7fa8e625926
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.915Z [raw-tx ptt] 34b: 01d7e9845de3c0daa313ee32dcd2b7f9588738fbdaf5b127ccaad55ed6ba7156d0d6
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.936Z [raw-tx ptt] 34b: 01d7677c62959cb6d89c70d74590d24a18ca3b4ee450e214be8416c42ef56032b5e4
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.976Z [raw-tx ptt] 34b: 01d661946a6be090d12c6dda14e64c43c6a52b2ca0ec438f34394e572da570599ce2
+may 02 11:25:57 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:57.997Z [raw-tx ptt] 34b: 01d7e5a45deb92cbc904cba30e88cc4a53d191bbd88c279e027c7050c9d12e0956c5
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.018Z [raw-tx ptt] 34b: 01d8aa75132ebeeed78b9142ef87b136dc55d1d78db9b6ad89a9cb52996115ad3b61
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.039Z [raw-tx ptt] 34b: 01d624a3e6ec98da2db013e80254bb7ec6ad475972dd4b704e4ee9e2bcf6e5694add
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.080Z [raw-tx ptt] 34b: 01d5e4b4b62b9adb0715e991c7ded9e6e722d8e38eba1c9e6e806e50fbb91d68772c
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.102Z [raw-tx ptt] 34b: 01d5e4c4b22364fcc61d1dc5a3a1598b9aad2cdca15c269655bed1dcdc9ca4a85ec4
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.123Z [raw-tx ptt] 34b: 01d564bbedac7e5cf69c6a5b1a9cfa61b28abb0ed6d7fe8c4fd358d0da33e34ad79c
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.146Z [raw-tx ptt] 34b: 01d4e59ce1746ad7c49733989dda97d6947a24bc98f6c4d8f445658b39a42df3b493
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.167Z [raw-tx ptt] 34b: 01d5649be934551ccb62518ecd9959f81972b6e49937629b83d30db95a669595372f
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.191Z [raw-tx ptt] 34b: 01d5269be1ed9db9b6ab3ccadb9b353ca3e59b379d763586ec47ae9d930724ea0893
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.216Z [raw-tx ptt] 34b: 01d4e593e1f59d584352ed47239f13f7928eaaf3ed59c72192b82370b9595a6eb19a
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.237Z [raw-tx ptt] 34b: 01d5e28c6935a15c35d28ec8dc68d9dc99577283c55b67796e3b93eeda6ae21dd6d1
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.258Z [raw-tx ptt] 34b: 01d8a15d1ddcaad7ff5424cfb0c099343dade5196897e89d1a359dd2f44aa4b6014d
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.280Z [raw-tx ptt] 34b: 01d9656d1e54e2f64a138af6d8a33478db9b06deb6b46ccd694f2679791e2db196ec
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.302Z [raw-tx ptt] 34b: 01d923955e5a86b83a54b45b1ddb583732528a4ad51abf63125c9d6054c32f718923
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.320Z [raw-tx ptt] 34b: 01d9e67495dda2b41cc4e689c459581f2365cca362d39ce19e9337a4f5a472ce47a8
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.361Z [raw-tx ptt] 34b: 01d7a2a5521d8934157467a79da8d3d999ba8924ba9298a386bea8d6d2b5d394976c
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.383Z [raw-tx ptt] 34b: 01d6e48c66a5946f075d51e901d4ef5954ba7698de904a7c51612c888f219e2bb2e4
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.404Z [raw-tx ptt] 34b: 01d7ecc45a1492d0a72c44cf2cbf6f523e62a9b0b15293eb6e351fe712d15a5af0c6
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.425Z [raw-tx ptt] 34b: 01d7eda4665b62f08b7966297c9c925066791a9fa1d49adacae5d9c51415ab2eb7db
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.466Z [raw-tx ptt] 34b: 01d771a4620a809587258d94fe54d425859db4e46c91a4f8ad29e1bab450dc75a921
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.473Z [raw-rx #1] 5b: 0afa000000
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.474Z [raw-rx #2] 32b: 14040000000747454e4552414c0243420741534f524150410750525545424153
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:58.477Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 02 11:25:58 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:58.479Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:59.072Z [raw-rx #3] 37b: 0b22496e646963617469766f20696e76616c69646f20286d61782033302063686172732903
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:59.072Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:59.073Z Mensaje servidor: Indicativo invalido (max 30 chars)
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:59.081Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:59.085Z Desconectado del servidor eQSO
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:59.087Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=1) \Uffffffff suppress 4s
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:59.091Z Reintento #1 en 1s\Uffffffff
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:59.591Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:59.605Z TCP conectado a 193.152.83.229:2172
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:59.633Z Handshake recibido \Uffffffff conexion establecida
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:59.635Z Conectado \Uffffffff enviando JOIN\Uffffffff
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:59.639Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:25:59.641Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:59.642Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:59.653Z Sala: EA4IKU se ha unido
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:25:59.653Z Sala: 0R-IN70WN se ha unido
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:25:59.864Z [arecord] GAP 119ms (chunk#16358, 160 muestras)
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:25:59.962Z [arecord] GAP 55ms (chunk#16360, 160 muestras)
+may 02 11:25:59 ubuntus eqso-relay-CB[10506]: [gsm-enc] 2026-05-02T11:25:59.964Z GAP 219ms entre frames GSM de salida
+may 02 11:26:02 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:02.650Z [nivel] pico RMS=30854 (-0.5 dBFS)  VOXumbral=1500  gain=1 SATURACION: 3875 muestras (11.32%)
+may 02 11:26:07 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:07.630Z Keepalive recibido del servidor [0x0c]
+may 02 11:26:07 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:07.650Z [nivel] pico RMS=101 (-50.2 dBFS)  VOXumbral=1500  gain=1
+may 02 11:26:11 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:11.663Z [raw-tx ptt] 1b: 09
+may 02 11:26:11 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:11.663Z PTT anunciado [0x09]
+may 02 11:26:11 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:11.664Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-05-02T11:26:03.087Z, streak=1)
+may 02 11:26:11 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:11.698Z [raw-rx #1] 1b: 02
+may 02 11:26:12 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:12.652Z [nivel] pico RMS=22344 (-3.3 dBFS)  VOXumbral=1500  gain=1 SATURACION: 58 muestras (0.16%)
+may 02 11:26:15 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:15.640Z [raw-rx #2] 1b: 0c
+may 02 11:26:15 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:15.640Z Keepalive recibido del servidor [0x0c]
+may 02 11:26:15 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:15.702Z [arecord] GAP 63ms (chunk#17058, 160 muestras)
+may 02 11:26:15 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:15.762Z [arecord] GAP 60ms (chunk#17059, 160 muestras)
+may 02 11:26:17 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:17.652Z [nivel] pico RMS=30865 (-0.5 dBFS)  VOXumbral=1500  gain=1 SATURACION: 2077 muestras (6.18%)
+may 02 11:26:18 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:18.928Z [raw-rx #3] 41b: 0b264e6f6d6272652064652073616c6120696e76616c69646f20286d61782033302063686172732903
+may 02 11:26:18 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:18.929Z Mensaje del servidor: Nombre de sala invalido (max 30 chars)
+may 02 11:26:18 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:18.929Z Mensaje servidor: Nombre de sala invalido (max 30 chars)
+may 02 11:26:18 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:18.938Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+may 02 11:26:18 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:18.951Z Desconectado del servidor eQSO
+may 02 11:26:18 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:18.952Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=0) \Uffffffff suppress 0s
+may 02 11:26:18 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:18.952Z Reintento #1 en 1s\Uffffffff
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:19.455Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:19.459Z TCP conectado a 193.152.83.229:2172
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:19.480Z Handshake recibido \Uffffffff conexion establecida
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:19.481Z Conectado \Uffffffff enviando JOIN\Uffffffff
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:19.482Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:19.490Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:19.490Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:19.529Z Sala: EA4IKU se ha unido
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:19.530Z Sala: 0R-IN70WN se ha unido
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:19.654Z [raw-tx ptt] 1b: 09
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:19.657Z PTT anunciado [0x09]
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:19.658Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-05-02T11:26:03.087Z, streak=0)
+may 02 11:26:19 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:19.659Z [raw-rx #1] 1b: 02
+may 02 11:26:22 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:22.653Z [nivel] pico RMS=30901 (-0.5 dBFS)  VOXumbral=1500  gain=1 SATURACION: 4091 muestras (11.84%)
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.249Z [raw-rx #2] 41b: 0b264e6f6d6272652064652073616c6120696e76616c69646f20286d61782033302063686172732903
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.250Z Mensaje del servidor: Nombre de sala invalido (max 30 chars)
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.250Z Mensaje servidor: Nombre de sala invalido (max 30 chars)
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.261Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.261Z Desconectado del servidor eQSO
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.262Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=0) \Uffffffff suppress 0s
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.262Z Reintento #1 en 1s\Uffffffff
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.290Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:26.526Z [arecord] GAP 67ms (chunk#17515, 160 muestras)
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.768Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.778Z TCP conectado a 193.152.83.229:2172
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.809Z Handshake recibido \Uffffffff conexion establecida
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.811Z Conectado \Uffffffff enviando JOIN\Uffffffff
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.816Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.818Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.818Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.865Z Sala: EA4IKU se ha unido
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.867Z Sala: 0R-IN70WN se ha unido
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.870Z [raw-tx ptt] 1b: 09
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.872Z PTT anunciado [0x09]
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:26.873Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-05-02T11:26:03.087Z, streak=0)
+may 02 11:26:26 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:26.899Z [raw-rx #1] 1b: 02
+may 02 11:26:27 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:27.653Z [nivel] pico RMS=27888 (-1.4 dBFS)  VOXumbral=1500  gain=1 SATURACION: 1861 muestras (5.57%)
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.300Z [raw-rx #2] 37b: 0b22496e646963617469766f20696e76616c69646f20286d61782033302063686172732903
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.300Z Mensaje del servidor: Indicativo invalido (max 30 chars)
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.301Z Mensaje servidor: Indicativo invalido (max 30 chars)
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.304Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.304Z Desconectado del servidor eQSO
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.304Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=0) \Uffffffff suppress 0s
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.305Z Reintento #1 en 1s\Uffffffff
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.348Z VOX: ptt_start ignorado \Uffffffff sin conexion, reseteando estado VOX
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.804Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.814Z TCP conectado a 193.152.83.229:2172
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.862Z Handshake recibido \Uffffffff conexion establecida
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.863Z Conectado \Uffffffff enviando JOIN\Uffffffff
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.869Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.875Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.875Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.887Z Sala: EA4IKU se ha unido
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.888Z Sala: 0R-IN70WN se ha unido
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.897Z [raw-tx ptt] 1b: 09
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.897Z PTT anunciado [0x09]
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:31.897Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-05-02T11:26:03.087Z, streak=0)
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.917Z [raw-tx ptt] 34b: 01d05e9b211aaee036e38db6e286e038e36db6dbc3e148cd71b6e36020451b6da8e3
+may 02 11:26:31 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:31.921Z [raw-rx #1] 1b: 02
+may 02 11:26:32 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:32.654Z [nivel] pico RMS=30741 (-0.6 dBFS)  VOXumbral=1500  gain=1 SATURACION: 5721 muestras (16.40%)
+may 02 11:26:33 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:33.897Z [arecord] GAP 89ms (chunk#17833, 640 muestras)
+may 02 11:26:35 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:35.946Z [raw-rx #2] 41b: 0b264e6f6d6272652064652073616c6120696e76616c69646f20286d61782033302063686172732903
+may 02 11:26:35 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:35.946Z Mensaje del servidor: Nombre de sala invalido (max 30 chars)
+may 02 11:26:35 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:35.946Z Mensaje servidor: Nombre de sala invalido (max 30 chars)
+may 02 11:26:35 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:35.957Z TCP desconectado de 193.152.83.229:2172 \Uffffffff cierre limpio del servidor (FIN)
+may 02 11:26:35 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:35.958Z Desconectado del servidor eQSO
+may 02 11:26:35 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:35.959Z [vox] PTT reseteado por desconexion (TX dur\Uffffffff, streak=0) \Uffffffff suppress 0s
+may 02 11:26:35 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:35.959Z Reintento #1 en 1s\Uffffffff
+may 02 11:26:36 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:36.460Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+may 02 11:26:36 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:36.466Z TCP conectado a 193.152.83.229:2172
+may 02 11:26:36 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:36.498Z Handshake recibido \Uffffffff conexion establecida
+may 02 11:26:36 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:36.498Z Conectado \Uffffffff enviando JOIN\Uffffffff
+may 02 11:26:36 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:36.499Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+may 02 11:26:36 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:26:36.505Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 02 11:26:36 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:36.505Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 02 11:26:36 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:36.552Z Sala: EA4IKU se ha unido
+may 02 11:26:36 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:26:36.552Z Sala: 0R-IN70WN se ha unido
+may 02 11:26:37 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:37.654Z [nivel] pico RMS=782 (-32.4 dBFS)  VOXumbral=1500  gain=1
+may 02 11:26:42 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:42.405Z [arecord] GAP 87ms (chunk#18214, 160 muestras)
+may 02 11:26:42 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:42.484Z [arecord] GAP 79ms (chunk#18215, 160 muestras)
+may 02 11:26:42 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:26:42.653Z [nivel] pico RMS=12 (-69.0 dBFS)  VOX
