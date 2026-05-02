@@ -1,0 +1,41 @@
+
+david@ubuntus:/opt/eqso-asorapa$ # Ver las l\Uffffffffas afectadas antes de cambiar
+grep -n "Date.now() + POST_APLAY_VOX_SUPPRESS_MS" /opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts
+
+# Aplicar Fix 2: usar cfg.audio.postRxSuppressMs (= 6000ms del CB.json) en lugar de la constante 2500ms
+sudo sed -i 's/Date\.now() + POST_APLAY_VOX_SUPPRESS_MS/Date.now() + cfg.audio.postRxSuppressMs/g' \
+  /opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts
+
+# Verificar resultado
+grep -n "postRxSuppressMs\|POST_APLAY_VOX_SUPPRESS_MS" /opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts | head -10
+
+# Rebuild y restart
+cd /opt/eqso-asorapa && sudo -u eqso pnpm --filter @workspace/relay-daemon run build && echo "BUILD OK" && sudo systemctl restart eqso-relay@CB && sleep 2 && sudo journalctl -u eqso-relay@CB -n 10 --no-pager
+179:    const rxSuppressUntil = Date.now() + POST_APLAY_VOX_SUPPRESS_MS;
+212:  const suppUntil = Date.now() + POST_APLAY_VOX_SUPPRESS_MS;
+[sudo] password for david: 
+111:// igual a POST_APLAY_VOX_SUPPRESS_MS para cubrir r\Uffffffffgas cortas (< 1s) en
+114:// POST_APLAY_VOX_SUPPRESS_MS se define m\Uffffffffabajo; se declara aqu\Uffffffffa referencia.
+129:// El suppress se aplica en DOS momentos, ambos con POST_APLAY_VOX_SUPPRESS_MS:
+140:const POST_APLAY_VOX_SUPPRESS_MS = 2500;  // usado en ambos momentos
+172:    // Extender inhibicion VOX: usar POST_APLAY_VOX_SUPPRESS_MS (2500ms) y NO
+179:    const rxSuppressUntil = Date.now() + cfg.audio.postRxSuppressMs;
+212:  const suppUntil = Date.now() + cfg.audio.postRxSuppressMs;
+486:          const suppUntil = Date.now() + cfg.audio.postRxSuppressMs;
+490:            log(`[rxInhibit] ptt_started: VOX inhibido hasta ${new Date(postRxVoxSuppressUntil).toISOString()} (${cfg.audio.postRxSuppressMs}ms)`);
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+BUILD OK
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:20:07.462Z   PTT Ser. : /dev/eqso-ptt (rts)
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:20:07.463Z   VOX Sup. : startup suppress 4000ms activo hasta 2026-05-02T11:20:11.435Z
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:20:07.463Z ============================================================
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [ptt] 2026-05-02T11:20:07.466Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:20:07.556Z arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:20:07.582Z aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=24000 --period-size=800
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [main] 2026-05-02T11:20:07.624Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [control] 2026-05-02T11:20:07.757Z Control HTTP escuchando en http://127.0.0.1:8009
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [audio] 2026-05-02T11:20:07.791Z [arecord] chunk#1: 9644 bytes brutos ? 803 muestras 8kHz (decimate\Uffffffff)
+may 02 11:20:07 ubuntus eqso-relay-CB[10506]: [eqso] 2026-05-02T11:20:07.972Z TCP conectado a 193.152.83.229:2172
