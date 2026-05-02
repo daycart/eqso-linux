@@ -1,0 +1,44 @@
+david@ubuntus:/opt/eqso-asorapa$ cd /opt/eqso-asorapa
+
+# 1. Ver GSM codec config
+grep -n 'FRAMES_PER_PACKET\|GSM_PACKET_BYTES\|GSM_FRAME\|AUDIO_PAYLOAD' artifacts/relay-daemon/src/gsm-codec.ts | head -10
+
+# 2. Ver c\Uffffffffcaptura arecord (tasa, decimaci\Uffffffffgrep -n 'arecord\|48000\|8000\|decimate\|captureRate\|resamp' artifacts/relay-daemon/src/alsa-audio.ts | head -20
+
+# 3. Si la VM captura a 48000 Hz, \Ufffffffffunciona arecord a 8000?
+test_arecord() {
+  timeout 2 arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q /dev/null 2>&1 && echo '8000Hz OK' || echo '8000Hz FALLO'
+}
+test_arecord
+13:export const GSM_FRAME_BYTES   = 33;
+14:export const GSM_FRAME_SAMPLES = 160;
+15:export const FRAMES_PER_PACKET = 1;
+16:export const GSM_PACKET_BYTES  = GSM_FRAME_BYTES * FRAMES_PER_PACKET;   // 33
+17:export const PCM_PACKET_BYTES  = GSM_FRAME_SAMPLES * FRAMES_PER_PACKET * 2; // 320
+73:    if (gsm.length < GSM_PACKET_BYTES) return;
+75:      this.proc.stdin.write(gsm.slice(0, GSM_PACKET_BYTES));
+131:      while (this.accum.length >= GSM_PACKET_BYTES) {
+132:        const gsmBuf = Buffer.from(this.accum.slice(0, GSM_PACKET_BYTES));
+133:        this.accum   = this.accum.slice(GSM_PACKET_BYTES);
+2: * Audio ALSA \Uffffffff captura y reproduccion via arecord / aplay.
+4: * Captura:  arecord ? PCM S16LE 8kHz mono ? GsmEncoder ? EqsoClient
+10: * corrompe el estado USB interno del CM108/PCM2902 e impide que arecord
+13: * Semi-duplex de arecord (evitar realimentacion altavoz?micro):
+14: *   1. Al iniciar RX: kill arecord (el altavoz esta activo)
+15: *   2. Al terminar RX: reiniciar arecord (aplay sigue vivo con silencio)
+37:      "-f", "s16le", "-ar", "8000", "-ac", "1",
+39:      "-f", "gsm", "-ar", "8000",
+66:const SILENCE_INJECT_BYTES  = 8000; // 4000 muestras \Uffffffff2 bytes = 500ms a 8kHz S16LE
+91:  // Diagnostico arecord: log tama\Uffffffffe los primeros chunks (verifica period=160)
+92:  private arecordChunkCount = 0;
+128:    // que ocurre cada vez que aplay termina y arecord intenta reabrir el device.
+141:    // Esperar a que arecord muera de verdad antes de salir.
+142:    // Sin este await, node hace process.exit() mientras arecord sigue corriendo
+369:        // Conservar solo el ultimo segundo de audio (8000 muestras)
+370:        this.captureRingBuf = this.captureRingBuf.slice(this.captureRingBuf.length - 8000);
+392:  // -- arecord ---------------------------------------------------------------
+398:   * haciendo que arecord falle con 'Unable to install hw params'. El reload
+399:   * resetea el estado y permite reiniciar arecord correctamente.
+447:    //   1. plughw: + arecord a 8kHz    ? GAP 750ms (rate-plugin batching)
+arecord: main:834: audio open error: Device or resource busy
+8000Hz FALLO
