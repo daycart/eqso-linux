@@ -1,0 +1,154 @@
+david@ubuntus:~$ # 1) Ver d\Uffffffff se lee outputGain en el c\Uffffffffo de la VM
+grep -rn 'outputGain\|inputGain\|gain' /opt/eqso-asorapa/artifacts/relay-daemon/src/ 2>&1 | grep -v '\.bak\|\.orig\|\.rej' | head -40
+
+# 2) Confirmar que el daemon est\Ufffffffforriendo desde el c\Uffffffffo correcto
+sudo systemctl cat eqso-relay@CB | head -20
+ls -la /opt/eqso-asorapa/artifacts/relay-daemon/dist/ 2>&1 | head -10
+
+# 3) CAPTURAR lo que el daemon env\Uffffffffa aplay durante una transmisi\Uffffffffeal
+# Para de hablar, ejecuta esto, espera 2s, habla en EA4IKU 3-4 segundos, espera 2s
+sudo systemctl stop eqso-relay@CB
+
+# Reemplazar aplay con un wrapper que tee a fichero
+sudo mv /usr/bin/aplay /usr/bin/aplay.orig 2>/dev/null
+sudo tee /usr/bin/aplay > /dev/null << 'EOF'
+#!/bin/bash
+tee /tmp/aplay_input_$$.raw | /usr/bin/aplay.orig "$@"
+EOF
+sudo chmod +x /usr/bin/aplay
+
+sudo systemctl start eqso-relay@CB
+sleep 3
+echo '*** AHORA habla en EA4IKU 5 segundos en sala CB y espera 5s ***'
+sleep 15
+sudo systemctl stop eqso-relay@CB
+
+# Restaurar aplay
+sudo mv /usr/bin/aplay.orig /usr/bin/aplay
+
+# Buscar archivos capturados
+ls -la /tmp/aplay_input_*.raw 2>&1
+for f in /tmp/aplay_input_*.raw; do
+  echo "=== $f ==="
+  ls -la $f
+  # Convertir a WAV y analizar
+  sox -r 8000 -e signed -b 16 -c 1 $f ${f%.raw}.wav stat 2>&1 | tail -15
+done
+
+sudo systemctl start eqso-relay@CB
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:295:    const gain = this.cfg.outputGain;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:296:    if (gain === 1.0) return pcm;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:299:      out[i] = Math.max(-32768, Math.min(32767, Math.round(pcm[i] * gain)));
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:526:      const gain = this.cfg.inputGain;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:552:        const norm = (mono * gain) / 32768;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:590:    log(`[nivel] pico RMS=${Math.round(this.levelPeakRms)} (${peakDb} dBFS)  VOXumbral=${this.cfg.voxThresholdRms}  gain=${this.cfg.inputGain}${clipping}`);
+/opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts:26:  inputGain: number;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts:27:  outputGain: number;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts:75:    inputGain: 1.0,
+/opt/eqso-asorapa/artifacts/relay-daemon/src/config.ts:76:    outputGain: 3.0,
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:517:        // Modo sin altavoz (outputGain=0): descartar silenciosamente sin activar
+/opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts:520:        if (cfg.audio.outputGain === 0) break;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/gsm610.ts:346:      const gain = BCQ[bc] / 32768;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/gsm610.ts:351:        const pred = d[off + k] - gain * dpVal;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/gsm610.ts:359:  const gain = BCQ[bestBc] / 32768;
+/opt/eqso-asorapa/artifacts/relay-daemon/src/gsm610.ts:363:    e[k] = CLIP(Math.round(d[off + k] - gain * dpVal), -32768, 32767);
+# /etc/systemd/system/eqso-relay@.service
+# Unidad de servicio systemd para el demonio de radioenlace eQSO ASORAPA.
+#
+# Es una plantilla (@): el nombre de instancia es la sala a la que se conecta.
+# Ejemplos:
+#   systemctl enable --now eqso-relay@CB
+#   systemctl enable --now eqso-relay@ASORAPA
+#   systemctl enable --now eqso-relay@PRUEBAS
+#
+# Para cada instancia debe existir el archivo de configuracion:
+#   /etc/eqso-relay/<instancia>.json
+#
+# Instalacion:
+#   sudo cp eqso-relay@.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now eqso-relay@CB
+
+[Unit]
+Description=eQSO Radioenlace \Uffffffff sala %i
+Documentation=https://github.com/daycart/eqso-linux-client
+total 288
+drwxr-xr-x 2 david david   4096 Apr 30 18:31 .
+drwxrwxr-x 6 david david   4096 Apr 27 18:23 ..
+-rw-r--r-- 1 david david  67051 May  3 12:14 main.mjs
+-rw-r--r-- 1 david david  51202 Apr 27 11:18 main.mjs.bak-pre-usb-reset
+-rw-r--r-- 1 david david 159448 May  3 12:14 main.mjs.map
+-rw-r--r-- 1 david david   2128 May  3 12:14 ptt-helper.py
+*** AHORA habla en EA4IKU 5 segundos en sala CB y espera 5s ***
+-rw-r--r-- 1 root root 0 May  3 13:51 /tmp/aplay_input_1989.raw
+-rw-r--r-- 1 root root 0 May  3 13:53 /tmp/aplay_input_2258.raw
+-rw-r--r-- 1 root root 0 May  3 13:55 /tmp/aplay_input_2757.raw
+-rw-r--r-- 1 root root 0 May  3 14:00 /tmp/aplay_input_3100.raw
+=== /tmp/aplay_input_1989.raw ===
+-rw-r--r-- 1 root root 0 May  3 13:51 /tmp/aplay_input_1989.raw
+Length (seconds):      0.000000
+Scaled by:         2147483647.0
+Maximum amplitude:     0.000000
+Minimum amplitude:     0.000000
+Midline amplitude:     0.000000
+Mean    norm:              -nan
+Mean    amplitude:         -nan
+RMS     amplitude:         -nan
+Maximum delta:         0.000000
+Minimum delta:         0.000000
+Mean    delta:        -0.000000
+RMS     delta:        -0.000000
+Rough   frequency:  -2147483648
+
+Probably text, not sound
+=== /tmp/aplay_input_2258.raw ===
+-rw-r--r-- 1 root root 0 May  3 13:53 /tmp/aplay_input_2258.raw
+Length (seconds):      0.000000
+Scaled by:         2147483647.0
+Maximum amplitude:     0.000000
+Minimum amplitude:     0.000000
+Midline amplitude:     0.000000
+Mean    norm:              -nan
+Mean    amplitude:         -nan
+RMS     amplitude:         -nan
+Maximum delta:         0.000000
+Minimum delta:         0.000000
+Mean    delta:        -0.000000
+RMS     delta:        -0.000000
+Rough   frequency:  -2147483648
+
+Probably text, not sound
+=== /tmp/aplay_input_2757.raw ===
+-rw-r--r-- 1 root root 0 May  3 13:55 /tmp/aplay_input_2757.raw
+Length (seconds):      0.000000
+Scaled by:         2147483647.0
+Maximum amplitude:     0.000000
+Minimum amplitude:     0.000000
+Midline amplitude:     0.000000
+Mean    norm:              -nan
+Mean    amplitude:         -nan
+RMS     amplitude:         -nan
+Maximum delta:         0.000000
+Minimum delta:         0.000000
+Mean    delta:        -0.000000
+RMS     delta:        -0.000000
+Rough   frequency:  -2147483648
+
+Probably text, not sound
+=== /tmp/aplay_input_3100.raw ===
+-rw-r--r-- 1 root root 0 May  3 14:00 /tmp/aplay_input_3100.raw
+Length (seconds):      0.000000
+Scaled by:         2147483647.0
+Maximum amplitude:     0.000000
+Minimum amplitude:     0.000000
+Midline amplitude:     0.000000
+Mean    norm:              -nan
+Mean    amplitude:         -nan
+RMS     amplitude:         -nan
+Maximum delta:         0.000000
+Minimum delta:         0.000000
+Mean    delta:        -0.000000
+RMS     delta:        -0.000000
+Rough   frequency:  -2147483648
+
+Probably text, not sound
