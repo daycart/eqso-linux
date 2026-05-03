@@ -1,0 +1,125 @@
+$ echo '=== USB devices ==='
+lsusb | grep -iE 'audio|pcm|serial|cm10|2902|cp210|ftdi|pl2303' || lsusb
+
+echo ''
+echo '=== Tarjetas de audio ==='
+aplay -l
+echo '---'
+arecord -l
+
+echo ''
+echo '=== Puertos serie disponibles (PTT) ==='
+ls -la /dev/ttyUSB* /dev/ttyACM* 2>&1
+
+echo ''
+echo '=== udev info de cada tarjeta ==='
+for c in /sys/class/sound/card*; do
+  if [ -d "$c" ]; then
+    n=$(basename $c | sed 's/card//')
+    echo "--- card $n ---"
+    cat $c/id 2>/dev/null
+    udevadm info --query=property --path=$c 2>/dev/null | grep -E 'ID_VENDOR|ID_MODEL|ID_PATH|ID_SERIAL_SHORT' | head -10
+  fi
+done
+
+echo ''
+echo '=== Config actual del daemon ==='
+sudo systemctl status eqso-relay@CB --no-pager -l | head -20
+=== USB devices ===
+Bus 001 Device 003: ID 0d8c:0014 C-Media Electronics, Inc. Audio Adapter (Unitek Y-247A)
+Bus 001 Device 004: ID 1a86:55d3 QinHeng Electronics USB Single Serial
+
+=== Tarjetas de audio ===
+**** List of PLAYBACK Hardware Devices ****
+card 0: I82801AAICH [Intel 82801AA-ICH], device 0: Intel ICH [Intel 82801AA-ICH]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: Device [USB Audio Device], device 0: USB Audio [USB Audio]
+  Subdevices: 0/1
+  Subdevice #0: subdevice #0
+---
+**** List of CAPTURE Hardware Devices ****
+card 0: I82801AAICH [Intel 82801AA-ICH], device 0: Intel ICH [Intel 82801AA-ICH]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 0: I82801AAICH [Intel 82801AA-ICH], device 1: Intel ICH - MIC ADC [Intel 82801AA-ICH - MIC ADC]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: Device [USB Audio Device], device 0: USB Audio [USB Audio]
+  Subdevices: 0/1
+  Subdevice #0: subdevice #0
+
+=== Puertos serie disponibles (PTT) ===
+ls: cannot access '/dev/ttyUSB*': No such file or directory
+crw-rw---- 1 root dialout 166, 0 May  3 08:13  /dev/ttyACM0
+
+=== udev info de cada tarjeta ===
+--- card 0 ---
+I82801AAICH
+ID_PATH=pci-0000:00:05.0
+ID_PATH_TAG=pci-0000_00_05_0
+ID_VENDOR_FROM_DATABASE=Intel Corporation
+ID_MODEL_FROM_DATABASE=82801AA AC'97 Audio Controller
+ID_VENDOR_ID=0x8086
+ID_MODEL_ID=0x2415
+--- card 1 ---
+Device
+ID_PATH_WITH_USB_REVISION=pci-0000:00:06.0-usbv1-0:2:1.0
+ID_PATH=pci-0000:00:06.0-usb-0:2:1.0
+ID_PATH_TAG=pci-0000_00_06_0-usb-0_2_1_0
+ID_VENDOR_FROM_DATABASE=C-Media Electronics, Inc.
+ID_MODEL_FROM_DATABASE=Audio Adapter (Unitek Y-247A)
+ID_MODEL=USB_Audio_Device
+ID_MODEL_ENC=USB\x20Audio\x20Device
+ID_MODEL_ID=0014
+ID_VENDOR=C-Media_Electronics_Inc.
+ID_VENDOR_ENC=C-Media\x20Electronics\x20Inc.
+
+=== Config actual del daemon ===
+{
+  "callsign": "0R-IN70WN",
+  "room": "CB",
+  "server": "193.152.83.229",
+  "port": 2172,
+  "audio": {
+    "captureDevice": "plughw:1,0",
+    "playbackDevice": "plughw:1,0",
+    "vox": true,
+    "voxThresholdRms": 1500,
+    "voxHangMs": 5000,
+    "txGateRms": 0,
+    "voxDebounceChunks": 2,
+    "outputGain": 1.0,
+    "inputGain": 0.15,
+    "postRxSuppressMs": 6000
+  },
+  "ptt": {
+    "device": "/dev/eqso-ptt",
+    "method": "rts",
+    "inverted": false
+  }
+}
+
+=== Estado del daemon ===
+[sudo] password for david: 
+● eqso-relay@CB.service - eQSO Radioenlace — sala CB
+     Loaded: loaded (/etc/systemd/system/eqso-relay@.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-05-03 08:12:42 UTC; 3min 29s ago
+       Docs: https://github.com/daycart/eqso-linux-client
+    Process: 859 ExecStartPre=/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/usb-reset.sh (code=exited, status=0/SUCCESS)
+    Process: 1006 ExecStartPre=/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh (code=exited, status=0/SUCCESS)
+   Main PID: 1020 (node)
+      Tasks: 20 (limit: 19094)
+     Memory: 121.6M (peak: 122.0M)
+        CPU: 29.620s
+     CGroup: /system.slice/system-eqso\x2drelay.slice/eqso-relay@CB.service
+             ├─1020 /usr/bin/node --enable-source-maps dist/main.mjs
+             ├─1057 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -fflags +flush_packets pipe:1
+             ├─1062 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -avioflags direct -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 -fflags +flush_packets pipe:1
+             ├─1064 arecord -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --period-size=960 --buffer-size=48000
+             └─1065 aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=24000 --period-size=800
+
+may 03 08:15:49 ubuntus eqso-relay-CB[1020]: [audio] 2026-05-03T08:15:49.604Z [arecord] GAP 55ms (chunk#8497, 160 muestras)
+may 03 08:15:49 ubuntus eqso-relay-CB[1020]: [audio] 2026-05-03T08:15:49.736Z [arecord] GAP 64ms (chunk#8500, 160 muestras)
+may 03 08:15:50 ubuntus eqso-relay-CB[1020]: [main] 2026-05-03T08:15:50.726Z Keepalive recibido del servidor [0x0c]
+david@ubuntus:~$ 
