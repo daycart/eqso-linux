@@ -1,0 +1,21 @@
+ager
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.389Z   Servidor : 193.152.83.229:2172
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.389Z   VOX      : ON (umbral=1500 hang=5000ms debounce=2chunks)
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.390Z   Captura  : plughw:1,0
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.390Z   Playback : plughw:1,0
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.390Z   PTT Ser. : /dev/eqso-ptt (rts)
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.391Z   VOX Sup. : startup suppress 4000ms activo hasta 2026-05-03T18:50:05.373Z
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.391Z ============================================================
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [ptt] 2026-05-03T18:50:01.393Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [audio] 2026-05-03T18:50:01.490Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=1024
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.511Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"\Uffffffff
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [control] 2026-05-03T18:50:01.598Z Control HTTP escuchando en http://127.0.0.1:8009
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [eqso] 2026-05-03T18:50:01.641Z TCP conectado a 193.152.83.229:2172
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [eqso] 2026-05-03T18:50:01.708Z Handshake recibido \Uffffffff conexion establecida
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.709Z Conectado \Uffffffff enviando JOIN\Uffffffff
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [eqso] 2026-05-03T18:50:01.719Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [eqso] 2026-05-03T18:50:01.730Z Salas disponibles: 4 salas [GENERAL, CB, ASORAPA, PRUEBAS]
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.730Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [main] 2026-05-03T18:50:01.748Z Sala: 0R-IN70WN se ha unido
+may 03 18:50:01 ubuntus eqso-relay-CB[1677]: [ptt] 2026-05-03T18:50:01.814Z PTT serial listo (/dev/eqso-ptt, rts)
+may 03 18:50:03 ubuntus eqso-relay-CB[1677]: [gsm-enc] 2026-05-03T18:50:03.820Z GAP 690ms entre frames GSM de salida
