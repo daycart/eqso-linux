@@ -1,0 +1,53 @@
+aplay -l
+ls /dev/ttyUSB* /dev/ttyACM*
+Bus 001 Device 001: ID 1d6b:0001 Linux Foundation 1.1 root hub
+Bus 001 Device 002: ID 80ee:0021 VirtualBox USB Tablet
+Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+**** List of PLAYBACK Hardware Devices ****
+card 0: I82801AAICH [Intel 82801AA-ICH], device 0: Intel ICH [Intel 82801AA-ICH]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+ls: cannot access '/dev/ttyUSB*': No such file or directory
+ls: cannot access '/dev/ttyACM*': No such file or directory
+**** List of PLAYBACK Hardware Devices ****
+card 0: I82801AAICH [Intel 82801AA-ICH], device 0: Intel ICH [Intel 82801AA-ICH]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+ls: cannot access '/dev/ttyUSB*': No such file or directory
+ls: cannot access '/dev/ttyACM*': No such file or directory
+Command 'Bus' not found, did you mean:
+  command 'bus' from deb atm-tools (1:2.5.1-5)
+  command 'eus' from deb euslisp (9.31+dfsg-3~24.04.1)
+Try: sudo apt install <deb name>
+Command 'Bus' not found, did you mean:
+  command 'eus' from deb euslisp (9.31+dfsg-3~24.04.1)
+  command 'bus' from deb atm-tools (1:2.5.1-5)
+Try: sudo apt install <deb name>
+Command 'Bus' not found, did you mean:
+  command 'bus' from deb atm-tools (1:2.5.1-5)
+  command 'eus' from deb euslisp (9.31+dfsg-3~24.04.1)
+Try: sudo apt install <deb name>
+install-server.sh: command not found
+Command 'card' not found, but can be installed with:
+sudo apt install a2ps
+Subdevices:: command not found
+Subdevice: command not found
+Command 'ls:' not found, did you mean:
+  command 'lsd' from snap lsd (0.16.0)
+  command 'lsh' from deb lsh-client (2.1-14)
+  command 'lsm' from deb lsm (1.0.4-2)
+  command 'lsd' from deb lsd (0.23.1-8)
+  command 'lsw' from deb suckless-tools (47-1)
+  command 'lsc' from deb livescript (1.6.1+dfsg-3)
+  command 'ls' from deb coreutils (9.4-3ubuntu6.2)
+See 'snap info <snapname>' for additional versions.
+Command 'ls:' not found, did you mean:
+  command 'lsd' from snap lsd (0.16.0)
+  command 'lsm' from deb lsm (1.0.4-2)
+  command 'ls' from deb coreutils (9.4-3ubuntu6.2)
+  command 'lsw' from deb suckless-tools (47-1)
+  command 'lsh' from deb lsh-client (2.1-14)
+  command 'lsc' from deb livescript (1.6.1+dfsg-3)
+  command 'lsd' from deb lsd (0.23.1-8)
+See 'snap info <snapname>' for additional versions.
+david@ubuntus:~$ 
