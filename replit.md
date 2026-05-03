@@ -256,7 +256,20 @@ Daemon Node.js que corre en la VM Ubuntu como `eqso-relay@CB.service`. Conecta a
 **Resultado verificado**:
 - EA4IKU oye el audio TX del relay correctamente ✅
 - EA4IKU al transmitir: relay activa PTT serial, reproduce audio limpio en radio CB ✅
+- Radio portátil recibe perfectamente el audio de EA4IKU retransmitido por la CB ✅
 - Sin falso VOX, sin ruido, sin distorsión ✅
+
+### Fix upsample 8kHz→48kHz (Mayo 2026)
+
+**Problema**: El CM108 USB en VirtualBox NO acepta reproducción a 8kHz via ALSA (ni con `plughw`). `aplay -D plughw:1,0 -r 8000` arranca sin errores pero no produce audio.
+
+**Fix aplicado en `alsa-audio.ts`**:
+- `PLAYBACK_RATE = 48000` — aplay usa tasa nativa del CM108
+- `UPSAMPLE_FACTOR = 6` — 8kHz × 6 = 48kHz
+- `upsample6(pcm)` — interpolación lineal ×6 antes de escribir a aplay stdin
+- Aplicado en dos lugares: flush del jitter buffer al abrir aplay + cada chunk PCM en `playPcm()`
+
+**Despliegue en VM**: via `curl https://DOMINIO/api/healthz/dl-daemon` (ruta temporal ya eliminada). Para futuras actualizaciones, usar `pnpm build` en la VM tras actualizar las fuentes.
 
 ### VOX y supresión de falsos disparos
 - **startupVoxSuppressMs: 4000** — bloquea el VOX los primeros 4s tras iniciar arecord (burst ALSA alto)

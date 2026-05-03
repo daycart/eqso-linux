@@ -1,0 +1,15 @@
+sudo journalctl -u eqso-relay@CB -f --no-pager | grep -E 'PTT|aplay|playGsm|pkt#1 |48000'
+may 03 19:06:43 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:06:43.875Z [playGsm] pkt#1 len=198 decoder_ready=true player=null playerStarting=false
+may 03 19:06:43 ubuntus eqso-relay-CB[2375]: [main] 2026-05-03T19:06:43.876Z [audio] pkt#1 len=198b ? playGsm OK (pttActive=false rxActive=true)
+may 03 19:06:43 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:06:43.984Z [playGsm] pkt#2 len=198 decoder_ready=true player=null playerStarting=false
+may 03 19:06:43 ubuntus eqso-relay-CB[2375]: [main] 2026-05-03T19:06:43.986Z [audio] pkt#2 len=198b ? playGsm OK (pttActive=false rxActive=true)
+may 03 19:06:44 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:06:44.131Z [playGsm] pkt#3 len=198 decoder_ready=true player=null playerStarting=false
+may 03 19:06:44 ubuntus eqso-relay-CB[2375]: [main] 2026-05-03T19:06:44.133Z [audio] pkt#3 len=198b ? playGsm OK (pttActive=false rxActive=true)
+may 03 19:06:44 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:06:44.456Z aplay -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --buffer-size=16384 --period-size=512
+may 03 19:06:53 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:06:53.242Z [aplay] underrun!!! (at least 2855,287 ms long)
+may 03 19:06:53 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:06:53.474Z [aplay] Terminado (code 0)
+may 03 19:07:10 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:07:10.231Z [playGsm] pkt#50 len=198 decoder_ready=true player=null playerStarting=false
+may 03 19:07:10 ubuntus eqso-relay-CB[2375]: [main] 2026-05-03T19:07:10.231Z [audio] pkt#50 len=198b ? playGsm OK (pttActive=false rxActive=true)
+may 03 19:07:10 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:07:10.399Z aplay -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --buffer-size=16384 --period-size=512
+may 03 19:07:18 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:07:18.587Z [aplay] underrun!!! (at least 2599,998 ms long)
+may 03 19:07:19 ubuntus eqso-relay-CB[2375]: [audio] 2026-05-03T19:07:19.073Z [aplay] Terminado (code 0)
