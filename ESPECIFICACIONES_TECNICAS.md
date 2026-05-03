@@ -355,6 +355,53 @@ Los puertos TCP 2171 y 8008 van **directamente** al proceso Node.js (no pasan po
 
 ## 7. Historial de cambios
 
+### v1.3 — Mayo 2026 — Relay Daemon CB (TX + RX verificados)
+
+**Radio Enlace físico CB Super Star 3900 ↔ eQSO ASORAPA — sistema completo TX+RX operativo.**
+
+#### Hardware verificado
+- CM108 USB (`0d8c:0014`) — audio half-duplex, plughw:1,0
+- CH340 USB (`1a86:55d3`) → `/dev/eqso-ptt` (udev symlink) — PTT serial RTS
+
+#### Fix principal RX: upsample 8kHz→48kHz
+El CM108 en VirtualBox no acepta reproducción a 8kHz via ALSA (aplay arranca sin errores pero no produce audio). Fix: `upsample6()` interpolación lineal ×6 antes de escribir a aplay que corre a 48kHz (tasa nativa del CM108).
+
+#### Parámetros de audio verificados
+
+**Captura TX** (arecord):
+```
+-D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=1024
+```
+
+**Reproducción RX** (aplay):
+```
+-D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --buffer-size=16384 --period-size=512
+```
+
+**Config `/etc/eqso-relay/CB.json`**:
+```json
+{
+  "voxThresholdRms": 1500, "voxHangMs": 5000,
+  "inputGain": 0.3, "outputGain": 1.0, "postRxSuppressMs": 6000,
+  "ptt": { "device": "/dev/eqso-ptt", "method": "rts" }
+}
+```
+
+**Constantes `alsa-audio.ts`**: `JITTER_PRE_BUFFER_SAMPLES=4800` (600ms pre-roll), `PLAYBACK_RATE=48000`, `UPSAMPLE_FACTOR=6`
+
+**Constantes `main.ts`**: `RX_HANG_MS=4000ms`, `POST_TX_SUPPRESS_MS=800ms`, `POST_TX_VOX_SUPPRESS_MS=5000ms`
+
+#### Arquitectura semi-duplex RX
+1. Primer paquete GSM → SIGTERM arecord (muere ~46ms) + acumular en jitter buffer
+2. Jitter buffer ≥ 4800 muestras (600ms) → abrir aplay a 48kHz
+3. PCM decodificado → upsample ×6 → aplay stdin
+4. Sin paquetes durante 4000ms → drain aplay → reanudar arecord
+5. VOX inhibido 6000ms tras fin de RX (anti-eco altavoz CB)
+
+Ver `artifacts/relay-daemon/README.md` para documentación completa con todos los parámetros.
+
+---
+
 ### v1.0 — Abril 2026
 - Servidor TCP eQSO compatible con Windows eQSO v1.13
 - Cliente web React (eQSO ASORAPA)
