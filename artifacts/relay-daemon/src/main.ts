@@ -40,7 +40,7 @@ let rxInhibitTimer: ReturnType<typeof setTimeout> | null = null;
 // gap de jitter de red sin cortar el final del audio. Valor anterior (400ms)
 // era insuficiente: el timer expiraba entre paquetes → PTT baja → arecord
 // reinicia → siguiente paquete sube PTT → [0x09] enviado → [0x08] del servidor.
-const RX_HANG_MS = 1500;
+const RX_HANG_MS = 4000;  // 4s para absorber jitter de hasta 800ms entre paquetes
 
 // ─── Supresion post-TX (anti-eco del servidor) ────────────────────────────────
 // El relay NO recibe su propio audio de vuelta del servidor (el TCP server
@@ -285,6 +285,10 @@ function connect(): void {
             log(`[audio] pkt#${rxPackets} DESCARTADO — pttActive=true (TX local activo)`);
           break;
         }
+        // Resetear timer RX con cada paquete aunque el audio se descarte.
+        // Evita que el PTT baje mientras el remoto sigue hablando durante
+        // el postTxSuppressUntil o en pausas de jitter de red.
+        if (cfg.audio.outputGain !== 0) setRxActive();
         const suppRestMs = postTxSuppressUntil - Date.now();
         if (suppRestMs > 0) {
           if (rxPackets <= 3 || rxPackets % 20 === 0)
@@ -295,8 +299,7 @@ function connect(): void {
         // el semi-duplex ni el temporizador RX. arecord corre continuamente y
         // el VOX detecta la radio CB sin ningun retraso ni inhibicion.
         if (cfg.audio.outputGain === 0) break;
-        // Inhibir VOX mientras reproducimos para evitar feedback acustico
-        setRxActive();
+        // Audio: inhibicion VOX ya aplicada arriba con setRxActive()
         // Extraer payload GSM real (sin el byte 0x01 del opcode)
         const gsm = Buffer.from(pkt.buffer, pkt.byteOffset + 1, gsmPayloadLen);
         audio.playGsm(gsm);

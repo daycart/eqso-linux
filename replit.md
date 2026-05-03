@@ -241,24 +241,22 @@ Daemon Node.js que corre en la VM Ubuntu como `eqso-relay@CB.service`. Conecta a
 
 ### Semi-duplex RX — Fixes Mayo 2026
 
-**Problema original**: Cuando EA4IKU transmitía, el relay disparaba falso VOX porque:
+**Problema original**: Cuando EA4IKU transmitía, el relay disparaba falso VOX / audio distorsionado porque:
 1. `arecord` tardaba 1.6s en morir → captaba audio del altavoz → subía PTT → servidor respondía `[0x08]`
 2. `RX_HANG_MS=400ms` era insuficiente → el PTT serial ciclaba entre paquetes GSM (cada ~120ms)
+3. `alsa-audio.ts` VM tenía arquitectura incorrecta: `startPlayerPermanent` + inyección de silencio (8000 bytes cada 40ms) llenaba el buffer ALSA antes del audio real → ruido/distorsión total
 
-**Fixes aplicados** (todos en Replit source + VM via sed):
-- **`RX_HANG_MS` 400→1500ms** (`main.ts`): el timer de fin de RX espera 1.5s entre paquetes antes de bajar PTT. Cubre cualquier gap de jitter de red sin cortar el final del audio.
-- **`setRxBusy()`** (`eqso-client.ts`): método nuevo. Llamado en `ptt_started`/`ptt_released`. Suprime el silence heartbeat `[0x02]` mientras el canal está ocupado, evitando que el servidor rechace nuestra "transmisión" de silencio.
-- **`suspendRecorderForRx()`** en `setRxActive()` (`main.ts` línea 98): al primer paquete GSM entrante, se mata `arecord` inmediatamente (46ms) antes de activar el altavoz. Sin esto, arecord captaba el audio del altavoz y disparaba VOX.
-- **`[0x08]` descartado silenciosamente** (`eqso-client.ts` parser línea 36): los `[0x08]` son broadcasts del servidor eQSO externo a todos los clientes mientras el canal está ocupado — no son respuesta a nada que enviemos. Se descartan en el parser sin log.
+**Fixes aplicados** (Replit source + VM):
+- **`alsa-audio.ts` completamente reemplazado** en la VM vía `curl` desde GitHub raw. Versión limpia de Replit (455 líneas): `aplay` por demanda (solo durante RX), `JITTER_PRE_BUFFER_SAMPLES=4800`, `--buffer-size=16384`, `--period-size=512`, sin inyección de silencio. **Este fue el fix definitivo del RX.**
+- **`RX_HANG_MS` →4000ms** (`main.ts`): cubre gaps de jitter de red de hasta 800ms sin cortar el final del audio.
+- **`setRxActive()` antes del suppress check** (`main.ts`): el timer RX se resetea con cada paquete entrante aunque el audio se descarte por `postTxSuppressUntil`. Evita que el PTT serial baje mientras el remoto sigue hablando.
+- **`suspendRecorderForRx()`** en `setRxActive()` (`main.ts`): al primer paquete GSM entrante, se mata `arecord` inmediatamente (46ms) antes de activar el altavoz.
+- **`[0x08]` descartado silenciosamente** (`eqso-client.ts` parser): broadcasts del servidor — no son error, se descartan sin log.
 
-**Resultado verificado en log**:
-```
-TX: EA4IKU transmitiendo
-PTT set(true) → "1"
-[audio] Semi-duplex: suspendiendo arecord para RX (preventivo)  ← nuevo
-[arecord] Terminado (code 1)                                     ← 46ms después
-```
-Sin spam `[0x08]`, sin falso VOX, PTT serial estable durante toda la TX.
+**Resultado verificado**:
+- EA4IKU oye el audio TX del relay correctamente ✅
+- EA4IKU al transmitir: relay activa PTT serial, reproduce audio limpio en radio CB ✅
+- Sin falso VOX, sin ruido, sin distorsión ✅
 
 ### VOX y supresión de falsos disparos
 - **startupVoxSuppressMs: 4000** — bloquea el VOX los primeros 4s tras iniciar arecord (burst ALSA alto)
