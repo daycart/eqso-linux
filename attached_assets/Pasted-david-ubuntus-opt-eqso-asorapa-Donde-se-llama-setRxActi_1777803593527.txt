@@ -1,0 +1,55 @@
+david@ubuntus:/opt/eqso-asorapa$ # Donde se llama setRxActive y donde se procesa pkt RX
+grep -n -A 5 -B 2 'setRxActive\|playGsm\|onUserTx' /opt/eqso-asorapa/artifacts/relay-daemon/src/main.ts | head -80
+115-// 600-800ms tras el 0x0d (jitter de red + procesamiento del servidor variable).
+116-// Con 1500ms descartamos el pitido de cortes\Uffffffffcon margen de seguridad amplio.
+117:// Sin esta ventana: pitido ? setRxActive() ? aplay ? squelch click ? falso VOX
+118-// ? segundo pitido de cortes\Uffffffff(doble beep audible en el cliente web).
+119-let postTxSuppressUntil = 0;
+120-const POST_TX_SUPPRESS_MS = 1500;
+121-
+122-// --- Supresion post-RX (anti-feedback acustico tras reproduccion) -------------
+--
+143-const POST_TX_VOX_SUPPRESS_MS = 2500;  // antes 5000ms (squelch HW ajustado)
+144-// Suppress m\Uffffffffmo tras ceder el canal por 0x08 / colision de audio.
+145:// Da tiempo para que el audio del otro usuario llegue y setRxActive() tome el
+146-// control antes de que el VOX pueda retriggerear. Sin esto, el VOX dispara en
+147-// <50ms ? ciclo r\Uffffffffdo 0x09?0x08?0x0d?0x09 que el servidor ve como spam.
+148-// 2000ms es suficiente: el primer paquete de audio llega en <500ms normalmente.
+149-const CHANNEL_YIELD_SUPPRESS_MS = 2_000;
+150-
+--
+156-let startupSuppressUntil = Date.now() + cfg.audio.startupVoxSuppressMs;
+157-
+158:function setRxActive(): void {
+159-  const wasActive = rxActive;
+160-  rxActive = true;
+161-  // Activar PTT serial para que la radio CB retransmita el audio de eQSO en el
+162-  // canal CB. El VOX esta suprimido (postRxSuppressMs) para evitar bucle.
+163-  if (!wasActive && cfg.ptt.device) serialPtt.set(true);
+--
+284-  eqsoClient?.endTx();
+285-  // No bloquear postTxSuppressUntil: el audio del otro usuario debe reproducirse
+286:  // inmediatamente. setRxActive() se encargar\Uffffffffe inhibir el VOX mientras hablan.
+287-  postTxSuppressUntil = 0;
+288-  // Suppress m\Uffffffffmo de VOX para dar tiempo al audio del otro usuario a llegar:
+289-  // sin esto el VOX retriggeraba en <50ms causando ciclo 0x09?0x08?0x0d?0x09.
+290:  // setRxActive() extender\Uffffffffl suppress cuando llegue el primer paquete de audio.
+291-  postRxVoxSuppressUntil = Math.max(postRxVoxSuppressUntil, Date.now() + CHANNEL_YIELD_SUPPRESS_MS);
+292-  resetIdleTimer();
+293-  vox.resetState();
+294-  // Resetear streak al ceder canal voluntariamente. Los desconectos r\Uffffffffdos
+295-  // tras un yield son por canal-ocupado (normal), no por errores de protocolo.
+--
+520-        if (cfg.audio.outputGain === 0) break;
+521-        // Inhibir VOX mientras reproducimos para evitar feedback acustico
+522:        setRxActive();
+523-        // Extraer 198 bytes GSM (sin el byte 0x01 del opcode)
+524-        const gsm = Buffer.from(pkt.buffer, pkt.byteOffset + 1, GSM_PACKET_BYTES);
+525:        audio.playGsm(gsm);
+526-        if (rxPackets <= 3 || rxPackets % 50 === 0)
+527:          log(`[audio] pkt#${rxPackets} ? playGsm OK (pttActive=${pttActive} rxActive=${rxActive})`);
+528-        break;
+529-      }
+530-
+531-      case "server_msg":
+532-        log(`Mensaje servidor: ${ev.data}`);

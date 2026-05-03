@@ -1,0 +1,122 @@
+ Funci\UfffffffflayPcm completa y donde escribe a aplay
+grep -n -A 30 'playPcm\|aplayProc.stdin\|writePcm' /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts | head -120
+17: * rxActive controla si playPcm escribe audio o acumula en jitterBuf (pre-roll).
+18- */
+19-
+20-import { spawn, spawnSync, ChildProcessWithoutNullStreams } from "child_process";
+21-import { EventEmitter } from "events";
+22-import { AudioConfig } from "./config.js";
+23-import {
+24-  GsmDecoder, GsmEncoder,
+25-  GSM_FRAME_SAMPLES, FRAMES_PER_PACKET, GSM_PACKET_BYTES,
+26-} from "./gsm-codec.js";
+27-
+28-// Frame GSM de silencio precomputado: se genera UNA vez al cargar el modulo
+29-// codificando 160 muestras PCM nulas a traves de ffmpeg. Se usa en el
+30-// tx-keepalive timer para rellenar gaps del CM108 sin pasar por ffmpeg
+31-// (ffmpeg hace batching interno que impide el flush frame a frame).
+32-function computeGsmSilenceFrame(): Buffer {
+33-  const pcm = Buffer.alloc(GSM_FRAME_SAMPLES * 2, 0); // 320 bytes de silencio PCM S16LE
+34-  try {
+35-    const r = spawnSync("ffmpeg", [
+36-      "-hide_banner", "-loglevel", "quiet",
+37-      "-f", "s16le", "-ar", "8000", "-ac", "1",
+38-      "-i", "pipe:0",
+39-      "-f", "gsm", "-ar", "8000",
+40-      "pipe:1",
+41-    ], { input: pcm, encoding: "buffer", timeout: 5000 });
+42-    if (r.stdout && r.stdout.length >= GSM_PACKET_BYTES) {
+43-      console.log(`[audio] GSM silence precomputado: ${r.stdout.slice(0, GSM_PACKET_BYTES).toString("hex")}`);
+44-      return r.stdout.slice(0, GSM_PACKET_BYTES) as Buffer;
+45-    }
+46-    console.error(`[audio] GSM silence: ffmpeg devolvio ${r.stdout?.length ?? 0} bytes (esperado ${GSM_PACKET_BYTES})`);
+47-  } catch (e) {
+--
+80:  // VirtualBox. rxActive controla si playPcm escribe audio o sigue en pre-buffer.
+81-  private rxActive = false;
+82-  private stopping = false;
+83-  // Metricas de nivel en captura
+84-  private levelPeakRms   = 0;
+85-  private levelClipCount = 0;
+86-  private levelSamples   = 0;
+87-  private levelTimer: ReturnType<typeof setInterval> | null = null;
+88-  // Inyeccion de silencio: previene underruns de aplay cuando hay gaps de red
+89-  private silenceTimer:      ReturnType<typeof setInterval> | null = null;
+90-  private lastAudioWriteMs = 0;
+91-  // Diagnostico arecord: log tama\Uffffffffe los primeros chunks (verifica period=160)
+92-  private arecordChunkCount = 0;
+93-  private lastArecordChunkMs = 0;
+94-  // Jitter buffer de captura: absorbe las rafagas periodicas del CM108 USB y
+95-  // entrega PCM al encoder GSM a ritmo constante de 20ms via captureTimer.
+96-  // El CM108 batch-entrega ~750ms de audio cada segundo (firmware USB); sin
+97-  // este buffer el encoder recibe rafagas y produce GSM bursty no transmisible.
+98-  private captureRingBuf: Int16Array = new Int16Array(0);
+99-  private captureTimer: ReturnType<typeof setInterval> | null = null;
+100-  // GSM TX rate limiter: sustituye el antiguo keepalive timer.
+101-  // Problema resuelto: FFmpeg GSM encoder hace batch de 2 frames cada ~40ms
+102-  // (incluso con -avioflags direct). El keepalive anterior (threshold 20ms)
+103-  // insertaba 1 frame de silencio entre cada par ? patron S,R,R,S,R,R ? 33%
+104-  // silencio ? audio cortado e "inaudible" en la sala eQSO.
+105-  //
+106-  // Solucion: cola FIFO + timer de 20ms. El encoder llena la cola con frames
+107-  // reales; el timer saca 1 frame por tick. Si la cola lleva >50ms vacia (gap
+108-  // real de audio, p.ej. pausa entre palabras o CM108 sin datos), se rellena
+109-  // con 1 frame de silencio para mantener la cadencia del protocolo eQSO.
+110-  // Resultado: 0% silencio durante speech, silencios solo en pausas reales.
+--
+302:      this.playPcm(pcm);
+303-    });
+304-  }
+305-
+306-  private applyGain(pcm: Int16Array): Int16Array {
+307-    const gain = this.cfg.outputGain;
+308-    if (gain === 1.0) return pcm;
+309-    const out = new Int16Array(pcm.length);
+310-    for (let i = 0; i < pcm.length; i++) {
+311-      out[i] = Math.max(-32768, Math.min(32767, Math.round(pcm[i] * gain)));
+312-    }
+313-    return out;
+314-  }
+315-
+316-  private pcmChunkCount = 0;
+317-
+318:  private playPcm(pcm: Int16Array): void {
+319-    const samples = this.applyGain(pcm);
+320-    this.pcmChunkCount++;
+321-
+322-    if (!this.rxActive) {
+323-      // Pre-buffer phase: aplay corre con silencio, acumulamos audio hasta tener
+324-      // suficiente pre-roll antes de activar modo RX para evitar glitches iniciales.
+325-      const merged = new Int16Array(this.jitterBuf.length + samples.length);
+326-      merged.set(this.jitterBuf);
+327-      merged.set(samples, this.jitterBuf.length);
+328-      this.jitterBuf = merged;
+329-
+330-      if (this.pcmChunkCount <= 5)
+331:        log(`[playPcm] chunk#${this.pcmChunkCount} ? jitterBuf=${this.jitterBuf.length} rxActive=false`);
+332-
+333-      if (this.jitterBuf.length >= JITTER_PRE_BUFFER_SAMPLES) {
+334-        this.startPlayer();
+335-      }
+336-      return;
+337-    }
+338-
+339-    if (this.pcmChunkCount <= 5)
+340:      log(`[playPcm] chunk#${this.pcmChunkCount} ? escribiendo ${samples.length} muestras a aplay stdin`);
+341-    const buf = Buffer.from(samples.buffer, samples.byteOffset, samples.byteLength);
+342-    try {
+343-      this.player?.stdin.write(buf);
+344-      this.lastAudioWriteMs = Date.now();
+345-    } catch { /* player may have closed */ }
+346-  }
+347-
+348-  // -- Jitter buffer de captura ---------------------------------------------
+349-
+350-  /**
+351-   * Timer que consume el captureRingBuf a ritmo constante (20ms = 160 muestras).
+352-   * El CM108 USB entrega audio en rafagas periodicas (~750ms); este timer
+353-   * distribuye las rafagas uniformemente antes de entregarlas al encoder GSM.
+354-   * Resultado: encoder recibe 1 frame cada 20ms ? GSM output sin gaps.
+355-   *
+356-   * Latencia adicional introducida: hasta ~750ms (tamano maximo de la rafaga).
+357-   * Aceptable para radio PTT donde la latencia total ya supera 1-2 segundos.
