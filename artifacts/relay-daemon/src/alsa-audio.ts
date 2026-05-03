@@ -43,6 +43,27 @@ const PCM_CHUNK_SAMPLES = GSM_FRAME_SAMPLES * FRAMES_PER_PACKET; // 960 muestras
 // 4800 muestras = 600ms de pre-roll → absorbe jitter de red en VirtualBox.
 const JITTER_PRE_BUFFER_SAMPLES = 4800;
 
+// El CM108 en VirtualBox no soporta reproduccion a 8kHz via ALSA.
+// Su tasa nativa es 48kHz → hay que hacer upsample ×6 antes de enviar a aplay.
+const PLAYBACK_RATE = 48000;
+const UPSAMPLE_FACTOR = PLAYBACK_RATE / 8000; // 6
+
+/**
+ * Upsample lineal ×6: 8kHz PCM → 48kHz PCM.
+ * Interpolacion lineal entre muestras consecutivas para evitar aliasing.
+ */
+function upsample6(pcm: Int16Array): Int16Array {
+  const out = new Int16Array(pcm.length * UPSAMPLE_FACTOR);
+  for (let i = 0; i < pcm.length; i++) {
+    const a = pcm[i];
+    const b = i + 1 < pcm.length ? pcm[i + 1] : a;
+    for (let j = 0; j < UPSAMPLE_FACTOR; j++) {
+      out[i * UPSAMPLE_FACTOR + j] = Math.round(a + (b - a) * (j / UPSAMPLE_FACTOR));
+    }
+  }
+  return out;
+}
+
 export class AlsaAudio extends EventEmitter {
   private recorder: ChildProcessWithoutNullStreams | null = null;
   private player:   ChildProcessWithoutNullStreams | null = null;
@@ -193,8 +214,9 @@ export class AlsaAudio extends EventEmitter {
     }
 
     if (this.pcmChunkCount <= 5)
-      log(`[playPcm] chunk#${this.pcmChunkCount} → escribiendo ${samples.length} muestras a aplay stdin`);
-    const buf = Buffer.from(samples.buffer, samples.byteOffset, samples.byteLength);
+      log(`[playPcm] chunk#${this.pcmChunkCount} → escribiendo ${samples.length} muestras a aplay stdin (upsample→${samples.length * UPSAMPLE_FACTOR})`);
+    const up = upsample6(samples);
+    const buf = Buffer.from(up.buffer, up.byteOffset, up.byteLength);
     try { this.player?.stdin.write(buf); } catch { /* player may have closed */ }
   }
 
@@ -352,7 +374,7 @@ export class AlsaAudio extends EventEmitter {
     const args = [
       "-D", this.cfg.playbackDevice,
       "-f", "S16_LE",
-      "-r", "8000",
+      "-r", String(PLAYBACK_RATE),   // 48000 — tasa nativa CM108 en VirtualBox
       "-c", "1",
       "-q",
       "--buffer-size=16384",
@@ -386,7 +408,8 @@ export class AlsaAudio extends EventEmitter {
     });
 
     if (this.jitterBuf.length > 0) {
-      const buf = Buffer.from(this.jitterBuf.buffer, this.jitterBuf.byteOffset, this.jitterBuf.byteLength);
+      const up = upsample6(this.jitterBuf);
+      const buf = Buffer.from(up.buffer, up.byteOffset, up.byteLength);
       try { p.stdin.write(buf); } catch { /* ignore */ }
       this.jitterBuf = new Int16Array(0);
     }
@@ -394,7 +417,8 @@ export class AlsaAudio extends EventEmitter {
 
   private stopPlayer(): void {
     if (this.jitterBuf.length > 0 && this.player && !this.player.killed) {
-      const buf = Buffer.from(this.jitterBuf.buffer, this.jitterBuf.byteOffset, this.jitterBuf.byteLength);
+      const up = upsample6(this.jitterBuf);
+      const buf = Buffer.from(up.buffer, up.byteOffset, up.byteLength);
       try { this.player.stdin.write(buf); } catch { /* ignore */ }
       this.jitterBuf = new Int16Array(0);
     }
