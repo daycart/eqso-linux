@@ -1,0 +1,33 @@
+sudo journalctl -fu eqso-relay@CB | grep -E 'TX:|playGsm|playPcm|jitterBuf|RMS'
+may 03 10:16:54 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:16:54.045Z [nivel] pico RMS=139 (-47.4 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:16:59 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:16:59.044Z [nivel] pico RMS=4 (-79.0 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:04 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:04.044Z [nivel] pico RMS=4 (-79.3 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:09 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:09.044Z [nivel] pico RMS=4 (-79.1 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:14 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:14.043Z [nivel] pico RMS=4 (-78.9 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:19 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:19.045Z [nivel] pico RMS=4 (-79.0 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:24 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:24.045Z [nivel] pico RMS=4 (-79.1 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:29 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:29.045Z [nivel] pico RMS=4 (-79.1 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:34 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:34.046Z [nivel] pico RMS=4 (-79.1 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:39 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:39.047Z [nivel] pico RMS=4 (-79.2 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [main] 2026-05-03T10:17:42.224Z TX: EA4IKU transmitiendo
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:42.235Z [playGsm] pkt#1 len=33 decoder_ready=true player=running rxActive=false
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [main] 2026-05-03T10:17:42.237Z [audio] pkt#1 ? playGsm OK (pttActive=false rxActive=true)
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:42.256Z [playPcm] chunk#1 ? jitterBuf=160 rxActive=false
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:42.377Z [playGsm] pkt#2 len=33 decoder_ready=true player=running rxActive=false
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [main] 2026-05-03T10:17:42.380Z [audio] pkt#2 ? playGsm OK (pttActive=false rxActive=true)
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:42.390Z [playPcm] chunk#2 ? jitterBuf=320 rxActive=false
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:42.530Z [playGsm] pkt#3 len=33 decoder_ready=true player=running rxActive=false
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [main] 2026-05-03T10:17:42.533Z [audio] pkt#3 ? playGsm OK (pttActive=false rxActive=true)
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:42.538Z [playPcm] chunk#3 ? jitterBuf=480 rxActive=false
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:42.685Z [playPcm] chunk#4 ? jitterBuf=640 rxActive=false
+may 03 10:17:42 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:42.833Z [playPcm] chunk#5 ? jitterBuf=800 rxActive=false
+may 03 10:17:44 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:44.049Z [nivel] pico RMS=4 (-79.3 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:46 ubuntus eqso-relay-CB[7052]: [main] 2026-05-03T10:17:46.370Z TX: EA4IKU libero canal
+may 03 10:17:49 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:49.047Z [nivel] pico RMS=2169 (-23.6 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:49 ubuntus eqso-relay-CB[7052]: [main] 2026-05-03T10:17:49.700Z TX: EA4IKU transmitiendo
+may 03 10:17:54 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:54.048Z [nivel] pico RMS=2169 (-23.6 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:17:59 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:17:59.048Z [nivel] pico RMS=4 (-79.0 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:18:04 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:18:04.049Z [nivel] pico RMS=4 (-79.4 dBFS)  VOXumbral=1500  gain=0.25
+may 03 10:18:05 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:18:05.728Z [playGsm] pkt#50 len=33 decoder_ready=true player=running rxActive=true
+may 03 10:18:05 ubuntus eqso-relay-CB[7052]: [main] 2026-05-03T10:18:05.731Z [audio] pkt#50 ? playGsm OK (pttActive=false rxActive=true)
+may 03 10:18:14 ubuntus eqso-relay-CB[7052]: [audio] 2026-05-03T10:18:14.050Z [nivel] pico RMS=2169 (-23.6 dBFS)  VOXumbral=1500  gain=0.25
