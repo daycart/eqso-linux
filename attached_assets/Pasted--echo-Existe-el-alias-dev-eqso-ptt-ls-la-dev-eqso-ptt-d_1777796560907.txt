@@ -1,0 +1,72 @@
+ echo '=== ¿Existe el alias /dev/eqso-ptt? ==='
+ls -la /dev/eqso-ptt /dev/ttyACM0 2>&1
+
+echo ''
+echo '=== Reglas udev del proyecto ==='
+cat /etc/udev/rules.d/*eqso* 2>/dev/null || cat /etc/udev/rules.d/99-eqso* 2>/dev/null || echo '(no hay reglas eqso)'
+
+echo ''
+echo '=== ¿Funciona el PTT con DTR/RTS por ttyACM0? ==='
+# Test rápido: usar python para activar RTS y ver si la radio se activa
+ls /sys/class/tty/ttyACM0/device/ 2>&1 | head -5
+
+echo ''
+echo '=== Mixer del CM108 (card 1) ==='
+amixer -c 1 scontents 2>&1
+
+echo ''
+echo '=== Probar audio con tono al CM108 (NO daemon corriendo) ==='
+sudo systemctl stop eqso-relay@CB
+sleep 1
+speaker-test -D plughw:1,0 -c 2 -t sine -f 1000 -l 1 -P 3 2>&1 | tail -8
+sleep 1
+sudo systemctl start eqso-relay@CB
+
+echo ''
+echo '=== Últimas líneas del log del daemon ==='
+sudo journalctl -u eqso-relay@CB --no-pager -n 30 | grep -E 'PTT|ptt|error|Error'
+=== ¿Existe el alias /dev/eqso-ptt? ===
+lrwxrwxrwx 1 root root         7 May  3 08:20 /dev/eqso-ptt -> ttyACM0
+crw-rw---- 1 root dialout 166, 0 May  3 08:20 /dev/ttyACM0
+
+=== Reglas udev del proyecto ===
+SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d3", SYMLINK+="eqso-ptt", MODE="0660", GROUP="dialout"
+
+=== ¿Funciona el PTT con DTR/RTS por ttyACM0? ===
+authorized
+bAlternateSetting
+bInterfaceClass
+bInterfaceNumber
+bInterfaceProtocol
+
+=== Mixer del CM108 (card 1) ===
+Simple mixer control 'Speaker',0
+  Capabilities: pvolume pswitch pswitch-joined
+  Playback channels: Front Left - Front Right
+  Limits: Playback 0 - 37
+  Mono:
+  Front Left: Playback 37 [100%] [0.00dB] [on]
+  Front Right: Playback 37 [100%] [0.00dB] [on]
+Simple mixer control 'Mic',0
+  Capabilities: pvolume pvolume-joined cvolume cvolume-joined pswitch pswitch-joined cswitch cswitch-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: Playback 0 - 31 Capture 0 - 35
+  Mono: Playback 23 [74%] [0.00dB] [off] Capture 12 [34%] [0.00dB] [on]
+Simple mixer control 'Auto Gain Control',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [off]
+
+=== Probar audio con tono al CM108 (NO daemon corriendo) ===
+Period size range from 48 to 48000
+Using max buffer size 96000
+Periods = 3
+was set period_size = 32000
+was set buffer_size = 96000
+ 0 - Front Left
+ 1 - Front Right
+Time per period = 3.312817
+
+=== Últimas líneas del log del daemon ===
+may 03 08:22:07 ubuntus eqso-relay-CB[1235]: USB reset error: [Errno 25] Inappropriate ioctl for device
