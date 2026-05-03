@@ -60,9 +60,10 @@ export class GsmDecoder extends EventEmitter {
 
   decode(gsm: Buffer): void {
     if (!this.proc || !this.ready) return;
-    if (gsm.length < GSM_PACKET_BYTES) return;
+    if (gsm.length < GSM_FRAME_BYTES) return;
+    const usable = gsm.length - (gsm.length % GSM_FRAME_BYTES);
     try {
-      this.proc.stdin.write(gsm.slice(0, GSM_PACKET_BYTES));
+      this.proc.stdin.write(gsm.slice(0, usable));
     } catch { /* ignore */ }
   }
 
