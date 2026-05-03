@@ -35,12 +35,12 @@ let forceReconnectRequested = false;
 // tiempo + margen para que el sonido del altavoz no active el micro.
 let rxActive = false;
 let rxInhibitTimer: ReturnType<typeof setTimeout> | null = null;
-// 400 ms: margen mínimo para que aplay drene su buffer ALSA antes de soltar
-// el PTT hardware. Con AUDIO_PACE_MS=120ms el jitter de red es <100ms por lo
-// que 400ms cubre cualquier rafaga de paquetes sin cortar el final del audio.
-// Retardo total después de que el browser suelta PTT:
-//   400ms hang + 500ms (kill aplay + reinicio arecord) = ~900ms hasta captura
-const RX_HANG_MS = 400;
+// 1500 ms: tiempo máximo de espera entre paquetes GSM antes de bajar el PTT
+// serial y reiniciar arecord. Con paquetes cada ~120ms, 1500ms cubre cualquier
+// gap de jitter de red sin cortar el final del audio. Valor anterior (400ms)
+// era insuficiente: el timer expiraba entre paquetes → PTT baja → arecord
+// reinicia → siguiente paquete sube PTT → [0x09] enviado → [0x08] del servidor.
+const RX_HANG_MS = 1500;
 
 // ─── Supresion post-TX (anti-eco del servidor) ────────────────────────────────
 // El relay NO recibe su propio audio de vuelta del servidor (el TCP server
