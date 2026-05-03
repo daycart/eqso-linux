@@ -1,0 +1,61 @@
+/opt/eqso-asorapa$ grep -n -A 30 'private startPlayer\|startPlayer()' /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts | head -60
+334:        this.startPlayer();
+335-        // FIX: activar rxActive y vaciar el jitterBuf a aplay. Sin esto el
+336-        // buffer crece infinito y la radio nunca recibe audio.
+337-        this.rxActive = true;
+338-        const flush = Buffer.from(this.jitterBuf.buffer, this.jitterBuf.byteOffset, this.jitterBuf.byteLength);
+339-        try { this.player?.stdin.write(flush); this.lastAudioWriteMs = Date.now(); } catch {}
+340-        log(`[playPcm] pre-roll completo: flush ${this.jitterBuf.length} muestras a aplay, rxActive=true`);
+341-        this.jitterBuf = new Int16Array(0);
+342-      }
+343-      return;
+344-    }
+345-
+346-    if (this.pcmChunkCount <= 5)
+347-      log(`[playPcm] chunk#${this.pcmChunkCount} ? escribiendo ${samples.length} muestras a aplay stdin`);
+348-    const buf = Buffer.from(samples.buffer, samples.byteOffset, samples.byteLength);
+349-    try {
+350-      this.player?.stdin.write(buf);
+351-      this.lastAudioWriteMs = Date.now();
+352-    } catch { /* player may have closed */ }
+353-  }
+354-
+355-  // -- Jitter buffer de captura ---------------------------------------------
+356-
+357-  /**
+358-   * Timer que consume el captureRingBuf a ritmo constante (20ms = 160 muestras).
+359-   * El CM108 USB entrega audio en rafagas periodicas (~750ms); este timer
+360-   * distribuye las rafagas uniformemente antes de entregarlas al encoder GSM.
+361-   * Resultado: encoder recibe 1 frame cada 20ms ? GSM output sin gaps.
+362-   *
+363-   * Latencia adicional introducida: hasta ~750ms (tamano maximo de la rafaga).
+364-   * Aceptable para radio PTT donde la latencia total ya supera 1-2 segundos.
+--
+621:  private startPlayer(): void {
+622-    if (this.rxActive) return;
+623-    this.rxActive = true;
+624-
+625-    // aplay ya esta corriendo \Uffffffff volcar jitter pre-buffer inmediatamente
+626-    this.stopSilenceInjection();
+627-    if (this.jitterBuf.length > 0 && this.player && !this.player.killed) {
+628-      const buf = Buffer.from(this.jitterBuf.buffer, this.jitterBuf.byteOffset, this.jitterBuf.byteLength);
+629-      try { this.player.stdin.write(buf); } catch { /* ignore */ }
+630-      this.jitterBuf = new Int16Array(0);
+631-    }
+632-    this.startSilenceInjection(); // se callara cuando llegue audio (lastAudioWriteMs)
+633-
+634-    // Semi-duplex: matar arecord para evitar que el altavoz se realimente al micro
+635-    if (this.recorder) {
+636-      log("[audio] Semi-duplex: matando arecord \Uffffffff evitar realimentacion altavoz?micro");
+637-      this.recorderSuspended = true;
+638-      this.captureRingBuf = new Int16Array(0);
+639-      const rec = this.recorder;
+640-      this.recorder = null;
+641-      const watchdog = setTimeout(() => {
+642-        try { rec.kill("SIGKILL"); } catch { /* ignore */ }
+643-      }, 800);
+644-      rec.once("close", () => clearTimeout(watchdog));
+645-      try { rec.kill("SIGTERM"); } catch { clearTimeout(watchdog); }
+646-    }
+647-  }
+648-
