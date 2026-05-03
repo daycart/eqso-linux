@@ -239,6 +239,27 @@ Daemon Node.js que corre en la VM Ubuntu como `eqso-relay@CB.service`. Conecta a
 - **Codec**: GSM 06.10, 198 bytes/paquete, 20ms/frame
 - **PTT serial**: RTS en /dev/eqso-ptt (symlink → /dev/ttyACM1)
 
+### Semi-duplex RX — Fixes Mayo 2026
+
+**Problema original**: Cuando EA4IKU transmitía, el relay disparaba falso VOX porque:
+1. `arecord` tardaba 1.6s en morir → captaba audio del altavoz → subía PTT → servidor respondía `[0x08]`
+2. `RX_HANG_MS=400ms` era insuficiente → el PTT serial ciclaba entre paquetes GSM (cada ~120ms)
+
+**Fixes aplicados** (todos en Replit source + VM via sed):
+- **`RX_HANG_MS` 400→1500ms** (`main.ts`): el timer de fin de RX espera 1.5s entre paquetes antes de bajar PTT. Cubre cualquier gap de jitter de red sin cortar el final del audio.
+- **`setRxBusy()`** (`eqso-client.ts`): método nuevo. Llamado en `ptt_started`/`ptt_released`. Suprime el silence heartbeat `[0x02]` mientras el canal está ocupado, evitando que el servidor rechace nuestra "transmisión" de silencio.
+- **`suspendRecorderForRx()`** en `setRxActive()` (`main.ts` línea 98): al primer paquete GSM entrante, se mata `arecord` inmediatamente (46ms) antes de activar el altavoz. Sin esto, arecord captaba el audio del altavoz y disparaba VOX.
+- **`[0x08]` descartado silenciosamente** (`eqso-client.ts` parser línea 36): los `[0x08]` son broadcasts del servidor eQSO externo a todos los clientes mientras el canal está ocupado — no son respuesta a nada que enviemos. Se descartan en el parser sin log.
+
+**Resultado verificado en log**:
+```
+TX: EA4IKU transmitiendo
+PTT set(true) → "1"
+[audio] Semi-duplex: suspendiendo arecord para RX (preventivo)  ← nuevo
+[arecord] Terminado (code 1)                                     ← 46ms después
+```
+Sin spam `[0x08]`, sin falso VOX, PTT serial estable durante toda la TX.
+
 ### VOX y supresión de falsos disparos
 - **startupVoxSuppressMs: 4000** — bloquea el VOX los primeros 4s tras iniciar arecord (burst ALSA alto)
 - **recorder_restarted event** — cuando arecord crashea y se reinicia, el suppress se resetea 4s para cubrir el nuevo burst de inicialización
@@ -246,10 +267,10 @@ Daemon Node.js que corre en la VM Ubuntu como `eqso-relay@CB.service`. Conecta a
 - **postTxVoxSuppressUntil** — suprime VOX 2.5s tras TX propio (squelch/carrier residual CB)
 - **voxDebounceChunks: 2** — requiere 2 chunks consecutivos sobre umbral para activar PTT
 
-### Config `/etc/eqso-relay/CB.json`
-- `voxThresholdRms: 800` — umbral VOX (ruido de fondo sin señal: RMS 350-550)
-- `inputGain: 0.4` — ganancia de captura (ajustada para CM108)
-- `outputGain: 3` — ganancia de reproducción
+### Config `/etc/eqso-relay/CB.json` (activa en VM)
+- `voxThresholdRms: 1500` — umbral VOX (ajustado para PCM2902/Super Star 3900)
+- `inputGain: 0.15` — ganancia de captura
+- `postRxSuppressMs: 6000` — supresión VOX tras RX (6s de margen anti-feedback)
 
 ### CM108 USB VirtualBox — Fix modprobe (Abril 2026)
 
