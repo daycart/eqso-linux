@@ -279,9 +279,24 @@ Daemon Node.js que corre en la VM Ubuntu como `eqso-relay@CB.service`. Conecta a
 - **voxDebounceChunks: 2** — requiere 2 chunks consecutivos sobre umbral para activar PTT
 
 ### Config `/etc/eqso-relay/CB.json` (activa en VM)
+- `server: "127.0.0.1"` — conecta al API server local (NO al externo 193.152.83.229)
+- `port: 2171` — puerto TCP local del API server
+- `password: "asorapa-cb-2026"` — token relay (debe estar en RELAY_TOKENS del API server)
 - `voxThresholdRms: 1500` — umbral VOX (ajustado para PCM2902/Super Star 3900)
 - `inputGain: 0.15` — ganancia de captura
 - `postRxSuppressMs: 6000` — supresión VOX tras RX (6s de margen anti-feedback)
+
+### `/etc/eqso.env` (API server env, Mayo 2026)
+- `EQSO_TCP_PORT=2171` — puerto TCP eQSO
+- `RELAY_TOKENS=asorapa-cb-2026` — token que valida el JOIN del relay daemon
+- `DATABASE_URL` — PostgreSQL local (usuario `eqso`, DB local en VM)
+
+### Estado Mayo 2026 — OPERATIVO ✅
+- API server (`eqso.service`) corriendo en VM puerto 2171 TCP + 8080 HTTP
+- Relay daemon (`eqso-relay@CB.service`) conectado a `127.0.0.1:2171` (local)
+- InactivityManager → locución de inactividad → sale por RF ✅
+- TX+RX verificados entre CB portátil ↔ sala ↔ red
+- **Pendiente**: problemas de audio CB portátil → sala (calidad TX desde radio portátil)
 
 ### CM108 USB VirtualBox — Fix modprobe (Abril 2026)
 
