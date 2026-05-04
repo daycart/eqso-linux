@@ -3,11 +3,26 @@
 
   "callsign": "0R-IN70WN",
   "room": "CB",
+
+  "_comment_password": [
+    "password: token de radioenlace para autenticarse en el API server local.",
+    "  Debe coincidir con uno de los valores en RELAY_TOKENS de /etc/eqso-api/env.",
+    "  Genera con: openssl rand -hex 16",
+    "  Si conectas al servidor ASORAPA externo (193.152.83.229), deja vacio."
+  ],
   "password": "",
+
   "message": "Radio Enlace CB",
 
-  "server": "193.152.83.229",
-  "_comment_port": "Puerto del servidor eQSO externo (eqso.asorapa.org)",
+  "_comment_server": [
+    "Modo VM local (recomendado): server=127.0.0.1, port=2172",
+    "  El API server local escucha en el puerto 2172 (TCP eQSO).",
+    "  Permite recibir locuciones de inactividad por RF y control completo.",
+    "Modo externo (legacy): server=193.152.83.229, port=2172",
+    "  Conecta directamente al servidor ASORAPA externo.",
+    "  Las locuciones de inactividad del API server local NO llegan por RF."
+  ],
+  "server": "127.0.0.1",
   "port": 2172,
 
   "reconnectMinMs": 2000,
@@ -20,8 +35,8 @@
 
     "_comment_vox": "VOX: activacion automatica por nivel de audio de la radio CB",
     "vox": true,
-    "voxThresholdRms": 500,
-    "voxHangMs": 1000,
+    "voxThresholdRms": 1500,
+    "voxHangMs": 5000,
     "txGateRms": 50,
 
     "_comment_gain": [
@@ -29,11 +44,12 @@
       "  Si ves SATURACION en journalctl, baja este valor (0.3-0.5).",
       "  Si el audio llega muy bajo al cliente, subelo (max 1.5).",
       "outputGain: amplificacion de audio del servidor hacia la radio CB.",
-      "  Si la radio transmite silencio aunque aplay este corriendo, sube este valor.",
-      "  Tipicamente 2.0-3.0 dependiendo del nivel de salida del CM108 y la sensibilidad del micro de la radio."
+      "  Tipicamente 1.0-2.0 dependiendo del nivel de salida del CM108.",
+      "postRxSuppressMs: tiempo de inhibicion VOX tras fin de RX (anti-eco altavoz CB)."
     ],
-    "inputGain":  0.4,
-    "outputGain": 1.2
+    "inputGain":  0.3,
+    "outputGain": 1.0,
+    "postRxSuppressMs": 6000
   },
 
   "control": {

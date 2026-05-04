@@ -262,12 +262,28 @@ function handleJoin(
     return;
   }
 
-  const serverPassword = process.env.EQSO_PASSWORD ?? "";
-  if (serverPassword && password !== serverPassword) {
-    safeWrite(state, buildErrorMessage("Acceso denegado: contrasena incorrecta"));
-    logger.warn({ id: state.id, name }, "TCP client rejected: wrong password");
-    state.socket.destroy();
-    return;
+  const isRelayCallsign = name.startsWith("0R-");
+  const relayTokensRaw = process.env.RELAY_TOKENS ?? "";
+  const validRelayTokens = relayTokensRaw
+    ? relayTokensRaw.split(",").map((t) => t.trim()).filter(Boolean)
+    : [];
+
+  if (isRelayCallsign && validRelayTokens.length > 0) {
+    if (!validRelayTokens.includes(password)) {
+      safeWrite(state, buildErrorMessage("Acceso denegado: token de radioenlace invalido"));
+      logger.warn({ id: state.id, name }, "TCP relay rejected: invalid relay token");
+      state.socket.destroy();
+      return;
+    }
+    logger.info({ id: state.id, name }, "TCP relay authenticated with relay token");
+  } else {
+    const serverPassword = process.env.EQSO_PASSWORD ?? "";
+    if (serverPassword && password !== serverPassword) {
+      safeWrite(state, buildErrorMessage("Acceso denegado: contrasena incorrecta"));
+      logger.warn({ id: state.id, name }, "TCP client rejected: wrong password");
+      state.socket.destroy();
+      return;
+    }
   }
 
   if (!name || name.length > 30) {
@@ -293,6 +309,7 @@ function handleJoin(
   if (client) {
     client.name = name;
     client.message = message;
+    if (isRelayCallsign) client.isRelay = true;
   }
 
   const oldMembers = oldRoom ? roomManager.getRoomMembers(oldRoom) : [];

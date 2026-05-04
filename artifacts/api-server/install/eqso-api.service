@@ -1,0 +1,29 @@
+[Unit]
+Description=eQSO API Server ASORAPA
+After=network.target postgresql.service
+Wants=network.target
+
+[Service]
+Type=simple
+User=eqso
+Group=eqso
+WorkingDirectory=/opt/eqso-asorapa/artifacts/api-server
+
+# Variables de entorno desde fichero (PORT, DATABASE_URL, SESSION_SECRET, etc.)
+EnvironmentFile=/etc/eqso-api/env
+
+ExecStart=/usr/bin/node dist/index.js
+
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=eqso-api
+
+# Limites de seguridad
+NoNewPrivileges=true
+ProtectSystem=full
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
