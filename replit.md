@@ -318,6 +318,33 @@ cd /opt/eqso-asorapa && git pull && sudo systemctl restart eqso-relay@CB.service
 sudo journalctl -u eqso-relay@CB -f
 ```
 
+### Instalador para operadores externos (ASORAPA, otros radioenlaces)
+
+Cada zona (ASORAPA Sevilla, Madrid, Valencia, etc.) instala su propio relay daemon
+con un solo comando. El admin les da su token y ellos ejecutan:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/install/install-operator.sh | sudo bash
+```
+
+El script:
+- Instala Node.js 20, ffmpeg, alsa-utils automáticamente
+- Pregunta indicativo, sala y token
+- Detecta la interfaz CM108 automáticamente
+- Compila el daemon y configura systemd
+- Instala reglas udev para /dev/eqso-ptt
+
+Ficheros clave:
+- `artifacts/relay-daemon/install/install-operator.sh` — instalador operadores externos
+- `artifacts/relay-daemon/INSTALL.md` — guía completa para operadores
+- `artifacts/relay-daemon/install/config.example.json` — config de referencia
+
+Para añadir un nuevo operador al servidor:
+1. Generar un token: `openssl rand -hex 16`
+2. Añadirlo a RELAY_TOKENS en `/etc/eqso.env` (separado por coma)
+3. `sudo systemctl restart eqso` en la VM
+4. Dar el token al operador para que ejecute el instalador
+
 ## VM Infrastructure (Ubuntu 192.168.1.25 / 193.152.83.229)
 
 > **ARQUITECTURA CLAVE — NO OLVIDAR:**

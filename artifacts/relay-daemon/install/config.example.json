@@ -1,51 +1,59 @@
 {
-  "_comment": "Copia a /etc/eqso-relay/CB.json y ajusta los valores",
+  "_comment": "Copia a /etc/eqso-relay/<SALA>.json y ajusta los valores",
 
-  "callsign": "0R-IN70WN",
+  "callsign": "0R-MICALLSIGN",
   "room": "CB",
 
   "_comment_password": [
-    "password: token de radioenlace para autenticarse en el API server local.",
-    "  Debe coincidir con uno de los valores en RELAY_TOKENS de /etc/eqso-api/env.",
-    "  Genera con: openssl rand -hex 16",
-    "  Si conectas al servidor ASORAPA externo (193.152.83.229), deja vacio."
+    "password: token de radioenlace para autenticarse en el servidor ASORAPA.",
+    "  Facilitado por el administrador de la red.",
+    "  Genera un nuevo token con: openssl rand -hex 16"
   ],
-  "password": "",
+  "password": "TOKEN-DADO-POR-EL-ADMIN",
 
   "message": "Radio Enlace CB",
 
   "_comment_server": [
-    "Modo VM local (recomendado): server=127.0.0.1, port=2172",
-    "  El API server local escucha en el puerto 2172 (TCP eQSO).",
-    "  Permite recibir locuciones de inactividad por RF y control completo.",
-    "Modo externo (legacy): server=193.152.83.229, port=2172",
-    "  Conecta directamente al servidor ASORAPA externo.",
-    "  Las locuciones de inactividad del API server local NO llegan por RF."
+    "Servidor externo ASORAPA (para operadores remotos):",
+    "  server=193.152.83.229, port=2172",
+    "Servidor local (solo VM del administrador):",
+    "  server=127.0.0.1, port=2171"
   ],
-  "server": "127.0.0.1",
+  "server": "193.152.83.229",
   "port": 2172,
 
-  "reconnectMinMs": 2000,
+  "reconnectMinMs": 3000,
   "reconnectMaxMs": 60000,
 
   "audio": {
-    "_comment_devices": "Usa 'arecord -l' y 'aplay -l' para ver los dispositivos. CM108 suele ser plughw:1,0",
+    "_comment_devices": [
+      "Usa 'arecord -l' y 'aplay -l' para ver los dispositivos.",
+      "El CM108/C-Media suele aparecer como 'C-Media USB Audio Device'.",
+      "Apunta el numero de tarjeta (card X) y usa plughw:X,0"
+    ],
     "captureDevice":  "plughw:1,0",
     "playbackDevice": "plughw:1,0",
 
-    "_comment_vox": "VOX: activacion automatica por nivel de audio de la radio CB",
+    "_comment_vox": [
+      "VOX: activacion automatica de TX por nivel de audio de la radio.",
+      "voxThresholdRms: sube si dispara con ruido de fondo (prueba 2000-3000).",
+      "                 baja si no activa con la voz de la radio (prueba 800-1200).",
+      "voxHangMs: tiempo que el PTT permanece activo tras silencio (ms).",
+      "txGateRms: nivel minimo para enviar paquete GSM (filtra silencio puro)."
+    ],
     "vox": true,
     "voxThresholdRms": 1500,
     "voxHangMs": 5000,
     "txGateRms": 50,
 
     "_comment_gain": [
-      "inputGain: ganancia del microfono CM108 (CB→servidor).",
-      "  Si ves SATURACION en journalctl, baja este valor (0.3-0.5).",
-      "  Si el audio llega muy bajo al cliente, subelo (max 1.5).",
-      "outputGain: amplificacion de audio del servidor hacia la radio CB.",
-      "  Tipicamente 1.0-2.0 dependiendo del nivel de salida del CM108.",
-      "postRxSuppressMs: tiempo de inhibicion VOX tras fin de RX (anti-eco altavoz CB)."
+      "inputGain: ganancia del microfono (radio CB → servidor).",
+      "  Si el audio llega saturado/distorsionado, baja a 0.1-0.2.",
+      "  Si el audio llega muy bajo, sube a 0.5-1.0.",
+      "outputGain: amplificacion del audio del servidor hacia la radio.",
+      "  Sube si la radio suena baja (1.5-2.0), baja si hay distorsion.",
+      "postRxSuppressMs: tiempo de inhibicion VOX tras fin de RX.",
+      "  Evita que el altavoz CB active el VOX. Aumentar si hay eco (8000-10000)."
     ],
     "inputGain":  0.3,
     "outputGain": 1.0,
@@ -53,15 +61,26 @@
   },
 
   "control": {
-    "_comment": "HTTP de control local. Estado: curl http://127.0.0.1:8009/status",
+    "_comment": [
+      "Servidor HTTP de control local (solo accesible desde este equipo).",
+      "Estado:        curl http://127.0.0.1:8009/status",
+      "PTT manual TX: curl -X POST http://127.0.0.1:8009/ptt/start",
+      "PTT manual RX: curl -X POST http://127.0.0.1:8009/ptt/stop",
+      "Reconectar:    curl -X POST http://127.0.0.1:8009/reconnect"
+    ],
     "enabled": true,
     "port": 8009,
     "host": "127.0.0.1"
   },
 
   "ptt": {
-    "_comment": "PTT serial para activar TX de la radio CB. method: rts o dtr. inverted: true si la logica es invertida.",
-    "_comment_device": "Usa /dev/eqso-ptt (symlink creado por detect-ptt.sh en cada arranque). Si la deteccion automatica falla, pon aqui /dev/ttyACM0 o /dev/ttyACM1 segun indique 'ls /dev/ttyACM*'.",
+    "_comment": [
+      "PTT serial para activar la emision de la radio.",
+      "method: 'rts' (mas comun) o 'dtr'. Prueba ambos si uno no funciona.",
+      "inverted: true si la logica es invertida (radio no emite con RTS activo).",
+      "device: /dev/eqso-ptt es el symlink creado automaticamente por el instalador.",
+      "  Si falla, usa /dev/ttyACM0 o /dev/ttyUSB0 segun 'ls /dev/ttyACM* /dev/ttyUSB*'."
+    ],
     "device":   "/dev/eqso-ptt",
     "method":   "rts",
     "inverted": false
