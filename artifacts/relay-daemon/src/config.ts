@@ -53,7 +53,7 @@ const DEFAULTS: RelayConfig = {
     playbackDevice: "plughw:1,0",
     vox: true,
     voxThresholdRms: 800,
-    voxHangMs: 3000,
+    voxHangMs: 1500,
     txGateRms: 50,
     inputGain: 0.5,
     outputGain: 1.0,

@@ -64,6 +64,24 @@ function upsample6(pcm: Int16Array): Int16Array {
   return out;
 }
 
+/**
+ * Decima PCM de 48kHz a 8kHz (factor ×6) con filtro FIR caja (lowpass).
+ * Promedia cada 6 muestras consecutivas → evita aliasing + elimina
+ * artefactos de la conversión de rate de ALSA en VirtualBox.
+ * Capturar a 48kHz nativo (hw del CM108) y decimar en Node.js es más
+ * estable que pedir a plughw que haga la conversión en software.
+ */
+function decimate6(pcm48: Int16Array): Int16Array {
+  const outLen = Math.floor(pcm48.length / 6);
+  const out = new Int16Array(outLen);
+  for (let i = 0; i < outLen; i++) {
+    let sum = 0;
+    for (let j = 0; j < 6; j++) sum += pcm48[i * 6 + j];
+    out[i] = Math.round(sum / 6);
+  }
+  return out;
+}
+
 export class AlsaAudio extends EventEmitter {
   private recorder: ChildProcessWithoutNullStreams | null = null;
   private player:   ChildProcessWithoutNullStreams | null = null;
@@ -226,11 +244,11 @@ export class AlsaAudio extends EventEmitter {
     const args = [
       "-D", this.cfg.captureDevice,
       "-f", "S16_LE",
-      "-r", "8000",
+      "-r", "48000",          // tasa nativa del CM108 — sin conversión de rate en ALSA
       "-c", "1",
       "-q",
-      "--period-size=160",    // 20ms por periodo a 8kHz (equivale a 960 muestras a 48kHz)
-      "--buffer-size=8000",   // 1s de buffer — absorbe ráfagas de VirtualBox (hasta 800ms)
+      "--period-size=960",    // 20ms por periodo a 48kHz (= 160 muestras a 8kHz tras decimar)
+      "--buffer-size=48000",  // 1s de buffer — absorbe ráfagas de VirtualBox hasta 800ms
     ];
 
     log(`arecord ${args.join(" ")}`);
@@ -267,12 +285,16 @@ export class AlsaAudio extends EventEmitter {
     });
 
     this.recorder.stdout.on("data", (chunk: Buffer) => {
+      // Decimar 48kHz → 8kHz en Node.js (evita artefactos de la SRC de ALSA)
+      const raw48 = new Int16Array(chunk.buffer, chunk.byteOffset, Math.floor(chunk.length / 2));
+      const pcm8  = decimate6(raw48);
+
       const gain = this.cfg.inputGain;
-      const sampleCount = Math.floor(chunk.length / 2);
+      const sampleCount = pcm8.length;
       const pcm = new Int16Array(sampleCount);
       let sumSq = 0;
       for (let i = 0; i < sampleCount; i++) {
-        const raw = chunk.readInt16LE(i * 2);
+        const raw = pcm8[i];
         const drive = 1.5;
         const norm = (raw * gain) / 32768;
         const limited = Math.tanh(norm * drive) / Math.tanh(drive);
