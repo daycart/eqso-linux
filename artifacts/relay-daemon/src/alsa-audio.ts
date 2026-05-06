@@ -229,7 +229,8 @@ export class AlsaAudio extends EventEmitter {
       "-r", "8000",
       "-c", "1",
       "-q",
-      "--buffer-size=1024",
+      "--period-size=160",    // 20ms por periodo a 8kHz (equivale a 960 muestras a 48kHz)
+      "--buffer-size=8000",   // 1s de buffer — absorbe ráfagas de VirtualBox (hasta 800ms)
     ];
 
     log(`arecord ${args.join(" ")}`);
