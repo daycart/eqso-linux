@@ -244,11 +244,11 @@ export class AlsaAudio extends EventEmitter {
     const args = [
       "-D", this.cfg.captureDevice,
       "-f", "S16_LE",
-      "-r", "48000",          // tasa nativa del CM108 — sin conversión de rate en ALSA
+      "-r", "8000",
       "-c", "1",
       "-q",
-      "--period-size=960",    // 20ms por periodo a 48kHz (= 160 muestras a 8kHz tras decimar)
-      "--buffer-size=48000",  // 1s de buffer — absorbe ráfagas de VirtualBox hasta 800ms
+      "--period-size=160",    // 20ms por periodo a 8kHz
+      "--buffer-size=8000",   // 1s de buffer — absorbe ráfagas de VirtualBox hasta 800ms
     ];
 
     log(`arecord ${args.join(" ")}`);
@@ -285,16 +285,12 @@ export class AlsaAudio extends EventEmitter {
     });
 
     this.recorder.stdout.on("data", (chunk: Buffer) => {
-      // Decimar 48kHz → 8kHz en Node.js (evita artefactos de la SRC de ALSA)
-      const raw48 = new Int16Array(chunk.buffer, chunk.byteOffset, Math.floor(chunk.length / 2));
-      const pcm8  = decimate6(raw48);
-
       const gain = this.cfg.inputGain;
-      const sampleCount = pcm8.length;
+      const sampleCount = Math.floor(chunk.length / 2);
       const pcm = new Int16Array(sampleCount);
       let sumSq = 0;
       for (let i = 0; i < sampleCount; i++) {
-        const raw = pcm8[i];
+        const raw = chunk.readInt16LE(i * 2);
         const drive = 1.5;
         const norm = (raw * gain) / 32768;
         const limited = Math.tanh(norm * drive) / Math.tanh(drive);
