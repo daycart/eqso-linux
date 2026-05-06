@@ -127,6 +127,14 @@ export class AlsaAudio extends EventEmitter {
     this.decoder.stop();
   }
 
+  // ── Glitch concealment (USB VirtualBox) ──────────────────────────────────
+  // Cuando el driver USB de VirtualBox interrumpe el stream ~80-100ms, ALSA
+  // entrega muestras silenciosas. Detectamos la caida repentina de RMS y
+  // sustituimos el chunk defectuoso con el ultimo frame bueno (frame hold).
+  private glitchRmsEma   = 0;          // media exponencial de RMS en frames normales
+  private lastGoodPcm:   Int16Array | null = null;
+  private glitchCount    = 0;
+
   private rxGsmCount = 0;
 
   playGsm(gsm: Buffer): void {
@@ -302,7 +310,31 @@ export class AlsaAudio extends EventEmitter {
       const rms = Math.sqrt(sumSq / sampleCount);
       if (rms > this.levelPeakRms) this.levelPeakRms = rms;
       this.levelSamples += sampleCount;
-      this.feedPcm(pcm);
+
+      // ── Glitch concealment ─────────────────────────────────────────────
+      // Si el RMS cae a <15% de la media movil → USB interruption de VirtualBox.
+      // Sustituimos con el ultimo frame bueno (frame hold / PLC).
+      let pcmToFeed = pcm;
+      if (this.glitchRmsEma === 0) {
+        this.glitchRmsEma = rms;                  // arranque: inicializar EMA
+      } else if (rms > 0 && rms < this.glitchRmsEma * 0.15 && this.lastGoodPcm !== null) {
+        // Glitch detectado
+        pcmToFeed = this.lastGoodPcm.length === pcm.length
+          ? this.lastGoodPcm
+          : pcm;
+        this.glitchCount++;
+        if (this.glitchCount === 1 || this.glitchCount % 5 === 0)
+          log(`[glitch] USB dropout #${this.glitchCount}: RMS=${Math.round(rms)} EMA=${Math.round(this.glitchRmsEma)} → frame hold`);
+      } else {
+        // Frame normal: actualizar EMA y guardar como ultimo bueno
+        this.glitchRmsEma = this.glitchRmsEma * 0.95 + rms * 0.05;
+        if (this.lastGoodPcm === null || this.lastGoodPcm.length !== pcm.length) {
+          this.lastGoodPcm = new Int16Array(pcm.length);
+        }
+        this.lastGoodPcm.set(pcm);
+      }
+
+      this.feedPcm(pcmToFeed);
     });
   }
 
