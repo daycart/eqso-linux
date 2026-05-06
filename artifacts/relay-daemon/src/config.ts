@@ -7,6 +7,7 @@ export interface AudioConfig {
   vox: boolean;
   voxThresholdRms: number;
   voxHangMs: number;
+  txGateRms: number;
   inputGain: number;
   outputGain: number;
   postRxSuppressMs: number;
@@ -53,6 +54,7 @@ const DEFAULTS: RelayConfig = {
     vox: true,
     voxThresholdRms: 600,
     voxHangMs: 1000,
+    txGateRms: 50,
     inputGain: 1.0,
     outputGain: 1.0,
     postRxSuppressMs: 2500,

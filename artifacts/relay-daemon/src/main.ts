@@ -121,15 +121,13 @@ const serialPtt = new SerialPtt(cfg.ptt);
 const audio = new AlsaAudio(cfg.audio);
 const vox   = new Vox(cfg.audio.voxThresholdRms, cfg.audio.voxHangMs);
 
-// Gate de transmision: nivel minimo para enviar audio al servidor.
-// El VOX mantiene pttActive=true durante voxHangMs incluso cuando el nivel
-// baja de voxThresholdRms. Durante ese hang, el audio puede estar en el rango
-// 0-voxThreshold (ruido de fondo). Si se envía, el navegador acumula ruido en
-// su cola y lo reproduce sobre el audio siguiente = "eco que pisa".
-// TX_GATE = voxThreshold - 100: durante el hang prácticamente nada pasa
-// (suelo RMS≈4-6), mientras que la voz activa (>voxThreshold) sí pasa.
-// Derivarlo del config permite ajustar voxThreshold sin cambiar código.
-const TX_GATE_RMS = Math.max(0, cfg.audio.voxThresholdRms - 100);
+// Gate de transmision: nivel minimo para enviar un paquete GSM al servidor.
+// Filtra silencio puro durante el hang del VOX — evita que el navegador acumule
+// ruido de fondo en la cola y lo reproduzca sobre el audio siguiente ("eco que pisa").
+// Valor recomendado: 50 (filtra solo silencio absoluto, deja pasar toda la voz).
+// Configurar con "txGateRms" en el JSON — NO usar voxThresholdRms como gate porque
+// cortaría partes de la voz con nivel bajo (palabras suaves, consonantes) → silencios.
+const TX_GATE_RMS = Math.max(0, cfg.audio.txGateRms);
 let latestPcmRms = 0;
 
 // Errores de audio (ej: arecord crashea por ALSA no disponible).
