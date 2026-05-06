@@ -66,6 +66,7 @@ A web-based client and server application for eQSO radio linking, enabling users
 - **PCM to Float32 Normalization**: Normalization is now a fixed division by `/32768` instead of per-packet to prevent "distorted voice" artifacts during pauses.
 - **Remote Mode Configuration**: When using the web client in remote mode, ensure `FfmpegGsmDecoder` is correctly imported and `EqsoProxy.sendJoin()` buffers the JOIN packet until the handshake is complete.
 - **CM108 USB 8kHz Playback**: VirtualBox's CM108 USB audio device does not accept 8kHz playback directly via ALSA. Audio is upsampled to 48kHz before playing.
+- **VirtualBox USB Audio Cuts (TX)**: El controlador USB 1.1/2.0 de VirtualBox provoca dropouts de ~80-100ms en el stream de captura CM108, causando cortes audibles en eQSO. Solución: cambiar el controlador USB a **xHCI (USB 3.0)** en Configuración → USB de la VM. El xHCI tiene mejor timing y elimina prácticamente todos los cortes. No intentar frame-hold/concealment por software — la voz tiene variaciones naturales de amplitud que el detector RMS confunde con dropouts.
 
 ## Pointers
 
