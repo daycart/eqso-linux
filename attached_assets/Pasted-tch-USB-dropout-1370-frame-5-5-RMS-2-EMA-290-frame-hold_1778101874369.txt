@@ -1,0 +1,48 @@
+tch] USB dropout #1370 frame 5/5: RMS=2 EMA=290 -> frame hold
+may 06 21:10:12 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:12.809Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:13 ubuntus eqso-relay-CB[2061]: [main] 2026-05-06T21:10:13.615Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-05-06T21:09:53.498Z)
+may 06 21:10:15 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:15.715Z [glitch] USB dropout #1375 frame 1/5: RMS=330 EMA=3841 -> frame hold
+may 06 21:10:15 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:15.816Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:17 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:17.533Z [nivel] pico RMS=9750 (-10.5 dBFS)  VOXumbral=800  gain=0.5
+may 06 21:10:19 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:19.876Z [glitch] USB dropout #1380 frame 1/5: RMS=763 EMA=5341 -> frame hold
+may 06 21:10:21 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:21.957Z [glitch] USB dropout #1385 frame 2/5: RMS=407 EMA=5386 -> frame hold
+may 06 21:10:22 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:22.046Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:22 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:22.081Z [glitch] USB dropout #1390 frame 2/5: RMS=413 EMA=5131 -> frame hold
+may 06 21:10:22 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:22.533Z [nivel] pico RMS=17388 (-5.5 dBFS)  VOXumbral=800  gain=0.5
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.033Z [glitch] USB dropout #1395 frame 4/5: RMS=8 EMA=9690 -> frame hold
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.072Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.152Z [glitch] USB dropout #1400 frame 4/5: RMS=1 EMA=9206 -> frame hold
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.192Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.272Z [glitch] USB dropout #1405 frame 4/5: RMS=2 EMA=8745 -> frame hold
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.312Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.392Z [glitch] USB dropout #1410 frame 4/5: RMS=2 EMA=8308 -> frame hold
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.432Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.884Z [glitch] USB dropout #1415 frame 4/5: RMS=2 EMA=7893 -> frame hold
+may 06 21:10:23 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:23.924Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.004Z [glitch] USB dropout #1420 frame 4/5: RMS=2 EMA=7498 -> frame hold
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.046Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.125Z [glitch] USB dropout #1425 frame 4/5: RMS=2 EMA=7124 -> frame hold
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.166Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.246Z [glitch] USB dropout #1430 frame 4/5: RMS=2 EMA=6767 -> frame hold
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.286Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.374Z [glitch] USB dropout #1435 frame 4/5: RMS=2 EMA=6429 -> frame hold
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.414Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.494Z [glitch] USB dropout #1440 frame 4/5: RMS=2 EMA=6108 -> frame hold
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.534Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [eqso] 2026-05-06T21:10:24.573Z PTT liberado [0x0d]
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [main] 2026-05-06T21:10:24.574Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-05-06T21:10:29.574Z)
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.614Z [glitch] USB dropout #1445 frame 4/5: RMS=2 EMA=5802 -> frame hold
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.654Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.734Z [glitch] USB dropout #1450 frame 4/5: RMS=2 EMA=5512 -> frame hold
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.774Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.854Z [glitch] USB dropout #1455 frame 4/5: RMS=2 EMA=5237 -> frame hold
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.894Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:24 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:24.974Z [glitch] USB dropout #1460 frame 4/5: RMS=2 EMA=4975 -> frame hold
+may 06 21:10:25 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:25.014Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:25 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:25.094Z [glitch] USB dropout #1465 frame 4/5: RMS=2 EMA=4726 -> frame hold
+may 06 21:10:25 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:25.133Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:25 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:25.215Z [glitch] USB dropout #1470 frame 4/5: RMS=2 EMA=4490 -> frame hold
+may 06 21:10:25 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:25.254Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+may 06 21:10:25 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:25.333Z [glitch] USB dropout #1475 frame 4/5: RMS=1 EMA=4266 -> frame hold
+may 06 21:10:25 ubuntus eqso-relay-CB[2061]: [audio] 2026-05-06T21:10:25.375Z [glitch] Limite 5 frames alcanzado \Uffffffff silencio real, VOX puede bajar
+^C

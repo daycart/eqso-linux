@@ -127,18 +127,6 @@ export class AlsaAudio extends EventEmitter {
     this.decoder.stop();
   }
 
-  // ── Glitch concealment (USB VirtualBox) ──────────────────────────────────
-  // Cuando el driver USB de VirtualBox interrumpe el stream ~80-100ms, ALSA
-  // entrega muestras silenciosas. Detectamos la caida repentina de RMS y
-  // sustituimos el chunk defectuoso con el ultimo frame bueno (frame hold).
-  private glitchRmsEma        = 0;     // media exponencial de RMS en frames normales
-  private lastGoodPcm:        Int16Array | null = null;
-  private glitchCount         = 0;
-  private consecutiveGlitch   = 0;
-  // Maximo de frames consecutivos a sostener: 5 × 20ms = 100ms cubre dropouts USB
-  // pero deja pasar el silencio real (evita TX continuo cuando nadie habla).
-  private static MAX_GLITCH_FRAMES = 5;
-
   private rxGsmCount = 0;
 
   playGsm(gsm: Buffer): void {
@@ -315,42 +303,7 @@ export class AlsaAudio extends EventEmitter {
       if (rms > this.levelPeakRms) this.levelPeakRms = rms;
       this.levelSamples += sampleCount;
 
-      // ── Glitch concealment ─────────────────────────────────────────────
-      // Si el RMS cae a <15% de la media movil → USB interruption (~80-100ms).
-      // Sustituimos con el ultimo frame bueno (frame hold) MAXIMO 5 veces
-      // consecutivas (100ms). Tras ese limite dejamos pasar el silencio real
-      // para que el VOX baje y se libere el canal correctamente.
-      let pcmToFeed = pcm;
-      const isGlitch = this.glitchRmsEma > 0
-        && rms > 0
-        && rms < this.glitchRmsEma * 0.15
-        && this.consecutiveGlitch < AlsaAudio.MAX_GLITCH_FRAMES
-        && this.lastGoodPcm !== null;
-
-      if (this.glitchRmsEma === 0) {
-        this.glitchRmsEma = rms;                  // arranque: inicializar EMA
-        this.consecutiveGlitch = 0;
-      } else if (isGlitch) {
-        pcmToFeed = this.lastGoodPcm!.length === pcm.length
-          ? this.lastGoodPcm!
-          : pcm;
-        this.consecutiveGlitch++;
-        this.glitchCount++;
-        if (this.glitchCount === 1 || this.glitchCount % 5 === 0)
-          log(`[glitch] USB dropout #${this.glitchCount} (frame ${this.consecutiveGlitch}/${AlsaAudio.MAX_GLITCH_FRAMES}): RMS=${Math.round(rms)} EMA=${Math.round(this.glitchRmsEma)} → frame hold`);
-      } else {
-        // Frame normal (o silencio real que supera el limite): actualizar EMA
-        if (this.consecutiveGlitch >= AlsaAudio.MAX_GLITCH_FRAMES && rms < this.glitchRmsEma * 0.15)
-          log(`[glitch] Limite alcanzado (${AlsaAudio.MAX_GLITCH_FRAMES} frames) — silencio real, VOX puede bajar`);
-        this.consecutiveGlitch = 0;
-        this.glitchRmsEma = this.glitchRmsEma * 0.95 + rms * 0.05;
-        if (this.lastGoodPcm === null || this.lastGoodPcm.length !== pcm.length) {
-          this.lastGoodPcm = new Int16Array(pcm.length);
-        }
-        this.lastGoodPcm.set(pcm);
-      }
-
-      this.feedPcm(pcmToFeed);
+      this.feedPcm(pcm);
     });
   }
 
