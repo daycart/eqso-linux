@@ -1,0 +1,80 @@
+/opt/eqso-asorapa/artifacts/relay-daemon$ sudo python3 << 'EOF'
+path = '/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts'
+with open(path) as f:
+    content = f.read()
+
+# 1. A\Uffffffffr funci\Uffffffffecimate6 justo despu\Uffffffffde upsample6
+decimate_fn = '''
+/**
+ * Decima PCM de 48kHz a 8kHz (factor x6) con filtro FIR caja (lowpass).
+ * Promedia cada 6 muestras consecutivas \Uffffffff evita aliasing y artefactos
+ * de la conversion de rate de ALSA en VirtualBox.
+ */
+function decimate6(pcm48: Int16Array): Int16Array {
+  const outLen = Math.floor(pcm48.length / 6);
+  const out = new Int16Array(outLen);
+  for (let i = 0; i < outLen; i++) {
+    let sum = 0;
+    for (let j = 0; j < 6; j++) sum += pcm48[i * 6 + j];
+    out[i] = Math.round(sum / 6);
+  }
+  return out;
+}
+'''
+# Insertar despu\Uffffffffdel cierre de upsample6
+content = content.replace(
+    '\nexport class AlsaAudio',
+    decimate_fn + '\nexport class AlsaAudio'
+)
+
+# 2. Cambiar tasa de captura a 48kHz nativo
+import re
+content = re.sub(r'"-r", "8000"', '"-r", "48000"', content)
+content = re.sub(r'"--period-size=\d+"', '"--period-size=960"', content)
+content = re.sub(r'"--buffer-size=\d+"', '"--buffer-size=48000"', content)
+
+# 3. A\Uffffffffr decimaci\Uffffffffn el stdout handler
+old_handler = '''    this.recorder.stdout.on("data", (chunk: Buffer) => {
+      const gain = this.cfg.inputGain;
+      const sampleCount = Math.floor(chunk.length / 2);
+      const pcm = new Int16Array(sampleCount);'''
+
+new_handler = '''    this.recorder.stdout.on("data", (chunk: Buffer) => {
+      // Decimar 48kHz -> 8kHz en Node.js (evita artefactos de la SRC de ALSA)
+      const raw48 = new Int16Array(chunk.buffer, chunk.byteOffset, Math.floor(chunk.length / 2));
+EOFnt("Fichero guardado"):no encontrado exacto \Uffffffff verifica manualmente")
+Handler actualizado OK
+Fichero guardado
+david@ubuntus:/opt/eqso-asorapa/artifacts/relay-daemon$ grep -n "48000\|decimate\|pcm8\|raw48" /opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts | head -20 
+cd /opt/eqso-asorapa/artifacts/relay-daemon && pnpm run build
+51:function decimate6(pcm48: Int16Array): Int16Array {
+223:      "-r", "48000",
+227:      "--buffer-size=48000",
+265:      const raw48 = new Int16Array(chunk.buffer, chunk.byteOffset, Math.floor(chunk.length / 2));
+266:      const pcm8  = decimate6(raw48);
+269:      const sampleCount = pcm8.length;
+273:        const raw = pcm8[i];
+376:      "-r", "48000",
+380:      "--buffer-size=48000",
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+david@ubuntus:/opt/eqso-asorapa/artifacts/relay-daemon$ # Cambiar voxHangMs de 5000 a 1500 (libera canal 1.5s tras silencio)
+sudo python3 -c "
+import json
+with open('/etc/eqso-relay/CB.json') as f: cfg = json.load(f)
+cfg['audio']['voxHangMs'] = 1500
+with open('/etc/eqso-relay/CB.json', 'w') as f: json.dump(cfg, f, indent=2)
+print('voxHangMs:', cfg['audio']['voxHangMs'])
+"
+
+sudo systemctl restart eqso-relay@CB
+sleep 3 && journalctl -u eqso-relay@CB --since "1 min ago" | grep -E "arecord|nivel|VOX" | head -5
+voxHangMs: 1500
+May 06 20:02:34 ubuntus eqso-relay-CB[350402]: [audio] 2026-05-06T20:02:34.684Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+May 06 20:02:39 ubuntus eqso-relay-CB[350402]: [audio] 2026-05-06T20:02:39.684Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+May 06 20:02:44 ubuntus eqso-relay-CB[350402]: [audio] 2026-05-06T20:02:44.686Z [nivel] pico RMS=2 (-83.9 dBFS)  VOXumbral=800  gain=0.5
+May 06 20:02:49 ubuntus eqso-relay-CB[350402]: [audio] 2026-05-06T20:02:49.686Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+May 06 20:02:54 ubuntus eqso-relay-CB[350402]: [audio] 2026-05-06T20:02:54.686Z [nivel] pico RMS=2 (-84.4 dBFS)  VOXumbral=800  gain=0.5
