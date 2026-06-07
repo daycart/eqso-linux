@@ -1,0 +1,30 @@
+
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001846-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001200-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110e-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001801-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000111e-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110c-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001800-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001203-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001108-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110d-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110b-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00000001-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000fef0-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110f-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001812-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001801-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000180f-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000180a-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001800-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001801-0000-1000-8000-00805f9b34fb, name='Nano X 7C22'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001800-0000-1000-8000-00805f9b34fb, name='Nano X 7C22'
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=3.1 rms8k=0.0005 peak8k=0.0022 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=3.5 rms8k=0.0006 peak8k=0.0028 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=3.9 rms8k=0.0008 peak8k=0.0033 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=4.1 rms8k=0.0008 peak8k=0.0048 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=4.3 rms8k=0.0008 peak8k=0.0034 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=4.5 rms8k=0.0009 peak8k=0.0037 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=4.6 rms8k=0.0010 peak8k=0.0037 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=4.7 rms8k=0.0010 peak8k=0.0042 rate=48000
