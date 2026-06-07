@@ -53,9 +53,12 @@ export default defineConfig({
     port,
     host: "0.0.0.0",
     allowedHosts: true,
-    headers: process.env.NODE_ENV !== "production" ? {
-      "Cache-Control": "no-store",
-    } : {},
+    headers: {
+      // Habilitar Web Serial API a través del proxy de Replit.
+      // Sin este header el browser rechaza requestPort() con "disallowed by permissions policy".
+      "Permissions-Policy": "serial=*",
+      ...(process.env.NODE_ENV !== "production" ? { "Cache-Control": "no-store" } : {}),
+    },
     proxy: {
       "/api": {
         target: "http://localhost:8080",
