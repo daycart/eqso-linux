@@ -1,0 +1,44 @@
+cd /opt/eqso-asorapa && git pull && pnpm install --frozen-lockfile 2>/dev/null || true && BASE_PATH=/ pnpm --filter @workspace/eqso-client run build && sudo cp -r artifacts/eqso-client/dist/public/* /var/www/html/ && echo "? Desplegado!" && ls /var/www/html/assets/index-*.js
+remote: Enumerating objects: 27, done.
+remote: Counting objects: 100% (27/27), done.
+remote: Compressing objects: 100% (20/20), done.
+remote: Total 20 (delta 15), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (20/20), 3.58 KiB | 51.00 KiB/s, done.
+From https://github.com/daycart/eqso-linux-client
+   52b670b..0c6fe94  main       -> origin/main
+Updating 52b670b..0c6fe94
+Fast-forward
+ artifacts/eqso-client/src/App.tsx                     |  11 ++++---
+ artifacts/eqso-client/src/hooks/PTTSerialProvider.tsx | 181 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ artifacts/eqso-client/src/hooks/usePTTSerial.ts       | 159 +++--------------------------------------------------------------------------------------
+ 3 files changed, 193 insertions(+), 158 deletions(-)
+ create mode 100644 artifacts/eqso-client/src/hooks/PTTSerialProvider.tsx
+Scope: all 10 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+   ?-----------------------------------------?
+   \Uffffffff                                         \Uffffffff
+   \Uffffffff   Update available! 10.33.0 ? 11.5.2.   \Uffffffff
+   \Uffffffff   Changelog: https://pnpm.io/v/11.5.2   \Uffffffff
+   \Uffffffff    To update, run: pnpm add -g pnpm     \Uffffffff
+   \Uffffffff                                         \Uffffffff
+   ?-----------------------------------------?
+
+. preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
++- Done in 50ms
+Done in 17.3s using pnpm v10.33.0
+
+> @workspace/eqso-client@0.0.0 build /opt/eqso-asorapa/artifacts/eqso-client
+> vite build --config vite.config.ts
+
+vite v7.3.1 building client environment for production...
+src/components/ui/tooltip.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+? 1781 modules transformed.
+dist/public/index.html                   0.73 kB \Uffffffff gzip:   0.41 kB
+dist/public/assets/index-D5sNjUm2.css  115.76 kB \Uffffffff gzip:  19.16 kB
+dist/public/assets/index-BSavCcEe.js   415.65 kB \Uffffffff gzip: 123.88 kB
+? built in 25.01s
+[sudo] password for david: 
+? Desplegado!
+/var/www/html/assets/index-BSavCcEe.js
