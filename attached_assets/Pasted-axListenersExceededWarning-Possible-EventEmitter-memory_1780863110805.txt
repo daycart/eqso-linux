@@ -1,0 +1,76 @@
+axListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added. Use emitter.setMaxListeners() to increase limit
+n @ contentscript.js:14083Understand this warning
+contentscript.js:14083 MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 end listeners added. Use emitter.setMaxListeners() to increase limit
+n @ contentscript.js:14083Understand this warning
+2contentscript.js:14083 ObjectMultiplex - orphaned data for stream "app-init-liveness"
+warn @ contentscript.js:14083Understand this warning
+2contentscript.js:14083 ObjectMultiplex - orphaned data for stream "background-liveness"
+warn @ contentscript.js:14083Understand this warning
+2contentscript.js:14083 ObjectMultiplex - malformed chunk without name "[object Object]"
+warn @ contentscript.js:14083Understand this warning
+(index):1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) <input placeholder=​"Dejar en blanco si no hay contrasena" autocomplete=​"current-password" class=​"w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2.5 text-white placeholder-gray-600 focus:​outline-none focus:​border-green-500 focus:​ring-1 focus:​ring-green-500 text-sm" type=​"password" value>​
+index-BxymDNMx.js:9 [audio] playback worklet inicializado (buffer max 600ms, pre-fill 300ms)
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110e-0000-1000-8000-00805f9b34fb, name='AirPods de Nico'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110c-0000-1000-8000-00805f9b34fb, name='AirPods de Nico'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110b-0000-1000-8000-00805f9b34fb, name='AirPods de Nico'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001000-0000-1000-8000-00805f9b34fb, name='AirPods de Nico'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000111e-0000-1000-8000-00805f9b34fb, name='AirPods de Nico'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110d-0000-1000-8000-00805f9b34fb, name='AirPods de Nico'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001200-0000-1000-8000-00805f9b34fb, name='AirPods de Nico'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110e-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000184d-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001844-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001200-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110c-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00002b51-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000184f-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110b-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000184e-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001850-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000111e-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001853-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000184f-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001800-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001850-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001855-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000184d-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000184e-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001844-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000180f-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00002b51-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001801-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001846-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000180a-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001853-0000-1000-8000-00805f9b34fb, name='Buds3 Pro de David'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001108-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110d-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001203-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001800-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001200-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110e-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000fef0-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00000001-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001801-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000111e-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110c-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110b-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000110f-0000-1000-8000-00805f9b34fb, name='OpenFit 2 by Shokz'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001801-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000180f-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001812-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001800-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=0000180a-0000-1000-8000-00805f9b34fb, name='HP 2.4G wireless and BT Mouse'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001801-0000-1000-8000-00805f9b34fb, name='Nano X 7C22'
+(index):1 Chooser dialog is not displaying a port blocked by the Serial blocklist: bluetoothServiceClassId=00001800-0000-1000-8000-00805f9b34fb, name='Nano X 7C22'
+index-BxymDNMx.js:9 [audio] initMic: requesting mic (mode=remote)
+index-BxymDNMx.js:9 [audio] mic granted: 1 track(s) Array(1)
+index-BxymDNMx.js:9 [audio] mic chain initialized, worklet running
+index-BxymDNMx.js:9 [audio] worklet warmup complete — ready for PTT
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=1.9 rms8k=0.0003 peak8k=0.0012 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=2.6 rms8k=0.0005 peak8k=0.0022 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=3.1 rms8k=0.0006 peak8k=0.0027 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=3.5 rms8k=0.0007 peak8k=0.0027 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=3.9 rms8k=0.0009 peak8k=0.0039 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=4.1 rms8k=0.0011 peak8k=0.0041 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=4.3 rms8k=0.0012 peak8k=0.0047 rate=48000
+index-BxymDNMx.js:9 [audio] TX mic AGC gain=4.5 rms8k=0.0012 peak8k=0.0054 rate=48000
