@@ -55,12 +55,28 @@ A web-based client and server application for eQSO radio linking, enabling users
 - **Admin Panel**: Provides tools for managing users, relays, and monitoring server status.
 - **Relay Daemon**: A Node.js daemon for physical radio interfacing (CB radio via CM108 USB) with VOX and PTT control.
 
+## Deploying to the VM (asorapa.sytes.net)
+
+The Node.js `eqso.service` serves the React client's static build from `artifacts/api-server/dist/public`. **nginx is NOT the static file server** — it reverse-proxies to Node.js. To update the client:
+
+```bash
+cd /opt/eqso-asorapa
+git pull
+BASE_PATH=/ pnpm --filter @workspace/eqso-client run build
+sudo cp -r artifacts/eqso-client/dist/public/* artifacts/api-server/dist/public/
+sudo find artifacts/api-server/dist/public/assets/ -name "*.js" -not -name "index-<NEWHASH>.js" -delete
+sudo systemctl restart eqso.service
+```
+
+Also update nginx to prevent browser caching of `index.html` — see `/etc/nginx/sites-available/default` with `no-store` headers for `location = /index.html`.
+
 ## User preferences
 
 - _Populate as you build_
 
 ## Gotchas
 
+- **PTT Serial Context (Web Serial API)**: `usePTTSerial` must be a shared React Context (`PTTSerialProvider` in `hooks/PTTSerialProvider.tsx`), not a plain hook. If `PTTConfigModal` and `home.tsx` each call `usePTTSerial()` directly as a hook, they get separate instances — the modal opens the port and closes it on unmount, leaving `home.tsx` with a null `portRef`. The provider keeps one shared port reference alive for the app lifetime.
 - **PTT Race Condition**: Audio chunks arriving before `ptt_granted` are buffered and flushed, not dropped.
 - **Relay Daemon `arecord` stability**: `arecord` is prone to crashes in VirtualBox. The `resetUsbAudio()` method in `alsa-audio.ts` (using `modprobe`) is critical for restarting `arecord` after `aplay` closes.
 - **PCM to Float32 Normalization**: Normalization is now a fixed division by `/32768` instead of per-packet to prevent "distorted voice" artifacts during pauses.
