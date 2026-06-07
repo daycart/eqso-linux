@@ -113,16 +113,19 @@ export function usePTTSerial() {
    * Key the transmitter DOWN (PTT active).
    */
   const keyDown = useCallback(async () => {
+    console.log("[PTT] keyDown — method:", config.method, "portOpen:", !!portRef.current, "pin:", config.pin, "invert:", config.invertVoltage);
     if (config.method !== "COM" || !portRef.current) return;
     const active = !config.invertVoltage;
     try {
       if (config.pin === "RTS") {
         await portRef.current.setSignals({ requestToSend: active });
+        console.log("[PTT] RTS →", active);
       } else {
         await portRef.current.setSignals({ dataTerminalReady: active });
+        console.log("[PTT] DTR →", active);
       }
-    } catch {
-      /* port may have been disconnected */
+    } catch (err) {
+      console.error("[PTT] keyDown error:", err);
     }
   }, [config]);
 
@@ -130,16 +133,19 @@ export function usePTTSerial() {
    * Release the transmitter (PTT off).
    */
   const keyUp = useCallback(async () => {
+    console.log("[PTT] keyUp — method:", config.method, "portOpen:", !!portRef.current);
     if (config.method !== "COM" || !portRef.current) return;
     const idle = config.invertVoltage;
     try {
       if (config.pin === "RTS") {
         await portRef.current.setSignals({ requestToSend: idle });
+        console.log("[PTT] RTS →", idle);
       } else {
         await portRef.current.setSignals({ dataTerminalReady: idle });
+        console.log("[PTT] DTR →", idle);
       }
-    } catch {
-      /* port may have been disconnected */
+    } catch (err) {
+      console.error("[PTT] keyUp error:", err);
     }
   }, [config]);
 
