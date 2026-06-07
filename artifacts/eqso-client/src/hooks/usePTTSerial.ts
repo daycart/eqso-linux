@@ -58,6 +58,27 @@ export function usePTTSerial() {
     saveConfig(cfg);
   }, []);
 
+  /* Auto-reconnect to previously authorized port on mount */
+  useEffect(() => {
+    if (!isSupported || config.method !== "COM") return;
+    let cancelled = false;
+    navigator.serial.getPorts().then(async (ports) => {
+      if (cancelled || ports.length === 0 || portRef.current) return;
+      try {
+        await ports[0].open({ baudRate: 9600 });
+        if (cancelled) { ports[0].close().catch(() => {}); return; }
+        portRef.current = ports[0];
+        setPortOpen(true);
+        setPortError(null);
+        console.log("[PTT] auto-reconectado al puerto autorizado previamente");
+      } catch {
+        /* puerto ocupado o desconectado — el usuario tendrá que seleccionarlo manualmente */
+      }
+    });
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSupported]);
+
   /* Close any open port on unmount */
   useEffect(() => {
     return () => {
