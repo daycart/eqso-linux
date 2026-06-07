@@ -1,0 +1,48 @@
+axListenersExceededWarning: Possible EventEmitter memory leak detected. 11 end listeners added. Use emitter.setMaxListeners() to increase limit
+2
+contentscript.js:14083 ObjectMultiplex - orphaned data for stream "app-init-liveness"
+2
+contentscript.js:14083 ObjectMultiplex - orphaned data for stream "background-liveness"
+2
+contentscript.js:14083 ObjectMultiplex - malformed chunk without name "[object Object]"
+workspace_iframe.htm…ts%2Feqso-client:32 Error while parsing the 'sandbox' attribute: 'allow-downloads-without-user-activation' is an invalid sandbox flag.
+
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'ambient-light-sensor'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'battery'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'execution-while-not-rendered'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'execution-while-out-of-viewport'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'layout-animations'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'legacy-image-formats'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'navigation-override'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'oversized-images'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'publickey-credentials'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'speaker-selection'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'unoptimized-images'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'unsized-media'.
+workspace_iframe.htm…ts%2Feqso-client:32 Unrecognized feature: 'web-share'.
+workspace_iframe.htm…ts%2Feqso-client:32 Allow attribute will take precedence over 'allowfullscreen'.
+workspace_iframe.htm…ts%2Feqso-client:32 Allow attribute will take precedence over 'allowpaymentrequest'.
+contentscript.js:14083 MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 close listeners added. Use emitter.setMaxListeners() to increase limit
+contentscript.js:14083 MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 end listeners added. Use emitter.setMaxListeners() to increase limit
+2
+contentscript.js:14083 ObjectMultiplex - orphaned data for stream "app-init-liveness"
+2
+contentscript.js:14083 ObjectMultiplex - orphaned data for stream "background-liveness"
+2
+contentscript.js:14083 ObjectMultiplex - malformed chunk without name "[object Object]"
+injected.js:37 [vite] connecting...
+injected.js:37 [vite] connected.
+(index):1 [DOM] Password field is not contained in a form: (More info: https://goo.gl/9p2vKq) 
+usePTTSerial.ts:78 [Violation] Permissions policy violation: serial is not allowed in this document.
+4
+eQSO-Linux?replId=20…8164-579b03149638:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received
+2
+stallwart.build.js:1 stallwart: failed ping 1
+stallwart.build.js:1 stallwart: failed ping 2
+stallwart.build.js:1 stallwart: failed ping 3
+stallwart.build.js:1 stallwart: failed ping 4
+stallwart.build.js:1 stallwart: failed ping 5
+2
+0e~imozein5eb.js:21 Haven't heard from the server in a while, resetting connection...
+(anonymous)	@	0e~imozein5eb.js:21
+
