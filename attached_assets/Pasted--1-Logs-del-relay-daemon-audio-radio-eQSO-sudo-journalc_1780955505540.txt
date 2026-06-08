@@ -1,0 +1,132 @@
+# 1. Logs del relay daemon (audio radio ? eQSO)
+sudo journalctl -u eqso-relay@CB.service -n 50 --no-pager
+
+# 2. Logs del servidor eQSO
+sudo journalctl -u eqso.service -n 50 --no-pager
+
+# 3. Dispositivos de audio disponibles
+aplay -l && echo "===" && arecord -l
+
+# 4. Nivel de captura del micro de radio (gr\Ufffffffflo 3 segundos mientras transmites con la walkie)
+arecord -D default -f S16_LE -r 8000 -d 3 /tmp/test.wav 2>&1 && aplay /tmp/test.wav 2>&1
+[sudo] password for david: 
+jun 08 21:42:31 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:42:31.689Z [nivel] pico RMS=2 (-83.9 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:42:36 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:42:36.689Z [nivel] pico RMS=2 (-84.7 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:42:41 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:42:41.689Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:42:46 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:42:46.691Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:42:51 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:42:51.691Z [nivel] pico RMS=2 (-84.8 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:42:56 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:42:56.692Z [nivel] pico RMS=2 (-84.9 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:01 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:01.693Z [nivel] pico RMS=2 (-84.6 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:06 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:06.693Z [nivel] pico RMS=2 (-84.1 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:11 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:11.694Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:16 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:16.694Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:21 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:21.695Z [nivel] pico RMS=2 (-84.4 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:26 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:26.696Z [nivel] pico RMS=2 (-84.7 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:31 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:31.696Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:36 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:36.697Z [nivel] pico RMS=2 (-84.7 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:41 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:41.698Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:46 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:46.700Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:51 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:51.701Z [nivel] pico RMS=2 (-84.1 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:43:56 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:43:56.702Z [nivel] pico RMS=2 (-84.6 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:01 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:01.701Z [nivel] pico RMS=2 (-84.0 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:06 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:06.703Z [nivel] pico RMS=2 (-84.6 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:11 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:11.702Z [nivel] pico RMS=2 (-84.7 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:16 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:16.704Z [nivel] pico RMS=2 (-84.6 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:21 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:21.706Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:26 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:26.707Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:31 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:31.708Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:36 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:36.709Z [nivel] pico RMS=2 (-83.9 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:41 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:41.710Z [nivel] pico RMS=2 (-84.6 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:46 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:46.711Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:51 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:51.713Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:44:56 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:44:56.714Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:01 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:01.715Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:06 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:06.716Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:11 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:11.722Z [nivel] pico RMS=2 (-84.8 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:16 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:16.724Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:21 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:21.725Z [nivel] pico RMS=2 (-84.8 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:26 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:26.726Z [nivel] pico RMS=2 (-84.0 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:31 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:31.727Z [nivel] pico RMS=2 (-84.4 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:36 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:36.726Z [nivel] pico RMS=2 (-84.6 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:41 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:41.728Z [nivel] pico RMS=2 (-84.4 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:46 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:46.729Z [nivel] pico RMS=2 (-83.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:51 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:51.731Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:45:56 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:45:56.734Z [nivel] pico RMS=2 (-84.6 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:46:01 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:46:01.735Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:46:06 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:46:06.735Z [nivel] pico RMS=2 (-84.7 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:46:11 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:46:11.737Z [nivel] pico RMS=2 (-84.8 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:46:16 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:46:16.738Z [nivel] pico RMS=2 (-84.6 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:46:21 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:46:21.739Z [nivel] pico RMS=2 (-84.7 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:46:26 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:46:26.740Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:46:31 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:46:31.741Z [nivel] pico RMS=2 (-84.5 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:46:36 ubuntus eqso-relay-CB[1017]: [audio] 2026-06-08T21:46:36.742Z [nivel] pico RMS=2 (-84.3 dBFS)  VOXumbral=800  gain=0.5
+jun 08 21:46:34 ubuntus node[3466]: {"level":30,"time":1780955194631,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:34 ubuntus node[3466]: {"level":30,"time":1780955194808,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:34 ubuntus node[3466]: {"level":30,"time":1780955194933,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:35 ubuntus node[3466]: {"level":30,"time":1780955195082,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:35 ubuntus node[3466]: {"level":30,"time":1780955195234,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:35 ubuntus node[3466]: {"level":30,"time":1780955195385,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:35 ubuntus node[3466]: {"level":30,"time":1780955195536,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:35 ubuntus node[3466]: {"level":30,"time":1780955195685,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:35 ubuntus node[3466]: {"level":30,"time":1780955195836,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:35 ubuntus node[3466]: {"level":30,"time":1780955195988,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:36 ubuntus node[3466]: {"level":30,"time":1780955196137,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:36 ubuntus node[3466]: {"level":30,"time":1780955196288,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:36 ubuntus node[3466]: {"level":30,"time":1780955196439,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:36 ubuntus node[3466]: {"level":30,"time":1780955196589,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:36 ubuntus node[3466]: {"level":30,"time":1780955196741,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:36 ubuntus node[3466]: {"level":30,"time":1780955196893,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:37 ubuntus node[3466]: {"level":30,"time":1780955197043,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:37 ubuntus node[3466]: {"level":30,"time":1780955197193,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:37 ubuntus node[3466]: {"level":30,"time":1780955197344,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:37 ubuntus node[3466]: {"level":30,"time":1780955197495,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:37 ubuntus node[3466]: {"level":30,"time":1780955197646,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:37 ubuntus node[3466]: {"level":30,"time":1780955197798,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:37 ubuntus node[3466]: {"level":30,"time":1780955197948,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:38 ubuntus node[3466]: {"level":30,"time":1780955198100,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:38 ubuntus node[3466]: {"level":30,"time":1780955198254,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:38 ubuntus node[3466]: {"level":30,"time":1780955198401,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:38 ubuntus node[3466]: {"level":30,"time":1780955198553,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:38 ubuntus node[3466]: {"level":30,"time":1780955198704,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:38 ubuntus node[3466]: {"level":30,"time":1780955198853,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:39 ubuntus node[3466]: {"level":30,"time":1780955199004,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:39 ubuntus node[3466]: {"level":30,"time":1780955199154,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:39 ubuntus node[3466]: {"level":30,"time":1780955199304,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:39 ubuntus node[3466]: {"level":30,"time":1780955199456,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:39 ubuntus node[3466]: {"level":30,"time":1780955199606,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:39 ubuntus node[3466]: {"level":30,"time":1780955199758,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:39 ubuntus node[3466]: {"level":30,"time":1780955199908,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:40 ubuntus node[3466]: {"level":30,"time":1780955200059,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:40 ubuntus node[3466]: {"level":30,"time":1780955200210,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:40 ubuntus node[3466]: {"level":30,"time":1780955200361,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:40 ubuntus node[3466]: {"level":30,"time":1780955200513,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:40 ubuntus node[3466]: {"level":30,"time":1780955200663,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:40 ubuntus node[3466]: {"level":30,"time":1780955200814,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:40 ubuntus node[3466]: {"level":30,"time":1780955200965,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:41 ubuntus node[3466]: {"level":30,"time":1780955201116,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:41 ubuntus node[3466]: {"level":30,"time":1780955201267,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:41 ubuntus node[3466]: {"level":30,"time":1780955201421,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:41 ubuntus node[3466]: {"level":30,"time":1780955201568,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:41 ubuntus node[3466]: {"level":30,"time":1780955201717,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:41 ubuntus node[3466]: {"level":30,"time":1780955201878,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+jun 08 21:46:42 ubuntus node[3466]: {"level":30,"time":1780955202029,"pid":3466,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+**** List of PLAYBACK Hardware Devices ****
+card 0: I82801AAICH [Intel 82801AA-ICH], device 0: Intel ICH [Intel 82801AA-ICH]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: Device [USB Audio Device], device 0: USB Audio [USB Audio]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+===
+**** List of CAPTURE Hardware Devices ****
+card 0: I82801AAICH [Intel 82801AA-ICH], device 0: Intel ICH [Intel 82801AA-ICH]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 0: I82801AAICH [Intel 82801AA-ICH], device 1: Intel ICH - MIC ADC [Intel 82801AA-ICH - MIC ADC]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: Device [USB Audio Device], device 0: USB Audio [USB Audio]
+  Subdevices: 0/1
+  Subdevice #0: subdevice #0
+Recording WAVE '/tmp/test.wav' : Signed 16 bit Little Endian, Rate 8000 Hz, Mono
+Playing WAVE '/tmp/test.wav' : Signed 16 bit Little Endian, Rate 8000 Hz, Mono
