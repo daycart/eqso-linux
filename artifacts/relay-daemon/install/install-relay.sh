@@ -131,11 +131,45 @@ AUDIO_DEVICE="plughw:${CARD_NUM},0"
 
 echo ""
 echo "Puertos serie detectados (para PTT):"
-ls /dev/ttyACM* /dev/ttyUSB* 2>/dev/null || echo "  (ninguno)"
+
+# Preferir paths estables /dev/serial/by-id/ — no cambian al reiniciar ni al
+# reconectar el cable USB. Si no hay by-id, mostrar los paths ttyACMx como fallback.
+BYID_LIST=()
+if [ -d /dev/serial/by-id ]; then
+  while IFS= read -r entry; do
+    [ -z "$entry" ] && continue
+    target=$(readlink -f "/dev/serial/by-id/$entry" 2>/dev/null || echo "?")
+    BYID_LIST+=("/dev/serial/by-id/$entry")
+    echo "  /dev/serial/by-id/$entry  →  $target"
+  done < <(ls /dev/serial/by-id/ 2>/dev/null)
+fi
+
+if [ "${#BYID_LIST[@]}" -eq 0 ]; then
+  # No hay by-id — mostrar ttyACM/ttyUSB como alternativa
+  RAW_LIST=$(ls /dev/ttyACM* /dev/ttyUSB* 2>/dev/null || true)
+  if [ -n "$RAW_LIST" ]; then
+    echo "$RAW_LIST" | sed 's/^/  /'
+    warn "Estos paths pueden cambiar al reiniciar. Conecta el cable y vuelve a ejecutar el script para obtener el path estable."
+  else
+    echo "  (ninguno detectado)"
+  fi
+fi
 echo ""
 
-ask "Puerto serie PTT (ej: /dev/ttyACM1) [Enter si no hay cable PTT]:"
-read -r PTT_DEVICE
+PTT_DEVICE=""
+if [ "${#BYID_LIST[@]}" -eq 1 ]; then
+  # Un solo dispositivo — ofrecer como default
+  PTT_DEFAULT="${BYID_LIST[0]}"
+  ask "Puerto serie PTT [Enter = $PTT_DEFAULT | escribe otro | vacío para desactivar]:"
+  read -r PTT_INPUT
+  PTT_DEVICE="${PTT_INPUT:-$PTT_DEFAULT}"
+elif [ "${#BYID_LIST[@]}" -gt 1 ]; then
+  ask "Puerto serie PTT (copia uno de los paths /dev/serial/by-id/... de arriba) [Enter si no hay PTT]:"
+  read -r PTT_DEVICE
+else
+  ask "Puerto serie PTT (ej: /dev/ttyACM0) [Enter si no hay cable PTT]:"
+  read -r PTT_DEVICE
+fi
 
 ask "Token/contraseña del relay (facilitado por el administrador):"
 read -r -s RELAY_TOKEN
