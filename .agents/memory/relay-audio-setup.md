@@ -29,6 +29,22 @@ Chrome abre el puerto serie via Web Serial API cuando el usuario conecta el PTT 
 
 **Why:** En un mismo PC con cliente web + relay daemon, el serial PTT solo puede usarlo uno a la vez. El relay daemon es el que debe controlarlo cuando está corriendo.
 
+## Path estable para el puerto serie PTT
+
+Los dispositivos USB serie se enumeran como `/dev/ttyACMx` y el número cambia al reconectar o reiniciar. En el config del relay usar siempre el path estable por número de serie:
+
+```
+/dev/serial/by-id/usb-<vendor>_<product>_<serial>-if00
+```
+
+Este path lo crea automáticamente Ubuntu sin necesitar reglas udev personalizadas.
+
+**How to apply:** `ls /dev/serial/by-id/` para ver el path real, luego `sudo nano /etc/eqso-relay/CB.json` y reemplazar `/dev/ttyACM0` por el path completo.
+
+**Cable CH340 del portátil David:** `usb-1a86_USB_Single_Serial_5909039839-if00`
+
+**Why:** Si el config tiene `ttyACM1` y el dispositivo se enumera como `ttyACM0`, `SerialPtt.set()` falla silenciosamente (sin log de error visible), la radio CB nunca recibe PTT de RX aunque el audio sí llega a aplay.
+
 ## Valores de config validados (Sound Blaster Play! 3 + radio CB)
 
 ```json
