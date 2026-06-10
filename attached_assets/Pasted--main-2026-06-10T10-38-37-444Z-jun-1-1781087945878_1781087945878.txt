@@ -1,0 +1,31 @@
+: [main] 2026-06-10T10:38:37.444Z ============================================================
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.444Z eQSO Relay Daemon arrancado
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.444Z   Callsign : 0R-PORTATIL
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.445Z   Sala     : CB
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.445Z   Servidor : asorapa.sytes.net:2172
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.445Z   VOX      : ON (umbral=500 hang=5000ms)
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.445Z   Captura  : plughw:1,0
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.445Z   Playback : plughw:1,0
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.445Z   PTT Ser. : /dev/ttyACM1 (rts)
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.445Z ============================================================
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [ptt] 2026-06-10T10:38:37.445Z Iniciando PTT serial: /dev/ttyACM1 (rts)
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [audio] 2026-06-10T10:38:37.450Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=1024
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.452Z Conectando a asorapa.sytes.net:2172 como "0R-PORTATIL" en sala "CB"…
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [control] 2026-06-10T10:38:37.460Z Control HTTP escuchando en http://127.0.0.1:8009
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [ptt] 2026-06-10T10:38:37.461Z PTT serial listo (/dev/ttyACM1, rts)
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [eqso] 2026-06-10T10:38:37.552Z TCP conectado a asorapa.sytes.net:2172
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [eqso] 2026-06-10T10:38:37.632Z Handshake recibido — conexion establecida
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.633Z Conectado — enviando JOIN…
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [eqso] 2026-06-10T10:38:37.633Z JOIN enviado: callsign="0R-PORTATIL" sala="CB"
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [eqso] 2026-06-10T10:38:37.681Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.681Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.780Z Sala: 0R-IN70WN se ha unido
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.780Z Sala: 0R-30RCI184 se ha unido
+jun 10 12:38:37 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:37.780Z Sala: 0R-PORTATIL se ha unido
+jun 10 12:38:42 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [audio] 2026-06-10T10:38:42.452Z [nivel] pico RMS=12076 (-8.7 dBFS)  VOXumbral=500  gain=0.5
+jun 10 12:38:44 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:44.017Z VOX: PTT activado — inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+jun 10 12:38:47 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [audio] 2026-06-10T10:38:47.452Z [nivel] pico RMS=12616 (-8.3 dBFS)  VOXumbral=500  gain=0.5
+jun 10 12:38:52 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [audio] 2026-06-10T10:38:52.452Z [nivel] pico RMS=16993 (-5.7 dBFS)  VOXumbral=500  gain=0.5
+jun 10 12:38:56 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [eqso] 2026-06-10T10:38:56.442Z PTT liberado [0x0d]
+jun 10 12:38:56 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [main] 2026-06-10T10:38:56.442Z VOX: PTT liberado — fin transmision (suppress hasta 2026-06-10T10:39:01.442Z)
+jun 10 12:38:57 david-16Z90P-G-AD89B eqso-relay-CB[181921]: [audio] 2026-06-10T10:38:57.452Z [nivel] pico RMS=186 (-44.9 dBFS)  VOXumbral=500  gain=0.5
