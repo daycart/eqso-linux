@@ -1,0 +1,29 @@
+enable eqso-relay@CB
+sudo systemctl start eqso-relay@CB
+sudo journalctl -u eqso-relay@CB -f
+Created symlink /etc/systemd/system/multi-user.target.wants/eqso-relay@CB.service → /etc/systemd/system/eqso-relay@.service.
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.909Z eQSO Relay Daemon arrancado
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.909Z   Callsign : 0R-PORTATIL
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.909Z   Sala     : CB
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.909Z   Servidor : asorapa.sytes.net:2172
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.909Z   VOX      : ON (umbral=1500 hang=5000ms)
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.909Z   Captura  : plughw:1,0
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.909Z   Playback : plughw:1,0
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.909Z   PTT Ser. : /dev/ttyACM1 (rts)
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.909Z ============================================================
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [ptt] 2026-06-10T09:00:51.910Z Iniciando PTT serial: /dev/ttyACM1 (rts)
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [audio] 2026-06-10T09:00:51.915Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=1024
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:51.917Z Conectando a asorapa.sytes.net:2172 como "0R-PORTATIL" en sala "CB"…
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [control] 2026-06-10T09:00:51.927Z Control HTTP escuchando en http://127.0.0.1:8009
+jun 10 11:00:51 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [ptt] 2026-06-10T09:00:51.928Z PTT serial listo (/dev/ttyACM1, rts)
+jun 10 11:00:52 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [eqso] 2026-06-10T09:00:52.021Z TCP conectado a asorapa.sytes.net:2172
+jun 10 11:00:52 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [eqso] 2026-06-10T09:00:52.490Z Handshake recibido — conexion establecida
+jun 10 11:00:52 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:52.491Z Conectado — enviando JOIN…
+jun 10 11:00:52 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [eqso] 2026-06-10T09:00:52.491Z JOIN enviado: callsign="0R-PORTATIL" sala="CB"
+jun 10 11:00:52 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [eqso] 2026-06-10T09:00:52.491Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+jun 10 11:00:52 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:52.491Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+jun 10 11:00:52 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:52.559Z Sala: 0R-IN70WN se ha unido
+jun 10 11:00:52 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [main] 2026-06-10T09:00:52.559Z Sala: 0R-PORTATIL se ha unido
+jun 10 11:00:56 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [audio] 2026-06-10T09:00:56.917Z [nivel] pico RMS=7756 (-12.5 dBFS)  VOXumbral=1500  gain=0.3
+jun 10 11:01:01 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [audio] 2026-06-10T09:01:01.917Z [nivel] pico RMS=9 (-70.8 dBFS)  VOXumbral=1500  gain=0.3
+jun 10 11:01:06 david-16Z90P-G-AD89B eqso-relay-CB[177232]: [audio] 2026-06-10T09:01:06.917Z [nivel] pico RMS=9 (-70.9 dBFS)  VOXumbral=1500  gain=0.3
