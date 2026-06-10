@@ -1,0 +1,29 @@
+[rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:24.775Z (6000ms)
+jun 10 21:16:19 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:19.124Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:19 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:19.124Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:25.124Z (6000ms)
+jun 10 21:16:19 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:19.325Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:19 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:19.325Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:25.325Z (6000ms)
+jun 10 21:16:19 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:19.564Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:19 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:19.564Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:25.564Z (6000ms)
+jun 10 21:16:19 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:19.836Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:19 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:19.837Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:25.837Z (6000ms)
+jun 10 21:16:20 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:20.140Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:20 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:20.140Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:26.140Z (6000ms)
+jun 10 21:16:20 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:20.287Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:20 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:20.287Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:26.287Z (6000ms)
+jun 10 21:16:20 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:20.698Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:20 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:20.698Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:26.698Z (6000ms)
+jun 10 21:16:20 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:20.805Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:20 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:20.805Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:26.805Z (6000ms)
+jun 10 21:16:21 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:21.035Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:21 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:21.035Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:27.035Z (6000ms)
+jun 10 21:16:21 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:21.374Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:21 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:21.374Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:27.374Z (6000ms)
+jun 10 21:16:21 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:21.546Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:21 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:21.546Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:27.546Z (6000ms)
+jun 10 21:16:21 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:21.884Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:21 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:21.884Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:27.884Z (6000ms)
+jun 10 21:16:22 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:22.058Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:22 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:22.058Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:28.058Z (6000ms)
+jun 10 21:16:22 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:22.394Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:16:22 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:16:22.394Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:16:28.394Z (6000ms)
