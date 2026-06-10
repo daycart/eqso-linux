@@ -9,13 +9,26 @@
  * Como servicio: systemctl start eqso-relay@CB
  */
 
+import path from "path";
 import { loadConfig } from "./config.js";
 import { EqsoClient } from "./eqso-client.js";
 import { AlsaAudio } from "./alsa-audio.js";
+import { FfmpegAudio, resolveFfmpegBin } from "./ffmpeg-audio.js";
 import { Vox } from "./vox.js";
 import { SerialPtt } from "./serial-ptt.js";
 import { startControlServer, RelayStatus } from "./control-server.js";
 import { GSM_PACKET_BYTES } from "./gsm-codec.js";
+
+// Inyectar el directorio del binario ffmpeg-static en PATH para que todos los
+// procesos hijos (gsm-codec, ffmpeg-audio) encuentren ffmpeg sin instalacion.
+// En Linux/Raspi con ffmpeg del sistema esto es no-op.
+{
+  const bin = resolveFfmpegBin();
+  if (bin !== "ffmpeg") {
+    const dir = path.dirname(bin);
+    process.env["PATH"] = `${dir}${path.delimiter}${process.env["PATH"] ?? ""}`;
+  }
+}
 
 const cfg = loadConfig();
 const startTime = Date.now();
@@ -118,7 +131,7 @@ function setRxActive(): void {
 const serialPtt = new SerialPtt(cfg.ptt);
 
 // ─── Audio y VOX ─────────────────────────────────────────────────────────────
-const audio = new AlsaAudio(cfg.audio);
+const audio = cfg.backend === "ffmpeg" ? new FfmpegAudio(cfg.audio) : new AlsaAudio(cfg.audio);
 const vox   = new Vox(cfg.audio.voxThresholdRms, cfg.audio.voxHangMs);
 
 // Gate de transmision: nivel minimo para enviar un paquete GSM al servidor.
@@ -386,8 +399,9 @@ log(`  Callsign : ${cfg.callsign}`);
 log(`  Sala     : ${cfg.room}`);
 log(`  Servidor : ${cfg.server}:${cfg.port}`);
 log(`  VOX      : ${cfg.audio.vox ? `ON (umbral=${cfg.audio.voxThresholdRms} hang=${cfg.audio.voxHangMs}ms)` : "OFF"}`);
-log(`  Captura  : ${cfg.audio.captureDevice}`);
-log(`  Playback : ${cfg.audio.playbackDevice}`);
+log(`  Backend  : ${cfg.backend ?? "alsa"}`);
+log(`  Captura  : ${cfg.audio.captureDevice}${cfg.audio.captureFormat ? ` (${cfg.audio.captureFormat})` : ""}`);
+log(`  Playback : ${cfg.audio.playbackDevice}${cfg.audio.playbackFormat ? ` (${cfg.audio.playbackFormat})` : ""}`);
 log(`  PTT Ser. : ${cfg.ptt.device ? `${cfg.ptt.device} (${cfg.ptt.method}${cfg.ptt.inverted ? ", invertido" : ""})` : "deshabilitado"}`);
 log("=".repeat(60));
 

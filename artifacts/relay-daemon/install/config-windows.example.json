@@ -1,0 +1,70 @@
+{
+  "_comment": [
+    "Configuracion para Windows (backend ffmpeg con DirectShow/WASAPI).",
+    "Copia a C:\\eqso-relay\\CB.json y ajusta los valores.",
+    "",
+    "Para arrancar manualmente:",
+    "  set CONFIG_FILE=C:\\eqso-relay\\CB.json",
+    "  node artifacts\\relay-daemon\\dist\\main.mjs",
+    "",
+    "Para instalar como servicio Windows (requiere NSSM: https://nssm.cc):",
+    "  nssm install eqso-relay-CB node C:\\ruta\\artifacts\\relay-daemon\\dist\\main.mjs",
+    "  nssm set eqso-relay-CB AppEnvironmentExtra CONFIG_FILE=C:\\eqso-relay\\CB.json",
+    "  nssm start eqso-relay-CB",
+    "",
+    "Para listar dispositivos de audio disponibles:",
+    "  ffmpeg -list_devices true -f dshow -i dummy"
+  ],
+
+  "backend": "ffmpeg",
+
+  "callsign": "0R-MICALLSIGN",
+  "room": "CB",
+  "password": "TOKEN-DADO-POR-EL-ADMIN",
+  "message": "Radio Enlace CB",
+
+  "server": "193.152.83.229",
+  "port": 2172,
+
+  "reconnectMinMs": 3000,
+  "reconnectMaxMs": 60000,
+
+  "audio": {
+    "_comment_devices": [
+      "captureDevice / playbackDevice: nombre exacto del dispositivo en Windows.",
+      "  Obtener con: ffmpeg -list_devices true -f dshow -i dummy",
+      "  Ejemplo: 'USB Audio Device', 'C-Media USB Audio Device', 'Microphone (USB Audio)'",
+      "captureFormat: 'dshow' para captura DirectShow (unico que funciona en Windows).",
+      "playbackFormat: 'wasapi' para reproduccion WASAPI (mejor latencia en Windows)."
+    ],
+    "captureDevice":   "USB Audio Device",
+    "playbackDevice":  "USB Audio Device",
+    "captureFormat":   "dshow",
+    "playbackFormat":  "wasapi",
+
+    "vox": true,
+    "voxThresholdRms": 1500,
+    "voxHangMs": 5000,
+    "txGateRms": 50,
+
+    "inputGain":  0.3,
+    "outputGain": 1.0,
+    "postRxSuppressMs": 6000
+  },
+
+  "control": {
+    "enabled": true,
+    "port": 8009,
+    "host": "127.0.0.1"
+  },
+
+  "ptt": {
+    "_comment": [
+      "Puerto serie en Windows: ver Administrador de dispositivos → Puertos (COM y LPT).",
+      "Suele ser COM3, COM4, etc."
+    ],
+    "device":   "COM3",
+    "method":   "rts",
+    "inverted": false
+  }
+}

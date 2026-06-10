@@ -4,6 +4,8 @@ import path from "path";
 export interface AudioConfig {
   captureDevice: string;
   playbackDevice: string;
+  captureFormat?: string;   // ffmpeg format: "dshow"|"alsa"|"pulse"|"avfoundation" (auto si no se indica)
+  playbackFormat?: string;  // ffmpeg format: "wasapi"|"alsa"|"coreaudio" (auto si no se indica)
   vox: boolean;
   voxThresholdRms: number;
   voxHangMs: number;
@@ -26,6 +28,7 @@ export interface PttSerialConfig {
 }
 
 export interface RelayConfig {
+  backend?: "alsa" | "ffmpeg";  // "alsa" (default, Linux/Raspi) | "ffmpeg" (Windows/multiplataforma)
   callsign: string;
   room: string;
   password: string;

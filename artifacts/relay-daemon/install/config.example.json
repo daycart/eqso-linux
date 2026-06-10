@@ -1,6 +1,13 @@
 {
   "_comment": "Copia a /etc/eqso-relay/<SALA>.json y ajusta los valores",
 
+  "_comment_backend": [
+    "backend: motor de audio.",
+    "  'alsa'   (default) — Linux / Raspberry Pi con ALSA (arecord/aplay).",
+    "  'ffmpeg' — Windows (dshow/wasapi) o Linux sin ALSA (pulse, etc.).",
+    "En Linux/Raspi NO es necesario indicar backend (usa alsa por defecto)."
+  ],
+
   "callsign": "0R-MICALLSIGN",
   "room": "CB",
 
@@ -27,9 +34,15 @@
 
   "audio": {
     "_comment_devices": [
+      "--- Linux / Raspberry Pi (backend alsa) ---",
       "Usa 'arecord -l' y 'aplay -l' para ver los dispositivos.",
       "El CM108/C-Media suele aparecer como 'C-Media USB Audio Device'.",
-      "Apunta el numero de tarjeta (card X) y usa plughw:X,0"
+      "Apunta el numero de tarjeta (card X) y usa plughw:X,0",
+      "",
+      "--- Windows (backend ffmpeg) ---",
+      "Usa: ffmpeg -list_devices true -f dshow -i dummy",
+      "Copia el nombre exacto del dispositivo (ej: 'USB Audio Device').",
+      "captureFormat debe ser 'dshow', playbackFormat debe ser 'wasapi'."
     ],
     "captureDevice":  "plughw:1,0",
     "playbackDevice": "plughw:1,0",
@@ -76,10 +89,10 @@
   "ptt": {
     "_comment": [
       "PTT serial para activar la emision de la radio.",
+      "Linux/Raspi: /dev/eqso-ptt (symlink instalador) o /dev/ttyACM0",
+      "Windows:     COM3 (ver Administrador de dispositivos)",
       "method: 'rts' (mas comun) o 'dtr'. Prueba ambos si uno no funciona.",
-      "inverted: true si la logica es invertida (radio no emite con RTS activo).",
-      "device: /dev/eqso-ptt es el symlink creado automaticamente por el instalador.",
-      "  Si falla, usa /dev/ttyACM0 o /dev/ttyUSB0 segun 'ls /dev/ttyACM* /dev/ttyUSB*'."
+      "inverted: true si la logica es invertida (radio no emite con RTS activo)."
     ],
     "device":   "/dev/eqso-ptt",
     "method":   "rts",
