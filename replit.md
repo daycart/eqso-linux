@@ -332,6 +332,43 @@ sudo journalctl -u eqso-relay@CB -f
 }
 ```
 
+### Instalación en Windows — script automático
+
+PowerShell como **Administrador**, un solo comando:
+
+```powershell
+irm https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-relay.ps1 | iex
+```
+
+O clonando el repo primero:
+```powershell
+git clone https://github.com/daycart/eqso-linux
+powershell -ExecutionPolicy Bypass -File eqso-linux\artifacts\relay-daemon\install\install-relay.ps1
+```
+
+El script:
+1. Instala `git`, `Node.js LTS` y `ffmpeg` via `winget` si no están presentes
+2. Instala `pnpm` via npm
+3. Clona o actualiza el repositorio en `%USERPROFILE%\eqso-linux`
+4. Compila el relay daemon (backend `ffmpeg` para Windows)
+5. Lista dispositivos de audio (dshow) y puertos COM disponibles
+6. Pregunta callsign, sala, servidor, token y dispositivos
+7. Crea `C:\eqso-relay\<SALA>.json` con la configuración
+8. Registra una **tarea programada de Windows** que arranca el relay al iniciar sesión y se reinicia automáticamente si falla
+
+Comandos útiles tras la instalación:
+```powershell
+# Ver logs en tiempo real
+Get-Content "C:\eqso-relay\relay-CB.log" -Wait -Tail 20
+
+# Parar / Reiniciar
+Stop-ScheduledTask  -TaskName "eQSO Relay CB"
+Start-ScheduledTask -TaskName "eQSO Relay CB"
+
+# Desinstalar
+Unregister-ScheduledTask -TaskName "eQSO Relay CB" -Confirm:$false
+```
+
 ### Configuración para Windows
 
 ```json
