@@ -1,0 +1,51 @@
+cd ~/eqso-linux-client
+pnpm install
+pnpm --filter @workspace/relay-daemon run build
+[WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.onlyBuiltDependencies". See https://pnpm.io/settings for the new home of each setting.
+Scope: all 10 workspace projects
+✓ Lockfile passes supply-chain policies (526 entries in 7.8s)
+Lockfile is up to date, resolution step is skipped
+Packages: +524
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+[WARN] Tarball download average speed 17 KiB/s (size 22 KiB) is below 50 KiB/s: https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz (GET)
+[WARN] Tarball download average speed 27 KiB/s (size 34 KiB) is below 50 KiB/s: https://registry.npmjs.org/recharts-scale/-/recharts-scale-0.4.5.tgz (GET)
+[WARN] Tarball download average speed 48 KiB/s (size 49 KiB) is below 50 KiB/s: https://registry.npmjs.org/@orval/query/-/query-8.5.3.tgz (GET)
+Downloading react-icons@5.6.0: 22,42 MB/22,42 MB, done
+Progress: resolved 524, reused 0, downloaded 524, added 524, done
+
+dependencies:
++ @octokit/rest 22.0.1
++ @replit/connectors-sdk 0.3.0
+
+devDependencies:
++ prettier 3.8.1
++ typescript 5.9.3
+
+. preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
+└─ Done in 25ms
+[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: esbuild@0.27.3, ffmpeg-static@5.3.0
+
+Run "pnpm approve-builds" to pick which dependencies should be allowed to run scripts.
+[WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.onlyBuiltDependencies". See https://pnpm.io/settings for the new home of each setting.
+[WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.onlyBuiltDependencies". See https://pnpm.io/settings for the new home of each setting.
+Scope: all 10 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+. preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
+└─ Done in 11ms
+[ERR_PNPM_IGNORED_BUILDS] Ignored build scripts: esbuild@0.27.3, ffmpeg-static@5.3.0
+
+Run "pnpm approve-builds" to pick which dependencies should be allowed to run scripts.
+[ERROR] Command failed with exit code 1: '/home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/pnpm' install
+
+pnpm: Command failed with exit code 1: '/home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/pnpm' install
+    at getFinalError (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:34089:14)
+    at makeError (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:36396:21)
+    at getSyncResult (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:38240:10)
+    at spawnSubprocessSync (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:38200:14)
+    at execaCoreSync (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:38130:23)
+    at callBoundExeca (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:40658:23)
+    at boundExeca (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:40635:49)
+    at sync (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:40794:10)
+    at runPnpmCli (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:218399:5)
+    at runDepsStatusCheck (file:///home/david/.local/share/pnpm/store/v11/links/@pnpm/exe/11.5.2/0f86e7c25689d7202ee41957fd0d2fc045c85f887e01eac70b3a33e4e7964655/node_modules/@pnpm/exe/dist/pnpm.mjs:220133:7)
