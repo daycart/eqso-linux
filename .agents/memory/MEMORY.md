@@ -1,3 +1,1 @@
-- [VM Deploy Process](vm-deploy.md) — api-server/dist/public es el directorio real de estáticos, no /var/www/html
-- [PTT Serial Context](ptt-serial-context.md) — usePTTSerial debe ser Context compartido (PTTSerialProvider), no hook independiente
-- [FfmpegAudio cross-platform backend](ffmpeg-audio-backend.md) — backend "ffmpeg" para Windows/multiplataforma, "alsa" default para Linux/Raspi sin cambios
+- [Relay audio setup](relay-audio-setup.md) — SB Play! 3 tiene dos jacks separados; Chrome Web Serial bloquea PTT serial; valores VOX validados para radio CB.
