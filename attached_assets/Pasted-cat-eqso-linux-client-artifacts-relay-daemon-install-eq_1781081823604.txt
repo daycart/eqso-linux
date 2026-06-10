@@ -1,0 +1,83 @@
+cat ~/eqso-linux-client/artifacts/relay-daemon/install/eqso-relay@.service
+# Unidad de servicio systemd para el demonio de radioenlace eQSO ASORAPA.
+#
+# Es una plantilla (@): el nombre de instancia es la sala a la que se conecta.
+# Ejemplos:
+#   systemctl enable --now eqso-relay@CB
+#   systemctl enable --now eqso-relay@ASORAPA
+#   systemctl enable --now eqso-relay@PRUEBAS
+#
+# Para cada instancia debe existir el archivo de configuracion:
+#   /etc/eqso-relay/<instancia>.json
+#
+# Instalacion:
+#   sudo cp eqso-relay@.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now eqso-relay@CB
+
+[Unit]
+Description=eQSO Radioenlace — sala %i
+Documentation=https://github.com/daycart/eqso-linux-client
+After=network-online.target sound.target
+Wants=network-online.target
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=eqso
+Group=audio
+
+# La instancia (%i) determina que archivo de config leer.
+# Para un servicio no-template (eqso-relay.service sin @) %i queda vacio
+# y el daemon usa "CB" como instancia por defecto.
+Environment=RELAY_INSTANCE=%i
+Environment=NODE_ENV=production
+
+# Ruta al daemon compilado
+WorkingDirectory=/opt/eqso-asorapa/artifacts/relay-daemon
+
+# Pre-arranque 1: matar aplay/arecord residuales y resetear el USB audio.
+# Se ejecuta como root (prefijo '+') para acceder a /dev/bus/usb y /sys.
+ExecStartPre=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/usb-reset.sh
+
+# Pre-arranque 2: configurar mixer ALSA del CM108.
+# Tras el reset USB los niveles vuelven al default del driver (puede ser 0%).
+# El script detecta automaticamente el numero de tarjeta CM108.
+ExecStartPre=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/alsa-setup.sh
+
+ExecStart=/usr/bin/node --enable-source-maps dist/main.mjs
+
+# Reinicio automatico: siempre, excepto si se para manualmente
+Restart=always
+RestartSec=5s
+
+# Salida de log a journald (acceso via: journalctl -u eqso-relay@%i -f)
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=eqso-relay-%i
+
+# Seguridad basica (solo lo estrictamente necesario)
+PrivateTmp=true
+ProtectSystem=full
+NoNewPrivileges=true
+
+# Permite acceso a /dev/snd para ALSA
+SupplementaryGroups=audio
+
+# Senales de parada:
+# SIGTERM → Node recibe la senal, cierra stdin de aplay, espera que aplay
+# vacie su buffer DMA (<=1.5s) y luego llama process.exit(0).
+# Esto evita el D-state: el D-state ocurre cuando SIGKILL mata aplay en
+# mitad de una escritura USB DMA. Con cierre graceful, aplay termina la
+# escritura antes de salir y el kernel no queda bloqueado.
+# Si Node no sale en 8s, systemd envia SIGKILL al cgroup entero (fallback).
+KillMode=control-group
+KillSignal=SIGTERM
+TimeoutStopSec=8
+
+# Limpieza post-parada: mata procesos ALSA residuales y resetea el USB.
+ExecStopPost=+/bin/sh /opt/eqso-asorapa/artifacts/relay-daemon/install/stop-cleanup.sh
+
+[Install]
+WantedBy=multi-user.target
