@@ -1,0 +1,85 @@
+journalctl -u eqso-relay@CB -f --no-pager
+jun 10 21:28:00 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:00.097Z [nivel] pico RMS=127 (-48.3 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:05 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:05.097Z [nivel] pico RMS=119 (-48.8 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:10 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:10.097Z [nivel] pico RMS=119 (-48.8 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:15 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:15.097Z [nivel] pico RMS=156 (-46.4 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:20 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:20.097Z [nivel] pico RMS=120 (-48.8 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:25 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:25.097Z [nivel] pico RMS=116 (-49.0 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:25 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:25.131Z Sala: 0R-30RCI184 se ha unido
+jun 10 21:28:30 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:30.099Z [nivel] pico RMS=123 (-48.5 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:35 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:35.098Z [nivel] pico RMS=120 (-48.7 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:40 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:40.099Z [nivel] pico RMS=124 (-48.5 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:43 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:43.823Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:43 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:43.823Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:49.823Z (6000ms)
+jun 10 21:28:43 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:43.882Z [audio] Semi-duplex: suspendiendo arecord para RX (preventivo)
+jun 10 21:28:43 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:43.883Z [arecord] arecord: pcm_read:2240:
+jun 10 21:28:43 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:43.883Z [arecord] error de lectura: Llamada al sistema interrumpida
+jun 10 21:28:43 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:43.884Z [arecord] Terminado (code 1)
+jun 10 21:28:44 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:44.125Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:44 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:44.125Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:50.125Z (6000ms)
+jun 10 21:28:44 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:44.406Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:44 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:44.406Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:50.406Z (6000ms)
+jun 10 21:28:44 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:44.546Z aplay -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=16384 --period-size=512
+jun 10 21:28:44 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:44.606Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:44 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:44.606Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:50.606Z (6000ms)
+jun 10 21:28:44 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:44.965Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:44 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:44.965Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:50.965Z (6000ms)
+jun 10 21:28:45 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:45.099Z [nivel] pico RMS=123 (-48.5 dBFS)  VOXumbral=500  gain=0.5
+jun 10 21:28:45 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:45.172Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:45 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:45.172Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:51.172Z (6000ms)
+jun 10 21:28:45 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:45.433Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:45 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:45.434Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:51.434Z (6000ms)
+jun 10 21:28:45 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:45.674Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:45 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:45.674Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:51.674Z (6000ms)
+jun 10 21:28:45 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:45.989Z [playGsm] pkt#350 len=198 decoder_ready=true player=running playerStarting=false
+jun 10 21:28:45 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:45.989Z [audio] pkt#350 len=198b → playGsm OK (pttActive=false rxActive=true)
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.053Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.053Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:52.053Z (6000ms)
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.244Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.244Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:52.244Z (6000ms)
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.422Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.422Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:52.422Z (6000ms)
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.706Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.706Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:52.706Z (6000ms)
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.923Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:46 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:46.924Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:52.924Z (6000ms)
+jun 10 21:28:47 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:47.283Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:47 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:47.283Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:53.283Z (6000ms)
+jun 10 21:28:47 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:47.423Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:47 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:47.423Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:53.423Z (6000ms)
+jun 10 21:28:47 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:47.702Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:47 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:47.702Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:53.702Z (6000ms)
+jun 10 21:28:47 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:47.953Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:47 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:47.953Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:53.953Z (6000ms)
+jun 10 21:28:48 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:48.203Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:48 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:48.203Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:54.203Z (6000ms)
+jun 10 21:28:48 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:48.474Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:48 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:48.474Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:54.474Z (6000ms)
+jun 10 21:28:48 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:48.754Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:48 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:48.754Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:54.754Z (6000ms)
+jun 10 21:28:48 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:48.933Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:48 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:48.933Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:54.933Z (6000ms)
+jun 10 21:28:49 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:49.183Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:49 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:49.183Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:55.183Z (6000ms)
+jun 10 21:28:49 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:49.433Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:49 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:49.433Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:55.433Z (6000ms)
+jun 10 21:28:49 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:49.683Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:49 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:49.683Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:55.683Z (6000ms)
+jun 10 21:28:49 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:49.934Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:49 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:49.934Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:55.934Z (6000ms)
+jun 10 21:28:50 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:50.216Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:50 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:50.216Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:56.216Z (6000ms)
+jun 10 21:28:50 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:50.443Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:50 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:50.443Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:56.443Z (6000ms)
+jun 10 21:28:50 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:50.691Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:50 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:50.691Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:56.691Z (6000ms)
+jun 10 21:28:50 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:50.963Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:50 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:50.963Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:56.963Z (6000ms)
+jun 10 21:28:51 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:51.282Z TX: 0R-30RCI184 transmitiendo
+jun 10 21:28:51 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:51.282Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-06-10T19:28:57.282Z (6000ms)
+jun 10 21:28:51 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:51.282Z TX: 0R-30RCI184 libero canal
+jun 10 21:28:52 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [main] 2026-06-10T19:28:52.781Z [rxInhibit] playback_ended: suppress extendido → 2026-06-10T19:28:58.781Z (prev=2026-06-10T19:28:57.282Z)
+jun 10 21:28:53 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:53.097Z [aplay] Terminado (code 0)
+jun 10 21:28:53 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:53.097Z [audio] Semi-duplex: reanudando arecord
+jun 10 21:28:53 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:53.097Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --buffer-size=1024
+jun 10 21:28:55 david-16Z90P-G-AD89B eqso-relay-CB[196638]: [audio] 2026-06-10T19:28:55.100Z [nivel] pico RMS=12076 (-8.7 dBFS)  VOXumbral=500  gain=0.5
