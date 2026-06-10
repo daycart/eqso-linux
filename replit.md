@@ -261,23 +261,49 @@ El daemon hace VOX automático: detecta audio de la radio y abre el canal sin in
 | `alsa` (default) | Linux, Raspberry Pi | `captureDevice: "plughw:X,0"` |
 | `ffmpeg` | Windows, Linux sin ALSA | `captureDevice: "USB Audio Device"`, `captureFormat: "dshow"`, `playbackFormat: "wasapi"` |
 
-### Instalación en Linux / Raspberry Pi
+### Instalación en Linux / Raspberry Pi — script automático
 
+Un solo comando instala todo de forma interactiva (pnpm, Node.js, compilación, config y servicio systemd):
+
+```bash
+bash <(curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/install/install-relay.sh)
+```
+
+O si ya tienes el repo clonado:
+```bash
+bash artifacts/relay-daemon/install/install-relay.sh
+```
+
+El script:
+1. Instala `ffmpeg`, `git`, `curl` vía apt si faltan
+2. Instala `pnpm` y `Node.js LTS` en el home del usuario (sin tocar el sistema)
+3. Clona o actualiza el repositorio en `~/eqso-linux-client`
+4. Compila el relay daemon
+5. Detecta tarjetas de audio USB y puertos serie disponibles
+6. Pregunta callsign, sala, servidor, token y dispositivos
+7. Crea `/etc/eqso-relay/<SALA>.json` con la configuración
+8. Instala y activa el servicio systemd `eqso-relay@<SALA>`
+
+**Instalación manual paso a paso** (si se prefiere):
 ```bash
 git clone https://github.com/daycart/eqso-linux-client
 cd eqso-linux-client
-npm i -g pnpm && pnpm install
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+source ~/.bashrc
+pnpm env use --global lts
+pnpm install
 pnpm --filter @workspace/relay-daemon run build
 
 # Identificar tarjeta USB: aplay -l  →  "plughw:X,0"
 # Identificar puerto serie: ls /dev/ttyACM* /dev/ttyUSB*
 
+sudo apt install ffmpeg
 sudo mkdir -p /etc/eqso-relay
 sudo cp artifacts/relay-daemon/install/config.example.json /etc/eqso-relay/CB.json
 sudo nano /etc/eqso-relay/CB.json
 
-# Instalar servicio systemd
-sudo cp artifacts/relay-daemon/install/eqso-relay@.service /etc/systemd/system/
+# Instalar servicio systemd (ajustar User= y rutas según el equipo)
+sudo nano /etc/systemd/system/eqso-relay@.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now eqso-relay@CB
 sudo journalctl -u eqso-relay@CB -f
