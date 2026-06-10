@@ -6,3 +6,9 @@ id = "9KxvJqFPrCB2FButGG4l2"
 uri = "file://guia_relay_raspi.pdf"
 type = "pdf"
 title = "Guia Instalacion Relay — Windows / Linux / Raspberry Pi"
+
+[[outputs]]
+id = "SHNvpZmZHIaZlgPY6nq9Q"
+uri = "file://guia_relay_instalacion.docx"
+type = "word_document"
+title = "Guía de Instalación del Relay Daemon — eQSO ASORAPA"
