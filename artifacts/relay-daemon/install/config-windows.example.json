@@ -23,7 +23,11 @@
   "password": "TOKEN-DADO-POR-EL-ADMIN",
   "message": "Radio Enlace CB",
 
-  "server": "193.152.83.229",
+  "_comment_server": [
+    "Relay externo: server=asorapa.sytes.net, port=2172 (NAT router → VM:2171)",
+    "Relay en la propia VM: server=127.0.0.1, port=2171"
+  ],
+  "server": "asorapa.sytes.net",
   "port": 2172,
 
   "reconnectMinMs": 3000,

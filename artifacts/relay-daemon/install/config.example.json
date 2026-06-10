@@ -21,12 +21,16 @@
   "message": "Radio Enlace CB",
 
   "_comment_server": [
-    "Servidor externo ASORAPA (para operadores remotos):",
-    "  server=193.152.83.229, port=2172",
-    "Servidor local (solo VM del administrador):",
-    "  server=127.0.0.1, port=2171"
+    "=== Escenarios de conexion ===",
+    "1. Relay externo (portatil, Raspi fuera de LAN):",
+    "     server=asorapa.sytes.net, port=2172",
+    "     (el router NAT redirige 2172 → VM:2171)",
+    "2. Relay local en la propia VM (127.0.0.1):",
+    "     server=127.0.0.1, port=2171",
+    "3. Servidor ASORAPA original (host, no VM):",
+    "     server=193.152.83.229, port=2172  (o port=26000)"
   ],
-  "server": "193.152.83.229",
+  "server": "asorapa.sytes.net",
   "port": 2172,
 
   "reconnectMinMs": 3000,

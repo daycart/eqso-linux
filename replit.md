@@ -115,22 +115,23 @@ public/                — assets estáticos (mic-worklet.js, etc.)
 
 ### En la VM (asorapa.sytes.net / VirtualBox)
 
-| Puerto externo | Puerto interno VM | Uso |
+| Puerto externo (router) | Destino interno LAN | Uso |
 |---|---|---|
-| `asorapa.sytes.net:80/443` | VM:8080 (nginx → Node.js) | Web cliente + API REST + WS |
-| `asorapa.sytes.net:2171` | VM:2171 | TCP eQSO — relay daemons externos y clientes Windows |
-| `asorapa.sytes.net:2172` | HOST:2172 | Servidor eQSO externo ASORAPA principal (convive en el mismo host físico) |
+| `asorapa.sytes.net:80` | VM (192.168.1.25):80 | Web cliente HTTP |
+| `asorapa.sytes.net:443` | VM (192.168.1.25):443 | Web cliente HTTPS + API REST + WS |
+| `asorapa.sytes.net:2172` | VM (192.168.1.25):2171 | TCP eQSO — relay daemons externos y clientes Windows |
+| `VM:2171` | — | Puerto TCP eQSO interno (solo LAN / relay local en la VM) |
 | `VM:8008` | — | Puerto TCP alternativo ASORAPA-compatible (interno) |
 | `VM:8009` | — | HTTP control del relay daemon (localhost only) |
 
-> **Nota de convivencia**: El servidor VM usa puerto 2171 (nuevo sistema) y el servidor ASORAPA original del host usa 2172. Ambos conviven en la misma máquina física. Los relay daemons externos se conectan a `asorapa.sytes.net:2171`.
+> **Nota de convivencia**: El router NAT expone el puerto **2172** externamente y lo reenvía al puerto **2171** de la VM. El host físico (192.168.1.106) puede convivir usando otros puertos externos sin conflicto.
 
 ### Conexiones de los relay daemons
 
-| Ubicación | Conecta a | Puerto |
+| Ubicación | Conecta a | Puerto externo |
 |---|---|---|
-| VM (relay local) | `127.0.0.1` | 2171 |
-| Portátil / Raspi / PC externo | `asorapa.sytes.net` | 2171 |
+| VM (relay local) | `127.0.0.1` | 2171 (interno, sin NAT) |
+| Portátil / Raspi / PC externo | `asorapa.sytes.net` | **2172** (NAT → VM:2171) |
 
 ---
 
@@ -290,7 +291,7 @@ sudo journalctl -u eqso-relay@CB -f
   "room": "CB",
   "password": "TOKEN-DEL-ADMIN",
   "server": "asorapa.sytes.net",
-  "port": 2171,
+  "port": 2172,
   "audio": {
     "captureDevice": "plughw:1,0",
     "playbackDevice": "plughw:1,0",
@@ -314,7 +315,7 @@ sudo journalctl -u eqso-relay@CB -f
   "room": "CB",
   "password": "TOKEN-DEL-ADMIN",
   "server": "asorapa.sytes.net",
-  "port": 2171,
+  "port": 2172,
   "audio": {
     "captureDevice": "USB Audio Device",
     "playbackDevice": "USB Audio Device",
