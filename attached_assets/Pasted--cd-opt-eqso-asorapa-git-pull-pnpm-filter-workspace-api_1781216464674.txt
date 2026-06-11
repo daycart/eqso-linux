@@ -1,0 +1,64 @@
+ cd /opt/eqso-asorapa
+git pull
+pnpm --filter @workspace/api-server run build
+sudo systemctl restart eqso.service
+sudo journalctl -u eqso.service -f --no-pager -n 5
+remote: Enumerating objects: 20, done.
+remote: Counting objects: 100% (20/20), done.
+remote: Compressing objects: 100% (20/20), done.
+remote: Total 20 (delta 9), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (20/20), 11.71 KiB | 166.00 KiB/s, done.
+From https://github.com/daycart/eqso-linux-client
+   668b1ce..8a352b1  main       -> origin/main
+Updating 668b1ce..8a352b1
+Fast-forward
+ artifacts/api-server/src/eqso/relay-ws-notifier.ts |  7 ++++---
+ artifacts/api-server/src/eqso/ws-bridge.ts         |  4 ++--
+ artifacts/api-server/src/index.ts                  | 22 ++++++++++++++++++++--
+ 3 files changed, 26 insertions(+), 7 deletions(-)
+
+> @workspace/api-server@0.0.0 build /opt/eqso-asorapa/artifacts/api-server
+> node ./build.mjs
+
+
+  dist/index.mjs                       2.4mb ??
+  dist/pino-worker.mjs               153.4kb
+  dist/pino-file.mjs                 142.0kb
+  dist/pino-pretty.mjs               114.6kb
+  dist/thread-stream-worker.mjs        7.3kb
+  dist/index.mjs.map                   4.1mb
+  dist/pino-worker.mjs.map           256.9kb
+  dist/pino-file.mjs.map             229.0kb
+  dist/pino-pretty.mjs.map           203.9kb
+  dist/thread-stream-worker.mjs.map   12.0kb
+
+? Done in 2861ms
+Copied client build: /opt/eqso-asorapa/artifacts/eqso-client/dist/public ? /opt/eqso-asorapa/artifacts/api-server/dist/public
+jun 11 22:20:30 ubuntus systemd[1]: Stopping eqso.service - eQSO ASORAPA Server...
+jun 11 22:20:30 ubuntus systemd[1]: eqso.service: Deactivated successfully.
+jun 11 22:20:30 ubuntus systemd[1]: Stopped eqso.service - eQSO ASORAPA Server.
+jun 11 22:20:30 ubuntus systemd[1]: eqso.service: Consumed 37.733s CPU time, 104.1M memory peak, 0B memory swap peak.
+jun 11 22:20:30 ubuntus systemd[1]: Started eqso.service - eQSO ASORAPA Server.
+jun 11 22:20:32 ubuntus node[234680]: {"level":30,"time":1781216432723,"pid":234680,"hostname":"ubuntus","publicDir":"/opt/eqso-asorapa/artifacts/api-server/dist/public","msg":"Serving React client from static files"}
+jun 11 22:20:32 ubuntus node[234680]: {"level":30,"time":1781216432767,"pid":234680,"hostname":"ubuntus","msg":"eQSO WebSocket bridge ready on /ws"}
+jun 11 22:20:32 ubuntus node[234680]: {"level":30,"time":1781216432769,"pid":234680,"hostname":"ubuntus","msg":"Relay WS notifier ready on /ws-relay"}
+jun 11 22:20:32 ubuntus node[234680]: {"level":30,"time":1781216432865,"pid":234680,"hostname":"ubuntus","port":8080,"msg":"HTTP + WebSocket server listening"}
+jun 11 22:20:32 ubuntus node[234680]: {"level":30,"time":1781216432868,"pid":234680,"hostname":"ubuntus","port":2171,"msg":"eQSO TCP server listening"}
+jun 11 22:20:32 ubuntus node[234680]: {"level":30,"time":1781216432869,"pid":234680,"hostname":"ubuntus","port":8008,"msg":"eQSO TCP server listening"}
+jun 11 22:20:33 ubuntus node[234680]: {"level":30,"time":1781216433007,"pid":234680,"hostname":"ubuntus","count":0,"msg":"RelayManager: loaded relay configurations"}
+jun 11 22:20:33 ubuntus node[234680]: {"level":30,"time":1781216433018,"pid":234680,"hostname":"ubuntus","count":0,"msg":"Moderation: bans loaded from DB"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434484,"pid":234680,"hostname":"ubuntus","id":"bae85fda-13a3-4f52-a085-f13e5c11603f","addr":"127.0.0.1","msg":"New TCP eQSO connection"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434497,"pid":234680,"hostname":"ubuntus","id":"bae85fda-13a3-4f52-a085-f13e5c11603f","addr":"127.0.0.1","msg":"eQSO TCP client registered \Uffffffff waiting for handshake"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434547,"pid":234680,"hostname":"ubuntus","id":"bae85fda-13a3-4f52-a085-f13e5c11603f","hex":"0a82000000","msg":"eQSO TCP handshake complete \Uffffffff sending room list"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434569,"pid":234680,"hostname":"ubuntus","id":"bae85fda-13a3-4f52-a085-f13e5c11603f","name":"0R-IN70WN","room":"CB","bufLen":42,"msg":"eQSO TCP JOIN parsed"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434576,"pid":234680,"hostname":"ubuntus","id":"bae85fda-13a3-4f52-a085-f13e5c11603f","name":"0R-IN70WN","msg":"TCP relay authenticated with relay token"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434583,"pid":234680,"hostname":"ubuntus","id":"bae85fda-13a3-4f52-a085-f13e5c11603f","name":"0R-IN70WN","room":"CB","memberCount":1,"members":["0R-IN70WN"],"hex":"1601000000000000000930522d494e3730574e0c526164696f20456e6c61636500","msg":"eQSO TCP sending user list to joining client"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434585,"pid":234680,"hostname":"ubuntus","id":"bae85fda-13a3-4f52-a085-f13e5c11603f","name":"0R-IN70WN","room":"CB","memberCount":1,"msg":"TCP client joined room"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434820,"pid":234680,"hostname":"ubuntus","id":"a4698bd4-22f3-49d8-a109-41db8517213d","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434823,"pid":234680,"hostname":"ubuntus","id":"a4698bd4-22f3-49d8-a109-41db8517213d","addr":"192.168.1.33","msg":"eQSO TCP client registered \Uffffffff waiting for handshake"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434873,"pid":234680,"hostname":"ubuntus","id":"a4698bd4-22f3-49d8-a109-41db8517213d","hex":"0a82000000","msg":"eQSO TCP handshake complete \Uffffffff sending room list"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434947,"pid":234680,"hostname":"ubuntus","id":"a4698bd4-22f3-49d8-a109-41db8517213d","name":"0R-PORTATIL","room":"CB","bufLen":47,"msg":"eQSO TCP JOIN parsed"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434948,"pid":234680,"hostname":"ubuntus","id":"a4698bd4-22f3-49d8-a109-41db8517213d","name":"0R-PORTATIL","msg":"TCP relay authenticated with relay token"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434948,"pid":234680,"hostname":"ubuntus","id":"a4698bd4-22f3-49d8-a109-41db8517213d","name":"0R-PORTATIL","room":"CB","memberCount":2,"members":["0R-IN70WN","0R-PORTATIL"],"hex":"1602000000000000000930522d494e3730574e0c526164696f20456e6c61636500000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200","msg":"eQSO TCP sending user list to joining client"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434951,"pid":234680,"hostname":"ubuntus","to":"0R-IN70WN","joining":"0R-PORTATIL","msg":"eQSO TCP notifying existing member of new join"}
+jun 11 22:20:34 ubuntus node[234680]: {"level":30,"time":1781216434955,"pid":234680,"hostname":"ubuntus","id":"a4698bd4-22f3-49d8-a109-41db8517213d","name":"0R-PORTATIL","room":"CB","memberCount":2,"msg":"TCP client joined room"}
