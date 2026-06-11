@@ -16,13 +16,14 @@ router.use(requireAdmin);
 router.get("/users", async (_req, res) => {
   try {
     const users = await db.select({
-      id:        usersTable.id,
-      callsign:  usersTable.callsign,
-      isRelay:   usersTable.isRelay,
-      status:    usersTable.status,
-      role:      usersTable.role,
-      createdAt: usersTable.createdAt,
-      lastLogin: usersTable.lastLogin,
+      id:            usersTable.id,
+      callsign:      usersTable.callsign,
+      isRelay:       usersTable.isRelay,
+      status:        usersTable.status,
+      role:          usersTable.role,
+      relayCallsign: usersTable.relayCallsign,
+      createdAt:     usersTable.createdAt,
+      lastLogin:     usersTable.lastLogin,
     }).from(usersTable).orderBy(usersTable.callsign);
     res.json(users);
   } catch {
@@ -134,8 +135,8 @@ router.patch("/users/:id/role", async (req, res) => {
     const id = Number(req.params.id);
     const { role } = req.body as { role: string };
 
-    if (!["admin", "user"].includes(role)) {
-      res.status(400).json({ error: "Rol inválido (admin | user)" });
+    if (!["admin", "user", "relay_operator"].includes(role)) {
+      res.status(400).json({ error: "Rol inválido (admin | user | relay_operator)" });
       return;
     }
 
@@ -147,6 +148,26 @@ router.patch("/users/:id/role", async (req, res) => {
 
     await db.update(usersTable).set({ role }).where(eq(usersTable.id, id));
     res.json({ id, role });
+  } catch {
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+// PATCH /api/admin/users/:id/relay-callsign — set relay callsign for relay_operator
+router.patch("/users/:id/relay-callsign", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const { relayCallsign } = req.body as { relayCallsign: string | null };
+
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1);
+    if (!user) {
+      res.status(404).json({ error: "Usuario no encontrado" });
+      return;
+    }
+
+    const val = relayCallsign ? relayCallsign.trim().toUpperCase() : null;
+    await db.update(usersTable).set({ relayCallsign: val }).where(eq(usersTable.id, id));
+    res.json({ id, relayCallsign: val });
   } catch {
     res.status(500).json({ error: "Error interno del servidor" });
   }

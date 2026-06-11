@@ -7,6 +7,7 @@ import { ConnectPanel } from "@/components/ConnectPanel";
 import { RoomPanel } from "@/components/RoomPanel";
 import { LoginPanel, type AuthSession } from "@/components/LoginPanel";
 import { AdminPanel } from "@/components/AdminPanel";
+import { RelayOperatorPanel } from "@/components/RelayOperatorPanel";
 import { PTTConfigModal } from "@/components/PTTConfigModal";
 
 export default function HomePage() {
@@ -25,6 +26,7 @@ export default function HomePage() {
 
   const [auth, setAuth] = useState<AuthSession | null>(null);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showRelayPanel, setShowRelayPanel] = useState(false);
   const [showPTTConfig, setShowPTTConfig] = useState(false);
   const [callsign, setCallsign] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("GENERAL");
@@ -37,12 +39,14 @@ export default function HomePage() {
     setAuth(session);
     setCallsign(session.callsign);
     setShowAdmin(false);
+    setShowRelayPanel(false);
   };
 
   const handleLogout = () => {
     setAuth(null);
     setCallsign("");
     setShowAdmin(false);
+    setShowRelayPanel(false);
     eqso.disconnect();
     audio.stopRecording();
     setPttActive(false);
@@ -137,6 +141,20 @@ export default function HomePage() {
     );
   }
 
+  // ── Relay operator panel ────────────────────────────────────────────────────
+  if (showRelayPanel && auth.role === "relay_operator") {
+    return (
+      <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
+        <AppHeader auth={auth} onLogout={handleLogout} onRelayPanel={() => setShowRelayPanel(true)} />
+        <RelayOperatorPanel
+          token={auth.token}
+          relayCallsign={auth.relayCallsign}
+          onClose={() => setShowRelayPanel(false)}
+        />
+      </div>
+    );
+  }
+
   // ── Main radio UI ──────────────────────────────────────────────────────────
   const isSecureContext = window.isSecureContext;
 
@@ -149,6 +167,7 @@ export default function HomePage() {
         portOpen={serial.portOpen}
         onLogout={handleLogout}
         onAdmin={() => setShowAdmin(true)}
+        onRelayPanel={() => setShowRelayPanel(true)}
         onPTTConfig={() => setShowPTTConfig(true)}
       />
       {!isSecureContext && (
@@ -215,10 +234,11 @@ interface AppHeaderProps {
   portOpen?: boolean;
   onLogout?: () => void;
   onAdmin?: () => void;
+  onRelayPanel?: () => void;
   onPTTConfig?: () => void;
 }
 
-function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, onPTTConfig }: AppHeaderProps) {
+function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, onRelayPanel, onPTTConfig }: AppHeaderProps) {
   return (
     <header className="border-b border-gray-800 px-6 py-3 flex items-center gap-3">
       <div className="flex items-center gap-2">
@@ -289,6 +309,11 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
                   admin
                 </span>
               )}
+              {auth.role === "relay_operator" && (
+                <span className="text-[10px] bg-orange-900 text-orange-300 border border-orange-700 rounded px-1 py-0.5">
+                  operador
+                </span>
+              )}
             </span>
             {auth.role === "admin" && onAdmin && (
               <button
@@ -297,6 +322,15 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
                 title="Panel de administracion"
               >
                 Admin
+              </button>
+            )}
+            {auth.role === "relay_operator" && onRelayPanel && (
+              <button
+                onClick={onRelayPanel}
+                className="text-xs text-orange-400 hover:text-orange-300 px-2 py-1 rounded hover:bg-gray-800 transition-colors"
+                title="Panel de operador relay"
+              >
+                Mi Relay
               </button>
             )}
             {onLogout && (

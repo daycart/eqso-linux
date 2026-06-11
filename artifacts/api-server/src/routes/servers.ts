@@ -57,9 +57,9 @@ adminServersRouter.post("/servers", async (req, res) => {
       isActive:        isActive !== false,
       sortOrder:       sortOrder ? Number(sortOrder) : 0,
     }).returning();
-    res.status(201).json(toClient(row));
+    return res.status(201).json(toClient(row));
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -85,9 +85,9 @@ adminServersRouter.put("/servers/:id", async (req, res) => {
       .where(eq(serversTable.id, id))
       .returning();
     if (!row) return res.status(404).json({ error: "Servidor no encontrado" });
-    res.json(toClient(row));
+    return res.json(toClient(row));
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return res.status(500).json({ error: "Error interno" });
   }
 });
 

@@ -7,7 +7,8 @@ export interface AuthSession {
   token: string;
   callsign: string;
   isRelay: boolean;
-  role: "admin" | "user";
+  role: "admin" | "user" | "relay_operator";
+  relayCallsign?: string | null;
 }
 
 interface LoginPanelProps {
@@ -72,6 +73,7 @@ export function LoginPanel({ onAuth }: LoginPanelProps) {
         callsign: data.callsign,
         isRelay: data.isRelay,
         role: data.role ?? "user",
+        relayCallsign: data.relayCallsign ?? null,
       });
     } catch {
       setError("No se pudo conectar con el servidor. Comprueba tu conexion.");

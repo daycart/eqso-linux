@@ -10,6 +10,7 @@ interface AdminUser {
   isRelay: boolean;
   status: string;
   role: string;
+  relayCallsign: string | null;
   createdAt: string;
   lastLogin: string | null;
 }
@@ -60,6 +61,10 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
   const [resetPw, setResetPw] = useState("");
   const [resetError, setResetError] = useState<string | null>(null);
   const [resetting, setResetting] = useState(false);
+  const [editRelayCs, setEditRelayCs] = useState<number | null>(null);
+  const [editRelayCsVal, setEditRelayCsVal] = useState("");
+  const [editRelayCsErr, setEditRelayCsErr] = useState<string | null>(null);
+  const [savingRelayCs, setSavingRelayCs] = useState(false);
 
   // Inactivity section state
   const [inactConfig, setInactConfig] = useState<{
@@ -204,6 +209,26 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
       setResetError(e instanceof Error ? e.message : "Error");
     } finally {
       setResetting(false);
+    }
+  }
+
+  async function handleSaveRelayCs(id: number) {
+    setEditRelayCsErr(null);
+    setSavingRelayCs(true);
+    try {
+      const res = await fetch(`${getApiBase()}/api/admin/users/${id}/relay-callsign`, {
+        method: "PATCH",
+        headers: authHeaders(token),
+        body: JSON.stringify({ relayCallsign: editRelayCsVal.trim() || null }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error ?? "Error");
+      setEditRelayCs(null);
+      setEditRelayCsVal("");
+      await load();
+    } catch (e: unknown) {
+      setEditRelayCsErr(e instanceof Error ? e.message : "Error");
+    } finally {
+      setSavingRelayCs(false);
     }
   }
 
@@ -576,7 +601,12 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
                           admin
                         </span>
                       )}
-                      {!u.isRelay && u.role !== "admin" && (
+                      {u.role === "relay_operator" && (
+                        <span className="text-[10px] border border-amber-700 bg-amber-900 text-amber-300 rounded px-1.5 py-0.5">
+                          op. relay
+                        </span>
+                      )}
+                      {!u.isRelay && u.role !== "admin" && u.role !== "relay_operator" && (
                         <span className="text-[10px] border border-green-800 bg-green-950 text-green-400 rounded px-1.5 py-0.5">
                           usuario
                         </span>
@@ -585,6 +615,12 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
                     <div className="flex gap-4 mt-1.5 text-[11px] text-gray-600">
                       <span>Alta: {fmtDate(u.createdAt)}</span>
                       <span>Ultimo acceso: {fmtDate(u.lastLogin)}</span>
+                      {u.role === "relay_operator" && u.relayCallsign && (
+                        <span className="text-orange-700">Relay: <span className="font-mono text-orange-600">{u.relayCallsign}</span></span>
+                      )}
+                      {u.role === "relay_operator" && !u.relayCallsign && (
+                        <span className="text-yellow-700">Sin relay asignado</span>
+                      )}
                     </div>
                   </div>
 
@@ -638,6 +674,29 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
                       {u.role === "admin" ? "Quitar admin" : "Hacer admin"}
                     </button>
                     <button
+                      onClick={() => {
+                        if (u.role === "relay_operator") {
+                          setRole(u.id, "user");
+                        } else {
+                          setRole(u.id, "relay_operator");
+                          if (u.role !== "relay_operator") {
+                            setEditRelayCs(u.id);
+                            setEditRelayCsVal(u.relayCallsign ?? "");
+                            setEditRelayCsErr(null);
+                          }
+                        }
+                      }}
+                      disabled={actionId === u.id}
+                      className={`text-xs px-2.5 py-1.5 rounded-lg transition-colors disabled:opacity-50 ${
+                        u.role === "relay_operator"
+                          ? "bg-amber-900 hover:bg-amber-800 text-amber-200"
+                          : "bg-gray-800 hover:bg-gray-700 text-gray-300"
+                      }`}
+                      title={u.role === "relay_operator" ? "Quitar rol operador relay" : "Hacer operador relay"}
+                    >
+                      {u.role === "relay_operator" ? "Quitar op." : "Op. relay"}
+                    </button>
+                    <button
                       onClick={() => { setResetId(u.id); setResetPw(""); setResetError(null); }}
                       disabled={actionId === u.id}
                       className="bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs px-2.5 py-1.5 rounded-lg transition-colors disabled:opacity-50"
@@ -681,6 +740,48 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
                       Cancelar
                     </button>
                     {resetError && <span className="text-xs text-red-400">{resetError}</span>}
+                  </div>
+                )}
+
+                {/* Relay callsign inline editor */}
+                {editRelayCs === u.id && (
+                  <div className="mt-3 pt-3 border-t border-amber-900/40 flex items-center gap-2">
+                    <span className="text-xs text-amber-400 shrink-0">Indicativo relay:</span>
+                    <input
+                      type="text"
+                      value={editRelayCsVal}
+                      onChange={(e) => setEditRelayCsVal(e.target.value.toUpperCase())}
+                      placeholder="Ej: 0R-IN70WN o dejar vacio"
+                      maxLength={30}
+                      className="flex-1 bg-gray-800 border border-amber-800 rounded-lg px-3 py-1.5 text-sm text-gray-100
+                                 font-mono uppercase placeholder:text-gray-600 focus:outline-none focus:border-amber-600"
+                    />
+                    <button
+                      onClick={() => handleSaveRelayCs(u.id)}
+                      disabled={savingRelayCs}
+                      className="bg-amber-700 hover:bg-amber-600 text-white text-xs px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      Guardar
+                    </button>
+                    <button
+                      onClick={() => { setEditRelayCs(null); setEditRelayCsVal(""); setEditRelayCsErr(null); }}
+                      className="text-gray-500 hover:text-gray-300 text-xs px-2 py-1.5"
+                    >
+                      Cancelar
+                    </button>
+                    {editRelayCsErr && <span className="text-xs text-red-400">{editRelayCsErr}</span>}
+                  </div>
+                )}
+                {/* Edit relay callsign button (when relay_operator and not in edit mode) */}
+                {u.role === "relay_operator" && editRelayCs !== u.id && resetId !== u.id && (
+                  <div className="mt-2 pt-2 border-t border-gray-800 flex items-center gap-2">
+                    <span className="text-xs text-gray-600">Relay asignado: <span className="font-mono text-amber-700">{u.relayCallsign ?? "—"}</span></span>
+                    <button
+                      onClick={() => { setEditRelayCs(u.id); setEditRelayCsVal(u.relayCallsign ?? ""); setEditRelayCsErr(null); }}
+                      className="text-xs text-amber-500 hover:text-amber-300 px-2 py-0.5 rounded hover:bg-gray-800"
+                    >
+                      Editar
+                    </button>
                   </div>
                 )}
               </div>

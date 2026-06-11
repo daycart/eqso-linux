@@ -26,7 +26,8 @@ export async function verifyPassword(password: string, stored: string): Promise<
 export interface Session {
   callsign: string;
   isRelay: boolean;
-  role: "admin" | "user";
+  role: "admin" | "user" | "relay_operator";
+  relayCallsign?: string;
   expiresAt: number;
 }
 
@@ -36,10 +37,11 @@ const sessions = new Map<string, Session>();
 export function createSession(
   callsign: string,
   isRelay: boolean,
-  role: "admin" | "user" = "user"
+  role: "admin" | "user" | "relay_operator" = "user",
+  relayCallsign?: string
 ): string {
   const token = randomUUID();
-  sessions.set(token, { callsign, isRelay, role, expiresAt: Date.now() + SESSION_TTL_MS });
+  sessions.set(token, { callsign, isRelay, role, relayCallsign, expiresAt: Date.now() + SESSION_TTL_MS });
   return token;
 }
 

@@ -61,9 +61,9 @@ adminRelaysRouter.post("/relays", async (req, res) => {
 
     await relayManager.reloadRelay(row.id);
 
-    res.status(201).json(row);
+    return res.status(201).json(row);
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -95,9 +95,9 @@ adminRelaysRouter.put("/relays/:id", async (req, res) => {
 
     await relayManager.reloadRelay(id);
 
-    res.json(row);
+    return res.json(row);
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -123,9 +123,9 @@ adminRelaysRouter.post("/relays/:id/start", async (req, res) => {
       .returning();
     if (!row) return res.status(404).json({ error: "Enlace no encontrado" });
     await relayManager.reloadRelay(id);
-    res.json({ ok: true });
+    return res.json({ ok: true });
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return res.status(500).json({ error: "Error interno" });
   }
 });
 
@@ -139,8 +139,8 @@ adminRelaysRouter.post("/relays/:id/stop", async (req, res) => {
       .returning();
     if (!row) return res.status(404).json({ error: "Enlace no encontrado" });
     await relayManager.reloadRelay(id);
-    res.json({ ok: true });
+    return res.json({ ok: true });
   } catch {
-    res.status(500).json({ error: "Error interno" });
+    return res.status(500).json({ error: "Error interno" });
   }
 });
