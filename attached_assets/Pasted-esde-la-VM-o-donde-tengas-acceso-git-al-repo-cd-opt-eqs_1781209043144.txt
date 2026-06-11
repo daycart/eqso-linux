@@ -1,0 +1,90 @@
+esde la VM (o donde tengas acceso git al repo):
+cd /opt/eqso-asorapa
+
+# Si el repo local de la VM est\Uffffffffesactualizado respecto a Replit,
+# primero sincroniza el repo de GitHub con Replit:
+# (desde una m\Uffffffffina con acceso a Replit y GitHub)
+# git push github main --force
+
+# Luego en la VM:
+git pull
+pnpm install
+pnpm --filter @workspace/api-server run build
+pnpm --filter @workspace/relay-daemon run build
+BASE_PATH=/ pnpm --filter @workspace/eqso-client run build
+sudo cp -r artifacts/eqso-client/dist/public/* artifacts/api-server/dist/public/
+sudo systemctl restart eqso.service
+
+# Para el nginx (una sola vez, a\Uffffffffr /ws-relay):
+sudo nginx -t && sudo systemctl reload nginx
+remote: Enumerating objects: 49, done.
+remote: Counting objects: 100% (49/49), done.
+remote: Compressing objects: 100% (42/42), done.
+remote: Total 42 (delta 28), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (42/42), 23.87 KiB | 104.00 KiB/s, done.
+From https://github.com/daycart/eqso-linux-client
+   0c6fe94..7de1a67  main       -> origin/main
+Updating 0c6fe94..7de1a67
+Fast-forward
+ artifacts/relay-daemon/install/config-windows.example.json |  74 +++++++++++
+ artifacts/relay-daemon/install/config.example.json         |  97 ++++++++++----
+ artifacts/relay-daemon/install/install-relay.ps1           | 285 +++++++++++++++++++++++++++++++++++++++
+ artifacts/relay-daemon/install/install-relay.sh            | 300 +++++++++++++++++++++++++++++++++++++++++
+ pnpm-workspace.yaml                                        |   1 +
+ replit.md                                                  | 703 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------------------------------
+ 6 files changed, 1225 insertions(+), 235 deletions(-)
+ create mode 100644 artifacts/relay-daemon/install/config-windows.example.json
+ create mode 100644 artifacts/relay-daemon/install/install-relay.ps1
+ create mode 100644 artifacts/relay-daemon/install/install-relay.sh
+Scope: all 10 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+   ?-----------------------------------------?
+   \Uffffffff                                         \Uffffffff
+   \Uffffffff   Update available! 10.33.0 ? 11.5.3.   \Uffffffff
+   \Uffffffff   Changelog: https://pnpm.io/v/11.5.3   \Uffffffff
+   \Uffffffff    To update, run: pnpm add -g pnpm     \Uffffffff
+   \Uffffffff                                         \Uffffffff
+   ?-----------------------------------------?
+
+. preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
++- Done in 70ms
+Done in 16.8s using pnpm v10.33.0
+
+> @workspace/api-server@0.0.0 build /opt/eqso-asorapa/artifacts/api-server
+> node ./build.mjs
+
+
+  dist/index.mjs                       2.4mb ??
+  dist/pino-worker.mjs               153.4kb
+  dist/pino-file.mjs                 142.0kb
+  dist/pino-pretty.mjs               114.6kb
+  dist/thread-stream-worker.mjs        7.3kb
+  dist/index.mjs.map                   4.1mb
+  dist/pino-worker.mjs.map           256.9kb
+  dist/pino-file.mjs.map             229.0kb
+  dist/pino-pretty.mjs.map           203.9kb
+  dist/thread-stream-worker.mjs.map   12.0kb
+
+? Done in 3213ms
+Copied client build: /opt/eqso-asorapa/artifacts/eqso-client/dist/public ? /opt/eqso-asorapa/artifacts/api-server/dist/public
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+
+> @workspace/eqso-client@0.0.0 build /opt/eqso-asorapa/artifacts/eqso-client
+> vite build --config vite.config.ts
+
+vite v7.3.1 building client environment for production...
+src/components/ui/tooltip.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+? 1781 modules transformed.
+dist/public/index.html                   0.73 kB \Uffffffff gzip:   0.41 kB
+dist/public/assets/index-D5sNjUm2.css  115.76 kB \Uffffffff gzip:  19.16 kB
+dist/public/assets/index-BSavCcEe.js   415.65 kB \Uffffffff gzip: 123.88 kB
+? built in 28.67s
+[sudo] password for david: 
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
