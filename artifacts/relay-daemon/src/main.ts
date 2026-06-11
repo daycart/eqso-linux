@@ -376,6 +376,7 @@ function connect(): void {
     rxPackets,
     pttState: pttActive ? 1 : rxActive ? 2 : 0,
     uptimeSeconds: Math.floor((Date.now() - startTime) / 1000),
+    voxThresholdRms: cfg.audio.voxThresholdRms,
   }));
 
   client.connect();
@@ -408,6 +409,9 @@ if (cfg.control.enabled) {
       port:               cfg.port,
       pttActive,
       voxEnabled:         cfg.audio.vox,
+      voxActive:          pttActive,
+      rmsLevel:           Math.round(latestPcmRms),
+      voxThresholdRms:    cfg.audio.voxThresholdRms,
       reconnectAttempts,
       uptimeMs:           Date.now() - startTime,
       rxPackets,

@@ -151,7 +151,7 @@ export class EqsoClient extends EventEmitter {
   private handshakeDone = false;
   private silenceTimer: ReturnType<typeof setInterval> | null = null;
   private telemetryTimer: ReturnType<typeof setInterval> | null = null;
-  private telemetryProvider: (() => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number; pttState: 0 | 1 | 2; uptimeSeconds: number }) | null = null;
+  private telemetryProvider: (() => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number; pttState: 0 | 1 | 2; uptimeSeconds: number; voxThresholdRms: number }) | null = null;
   private transmitting = false;
   private rxBusy = false; // canal ocupado por otro usuario → no enviar silence
   public connected = false;
@@ -212,13 +212,20 @@ export class EqsoClient extends EventEmitter {
     this.connected = false;
   }
 
-  setTelemetryProvider(fn: () => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number; pttState: 0 | 1 | 2; uptimeSeconds: number }): void {
+  setTelemetryProvider(fn: () => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number; pttState: 0 | 1 | 2; uptimeSeconds: number; voxThresholdRms: number }): void {
     this.telemetryProvider = fn;
   }
 
   /**
-   * Sends a 17-byte TELEMETRY packet to the server (opcode 0x1e).
-   * pttState: 0=idle  1=TX (relay transmitting)  2=RX (relay receiving from server)
+   * Sends a 19-byte TELEMETRY packet to the server (opcode 0x1e).
+   * Layout (payload bytes after opcode):
+   *   [0]     voxActive
+   *   [1-2]   rmsLevel uint16be
+   *   [3-6]   txPackets uint32be
+   *   [7-10]  rxPackets uint32be
+   *   [11]    pttState  (0=idle  1=TX  2=RX)
+   *   [12-15] uptimeSeconds uint32be
+   *   [16-17] voxThresholdRms uint16be
    */
   sendTelemetry(
     rmsLevel: number,
@@ -227,15 +234,17 @@ export class EqsoClient extends EventEmitter {
     rxPackets: number,
     pttState: 0 | 1 | 2,
     uptimeSeconds: number,
+    voxThresholdRms: number,
   ): void {
-    const buf = Buffer.allocUnsafe(17);
+    const buf = Buffer.alloc(19); // zero-fill for deterministic bytes
     buf[0] = 0x1e;
     buf[1] = voxActive ? 1 : 0;
     buf.writeUInt16BE(Math.min(Math.round(rmsLevel), 65535), 2);
     buf.writeUInt32BE(txPackets >>> 0, 4);
     buf.writeUInt32BE(rxPackets >>> 0, 8);
-    buf[11] = pttState;
-    buf.writeUInt32BE(Math.min(uptimeSeconds >>> 0, 0xffffffff), 12);
+    buf[12] = pttState;
+    buf.writeUInt32BE(Math.min(uptimeSeconds >>> 0, 0xffffffff), 13);
+    buf.writeUInt16BE(Math.min(Math.round(voxThresholdRms), 65535), 17);
     this.write(buf);
   }
 
@@ -307,7 +316,7 @@ export class EqsoClient extends EventEmitter {
     this.telemetryTimer = setInterval(() => {
       if (!this.telemetryProvider) return;
       const d = this.telemetryProvider();
-      this.sendTelemetry(d.rmsLevel, d.voxActive, d.txPackets, d.rxPackets, d.pttState, d.uptimeSeconds);
+      this.sendTelemetry(d.rmsLevel, d.voxActive, d.txPackets, d.rxPackets, d.pttState, d.uptimeSeconds, d.voxThresholdRms);
     }, 5_000);
   }
 

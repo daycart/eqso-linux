@@ -8,6 +8,8 @@ export interface RelayTelemetry {
   pttState: 0 | 1 | 2;
   uptimeSeconds: number;
   receivedAt: number;
+  /** VOX trigger threshold (RMS units). Present for daemons running v1.3+. */
+  voxThresholdRms?: number;
 }
 
 class RelayTelemetryStore {

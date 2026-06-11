@@ -20,6 +20,7 @@ function getTelemetryPayload(callsign: string | null | undefined) {
     uptimeSeconds: t.uptimeSeconds,
     receivedAt: t.receivedAt,
     stale: relayTelemetryStore.isStale(callsign),
+    voxThresholdRms: t.voxThresholdRms,
   };
 }
 
@@ -171,6 +172,7 @@ router.get("/all-daemons", requireAdmin, (req, res) => {
             uptimeSeconds: t.uptimeSeconds,
             receivedAt: t.receivedAt,
             stale: relayTelemetryStore.isStale(c.name),
+            voxThresholdRms: t.voxThresholdRms,
           }
         : null,
     };

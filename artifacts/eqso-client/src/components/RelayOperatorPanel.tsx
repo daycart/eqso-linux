@@ -11,6 +11,8 @@ interface TelemetryData {
   uptimeSeconds: number;
   receivedAt: number;
   stale: boolean;
+  /** VOX trigger threshold in RMS units (v1.3+ daemons only) */
+  voxThresholdRms?: number;
 }
 
 interface RelayStatus {
@@ -259,9 +261,14 @@ export function RelayOperatorPanel({ token, relayCallsign, confined, onClose }: 
                   <span className={`font-mono ${hasLiveTelemetry ? "text-gray-300" : "text-gray-600"}`}>
                     {hasLiveTelemetry ? telemetry!.rmsLevel : "—"}
                   </span>
+                  {hasLiveTelemetry && telemetry!.voxThresholdRms != null && (
+                    <span className="text-[10px] text-gray-600 font-mono">
+                      / umbral {telemetry!.voxThresholdRms}
+                    </span>
+                  )}
                 </div>
               </div>
-              <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
+              <div className="relative h-3 bg-gray-800 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-300 ${
                     !hasLiveTelemetry ? "bg-gray-700 w-0" :
@@ -270,7 +277,25 @@ export function RelayOperatorPanel({ token, relayCallsign, confined, onClose }: 
                   }`}
                   style={{ width: `${hasLiveTelemetry ? rmsBarPct : 0}%` }}
                 />
+                {hasLiveTelemetry && telemetry!.voxThresholdRms != null && (() => {
+                  const threshPct = Math.min(100, (telemetry!.voxThresholdRms! / RMS_MAX) * 100);
+                  return (
+                    <div
+                      className="absolute top-0 bottom-0 w-0.5 bg-orange-400 opacity-80"
+                      style={{ left: `${threshPct}%` }}
+                      title={`Umbral VOX: ${telemetry!.voxThresholdRms}`}
+                    />
+                  );
+                })()}
               </div>
+              {hasLiveTelemetry && telemetry!.voxThresholdRms != null && (
+                <div className="flex items-center gap-1 mt-1">
+                  <div className="w-2 h-px bg-orange-400" />
+                  <span className="text-[10px] text-gray-600">
+                    Umbral VOX ({telemetry!.voxThresholdRms})
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Paquetes TX / RX */}

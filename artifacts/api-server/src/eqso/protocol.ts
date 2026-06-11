@@ -14,11 +14,20 @@ export const EQSO_COMMANDS = {
   COMMAND: 0x1f,
 } as const;
 
-// TELEMETRY packet (C→S):
-//   [0x1e][voxActive 1B][rmsLevel 2B BE][txPackets 4B BE][rxPackets 4B BE][pttState 1B][uptimeSec 4B BE]
-// Total: 17 bytes. Relay daemon sends every 5s.
+// TELEMETRY packet (C→S, v1.3+):
+//   [0x1e][voxActive 1B][rmsLevel 2B BE][txPackets 4B BE][rxPackets 4B BE]
+//   [pttState 1B][uptimeSec 4B BE][voxThresholdRms 2B BE]
+// Total: 19 bytes (1 opcode + 18 payload). Relay daemon sends every 5s.
 // pttState: 0=idle  1=tx (relay transmitting)  2=rx (relay receiving from server)
-export const TELEMETRY_PAYLOAD_SIZE = 16; // bytes after the 0x1e opcode
+// Layout (state.buf offsets, payload only):
+//   [0]     voxActive
+//   [1-2]   rmsLevel uint16be
+//   [3-6]   txPackets uint32be
+//   [7-10]  rxPackets uint32be
+//   [11]    pttState
+//   [12-15] uptimeSeconds uint32be
+//   [16-17] voxThresholdRms uint16be
+export const TELEMETRY_PAYLOAD_SIZE = 18; // bytes after the 0x1e opcode
 
 // COMMAND packet (S→C): [0x1f][command 1B]
 // command: 0x01=reconnect  0x02=mute_rx  0x03=test_ptt  0x04=unmute_rx

@@ -18,6 +18,8 @@ interface RelayDaemon {
     uptimeSeconds: number;
     receivedAt: number;
     stale: boolean;
+    /** VOX trigger threshold in RMS units (v1.3+ daemons only) */
+    voxThresholdRms?: number;
   } | null;
 }
 
@@ -500,9 +502,14 @@ export function RelaysPanel({ token }: RelaysPanelProps) {
                   <div className="mb-3">
                     <div className="flex justify-between text-[10px] text-gray-600 mb-1">
                       <span>Audio RMS</span>
-                      <span className="font-mono">{live ? t!.rmsLevel : "—"}</span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-mono">{live ? t!.rmsLevel : "—"}</span>
+                        {live && t!.voxThresholdRms != null && (
+                          <span className="text-gray-700">/ {t!.voxThresholdRms}</span>
+                        )}
+                      </div>
                     </div>
-                    <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                    <div className="relative h-2 bg-gray-800 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-300 ${
                           !live ? "w-0" :
@@ -511,6 +518,16 @@ export function RelaysPanel({ token }: RelaysPanelProps) {
                         }`}
                         style={{ width: `${live ? rmsBarPct : 0}%` }}
                       />
+                      {live && t!.voxThresholdRms != null && (() => {
+                        const threshPct = Math.min(100, (t!.voxThresholdRms! / RMS_MAX) * 100);
+                        return (
+                          <div
+                            className="absolute top-0 bottom-0 w-px bg-orange-400 opacity-80"
+                            style={{ left: `${threshPct}%` }}
+                            title={`Umbral VOX: ${t!.voxThresholdRms}`}
+                          />
+                        );
+                      })()}
                     </div>
                   </div>
 

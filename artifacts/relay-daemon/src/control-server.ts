@@ -18,7 +18,14 @@ export interface RelayStatus {
   server: string;
   port: number;
   pttActive: boolean;
+  /** true = VOX feature is enabled in config */
   voxEnabled: boolean;
+  /** true = VOX is currently triggering PTT */
+  voxActive: boolean;
+  /** Current audio RMS level captured from the microphone */
+  rmsLevel: number;
+  /** Configured VOX trigger threshold (RMS units) */
+  voxThresholdRms: number;
   reconnectAttempts: number;
   uptimeMs: number;
   rxPackets: number;

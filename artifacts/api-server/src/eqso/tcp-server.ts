@@ -227,6 +227,14 @@ function processMultiByte(state: TcpClientState, byte: number): void {
 
     case EQSO_COMMANDS.TELEMETRY: {
       if (state.buf.length >= TELEMETRY_PAYLOAD_SIZE) {
+        // Layout matches eqso-client.ts sendTelemetry (payload bytes, no opcode):
+        //   [0]     voxActive
+        //   [1-2]   rmsLevel uint16be
+        //   [3-6]   txPackets uint32be
+        //   [7-10]  rxPackets uint32be
+        //   [11]    pttState
+        //   [12-15] uptimeSeconds uint32be
+        //   [16-17] voxThresholdRms uint16be
         const voxActive = state.buf[0] !== 0;
         const rmsLevel = state.buf.readUInt16BE(1);
         const txPackets = state.buf.readUInt32BE(3);
@@ -234,9 +242,10 @@ function processMultiByte(state: TcpClientState, byte: number): void {
         const rawPttState = state.buf[11];
         const pttState: 0 | 1 | 2 = rawPttState === 1 ? 1 : rawPttState === 2 ? 2 : 0;
         const uptimeSeconds = state.buf.readUInt32BE(12);
+        const voxThresholdRms = state.buf.readUInt16BE(16);
         const client = roomManager.getClient(state.id);
         if (client?.name) {
-          relayTelemetryStore.update(client.name, { voxActive, rmsLevel, txPackets, rxPackets, pttState, uptimeSeconds });
+          relayTelemetryStore.update(client.name, { voxActive, rmsLevel, txPackets, rxPackets, pttState, uptimeSeconds, voxThresholdRms });
         }
         state.buf = state.buf.slice(TELEMETRY_PAYLOAD_SIZE);
         state.readMultiByte = false;
