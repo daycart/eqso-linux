@@ -627,8 +627,8 @@ function handleRemoteMode(
   };
 }
 
-export function startWsBridge(httpServer: HttpServer): WebSocketServer {
-  const wss = new WebSocketServer({ server: httpServer, path: "/ws" });
+export function startWsBridge(): WebSocketServer {
+  const wss = new WebSocketServer({ noServer: true });
 
   wss.on("connection", (ws: WebSocket, _req: IncomingMessage) => {
     if (!roomManager.isEnabled()) {
