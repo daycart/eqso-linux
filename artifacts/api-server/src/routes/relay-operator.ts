@@ -53,13 +53,6 @@ router.get("/status", (req, res) => {
   }
 
   const roomLock = relayClient.room ? roomManager.isLockedBy(relayClient.room, relayClient.id) : false;
-  const roomMembers = relayClient.room
-    ? roomManager.getRoomMembers(relayClient.room).map(m => ({
-        name: m.name,
-        protocol: m.protocol,
-        isRelay: m.isRelay ?? false,
-      }))
-    : [];
 
   res.json({
     online: true,
@@ -71,7 +64,6 @@ router.get("/status", (req, res) => {
     txBytes: relayClient.txBytes,
     rxBytes: relayClient.rxBytes,
     pttActive: roomLock,
-    roomMembers,
     telemetry: getTelemetryPayload(relayClient.name),
   });
 });
@@ -97,22 +89,15 @@ router.get("/room", (req, res) => {
     return;
   }
 
-  const members = roomManager.getRoomMembers(relayClient.room).map(m => ({
-    name: m.name,
-    protocol: m.protocol,
-    isRelay: m.isRelay ?? false,
-    connectedAt: m.connectedAt,
-  }));
-
   const lockedById = roomManager.isLockedBy(relayClient.room, relayClient.id);
   const allRoomClients = roomManager.getAllClients().filter(c => c.room === relayClient.room);
   const activeTxClient = allRoomClients.find(c => roomManager.isLockedBy(relayClient.room!, c.id));
+  const memberCount = roomManager.getRoomMembers(relayClient.room).length;
 
   res.json({
     room: relayClient.room,
-    members,
+    memberCount,
     pttActive: !!activeTxClient,
-    activeSpeaker: activeTxClient?.name ?? null,
     relayIsTx: lockedById,
   });
 });

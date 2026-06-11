@@ -23,16 +23,14 @@ interface RelayStatus {
   txBytes?: number;
   rxBytes?: number;
   pttActive?: boolean;
-  roomMembers?: { name: string; protocol: string; isRelay: boolean }[];
   reason?: string;
   telemetry?: TelemetryData | null;
 }
 
 interface RoomStatus {
   room: string | null;
-  members: { name: string; protocol: string; isRelay: boolean; connectedAt: number }[];
+  memberCount: number;
   pttActive: boolean;
-  activeSpeaker: string | null;
   relayIsTx: boolean;
 }
 
@@ -296,37 +294,22 @@ export function RelayOperatorPanel({ token, relayCallsign, confined, onClose }: 
         {/* ── Sala actual ── */}
         {connected && room?.room && (
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-gray-200">
                 Sala: <span className="font-mono text-green-400">{room.room}</span>
               </h3>
-              {room.pttActive && (
-                <span className="flex items-center gap-1.5 text-xs text-orange-300">
-                  <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-                  {room.relayIsTx ? "Tu relay transmite" : `Tx: ${room.activeSpeaker ?? "..."}`}
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] text-gray-500">
+                  {room.memberCount} usuario{room.memberCount !== 1 ? "s" : ""}
                 </span>
-              )}
-            </div>
-            {room.members.length === 0 ? (
-              <p className="text-xs text-gray-600">Sin usuarios en sala</p>
-            ) : (
-              <div className="space-y-1.5">
-                {room.members.map(m => (
-                  <div key={m.name} className="flex items-center gap-2">
-                    <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-                      m.isRelay ? "bg-orange-400" : "bg-green-500"
-                    }`} />
-                    <span className="font-mono text-xs text-gray-300">{m.name}</span>
-                    <span className="text-[10px] text-gray-600">
-                      {m.isRelay ? "enlace" : m.protocol === "ws" ? "web" : "tcp"}
-                    </span>
-                    {room.activeSpeaker === m.name && (
-                      <span className="ml-auto text-[10px] text-red-400 animate-pulse">TX</span>
-                    )}
-                  </div>
-                ))}
+                {room.pttActive && (
+                  <span className="flex items-center gap-1.5 text-xs text-orange-300">
+                    <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+                    {room.relayIsTx ? "Tu relay transmite" : "Canal activo"}
+                  </span>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
 

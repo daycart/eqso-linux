@@ -184,6 +184,7 @@ export class EqsoClient extends EventEmitter {
     sock.on("close", () => {
       this.connected = false;
       this.stopSilence();
+      this.stopTelemetry();
       this.emit("event", { type: "disconnected" } satisfies EqsoEvent);
       log(`TCP desconectado de ${this.host}:${this.port}`);
     });
@@ -191,6 +192,7 @@ export class EqsoClient extends EventEmitter {
     sock.on("error", (err: Error) => {
       this.connected = false;
       this.stopSilence();
+      this.stopTelemetry();
       this.emit("event", { type: "error", data: err.message } satisfies EqsoEvent);
       log(`TCP error: ${err.message}`);
     });
