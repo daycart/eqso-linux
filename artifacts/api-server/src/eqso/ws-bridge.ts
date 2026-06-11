@@ -580,8 +580,13 @@ function handleRemoteMode(
           remoteConnInfo.remoteMembers = []; // reset list when joining a new room
           rmAddMember(resolvedName, message);    // add self to member list
           roomManager.updateRemoteConn(id, { name: resolvedName, room });
+          // For relay_operator web clients: inject the server's own relay token
+          // so they can join without knowing the token (they're already authenticated by session)
+          const joinPassword = (isRelay && !password)
+            ? (process.env.RELAY_TOKENS ?? "").split(",")[0]?.trim() ?? ""
+            : password;
           logger.info({ id, name: resolvedName, room, host, port, isRelay }, "Remote proxy: join requested");
-          proxy.sendJoin(resolvedName, room, message, password);
+          proxy.sendJoin(resolvedName, room, message, joinPassword);
           sendJson(ws, { type: "joined", room, name: resolvedName, members: [] });
           logger.info({ id, name: resolvedName, room }, "Remote proxy: sent joined to browser");
           break;
