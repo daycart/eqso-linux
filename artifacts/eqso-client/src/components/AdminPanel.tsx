@@ -52,7 +52,7 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
   const [actionId, setActionId] = useState<number | null>(null);
   const [showCreate, setShowCreate] = useState(false);
   const [createForm, setCreateForm] = useState({
-    callsign: "", password: "", isRelay: false, role: "user",
+    callsign: "", password: "", isRelay: false, role: "user", relayCallsign: "",
   });
   const [createError, setCreateError] = useState<string | null>(null);
   const [creating, setCreating] = useState(false);
@@ -178,12 +178,13 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
           password: createForm.password,
           isRelay: createForm.isRelay,
           role: createForm.role,
+          relayCallsign: createForm.role === "relay_operator" ? (createForm.relayCallsign.trim() || null) : null,
         }),
       });
       const data = await res.json();
       if (!res.ok) { setCreateError(data.error ?? "Error"); return; }
       setShowCreate(false);
-      setCreateForm({ callsign: "", password: "", isRelay: false, role: "user" });
+      setCreateForm({ callsign: "", password: "", isRelay: false, role: "user", relayCallsign: "" });
       await load();
     } catch {
       setCreateError("Error de conexion");
@@ -820,26 +821,41 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
                              placeholder:text-gray-600 focus:outline-none focus:border-green-600"
                 />
               </div>
-              <div className="flex gap-4">
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={createForm.isRelay}
-                    onChange={(e) => setCreateForm(f => ({ ...f, isRelay: e.target.checked }))}
-                    className="accent-green-600"
-                  />
-                  <span className="text-xs text-gray-300">Radio-enlace (0R-)</span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={createForm.role === "admin"}
-                    onChange={(e) => setCreateForm(f => ({ ...f, role: e.target.checked ? "admin" : "user" }))}
-                    className="accent-blue-600"
-                  />
-                  <span className="text-xs text-gray-300">Administrador</span>
-                </label>
+              <div>
+                <label className="block text-xs text-gray-400 mb-1">Rol</label>
+                <select
+                  value={createForm.role}
+                  onChange={(e) => setCreateForm(f => ({ ...f, role: e.target.value, relayCallsign: "" }))}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-100 focus:outline-none focus:border-green-600"
+                >
+                  <option value="user">Usuario</option>
+                  <option value="relay_operator">Operador relay</option>
+                  <option value="admin">Administrador</option>
+                </select>
               </div>
+              {createForm.role === "relay_operator" && (
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1">Indicativo relay (0R-…)</label>
+                  <input
+                    type="text"
+                    value={createForm.relayCallsign}
+                    onChange={(e) => setCreateForm(f => ({ ...f, relayCallsign: e.target.value.toUpperCase() }))}
+                    placeholder="Ej: 0R-CB, 0R-IN70WN"
+                    maxLength={20}
+                    className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-100
+                               font-mono uppercase placeholder:text-gray-600 focus:outline-none focus:border-orange-600"
+                  />
+                </div>
+              )}
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={createForm.isRelay}
+                  onChange={(e) => setCreateForm(f => ({ ...f, isRelay: e.target.checked }))}
+                  className="accent-green-600"
+                />
+                <span className="text-xs text-gray-300">Marcar como radio-enlace (0R-)</span>
+              </label>
               {createError && (
                 <p className="text-xs text-red-400">{createError}</p>
               )}

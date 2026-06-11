@@ -34,11 +34,12 @@ router.get("/users", async (_req, res) => {
 // POST /api/admin/users — create user directly (active)
 router.post("/users", async (req, res) => {
   try {
-    const { callsign, password, isRelay = false, role = "user" } = req.body as {
+    const { callsign, password, isRelay = false, role = "user", relayCallsign } = req.body as {
       callsign: string;
       password: string;
       isRelay?: boolean;
       role?: string;
+      relayCallsign?: string | null;
     };
 
     if (!callsign || !password) {
@@ -55,6 +56,16 @@ router.post("/users", async (req, res) => {
       return;
     }
 
+    const validRoles = ["admin", "user", "relay_operator"] as const;
+    const newRole: "admin" | "user" | "relay_operator" = validRoles.includes(role as typeof validRoles[number])
+      ? (role as typeof validRoles[number])
+      : "user";
+
+    const normalizedRelayCallsign =
+      newRole === "relay_operator" && relayCallsign
+        ? relayCallsign.trim().toUpperCase() || null
+        : null;
+
     const existing = await db.select().from(usersTable).where(eq(usersTable.callsign, upper)).limit(1);
     if (existing.length > 0) {
       res.status(409).json({ error: `El indicativo "${upper}" ya existe` });
@@ -62,7 +73,6 @@ router.post("/users", async (req, res) => {
     }
 
     const passwordHash = await hashPassword(password);
-    const newRole = role === "admin" ? "admin" : "user";
     await db.insert(usersTable).values({
       callsign: upper,
       passwordHash,
@@ -70,9 +80,10 @@ router.post("/users", async (req, res) => {
       active: true,
       status: "active",
       role: newRole,
+      relayCallsign: normalizedRelayCallsign,
     });
 
-    res.json({ callsign: upper, isRelay: Boolean(isRelay), status: "active", role: newRole });
+    res.json({ callsign: upper, isRelay: Boolean(isRelay), status: "active", role: newRole, relayCallsign: normalizedRelayCallsign });
   } catch {
     res.status(500).json({ error: "Error interno del servidor" });
   }
