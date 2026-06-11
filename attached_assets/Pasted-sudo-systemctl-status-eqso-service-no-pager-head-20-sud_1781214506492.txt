@@ -1,0 +1,52 @@
+sudo systemctl status eqso.service --no-pager | head -20
+sudo journalctl -u eqso.service -n 30 --no-pager
+? eqso.service - eQSO ASORAPA Server
+     Loaded: loaded (/etc/systemd/system/eqso.service; enabled; preset: enabled)
+     Active: active (running) since Thu 2026-06-11 21:40:50 UTC; 7min ago
+   Main PID: 232905 (node)
+      Tasks: 18 (limit: 19094)
+     Memory: 103.0M (peak: 104.1M)
+        CPU: 14.262s
+     CGroup: /system.slice/eqso.service
+             +-232905 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+             +-232921 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             +-232922 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+
+jun 11 21:45:18 ubuntus node[232905]: {"level":30,"time":1781214318182,"pid":232905,"hostname":"ubuntus","id":"7033d106-a720-418b-bfaa-fd6bbe730f49","msg":"WS client disconnected"}
+jun 11 21:46:12 ubuntus node[232905]: {"level":30,"time":1781214372690,"pid":232905,"hostname":"ubuntus","id":"ecea9c83-8366-4029-8cec-31c423f1f2a1","msg":"New WS eQSO client"}
+jun 11 21:46:12 ubuntus node[232905]: {"level":30,"time":1781214372698,"pid":232905,"hostname":"ubuntus","id":"ecea9c83-8366-4029-8cec-31c423f1f2a1","msg":"WS client disconnected"}
+jun 11 21:46:59 ubuntus node[232905]: {"level":30,"time":1781214419482,"pid":232905,"hostname":"ubuntus","req":{"id":22,"method":"GET","url":"/"},"res":{"statusCode":304},"responseTime":4,"msg":"request completed"}
+jun 11 21:46:59 ubuntus node[232905]: {"level":30,"time":1781214419667,"pid":232905,"hostname":"ubuntus","req":{"id":23,"method":"GET","url":"/assets/index-DO4YZ1dy.js"},"res":{"statusCode":304},"responseTime":6,"msg":"request completed"}
+jun 11 21:46:59 ubuntus node[232905]: {"level":30,"time":1781214419789,"pid":232905,"hostname":"ubuntus","req":{"id":24,"method":"GET","url":"/assets/index-Dv-Fbfd5.css"},"res":{"statusCode":304},"responseTime":10,"msg":"request completed"}
+jun 11 21:47:00 ubuntus node[232905]: {"level":30,"time":1781214420172,"pid":232905,"hostname":"ubuntus","req":{"id":25,"method":"GET","url":"/api/servers"},"res":{"statusCode":304},"responseTime":97,"msg":"request completed"}
+jun 11 21:47:02 ubuntus node[232905]: {"level":30,"time":1781214422594,"pid":232905,"hostname":"ubuntus","req":{"id":26,"method":"POST","url":"/api/auth/login"},"res":{"statusCode":200},"responseTime":306,"msg":"request completed"}
+jun 11 21:41:02 ubuntus node[232905]: {"level":30,"time":1781214062900,"pid":232905,"hostname":"ubuntus","req":{"id":5,"method":"POST","url":"/api/auth/login"},"res":{"statusCode":200},"responseTime":624,"msg":"request completed"}
+jun 11 21:41:13 ubuntus node[232905]: {"level":30,"time":1781214073090,"pid":232905,"hostname":"ubuntus","id":"e210e3e1-da27-4592-a54c-83d0860e01d3","msg":"New WS eQSO client"}
+jun 11 21:41:13 ubuntus node[232905]: {"level":30,"time":1781214073104,"pid":232905,"hostname":"ubuntus","id":"e210e3e1-da27-4592-a54c-83d0860e01d3","msg":"WS client disconnected"}
+jun 11 21:43:06 ubuntus node[232905]: {"level":30,"time":1781214186852,"pid":232905,"hostname":"ubuntus","req":{"id":6,"method":"GET","url":"/api/admin/users"},"res":{"statusCode":200},"responseTime":111,"msg":"request completed"}
+jun 11 21:43:46 ubuntus node[232905]: {"level":30,"time":1781214226078,"pid":232905,"hostname":"ubuntus","req":{"id":7,"method":"POST","url":"/api/admin/users"},"res":{"statusCode":409},"responseTime":98,"msg":"request completed"}
+jun 11 21:44:04 ubuntus node[232905]: {"level":30,"time":1781214244070,"pid":232905,"hostname":"ubuntus","req":{"id":8,"method":"POST","url":"/api/admin/users"},"res":{"statusCode":200},"responseTime":569,"msg":"request completed"}
+jun 11 21:44:04 ubuntus node[232905]: {"level":30,"time":1781214244171,"pid":232905,"hostname":"ubuntus","req":{"id":9,"method":"GET","url":"/api/admin/users"},"res":{"statusCode":200},"responseTime":17,"msg":"request completed"}
+jun 11 21:44:38 ubuntus node[232905]: {"level":30,"time":1781214278329,"pid":232905,"hostname":"ubuntus","req":{"id":10,"method":"POST","url":"/api/auth/login"},"res":{"statusCode":200},"responseTime":630,"msg":"request completed"}
+jun 11 21:44:38 ubuntus node[232905]: {"level":30,"time":1781214278432,"pid":232905,"hostname":"ubuntus","req":{"id":11,"method":"GET","url":"/api/relay-operator/status"},"res":{"statusCode":200},"responseTime":6,"msg":"request completed"}
+jun 11 21:44:38 ubuntus node[232905]: {"level":30,"time":1781214278563,"pid":232905,"hostname":"ubuntus","req":{"id":12,"method":"GET","url":"/api/relay-operator/room"},"res":{"statusCode":200},"responseTime":7,"msg":"request completed"}
+jun 11 21:44:43 ubuntus node[232905]: {"level":30,"time":1781214283434,"pid":232905,"hostname":"ubuntus","req":{"id":13,"method":"GET","url":"/api/relay-operator/room"},"res":{"statusCode":304},"responseTime":6,"msg":"request completed"}
+jun 11 21:44:48 ubuntus node[232905]: {"level":30,"time":1781214288436,"pid":232905,"hostname":"ubuntus","req":{"id":14,"method":"GET","url":"/api/relay-operator/room"},"res":{"statusCode":304},"responseTime":11,"msg":"request completed"}
+jun 11 21:44:48 ubuntus node[232905]: {"level":30,"time":1781214288445,"pid":232905,"hostname":"ubuntus","req":{"id":15,"method":"GET","url":"/api/relay-operator/status"},"res":{"statusCode":304},"responseTime":3,"msg":"request completed"}
+jun 11 21:44:53 ubuntus node[232905]: {"level":30,"time":1781214293421,"pid":232905,"hostname":"ubuntus","req":{"id":16,"method":"GET","url":"/api/relay-operator/room"},"res":{"statusCode":304},"responseTime":3,"msg":"request completed"}
+jun 11 21:45:05 ubuntus node[232905]: {"level":30,"time":1781214305617,"pid":232905,"hostname":"ubuntus","req":{"id":17,"method":"GET","url":"/"},"res":{"statusCode":304},"responseTime":7,"msg":"request completed"}
+jun 11 21:45:05 ubuntus node[232905]: {"level":30,"time":1781214305949,"pid":232905,"hostname":"ubuntus","req":{"id":18,"method":"GET","url":"/assets/index-DO4YZ1dy.js"},"res":{"statusCode":304},"responseTime":6,"msg":"request completed"}
+jun 11 21:45:05 ubuntus node[232905]: {"level":30,"time":1781214305991,"pid":232905,"hostname":"ubuntus","req":{"id":19,"method":"GET","url":"/assets/index-Dv-Fbfd5.css"},"res":{"statusCode":304},"responseTime":7,"msg":"request completed"}
+jun 11 21:45:06 ubuntus node[232905]: {"level":30,"time":1781214306323,"pid":232905,"hostname":"ubuntus","req":{"id":20,"method":"GET","url":"/api/servers"},"res":{"statusCode":304},"responseTime":105,"msg":"request completed"}
+jun 11 21:45:11 ubuntus node[232905]: {"level":30,"time":1781214311352,"pid":232905,"hostname":"ubuntus","req":{"id":21,"method":"POST","url":"/api/auth/login"},"res":{"statusCode":200},"responseTime":364,"msg":"request completed"}
+jun 11 21:45:18 ubuntus node[232905]: {"level":30,"time":1781214318170,"pid":232905,"hostname":"ubuntus","id":"7033d106-a720-418b-bfaa-fd6bbe730f49","msg":"New WS eQSO client"}
+jun 11 21:45:18 ubuntus node[232905]: {"level":30,"time":1781214318182,"pid":232905,"hostname":"ubuntus","id":"7033d106-a720-418b-bfaa-fd6bbe730f49","msg":"WS client disconnected"}
+jun 11 21:46:12 ubuntus node[232905]: {"level":30,"time":1781214372690,"pid":232905,"hostname":"ubuntus","id":"ecea9c83-8366-4029-8cec-31c423f1f2a1","msg":"New WS eQSO client"}
+jun 11 21:46:12 ubuntus node[232905]: {"level":30,"time":1781214372698,"pid":232905,"hostname":"ubuntus","id":"ecea9c83-8366-4029-8cec-31c423f1f2a1","msg":"WS client disconnected"}
+jun 11 21:46:59 ubuntus node[232905]: {"level":30,"time":1781214419482,"pid":232905,"hostname":"ubuntus","req":{"id":22,"method":"GET","url":"/"},"res":{"statusCode":304},"responseTime":4,"msg":"request completed"}
+jun 11 21:46:59 ubuntus node[232905]: {"level":30,"time":1781214419667,"pid":232905,"hostname":"ubuntus","req":{"id":23,"method":"GET","url":"/assets/index-DO4YZ1dy.js"},"res":{"statusCode":304},"responseTime":6,"msg":"request completed"}
+jun 11 21:46:59 ubuntus node[232905]: {"level":30,"time":1781214419789,"pid":232905,"hostname":"ubuntus","req":{"id":24,"method":"GET","url":"/assets/index-Dv-Fbfd5.css"},"res":{"statusCode":304},"responseTime":10,"msg":"request completed"}
+jun 11 21:47:00 ubuntus node[232905]: {"level":30,"time":1781214420172,"pid":232905,"hostname":"ubuntus","req":{"id":25,"method":"GET","url":"/api/servers"},"res":{"statusCode":304},"responseTime":97,"msg":"request completed"}
+jun 11 21:47:02 ubuntus node[232905]: {"level":30,"time":1781214422594,"pid":232905,"hostname":"ubuntus","req":{"id":26,"method":"POST","url":"/api/auth/login"},"res":{"statusCode":200},"responseTime":306,"msg":"request completed"}
+jun 11 21:47:07 ubuntus node[232905]: {"level":30,"time":1781214427154,"pid":232905,"hostname":"ubuntus","id":"0fa13bcc-b59a-45d0-ba3f-19a672619866","msg":"New WS eQSO client"}
+jun 11 21:47:07 ubuntus node[232905]: {"level":30,"time":1781214427161,"pid":232905,"hostname":"ubuntus","id":"0fa13bcc-b59a-45d0-ba3f-19a672619866","msg":"WS client disconnected"}
