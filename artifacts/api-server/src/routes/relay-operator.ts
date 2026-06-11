@@ -16,6 +16,8 @@ function getTelemetryPayload(callsign: string | null | undefined) {
     voxActive: t.voxActive,
     txPackets: t.txPackets,
     rxPackets: t.rxPackets,
+    pttState: t.pttState,
+    uptimeSeconds: t.uptimeSeconds,
     receivedAt: t.receivedAt,
     stale: relayTelemetryStore.isStale(callsign),
   };
@@ -180,6 +182,8 @@ router.get("/all-daemons", requireAdmin, (req, res) => {
             voxActive: t.voxActive,
             txPackets: t.txPackets,
             rxPackets: t.rxPackets,
+            pttState: t.pttState,
+            uptimeSeconds: t.uptimeSeconds,
             receivedAt: t.receivedAt,
             stale: relayTelemetryStore.isStale(c.name),
           }

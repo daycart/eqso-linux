@@ -141,15 +141,16 @@ export default function HomePage() {
     );
   }
 
-  // ── Relay operator panel ────────────────────────────────────────────────────
-  if (showRelayPanel && auth.role === "relay_operator") {
+  // ── Relay operator panel (confined — relay_operator role cannot navigate away) ──
+  if (auth.role === "relay_operator") {
     return (
       <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
-        <AppHeader auth={auth} onLogout={handleLogout} onRelayPanel={() => setShowRelayPanel(true)} />
+        <AppHeader auth={auth} onLogout={handleLogout} onRelayPanel={() => {}} />
         <RelayOperatorPanel
           token={auth.token}
           relayCallsign={auth.relayCallsign}
-          onClose={() => setShowRelayPanel(false)}
+          confined={true}
+          onClose={() => {}}
         />
       </div>
     );

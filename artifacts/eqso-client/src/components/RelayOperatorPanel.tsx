@@ -6,6 +6,9 @@ interface TelemetryData {
   voxActive: boolean;
   txPackets: number;
   rxPackets: number;
+  /** 0=idle  1=TX (relay→server)  2=RX (server→relay) */
+  pttState: 0 | 1 | 2;
+  uptimeSeconds: number;
   receivedAt: number;
   stale: boolean;
 }
@@ -36,6 +39,8 @@ interface RoomStatus {
 interface RelayOperatorPanelProps {
   token: string;
   relayCallsign: string | null | undefined;
+  /** When true the operator is confined — "Volver" is hidden */
+  confined?: boolean;
   onClose: () => void;
 }
 
@@ -61,7 +66,23 @@ const COMMANDS = [
   { id: "reconnect", label: "Reconectar",    color: "bg-red-800 hover:bg-red-700" },
 ] as const;
 
-export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOperatorPanelProps) {
+const PTT_STATE_LABEL: Record<0 | 1 | 2, string> = {
+  0: "INACTIVO",
+  1: "TX ACTIVO",
+  2: "RX ACTIVO",
+};
+const PTT_STATE_COLOR: Record<0 | 1 | 2, string> = {
+  0: "text-gray-500 bg-gray-900 border-gray-700",
+  1: "text-red-300 bg-red-950 border-red-800",
+  2: "text-blue-300 bg-blue-950 border-blue-800",
+};
+const PTT_DOT_COLOR: Record<0 | 1 | 2, string> = {
+  0: "bg-gray-600",
+  1: "bg-red-500 animate-pulse",
+  2: "bg-blue-500 animate-pulse",
+};
+
+export function RelayOperatorPanel({ token, relayCallsign, confined, onClose }: RelayOperatorPanelProps) {
   const [status, setStatus] = useState<RelayStatus | null>(null);
   const [room, setRoom] = useState<RoomStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -118,6 +139,7 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
   const telemetry = status?.telemetry;
   const hasLiveTelemetry = !!telemetry && !telemetry.stale;
   const rmsBarPct = Math.min(100, ((telemetry?.rmsLevel ?? 0) / RMS_MAX) * 100);
+  const pttState: 0 | 1 | 2 = hasLiveTelemetry ? (telemetry!.pttState ?? 0) : 0;
 
   return (
     <div className="flex flex-col flex-1 bg-gray-950 overflow-hidden">
@@ -138,12 +160,14 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
               {lastUpdate.toLocaleTimeString("es-ES")}
             </span>
           )}
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-200 text-sm px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-          >
-            Volver
-          </button>
+          {!confined && (
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-200 text-sm px-3 py-2 rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              Volver
+            </button>
+          )}
         </div>
       </div>
 
@@ -172,10 +196,10 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
                 {connected ? "Relay en línea" : "Relay desconectado"}
               </span>
             </div>
-            {connected && status?.pttActive && (
-              <span className="flex items-center gap-1.5 text-xs font-medium text-red-300 bg-red-950 border border-red-800 rounded-lg px-2.5 py-1">
-                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                TX ACTIVO
+            {connected && (
+              <span className={`flex items-center gap-1.5 text-xs font-medium border rounded-lg px-2.5 py-1 ${PTT_STATE_COLOR[pttState]}`}>
+                <span className={`w-2 h-2 rounded-full ${PTT_DOT_COLOR[pttState]}`} />
+                {PTT_STATE_LABEL[pttState]}
               </span>
             )}
           </div>
@@ -214,6 +238,15 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
                 </span>
               )}
             </div>
+
+            {/* Uptime desde telemetría + PTT state strip */}
+            {hasLiveTelemetry && (
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
+                <span className="text-[10px] text-gray-600">
+                  Uptime (daemon): <span className="text-gray-400 font-mono">{fmtUptime(telemetry!.uptimeSeconds * 1000)}</span>
+                </span>
+              </div>
+            )}
 
             {/* Barra RMS + VOX */}
             <div className="mb-4">

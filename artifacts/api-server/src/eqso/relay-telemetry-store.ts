@@ -4,6 +4,9 @@ export interface RelayTelemetry {
   rmsLevel: number;
   txPackets: number;
   rxPackets: number;
+  /** 0 = idle, 1 = TX (relay transmitting to server), 2 = RX (receiving from server) */
+  pttState: 0 | 1 | 2;
+  uptimeSeconds: number;
   receivedAt: number;
 }
 

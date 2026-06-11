@@ -13,10 +13,20 @@ interface RelayDaemon {
     voxActive: boolean;
     txPackets: number;
     rxPackets: number;
+    /** 0=idle  1=TX (relay→server)  2=RX (server→relay) */
+    pttState: 0 | 1 | 2;
+    uptimeSeconds: number;
     receivedAt: number;
     stale: boolean;
   } | null;
 }
+
+const PTT_LABEL: Record<0 | 1 | 2, string> = { 0: "Inactivo", 1: "TX", 2: "RX" };
+const PTT_CLASS: Record<0 | 1 | 2, string> = {
+  0: "text-gray-600",
+  1: "text-red-400",
+  2: "text-blue-400",
+};
 
 interface RelayRow {
   id: number;
@@ -456,10 +466,11 @@ export function RelaysPanel({ token }: RelaysPanelProps) {
               const t = d.telemetry;
               const live = !!t && !t.stale;
               const rmsBarPct = live ? Math.min(100, (t!.rmsLevel / RMS_MAX) * 100) : 0;
+              const pttState: 0 | 1 | 2 = live ? (t!.pttState ?? 0) : 0;
               return (
                 <div key={d.callsign} className="bg-gray-900 border border-gray-800 rounded-xl p-4">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
                       <span className="font-mono text-sm text-orange-400">{d.callsign}</span>
                       {d.room && (
@@ -467,9 +478,10 @@ export function RelaysPanel({ token }: RelaysPanelProps) {
                           {d.room}
                         </span>
                       )}
-                      {t?.voxActive && (
-                        <span className="text-[10px] font-semibold text-red-400 bg-red-950 border border-red-800 rounded px-1.5 py-0.5 animate-pulse">
-                          TX
+                      {live && (
+                        <span className={`text-[10px] font-semibold ${PTT_CLASS[pttState]}`}>
+                          {PTT_LABEL[pttState]}
+                          {pttState !== 0 && t?.voxActive ? " · VOX" : ""}
                         </span>
                       )}
                     </div>

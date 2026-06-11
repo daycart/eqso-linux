@@ -231,9 +231,12 @@ function processMultiByte(state: TcpClientState, byte: number): void {
         const rmsLevel = state.buf.readUInt16BE(1);
         const txPackets = state.buf.readUInt32BE(3);
         const rxPackets = state.buf.readUInt32BE(7);
+        const rawPttState = state.buf[11];
+        const pttState: 0 | 1 | 2 = rawPttState === 1 ? 1 : rawPttState === 2 ? 2 : 0;
+        const uptimeSeconds = state.buf.readUInt32BE(12);
         const client = roomManager.getClient(state.id);
         if (client?.name) {
-          relayTelemetryStore.update(client.name, { voxActive, rmsLevel, txPackets, rxPackets });
+          relayTelemetryStore.update(client.name, { voxActive, rmsLevel, txPackets, rxPackets, pttState, uptimeSeconds });
         }
         state.buf = state.buf.slice(TELEMETRY_PAYLOAD_SIZE);
         state.readMultiByte = false;

@@ -151,7 +151,7 @@ export class EqsoClient extends EventEmitter {
   private handshakeDone = false;
   private silenceTimer: ReturnType<typeof setInterval> | null = null;
   private telemetryTimer: ReturnType<typeof setInterval> | null = null;
-  private telemetryProvider: (() => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number }) | null = null;
+  private telemetryProvider: (() => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number; pttState: 0 | 1 | 2; uptimeSeconds: number }) | null = null;
   private transmitting = false;
   private rxBusy = false; // canal ocupado por otro usuario → no enviar silence
   public connected = false;
@@ -210,17 +210,30 @@ export class EqsoClient extends EventEmitter {
     this.connected = false;
   }
 
-  setTelemetryProvider(fn: () => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number }): void {
+  setTelemetryProvider(fn: () => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number; pttState: 0 | 1 | 2; uptimeSeconds: number }): void {
     this.telemetryProvider = fn;
   }
 
-  sendTelemetry(rmsLevel: number, voxActive: boolean, txPackets: number, rxPackets: number): void {
-    const buf = Buffer.allocUnsafe(12);
+  /**
+   * Sends a 17-byte TELEMETRY packet to the server (opcode 0x1e).
+   * pttState: 0=idle  1=TX (relay transmitting)  2=RX (relay receiving from server)
+   */
+  sendTelemetry(
+    rmsLevel: number,
+    voxActive: boolean,
+    txPackets: number,
+    rxPackets: number,
+    pttState: 0 | 1 | 2,
+    uptimeSeconds: number,
+  ): void {
+    const buf = Buffer.allocUnsafe(17);
     buf[0] = 0x1e;
     buf[1] = voxActive ? 1 : 0;
     buf.writeUInt16BE(Math.min(Math.round(rmsLevel), 65535), 2);
     buf.writeUInt32BE(txPackets >>> 0, 4);
     buf.writeUInt32BE(rxPackets >>> 0, 8);
+    buf[11] = pttState;
+    buf.writeUInt32BE(Math.min(uptimeSeconds >>> 0, 0xffffffff), 12);
     this.write(buf);
   }
 
@@ -292,7 +305,7 @@ export class EqsoClient extends EventEmitter {
     this.telemetryTimer = setInterval(() => {
       if (!this.telemetryProvider) return;
       const d = this.telemetryProvider();
-      this.sendTelemetry(d.rmsLevel, d.voxActive, d.txPackets, d.rxPackets);
+      this.sendTelemetry(d.rmsLevel, d.voxActive, d.txPackets, d.rxPackets, d.pttState, d.uptimeSeconds);
     }, 5_000);
   }
 

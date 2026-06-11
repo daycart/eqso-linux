@@ -374,6 +374,8 @@ function connect(): void {
     voxActive: pttActive,
     txPackets,
     rxPackets,
+    pttState: pttActive ? 1 : rxActive ? 2 : 0,
+    uptimeSeconds: Math.floor((Date.now() - startTime) / 1000),
   }));
 
   client.connect();
