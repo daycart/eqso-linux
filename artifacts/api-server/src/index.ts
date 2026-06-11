@@ -24,8 +24,26 @@ if (Number.isNaN(port) || port <= 0) {
 
 const httpServer = http.createServer(app);
 
-startWsBridge(httpServer);
-startRelayWsNotifier(httpServer);
+const wsBridge = startWsBridge();
+const wsRelay = startRelayWsNotifier();
+
+httpServer.on("upgrade", (req, socket, head) => {
+  const url = new URL(req.url ?? "/", "http://localhost");
+  const pathname = url.pathname;
+
+  if (pathname === "/ws") {
+    wsBridge.handleUpgrade(req, socket, head, (ws) => {
+      wsBridge.emit("connection", ws, req);
+    });
+  } else if (pathname === "/ws-relay") {
+    wsRelay.handleUpgrade(req, socket, head, (ws) => {
+      wsRelay.emit("connection", ws, req);
+    });
+  } else {
+    socket.destroy();
+  }
+});
+
 seedServers().catch((err) => logger.warn({ err }, "seedServers failed (non-fatal)"));
 moderationManager.loadBans().catch((err) => logger.warn({ err }, "moderationManager.loadBans failed (non-fatal)"));
 relayManager.init().catch((err) => logger.warn({ err }, "relayManager.init failed (non-fatal)"));
