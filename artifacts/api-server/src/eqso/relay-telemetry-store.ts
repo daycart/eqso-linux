@@ -1,3 +1,5 @@
+import { EventEmitter } from "events";
+
 export interface RelayTelemetry {
   callsign: string;
   voxActive: boolean;
@@ -12,15 +14,19 @@ export interface RelayTelemetry {
   voxThresholdRms?: number;
 }
 
-class RelayTelemetryStore {
+export interface RelayTelemetryChange {
+  type: "update" | "remove";
+  callsign: string;
+  data?: RelayTelemetry;
+}
+
+class RelayTelemetryStore extends EventEmitter {
   private store = new Map<string, RelayTelemetry>();
 
   update(callsign: string, data: Omit<RelayTelemetry, "callsign" | "receivedAt">): void {
-    this.store.set(callsign.toUpperCase(), {
-      callsign,
-      ...data,
-      receivedAt: Date.now(),
-    });
+    const entry: RelayTelemetry = { callsign, ...data, receivedAt: Date.now() };
+    this.store.set(callsign.toUpperCase(), entry);
+    this.emit("change", { type: "update", callsign: callsign.toUpperCase(), data: entry } satisfies RelayTelemetryChange);
   }
 
   get(callsign: string): RelayTelemetry | null {
@@ -33,6 +39,7 @@ class RelayTelemetryStore {
 
   remove(callsign: string): void {
     this.store.delete(callsign.toUpperCase());
+    this.emit("change", { type: "remove", callsign: callsign.toUpperCase() } satisfies RelayTelemetryChange);
   }
 
   isStale(callsign: string, maxAgeMs = 15_000): boolean {

@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { getApiBase } from "./LoginPanel";
+import { getRelayWsUrl } from "../lib/homeServer";
 
 interface TelemetryData {
   rmsLevel: number;
@@ -89,27 +90,90 @@ export function RelayOperatorPanel({ token, relayCallsign, confined, onClose }: 
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [cmdLoading, setCmdLoading] = useState<string | null>(null);
   const [cmdResult, setCmdResult] = useState<string | null>(null);
+  const [wsConnected, setWsConnected] = useState(false);
+  const wsRef = useRef<WebSocket | null>(null);
 
-  const poll = useCallback(async () => {
+  const pollStatus = useCallback(async () => {
     try {
-      const [sRes, rRes] = await Promise.all([
-        fetch(`${getApiBase()}/api/relay-operator/status`, { headers: authHdr(token) }),
-        fetch(`${getApiBase()}/api/relay-operator/room`,   { headers: authHdr(token) }),
-      ]);
-      if (sRes.ok) setStatus(await sRes.json());
-      if (rRes.ok) setRoom(await rRes.json());
+      const res = await fetch(`${getApiBase()}/api/relay-operator/status`, { headers: authHdr(token) });
+      if (res.ok) setStatus(await res.json());
       setError(null);
-      setLastUpdate(new Date());
     } catch {
       setError("Error de conexión con el servidor");
     }
   }, [token]);
 
+  const pollRoom = useCallback(async () => {
+    try {
+      const res = await fetch(`${getApiBase()}/api/relay-operator/room`, { headers: authHdr(token) });
+      if (res.ok) setRoom(await res.json());
+    } catch { /* non-critical */ }
+  }, [token]);
+
+  const poll = useCallback(async () => {
+    await Promise.all([pollStatus(), pollRoom()]);
+    setLastUpdate(new Date());
+  }, [pollStatus, pollRoom]);
+
+  // ── WebSocket push (telemetry + online/offline events) ────────────────────
+  useEffect(() => {
+    let ws: WebSocket | null = null;
+    let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+    let destroyed = false;
+
+    function connect() {
+      if (destroyed) return;
+      const url = `${getRelayWsUrl()}?token=${encodeURIComponent(token)}`;
+      ws = new WebSocket(url);
+      wsRef.current = ws;
+
+      ws.onopen = () => { if (!destroyed) setWsConnected(true); };
+
+      ws.onmessage = (evt) => {
+        if (destroyed) return;
+        try {
+          const msg = JSON.parse(evt.data as string) as {
+            type: string; callsign?: string;
+            data?: TelemetryData & { stale?: boolean };
+          };
+          if (msg.type === "telemetry" && msg.data) {
+            setStatus(prev => prev ? { ...prev, online: true, telemetry: msg.data } : prev);
+            setLastUpdate(new Date());
+          } else if (msg.type === "offline") {
+            setStatus(prev => prev
+              ? { ...prev, online: false, telemetry: prev.telemetry ? { ...prev.telemetry, stale: true } : null }
+              : prev);
+            setLastUpdate(new Date());
+          }
+        } catch { /* ignore malformed */ }
+      };
+
+      ws.onclose = () => {
+        setWsConnected(false);
+        wsRef.current = null;
+        if (!destroyed) reconnectTimer = setTimeout(connect, 5000);
+      };
+      ws.onerror = () => ws?.close();
+    }
+
+    connect();
+    return () => {
+      destroyed = true;
+      if (reconnectTimer) clearTimeout(reconnectTimer);
+      ws?.close();
+      wsRef.current = null;
+    };
+  }, [token]);
+
+  // ── HTTP polling — full status on mount, then slower background sync ──────
   useEffect(() => {
     poll();
-    const t = setInterval(poll, 4000);
-    return () => clearInterval(t);
-  }, [poll]);
+    // Room status doesn't come via WS, poll it every 5s
+    // Full status poll as backup every 10s
+    const roomTimer = setInterval(pollRoom, 5000);
+    const statusTimer = setInterval(pollStatus, 10_000);
+    return () => { clearInterval(roomTimer); clearInterval(statusTimer); };
+  }, [poll, pollRoom, pollStatus]);
 
   async function sendCommand(command: string) {
     setCmdLoading(command);
@@ -155,11 +219,10 @@ export function RelayOperatorPanel({ token, relayCallsign, confined, onClose }: 
           </p>
         </div>
         <div className="flex items-center gap-3">
-          {lastUpdate && (
-            <span className="text-[10px] text-gray-600">
-              {lastUpdate.toLocaleTimeString("es-ES")}
-            </span>
-          )}
+          <span className={`flex items-center gap-1 text-[10px] ${wsConnected ? "text-green-500" : "text-gray-600"}`}>
+            <span className={`w-1.5 h-1.5 rounded-full ${wsConnected ? "bg-green-500" : "bg-gray-600"}`} />
+            {wsConnected ? "En vivo" : lastUpdate ? lastUpdate.toLocaleTimeString("es-ES") : "Conectando…"}
+          </span>
           {!confined && (
             <button
               onClick={onClose}

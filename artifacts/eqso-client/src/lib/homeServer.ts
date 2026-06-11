@@ -74,6 +74,13 @@ export function getWsUrl(): string {
 }
 
 /**
+ * WebSocket URL for relay telemetry push — e.g. wss://servidor.example.com/ws-relay
+ */
+export function getRelayWsUrl(): string {
+  return getWsUrl().replace(/\/ws$/, "/ws-relay");
+}
+
+/**
  * Human-readable label for the current home server.
  */
 export function getHomeServerLabel(): string {

@@ -3,6 +3,7 @@ import app from "./app";
 import { logger } from "./lib/logger";
 import { startTcpServer } from "./eqso/tcp-server";
 import { startWsBridge } from "./eqso/ws-bridge";
+import { startRelayWsNotifier } from "./eqso/relay-ws-notifier";
 import { seedServers } from "./lib/seedServers";
 import { moderationManager } from "./eqso/moderation-manager";
 import { relayManager } from "./eqso/relay-manager";
@@ -24,6 +25,7 @@ if (Number.isNaN(port) || port <= 0) {
 const httpServer = http.createServer(app);
 
 startWsBridge(httpServer);
+startRelayWsNotifier(httpServer);
 seedServers().catch((err) => logger.warn({ err }, "seedServers failed (non-fatal)"));
 moderationManager.loadBans().catch((err) => logger.warn({ err }, "moderationManager.loadBans failed (non-fatal)"));
 relayManager.init().catch((err) => logger.warn({ err }, "relayManager.init failed (non-fatal)"));
