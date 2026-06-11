@@ -1,11 +1,11 @@
 import { WebSocketServer, WebSocket } from "ws";
-import http from "http";
+import type http from "http";
 import { validateSession } from "../lib/auth";
 import { relayTelemetryStore, type RelayTelemetryChange } from "./relay-telemetry-store";
 import { logger } from "../lib/logger";
 
-export function startRelayWsNotifier(httpServer: http.Server): void {
-  const wss = new WebSocketServer({ server: httpServer, path: "/ws-relay" });
+export function startRelayWsNotifier(): WebSocketServer {
+  const wss = new WebSocketServer({ noServer: true });
 
   wss.on("connection", (ws, req) => {
     const rawUrl = req.url ?? "/";
@@ -87,4 +87,5 @@ export function startRelayWsNotifier(httpServer: http.Server): void {
   });
 
   logger.info("Relay WS notifier ready on /ws-relay");
+  return wss;
 }
