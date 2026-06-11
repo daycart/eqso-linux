@@ -1,1 +1,3 @@
 - [Relay audio setup](relay-audio-setup.md) — SB Play! 3 tiene dos jacks separados; Chrome Web Serial bloquea PTT serial; valores VOX validados para radio CB.
+- [WebSocket dual-server fix](ws-dual-server.md) — dos WebSocketServer con { server, path } en el mismo httpServer interfieren; usar noServer:true + upgrade router manual.
+- [Relay operator token injection](relay-operator-token.md) — relay_operator web clients necesitan RELAY_TOKENS inyectado por el servidor al hacer join vía EqsoProxy.
