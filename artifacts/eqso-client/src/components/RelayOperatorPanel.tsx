@@ -1,6 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { getApiBase } from "./LoginPanel";
 
+interface TelemetryData {
+  rmsLevel: number;
+  voxActive: boolean;
+  txPackets: number;
+  rxPackets: number;
+  receivedAt: number;
+  stale: boolean;
+}
+
 interface RelayStatus {
   online: boolean;
   callsign?: string | null;
@@ -13,6 +22,7 @@ interface RelayStatus {
   pttActive?: boolean;
   roomMembers?: { name: string; protocol: string; isRelay: boolean }[];
   reason?: string;
+  telemetry?: TelemetryData | null;
 }
 
 interface RoomStatus {
@@ -29,12 +39,6 @@ interface RelayOperatorPanelProps {
   onClose: () => void;
 }
 
-function fmtBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-}
-
 function fmtUptime(ms: number): string {
   const s = Math.floor(ms / 1000);
   const m = Math.floor(s / 60);
@@ -45,27 +49,38 @@ function fmtUptime(ms: number): string {
 }
 
 function authHdr(token: string) {
-  return { Authorization: `Bearer ${token}` };
+  return { Authorization: `Bearer ${token}`, "Content-Type": "application/json" };
 }
+
+const RMS_MAX = 3500; // umbral visual: RMS a partir del cual la barra llega al 100%
+
+const COMMANDS = [
+  { id: "test_ptt",  label: "Probar PTT",    color: "bg-orange-700 hover:bg-orange-600" },
+  { id: "mute_rx",   label: "Silenciar RX",  color: "bg-yellow-700 hover:bg-yellow-600" },
+  { id: "unmute_rx", label: "Activar RX",    color: "bg-blue-700 hover:bg-blue-600" },
+  { id: "reconnect", label: "Reconectar",    color: "bg-red-800 hover:bg-red-700" },
+] as const;
 
 export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOperatorPanelProps) {
   const [status, setStatus] = useState<RelayStatus | null>(null);
   const [room, setRoom] = useState<RoomStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
+  const [cmdLoading, setCmdLoading] = useState<string | null>(null);
+  const [cmdResult, setCmdResult] = useState<string | null>(null);
 
   const poll = useCallback(async () => {
     try {
       const [sRes, rRes] = await Promise.all([
         fetch(`${getApiBase()}/api/relay-operator/status`, { headers: authHdr(token) }),
-        fetch(`${getApiBase()}/api/relay-operator/room`, { headers: authHdr(token) }),
+        fetch(`${getApiBase()}/api/relay-operator/room`,   { headers: authHdr(token) }),
       ]);
       if (sRes.ok) setStatus(await sRes.json());
       if (rRes.ok) setRoom(await rRes.json());
       setError(null);
       setLastUpdate(new Date());
     } catch {
-      setError("Error de conexion con el servidor");
+      setError("Error de conexión con el servidor");
     }
   }, [token]);
 
@@ -75,10 +90,38 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
     return () => clearInterval(t);
   }, [poll]);
 
+  async function sendCommand(command: string) {
+    setCmdLoading(command);
+    setCmdResult(null);
+    try {
+      const res = await fetch(`${getApiBase()}/api/relay-operator/command`, {
+        method: "POST",
+        headers: authHdr(token),
+        body: JSON.stringify({ command }),
+      });
+      const data = await res.json() as { ok?: boolean; error?: string };
+      if (res.ok) {
+        setCmdResult(`✓ Comando "${command}" enviado`);
+        setTimeout(() => setCmdResult(null), 4000);
+        if (command !== "reconnect") await poll();
+      } else {
+        setCmdResult(`Error: ${data.error ?? "desconocido"}`);
+      }
+    } catch {
+      setCmdResult("Error de conexión");
+    } finally {
+      setCmdLoading(null);
+    }
+  }
+
   const connected = status?.online === true;
+  const telemetry = status?.telemetry;
+  const hasLiveTelemetry = !!telemetry && !telemetry.stale;
+  const rmsBarPct = Math.min(100, ((telemetry?.rmsLevel ?? 0) / RMS_MAX) * 100);
 
   return (
     <div className="flex flex-col flex-1 bg-gray-950 overflow-hidden">
+      {/* Cabecera */}
       <div className="border-b border-gray-800 px-6 py-4 flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold text-gray-100">Panel de Operador</h2>
@@ -92,7 +135,7 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
         <div className="flex items-center gap-3">
           {lastUpdate && (
             <span className="text-[10px] text-gray-600">
-              Actualizado: {lastUpdate.toLocaleTimeString("es-ES")}
+              {lastUpdate.toLocaleTimeString("es-ES")}
             </span>
           )}
           <button
@@ -116,25 +159,18 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
           </div>
         )}
 
-        {/* Estado del relay */}
+        {/* ── Estado de conexión ── */}
         <div className={`rounded-xl border p-5 ${
-          connected
-            ? "border-green-800 bg-green-950/20"
-            : "border-gray-800 bg-gray-900"
+          connected ? "border-green-800 bg-green-950/20" : "border-gray-800 bg-gray-900"
         }`}>
           <div className="flex items-center justify-between">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className={`inline-block w-3 h-3 rounded-full ${
-                  connected ? "bg-green-500 animate-pulse" : "bg-red-600"
-                }`} />
-                <span className="text-sm font-semibold text-gray-100">
-                  {connected ? "Relay en línea" : "Relay desconectado"}
-                </span>
-              </div>
-              {status?.reason && !connected && (
-                <p className="text-xs text-gray-500 mt-1 ml-5">{status.reason}</p>
-              )}
+            <div className="flex items-center gap-2">
+              <span className={`inline-block w-3 h-3 rounded-full ${
+                connected ? "bg-green-500 animate-pulse" : "bg-red-600"
+              }`} />
+              <span className="text-sm font-semibold text-gray-100">
+                {connected ? "Relay en línea" : "Relay desconectado"}
+              </span>
             </div>
             {connected && status?.pttActive && (
               <span className="flex items-center gap-1.5 text-xs font-medium text-red-300 bg-red-950 border border-red-800 rounded-lg px-2.5 py-1">
@@ -143,6 +179,9 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
               </span>
             )}
           </div>
+          {status?.reason && !connected && (
+            <p className="text-xs text-gray-500 mt-2 ml-5">{status.reason}</p>
+          )}
 
           {connected && (
             <div className="mt-4 grid grid-cols-2 gap-3">
@@ -156,23 +195,72 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
                   {status?.uptimeMs != null ? fmtUptime(status.uptimeMs) : "—"}
                 </p>
               </div>
-              <div className="bg-gray-800/50 rounded-lg p-3">
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">TX (al servidor)</p>
-                <p className="text-sm font-mono text-green-400">
-                  {status?.txBytes != null ? fmtBytes(status.txBytes) : "—"}
-                </p>
-              </div>
-              <div className="bg-gray-800/50 rounded-lg p-3">
-                <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">RX (del servidor)</p>
-                <p className="text-sm font-mono text-blue-400">
-                  {status?.rxBytes != null ? fmtBytes(status.rxBytes) : "—"}
-                </p>
-              </div>
             </div>
           )}
         </div>
 
-        {/* Sala actual */}
+        {/* ── Telemetría en vivo ── */}
+        {connected && (
+          <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold text-gray-200">Telemetría</h3>
+              {hasLiveTelemetry ? (
+                <span className="text-[10px] text-gray-500">
+                  Actualizado: {new Date(telemetry!.receivedAt).toLocaleTimeString("es-ES")}
+                </span>
+              ) : (
+                <span className="text-[10px] text-yellow-600 bg-yellow-950 border border-yellow-800 rounded px-2 py-0.5">
+                  Sin datos (&gt;15 s)
+                </span>
+              )}
+            </div>
+
+            {/* Barra RMS + VOX */}
+            <div className="mb-4">
+              <div className="flex justify-between items-center text-xs mb-1.5">
+                <span className="text-gray-500">Nivel audio (RMS)</span>
+                <div className="flex items-center gap-2">
+                  {telemetry?.voxActive && (
+                    <span className="text-[10px] font-semibold text-red-400 bg-red-950 border border-red-800 rounded px-1.5 py-0.5 animate-pulse">
+                      VOX ACTIVO
+                    </span>
+                  )}
+                  <span className={`font-mono ${hasLiveTelemetry ? "text-gray-300" : "text-gray-600"}`}>
+                    {hasLiveTelemetry ? telemetry!.rmsLevel : "—"}
+                  </span>
+                </div>
+              </div>
+              <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-300 ${
+                    !hasLiveTelemetry ? "bg-gray-700 w-0" :
+                    telemetry!.voxActive ? "bg-red-500" :
+                    rmsBarPct > 60 ? "bg-yellow-500" : "bg-blue-600"
+                  }`}
+                  style={{ width: `${hasLiveTelemetry ? rmsBarPct : 0}%` }}
+                />
+              </div>
+            </div>
+
+            {/* Paquetes TX / RX */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-gray-800/50 rounded-lg p-3">
+                <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Paquetes TX</p>
+                <p className={`text-sm font-mono ${hasLiveTelemetry ? "text-green-400" : "text-gray-600"}`}>
+                  {hasLiveTelemetry ? (telemetry!.txPackets).toLocaleString("es-ES") : "—"}
+                </p>
+              </div>
+              <div className="bg-gray-800/50 rounded-lg p-3">
+                <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Paquetes RX</p>
+                <p className={`text-sm font-mono ${hasLiveTelemetry ? "text-blue-400" : "text-gray-600"}`}>
+                  {hasLiveTelemetry ? (telemetry!.rxPackets).toLocaleString("es-ES") : "—"}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Sala actual ── */}
         {connected && room?.room && (
           <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
             <div className="flex items-center justify-between mb-3">
@@ -209,11 +297,44 @@ export function RelayOperatorPanel({ token, relayCallsign, onClose }: RelayOpera
           </div>
         )}
 
-        {/* Hint when offline */}
+        {/* ── Acciones ── */}
+        {connected && (
+          <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
+            <h3 className="text-sm font-semibold text-gray-200 mb-3">Acciones</h3>
+            <div className="flex flex-wrap gap-2">
+              {COMMANDS.map(cmd => (
+                <button
+                  key={cmd.id}
+                  onClick={() => sendCommand(cmd.id)}
+                  disabled={!!cmdLoading}
+                  className={`${cmd.color} text-white text-xs font-medium px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                  {cmdLoading === cmd.id ? (
+                    <span className="flex items-center gap-1.5">
+                      <span className="w-3 h-3 border border-white/50 border-t-white rounded-full animate-spin" />
+                      {cmd.label}
+                    </span>
+                  ) : cmd.label}
+                </button>
+              ))}
+            </div>
+            {cmdResult && (
+              <p className={`text-xs mt-2.5 ${cmdResult.startsWith("Error") ? "text-red-400" : "text-green-400"}`}>
+                {cmdResult}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Hint cuando offline */}
         {!connected && relayCallsign && (
           <div className="bg-gray-900 border border-dashed border-gray-700 rounded-xl p-5 text-center">
-            <p className="text-sm text-gray-500">El relay <span className="font-mono text-gray-400">{relayCallsign}</span> no está conectado al servidor.</p>
-            <p className="text-xs text-gray-600 mt-1">Comprueba que el servicio eqso-relay está activo en el equipo físico.</p>
+            <p className="text-sm text-gray-500">
+              El relay <span className="font-mono text-gray-400">{relayCallsign}</span> no está conectado al servidor.
+            </p>
+            <p className="text-xs text-gray-600 mt-1">
+              Comprueba que el servicio eqso-relay está activo en el equipo físico.
+            </p>
           </div>
         )}
       </div>

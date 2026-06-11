@@ -1,6 +1,23 @@
 import { useState, useEffect, useCallback } from "react";
 import { getApiBase } from "./LoginPanel";
 
+interface RelayDaemon {
+  callsign: string;
+  room: string | null;
+  connectedAt: number;
+  uptimeMs: number;
+  txBytes: number;
+  rxBytes: number;
+  telemetry: {
+    rmsLevel: number;
+    voxActive: boolean;
+    txPackets: number;
+    rxPackets: number;
+    receivedAt: number;
+    stale: boolean;
+  } | null;
+}
+
 interface RelayRow {
   id: number;
   label: string;
@@ -47,8 +64,20 @@ function StatusDot({ status }: { status: RelayRow["status"] }) {
   );
 }
 
+function fmtUptime(ms: number): string {
+  const s = Math.floor(ms / 1000);
+  const m = Math.floor(s / 60);
+  const h = Math.floor(m / 60);
+  if (h > 0) return `${h}h ${m % 60}m`;
+  if (m > 0) return `${m}m ${s % 60}s`;
+  return `${s}s`;
+}
+
+const RMS_MAX = 3500;
+
 export function RelaysPanel({ token }: RelaysPanelProps) {
   const [relays, setRelays] = useState<RelayRow[]>([]);
+  const [daemons, setDaemons] = useState<RelayDaemon[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -71,11 +100,20 @@ export function RelaysPanel({ token }: RelaysPanelProps) {
     }
   }, [token]);
 
+  const loadDaemons = useCallback(async () => {
+    try {
+      const res = await fetch(`${getApiBase()}/api/relay-operator/all-daemons`, { headers: authHdr(token) });
+      if (res.ok) setDaemons(await res.json());
+    } catch { /* ignore */ }
+  }, [token]);
+
   useEffect(() => {
     load();
-    const t = setInterval(load, 5000);
-    return () => clearInterval(t);
-  }, [load]);
+    loadDaemons();
+    const t1 = setInterval(load, 5000);
+    const t2 = setInterval(loadDaemons, 5000);
+    return () => { clearInterval(t1); clearInterval(t2); };
+  }, [load, loadDaemons]);
 
   function openCreate() {
     setEditId(null);
@@ -398,6 +436,93 @@ export function RelaysPanel({ token }: RelaysPanelProps) {
           ))}
         </div>
       )}
+
+      {/* ── Relays conectados (daemons físicos) ── */}
+      <div className="pt-2 border-t border-gray-800 space-y-3">
+        <div>
+          <h3 className="text-sm font-semibold text-gray-200">Daemons conectados</h3>
+          <p className="text-xs text-gray-500 mt-0.5">
+            Relays físicos actualmente conectados al servidor con telemetría en vivo (actualizacion cada 5 s).
+          </p>
+        </div>
+
+        {daemons.length === 0 ? (
+          <div className="text-center py-8 border border-dashed border-gray-800 rounded-xl">
+            <p className="text-xs text-gray-600">Ningún relay daemon conectado en este momento.</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {daemons.map(d => {
+              const t = d.telemetry;
+              const live = !!t && !t.stale;
+              const rmsBarPct = live ? Math.min(100, (t!.rmsLevel / RMS_MAX) * 100) : 0;
+              return (
+                <div key={d.callsign} className="bg-gray-900 border border-gray-800 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse" />
+                      <span className="font-mono text-sm text-orange-400">{d.callsign}</span>
+                      {d.room && (
+                        <span className="text-[10px] text-gray-500 bg-gray-800 px-1.5 py-0.5 rounded font-mono">
+                          {d.room}
+                        </span>
+                      )}
+                      {t?.voxActive && (
+                        <span className="text-[10px] font-semibold text-red-400 bg-red-950 border border-red-800 rounded px-1.5 py-0.5 animate-pulse">
+                          TX
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-[10px] text-gray-600 text-right">
+                      <div>Activo: {fmtUptime(d.uptimeMs)}</div>
+                      {live && (
+                        <div>{new Date(t!.receivedAt).toLocaleTimeString("es-ES")}</div>
+                      )}
+                      {!live && (
+                        <div className="text-yellow-700">Sin datos (&gt;15 s)</div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* RMS bar */}
+                  <div className="mb-3">
+                    <div className="flex justify-between text-[10px] text-gray-600 mb-1">
+                      <span>Audio RMS</span>
+                      <span className="font-mono">{live ? t!.rmsLevel : "—"}</span>
+                    </div>
+                    <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-300 ${
+                          !live ? "w-0" :
+                          t!.voxActive ? "bg-red-500" :
+                          rmsBarPct > 60 ? "bg-yellow-500" : "bg-blue-600"
+                        }`}
+                        style={{ width: `${live ? rmsBarPct : 0}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Paquetes */}
+                  <div className="grid grid-cols-2 gap-2 text-[11px]">
+                    <div className="bg-gray-800/50 rounded-lg px-3 py-2">
+                      <span className="text-gray-600">TX pkts: </span>
+                      <span className={`font-mono ${live ? "text-green-500" : "text-gray-600"}`}>
+                        {live ? t!.txPackets.toLocaleString("es-ES") : "—"}
+                      </span>
+                    </div>
+                    <div className="bg-gray-800/50 rounded-lg px-3 py-2">
+                      <span className="text-gray-600">RX pkts: </span>
+                      <span className={`font-mono ${live ? "text-blue-400" : "text-gray-600"}`}>
+                        {live ? t!.rxPackets.toLocaleString("es-ES") : "—"}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

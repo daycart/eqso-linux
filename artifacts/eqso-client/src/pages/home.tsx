@@ -39,7 +39,7 @@ export default function HomePage() {
     setAuth(session);
     setCallsign(session.callsign);
     setShowAdmin(false);
-    setShowRelayPanel(false);
+    setShowRelayPanel(session.role === "relay_operator");
   };
 
   const handleLogout = () => {

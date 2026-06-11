@@ -5,9 +5,11 @@ import { roomManager, ClientInfo } from "./room-manager";
 import { FfmpegGsmDecoder } from "./ffmpeg-gsm";
 import { inactivityManager } from "./inactivity-manager";
 import { moderationManager } from "./moderation-manager";
+import { relayTelemetryStore } from "./relay-telemetry-store";
 import {
   EQSO_COMMANDS,
   AUDIO_PAYLOAD_SIZE,
+  TELEMETRY_PAYLOAD_SIZE,
   HANDSHAKE_CLIENT,
   HANDSHAKE_SERVER,
   buildServerInfo,
@@ -165,6 +167,12 @@ function processSingleByte(state: TcpClientState, byte: number): void {
       state.buf = Buffer.from([byte]);
       break;
 
+    case EQSO_COMMANDS.TELEMETRY:
+      state.readMultiByte = true;
+      state.multiByteCmd = EQSO_COMMANDS.TELEMETRY;
+      state.buf = Buffer.alloc(0);
+      break;
+
     default:
       break;
   }
@@ -213,6 +221,23 @@ function processMultiByte(state: TcpClientState, byte: number): void {
         state.readMultiByte = false;
         state.multiByteCmd = 0;
         state.buf = Buffer.alloc(0);
+      }
+      break;
+    }
+
+    case EQSO_COMMANDS.TELEMETRY: {
+      if (state.buf.length >= TELEMETRY_PAYLOAD_SIZE) {
+        const voxActive = state.buf[0] !== 0;
+        const rmsLevel = state.buf.readUInt16BE(1);
+        const txPackets = state.buf.readUInt32BE(3);
+        const rxPackets = state.buf.readUInt32BE(7);
+        const client = roomManager.getClient(state.id);
+        if (client?.name) {
+          relayTelemetryStore.update(client.name, { voxActive, rmsLevel, txPackets, rxPackets });
+        }
+        state.buf = state.buf.slice(TELEMETRY_PAYLOAD_SIZE);
+        state.readMultiByte = false;
+        state.multiByteCmd = 0;
       }
       break;
     }
@@ -369,6 +394,9 @@ function handleDisconnect(state: TcpClientState): void {
     const leftPkt = buildUserLeft(client.name);
     roomManager.broadcastToRoom(client.room, leftPkt, state.id);
     logger.info({ id: state.id, name: client.name, room: client.room }, "TCP eQSO client left room");
+  }
+  if (client?.name) {
+    relayTelemetryStore.remove(client.name);
   }
   roomManager.removeClient(state.id);
   logger.info({ id: state.id }, "TCP eQSO client disconnected");

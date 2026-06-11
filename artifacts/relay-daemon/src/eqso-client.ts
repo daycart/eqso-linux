@@ -73,6 +73,10 @@ class EqsoPacketParser {
         const p = this.acc.slice(0, 1 + AUDIO_PAYLOAD_SIZE);
         this.acc = this.acc.slice(1 + AUDIO_PAYLOAD_SIZE); return p;
       }
+      if (cmd === 0x1f) {
+        if (this.acc.length < 2) return null;
+        const p = this.acc.slice(0, 2); this.acc = this.acc.slice(2); return p;
+      }
       // unknown byte
       this.acc = this.acc.slice(1);
     }
@@ -134,7 +138,8 @@ export interface EqsoEvent {
     | "ptt_started"
     | "ptt_released"
     | "audio"
-    | "keepalive";
+    | "keepalive"
+    | "command";
   data?: unknown;
 }
 
@@ -145,6 +150,8 @@ export class EqsoClient extends EventEmitter {
   private parser = new EqsoPacketParser();
   private handshakeDone = false;
   private silenceTimer: ReturnType<typeof setInterval> | null = null;
+  private telemetryTimer: ReturnType<typeof setInterval> | null = null;
+  private telemetryProvider: (() => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number }) | null = null;
   private transmitting = false;
   private rxBusy = false; // canal ocupado por otro usuario → no enviar silence
   public connected = false;
@@ -197,9 +204,24 @@ export class EqsoClient extends EventEmitter {
 
   disconnect(): void {
     this.stopSilence();
+    this.stopTelemetry();
     this.socket?.destroy();
     this.socket = null;
     this.connected = false;
+  }
+
+  setTelemetryProvider(fn: () => { rmsLevel: number; voxActive: boolean; txPackets: number; rxPackets: number }): void {
+    this.telemetryProvider = fn;
+  }
+
+  sendTelemetry(rmsLevel: number, voxActive: boolean, txPackets: number, rxPackets: number): void {
+    const buf = Buffer.allocUnsafe(12);
+    buf[0] = 0x1e;
+    buf[1] = voxActive ? 1 : 0;
+    buf.writeUInt16BE(Math.min(Math.round(rmsLevel), 65535), 2);
+    buf.writeUInt32BE(txPackets >>> 0, 4);
+    buf.writeUInt32BE(rxPackets >>> 0, 8);
+    this.write(buf);
   }
 
   sendJoin(name: string, room: string, message: string, password: string): void {
@@ -265,6 +287,19 @@ export class EqsoClient extends EventEmitter {
     if (this.silenceTimer) { clearInterval(this.silenceTimer); this.silenceTimer = null; }
   }
 
+  private startTelemetry(): void {
+    if (this.telemetryTimer || !this.telemetryProvider) return;
+    this.telemetryTimer = setInterval(() => {
+      if (!this.telemetryProvider) return;
+      const d = this.telemetryProvider();
+      this.sendTelemetry(d.rmsLevel, d.voxActive, d.txPackets, d.rxPackets);
+    }, 5_000);
+  }
+
+  private stopTelemetry(): void {
+    if (this.telemetryTimer) { clearInterval(this.telemetryTimer); this.telemetryTimer = null; }
+  }
+
   private write(data: Buffer): void {
     if (this.socket && !this.socket.destroyed && this.connected) {
       try { this.socket.write(data); } catch { /* ignore */ }
@@ -289,6 +324,7 @@ export class EqsoClient extends EventEmitter {
           log("Handshake recibido — conexion establecida");
           this.emit("event", { type: "connected" } satisfies EqsoEvent);
           this.startSilence();
+          this.startTelemetry();
         }
         break;
       }
@@ -325,6 +361,14 @@ export class EqsoClient extends EventEmitter {
       case 0x01:
         this.emit("event", { type: "audio", data: pkt } satisfies EqsoEvent);
         break;
+      case 0x1f: {
+        if (pkt.length >= 2) {
+          const command = pkt[1];
+          log(`Comando recibido: 0x${command.toString(16).padStart(2, "0")}`);
+          this.emit("event", { type: "command", data: { command } } satisfies EqsoEvent);
+        }
+        break;
+      }
       default:
         break;
     }

@@ -10,7 +10,19 @@ export const EQSO_COMMANDS = {
   JOIN: 0x1a,
   PTT_RELEASE_1: 0x08,
   PTT_RELEASE_2: 0x06,
+  TELEMETRY: 0x1e,
+  COMMAND: 0x1f,
 } as const;
+
+// TELEMETRY packet (C→S): [0x1e][voxActive 1B][rmsLevel 2B BE][txPackets 4B BE][rxPackets 4B BE]
+// Total: 12 bytes. Relay daemon sends every 5s.
+export const TELEMETRY_PAYLOAD_SIZE = 11; // bytes after the 0x1e opcode
+
+// COMMAND packet (S→C): [0x1f][command 1B]
+// command: 0x01=reconnect  0x02=mute_rx  0x03=test_ptt  0x04=unmute_rx
+export function buildCommand(cmd: 0x01 | 0x02 | 0x03 | 0x04): Buffer {
+  return Buffer.from([0x1f, cmd]);
+}
 
 export const SERVER_NAME = "_SERVER_";
 export const ROOM_ALL = "_ALL_";

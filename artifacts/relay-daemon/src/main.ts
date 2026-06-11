@@ -42,6 +42,7 @@ let rxPackets = 0;
 let txPackets = 0;
 let usersInRoom: string[] = [];
 let forceReconnectRequested = false;
+let mutedRx = false; // silenciar reproduccion de audio RX via comando 0x1f
 
 // ─── Inhibicion RX (anti-feedback acustico) ───────────────────────────────────
 // Cuando la radio reproduce audio del servidor, inhibimos el VOX durante ese
@@ -310,6 +311,8 @@ function connect(): void {
         // el semi-duplex ni el temporizador RX. arecord corre continuamente y
         // el VOX detecta la radio CB sin ningun retraso ni inhibicion.
         if (cfg.audio.outputGain === 0) break;
+        // Comando mute_rx (0x1f 0x02): silenciar reproduccion de audio en la radio
+        if (mutedRx) break;
         // Audio: inhibicion VOX ya aplicada arriba con setRxActive()
         // Extraer payload GSM real (sin el byte 0x01 del opcode)
         const gsm = Buffer.from(pkt.buffer, pkt.byteOffset + 1, gsmPayloadLen);
@@ -327,6 +330,33 @@ function connect(): void {
         // silencioso
         break;
 
+      case "command": {
+        const d = ev.data as { command: number };
+        switch (d.command) {
+          case 0x01: // reconnect
+            log("Comando remoto: RECONECTAR");
+            client.disconnect();
+            scheduleReconnect();
+            break;
+          case 0x02: // mute_rx
+            log("Comando remoto: SILENCIAR RX");
+            mutedRx = true;
+            break;
+          case 0x03: // test_ptt (abrir PTT 2s)
+            log("Comando remoto: PROBAR PTT (2s)");
+            vox.forcePttStart();
+            setTimeout(() => vox.forcePttEnd(), 2000);
+            break;
+          case 0x04: // unmute_rx
+            log("Comando remoto: ACTIVAR RX");
+            mutedRx = false;
+            break;
+          default:
+            log(`Comando remoto desconocido: 0x${d.command.toString(16)}`);
+        }
+        break;
+      }
+
       case "disconnected":
         log("Desconectado del servidor eQSO");
         scheduleReconnect();
@@ -338,6 +368,13 @@ function connect(): void {
         break;
     }
   });
+
+  client.setTelemetryProvider(() => ({
+    rmsLevel: latestPcmRms,
+    voxActive: pttActive,
+    txPackets,
+    rxPackets,
+  }));
 
   client.connect();
 }
