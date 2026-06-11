@@ -1,0 +1,33 @@
+sudo journalctl -u eqso.service -f --no-pager
+jun 11 22:22:04 ubuntus node[234680]: {"level":30,"time":1781216524038,"pid":234680,"hostname":"ubuntus","rooms":["GENERAL","CB","ASORAPA","PRUEBAS"],"msg":"eQSO proxy: room list received"}
+jun 11 22:22:09 ubuntus node[234680]: {"level":30,"time":1781216529901,"pid":234680,"hostname":"ubuntus","id":"473faf78-b0fb-41f1-bbb7-047b163f1551","name":"0R-30RCI184","room":"CB","host":"193.152.83.229","port":2172,"isRelay":true,"msg":"Remote proxy: join requested"}
+jun 11 22:22:09 ubuntus node[234680]: {"level":30,"time":1781216529902,"pid":234680,"hostname":"ubuntus","name":"0R-30RCI184","room":"CB","hex":"1a0b30522d33305243493138340243421743423237206c696e6b2076696120696e7465726e65742e0000","msg":"eQSO proxy: sending join packet"}
+jun 11 22:22:09 ubuntus node[234680]: {"level":30,"time":1781216529906,"pid":234680,"hostname":"ubuntus","id":"473faf78-b0fb-41f1-bbb7-047b163f1551","name":"0R-30RCI184","room":"CB","msg":"Remote proxy: sent joined to browser"}
+jun 11 22:22:09 ubuntus node[234680]: {"level":30,"time":1781216529912,"pid":234680,"hostname":"ubuntus","id":"6fd62f78-07d6-459c-9572-12c87ab6dfe1","name":"0R-30RCI184","room":"CB","bufLen":40,"msg":"eQSO TCP JOIN parsed"}
+jun 11 22:22:09 ubuntus node[234680]: {"level":40,"time":1781216529913,"pid":234680,"hostname":"ubuntus","id":"6fd62f78-07d6-459c-9572-12c87ab6dfe1","name":"0R-30RCI184","msg":"TCP relay rejected: invalid relay token"}
+jun 11 22:22:09 ubuntus node[234680]: {"level":30,"time":1781216529917,"pid":234680,"hostname":"ubuntus","id":"6fd62f78-07d6-459c-9572-12c87ab6dfe1","msg":"TCP eQSO client disconnected"}
+jun 11 22:22:09 ubuntus node[234680]: {"level":30,"time":1781216529919,"pid":234680,"hostname":"ubuntus","bytes":49,"hex":"0b2e41636365736f2064656e656761646f3a20746f6b656e20646520726164696f656e6c61636520696e76616c69646f03","msg":"eQSO proxy: received TCP data"}
+jun 11 22:22:09 ubuntus node[234680]: {"level":30,"time":1781216529919,"pid":234680,"hostname":"ubuntus","text":"Acceso denegado: token de radioenlace invalido","msg":"eQSO proxy: server text message"}
+jun 11 22:22:09 ubuntus node[234680]: {"level":30,"time":1781216529927,"pid":234680,"hostname":"ubuntus","host":"193.152.83.229","msg":"eQSO proxy TCP closed"}
+jun 11 22:23:35 ubuntus node[234680]: {"level":30,"time":1781216615637,"pid":234680,"hostname":"ubuntus","id":"473faf78-b0fb-41f1-bbb7-047b163f1551","msg":"WS client disconnected"}
+jun 11 22:23:41 ubuntus node[234680]: {"level":30,"time":1781216621276,"pid":234680,"hostname":"ubuntus","req":{"id":7,"method":"POST","url":"/api/auth/login"},"res":{"statusCode":200},"responseTime":509,"msg":"request completed"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626207,"pid":234680,"hostname":"ubuntus","id":"12f9d2d7-c234-4948-b8a2-75adae28abd7","msg":"New WS eQSO client"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626279,"pid":234680,"hostname":"ubuntus","id":"12f9d2d7-c234-4948-b8a2-75adae28abd7","host":"193.152.83.229","port":2172,"msg":"WS client selecting remote server"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626325,"pid":234680,"hostname":"ubuntus","host":"193.152.83.229","port":2172,"msg":"eQSO proxy TCP connected"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626329,"pid":234680,"hostname":"ubuntus","id":"851cf7ac-31e0-4184-b66e-40bee2a56bd1","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626332,"pid":234680,"hostname":"ubuntus","id":"851cf7ac-31e0-4184-b66e-40bee2a56bd1","addr":"192.168.1.33","msg":"eQSO TCP client registered \Uffffffff waiting for handshake"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626377,"pid":234680,"hostname":"ubuntus","id":"851cf7ac-31e0-4184-b66e-40bee2a56bd1","hex":"0a82000000","msg":"eQSO TCP handshake complete \Uffffffff sending room list"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626384,"pid":234680,"hostname":"ubuntus","bytes":5,"hex":"0afa000000","msg":"eQSO proxy: received TCP data"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626384,"pid":234680,"hostname":"ubuntus","hex":"0afa000000","msg":"eQSO proxy: handshake from server"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626386,"pid":234680,"hostname":"ubuntus","bytes":32,"hex":"14040000000747454e4552414c0243420741534f524150410750525545424153","msg":"eQSO proxy: received TCP data"}
+jun 11 22:23:46 ubuntus node[234680]: {"level":30,"time":1781216626386,"pid":234680,"hostname":"ubuntus","rooms":["GENERAL","CB","ASORAPA","PRUEBAS"],"msg":"eQSO proxy: room list received"}
+jun 11 22:23:50 ubuntus node[234680]: {"level":30,"time":1781216630725,"pid":234680,"hostname":"ubuntus","id":"12f9d2d7-c234-4948-b8a2-75adae28abd7","name":"0R-30RCI184","room":"CB","host":"193.152.83.229","port":2172,"isRelay":true,"msg":"Remote proxy: join requested"}
+jun 11 22:23:50 ubuntus node[234680]: {"level":30,"time":1781216630725,"pid":234680,"hostname":"ubuntus","name":"0R-30RCI184","room":"CB","hex":"1a0b30522d33305243493138340243421743423237206c696e6b2076696120696e7465726e65742e0000","msg":"eQSO proxy: sending join packet"}
+jun 11 22:23:50 ubuntus node[234680]: {"level":30,"time":1781216630728,"pid":234680,"hostname":"ubuntus","id":"12f9d2d7-c234-4948-b8a2-75adae28abd7","name":"0R-30RCI184","room":"CB","msg":"Remote proxy: sent joined to browser"}
+jun 11 22:23:50 ubuntus node[234680]: {"level":30,"time":1781216630731,"pid":234680,"hostname":"ubuntus","id":"851cf7ac-31e0-4184-b66e-40bee2a56bd1","name":"0R-30RCI184","room":"CB","bufLen":40,"msg":"eQSO TCP JOIN parsed"}
+jun 11 22:23:50 ubuntus node[234680]: {"level":40,"time":1781216630732,"pid":234680,"hostname":"ubuntus","id":"851cf7ac-31e0-4184-b66e-40bee2a56bd1","name":"0R-30RCI184","msg":"TCP relay rejected: invalid relay token"}
+jun 11 22:23:50 ubuntus node[234680]: {"level":30,"time":1781216630733,"pid":234680,"hostname":"ubuntus","id":"851cf7ac-31e0-4184-b66e-40bee2a56bd1","msg":"TCP eQSO client disconnected"}
+jun 11 22:23:50 ubuntus node[234680]: {"level":30,"time":1781216630736,"pid":234680,"hostname":"ubuntus","bytes":49,"hex":"0b2e41636365736f2064656e656761646f3a20746f6b656e20646520726164696f656e6c61636520696e76616c69646f03","msg":"eQSO proxy: received TCP data"}
+jun 11 22:23:50 ubuntus node[234680]: {"level":30,"time":1781216630736,"pid":234680,"hostname":"ubuntus","text":"Acceso denegado: token de radioenlace invalido","msg":"eQSO proxy: server text message"}
+jun 11 22:23:50 ubuntus node[234680]: {"level":30,"time":1781216630741,"pid":234680,"hostname":"ubuntus","host":"193.152.83.229","msg":"eQSO proxy TCP closed"}
+^C
