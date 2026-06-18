@@ -8,6 +8,7 @@ export interface AuthSession {
   callsign: string;
   isRelay: boolean;
   role: "admin" | "user" | "relay_operator";
+  isAdmin: boolean;
   relayCallsign?: string | null;
 }
 
@@ -73,6 +74,7 @@ export function LoginPanel({ onAuth }: LoginPanelProps) {
         callsign: data.callsign,
         isRelay: data.isRelay,
         role: data.role ?? "user",
+        isAdmin: data.isAdmin ?? (data.role === "admin"),
         relayCallsign: data.relayCallsign ?? null,
       });
     } catch {

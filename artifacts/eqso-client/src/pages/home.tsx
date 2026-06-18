@@ -141,8 +141,8 @@ export default function HomePage() {
     );
   }
 
-  // ── Relay operator panel (confined — relay_operator role cannot navigate away) ──
-  if (auth.role === "relay_operator") {
+  // ── Relay operator panel (confined — relay_operator without admin cannot navigate away) ──
+  if (auth.role === "relay_operator" && !auth.isAdmin) {
     return (
       <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
         <AppHeader auth={auth} onLogout={handleLogout} onRelayPanel={() => {}} />
@@ -274,7 +274,7 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
         )}
 
         {/* PTT config button — shown only to admins */}
-        {auth && auth.role === "admin" && onPTTConfig && (
+        {auth && auth.isAdmin && onPTTConfig && (
           <button
             onClick={onPTTConfig}
             className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-200 px-2 py-1 rounded hover:bg-gray-800 transition-colors border border-gray-700 hover:border-gray-600"
@@ -305,7 +305,7 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
                   enlace
                 </span>
               )}
-              {auth.role === "admin" && (
+              {auth.isAdmin && (
                 <span className="text-[10px] bg-blue-900 text-blue-300 border border-blue-700 rounded px-1 py-0.5">
                   admin
                 </span>
@@ -316,7 +316,7 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
                 </span>
               )}
             </span>
-            {auth.role === "admin" && onAdmin && (
+            {auth.isAdmin && onAdmin && (
               <button
                 onClick={onAdmin}
                 className="text-xs text-blue-400 hover:text-blue-300 px-2 py-1 rounded hover:bg-gray-800 transition-colors"
