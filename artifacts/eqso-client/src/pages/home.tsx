@@ -134,8 +134,24 @@ export default function HomePage() {
   if (showAdmin) {
     return (
       <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
-        <AppHeader auth={auth} onLogout={handleLogout} onAdmin={() => setShowAdmin(true)} onPTTConfig={() => setShowPTTConfig(true)} />
+        <AppHeader auth={auth} onLogout={handleLogout} onAdmin={() => setShowAdmin(true)} onRelayPanel={() => { setShowAdmin(false); setShowRelayPanel(true); }} onPTTConfig={() => setShowPTTConfig(true)} />
         <AdminPanel token={auth.token} onClose={() => setShowAdmin(false)} />
+        {showPTTConfig && <PTTConfigModal onClose={() => setShowPTTConfig(false)} />}
+      </div>
+    );
+  }
+
+  // ── Relay operator panel (non-confined, for admin+relay users) ──────────────
+  if (showRelayPanel && auth.isAdmin) {
+    return (
+      <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
+        <AppHeader auth={auth} onLogout={handleLogout} onAdmin={() => { setShowRelayPanel(false); setShowAdmin(true); }} onRelayPanel={() => {}} onPTTConfig={() => setShowPTTConfig(true)} />
+        <RelayOperatorPanel
+          token={auth.token}
+          relayCallsign={auth.relayCallsign}
+          confined={false}
+          onClose={() => setShowRelayPanel(false)}
+        />
         {showPTTConfig && <PTTConfigModal onClose={() => setShowPTTConfig(false)} />}
       </div>
     );
@@ -325,7 +341,7 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
                 Admin
               </button>
             )}
-            {auth.role === "relay_operator" && onRelayPanel && (
+            {(auth.role === "relay_operator" || auth.isRelay) && onRelayPanel && (
               <button
                 onClick={onRelayPanel}
                 className="text-xs text-orange-400 hover:text-orange-300 px-2 py-1 rounded hover:bg-gray-800 transition-colors"
