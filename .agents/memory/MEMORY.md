@@ -1,3 +1,5 @@
 - [Relay audio setup](relay-audio-setup.md) — SB Play! 3 tiene dos jacks separados; Chrome Web Serial bloquea PTT serial; valores VOX validados para radio CB.
 - [WebSocket dual-server fix](ws-dual-server.md) — dos WebSocketServer con { server, path } en el mismo httpServer interfieren; usar noServer:true + upgrade router manual.
 - [Relay operator token injection](relay-operator-token.md) — relay_operator web clients necesitan RELAY_TOKENS inyectado por el servidor al hacer join vía EqsoProxy.
+- [VM deploy build order](vm-deploy-build-order.md) — en la VM siempre compilar el cliente React ANTES que el servidor; build.mjs solo copia, no recompila.
+- [isAdmin dual-role logic](isadmin-dual-role.md) — admin+relay users: showRelayPanel solo si !isAdmin; DB necesita is_admin=true + rebuild cliente para que funcione.
