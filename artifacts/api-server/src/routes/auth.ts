@@ -106,8 +106,9 @@ router.post("/login", async (req, res) => {
     await db.update(usersTable).set({ lastLogin: new Date() }).where(eq(usersTable.id, user.id));
 
     const role = (user.role === "admin" ? "admin" : user.role === "relay_operator" ? "relay_operator" : "user") as "admin" | "user" | "relay_operator";
-    const token = createSession(user.callsign, user.isRelay, role, user.relayCallsign ?? undefined);
-    res.json({ token, callsign: user.callsign, isRelay: user.isRelay, role, relayCallsign: user.relayCallsign ?? null });
+    const effectiveIsAdmin = user.isAdmin || role === "admin";
+    const token = createSession(user.callsign, user.isRelay, role, user.relayCallsign ?? undefined, effectiveIsAdmin);
+    res.json({ token, callsign: user.callsign, isRelay: user.isRelay, role, isAdmin: effectiveIsAdmin, relayCallsign: user.relayCallsign ?? null });
   } catch {
     res.status(500).json({ error: "Error interno del servidor" });
   }

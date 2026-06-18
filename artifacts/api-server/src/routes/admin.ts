@@ -21,6 +21,7 @@ router.get("/users", async (_req, res) => {
       isRelay:       usersTable.isRelay,
       status:        usersTable.status,
       role:          usersTable.role,
+      isAdmin:       usersTable.isAdmin,
       relayCallsign: usersTable.relayCallsign,
       createdAt:     usersTable.createdAt,
       lastLogin:     usersTable.lastLogin,
@@ -159,6 +160,30 @@ router.patch("/users/:id/role", async (req, res) => {
 
     await db.update(usersTable).set({ role }).where(eq(usersTable.id, id));
     res.json({ id, role });
+  } catch {
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
+
+// PATCH /api/admin/users/:id/isadmin — toggle global admin flag (independent of role)
+router.patch("/users/:id/isadmin", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const { isAdmin } = req.body as { isAdmin: boolean };
+
+    if (typeof isAdmin !== "boolean") {
+      res.status(400).json({ error: "isAdmin debe ser true o false" });
+      return;
+    }
+
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, id)).limit(1);
+    if (!user) {
+      res.status(404).json({ error: "Usuario no encontrado" });
+      return;
+    }
+
+    await db.update(usersTable).set({ isAdmin }).where(eq(usersTable.id, id));
+    res.json({ id, isAdmin });
   } catch {
     res.status(500).json({ error: "Error interno del servidor" });
   }

@@ -13,6 +13,7 @@ export const usersTable = pgTable("users", {
   active:         boolean("active").notNull().default(true),
   status:         varchar("status", { length: 10 }).notNull().default("pending"),
   role:           varchar("role", { length: 20 }).notNull().default("user"),
+  isAdmin:        boolean("is_admin").notNull().default(false),
   relayCallsign:  varchar("relay_callsign", { length: 30 }),
   createdAt:      timestamp("created_at").notNull().defaultNow(),
   lastLogin:      timestamp("last_login"),

@@ -10,6 +10,7 @@ interface AdminUser {
   isRelay: boolean;
   status: string;
   role: string;
+  isAdmin: boolean;
   relayCallsign: string | null;
   createdAt: string;
   lastLogin: string | null;
@@ -134,6 +135,23 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
         method: "PATCH",
         headers: authHeaders(token),
         body: JSON.stringify({ role }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error ?? "Error");
+      await load();
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "Error");
+    } finally {
+      setActionId(null);
+    }
+  }
+
+  async function setGlobalAdmin(id: number, isAdmin: boolean) {
+    setActionId(id);
+    try {
+      const res = await fetch(`${getApiBase()}/api/admin/users/${id}/isadmin`, {
+        method: "PATCH",
+        headers: authHeaders(token),
+        body: JSON.stringify({ isAdmin }),
       });
       if (!res.ok) throw new Error((await res.json()).error ?? "Error");
       await load();
@@ -607,6 +625,11 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
                           op. relay
                         </span>
                       )}
+                      {u.isAdmin && u.role !== "admin" && (
+                        <span className="text-[10px] border border-blue-600 bg-blue-950 text-blue-400 rounded px-1.5 py-0.5">
+                          admin global
+                        </span>
+                      )}
                       {!u.isRelay && u.role !== "admin" && u.role !== "relay_operator" && (
                         <span className="text-[10px] border border-green-800 bg-green-950 text-green-400 rounded px-1.5 py-0.5">
                           usuario
@@ -674,6 +697,20 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
                     >
                       {u.role === "admin" ? "Quitar admin" : "Hacer admin"}
                     </button>
+                    {u.role !== "admin" && (
+                      <button
+                        onClick={() => setGlobalAdmin(u.id, !u.isAdmin)}
+                        disabled={actionId === u.id}
+                        className={`text-xs px-2.5 py-1.5 rounded-lg transition-colors disabled:opacity-50 ${
+                          u.isAdmin
+                            ? "bg-blue-900 hover:bg-blue-800 text-blue-200"
+                            : "bg-gray-800 hover:bg-gray-700 text-gray-300"
+                        }`}
+                        title={u.isAdmin ? "Quitar acceso admin global" : "Dar acceso admin global (mantiene su rol actual)"}
+                      >
+                        {u.isAdmin ? "Quitar admin global" : "Admin global"}
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         if (u.role === "relay_operator") {

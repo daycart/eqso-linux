@@ -27,6 +27,7 @@ export interface Session {
   callsign: string;
   isRelay: boolean;
   role: "admin" | "user" | "relay_operator";
+  isAdmin: boolean;
   relayCallsign?: string;
   expiresAt: number;
 }
@@ -38,10 +39,11 @@ export function createSession(
   callsign: string,
   isRelay: boolean,
   role: "admin" | "user" | "relay_operator" = "user",
-  relayCallsign?: string
+  relayCallsign?: string,
+  isAdmin = false
 ): string {
   const token = randomUUID();
-  sessions.set(token, { callsign, isRelay, role, relayCallsign, expiresAt: Date.now() + SESSION_TTL_MS });
+  sessions.set(token, { callsign, isRelay, role, isAdmin, relayCallsign, expiresAt: Date.now() + SESSION_TTL_MS });
   return token;
 }
 
