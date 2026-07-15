@@ -399,21 +399,59 @@ Unregister-ScheduledTask -TaskName "eQSO Relay CB" -Confirm:$false
 
 > Para listar dispositivos en Windows: `ffmpeg -list_devices true -f dshow -i dummy`
 
+### Referencia completa de parámetros `audio`
+
+| Parámetro | Default | Descripción |
+|---|---|---|
+| `captureDevice` | `"plughw:1,0"` | Dispositivo de captura ALSA (Linux) o nombre dshow/wasapi (Windows) |
+| `playbackDevice` | `"plughw:1,0"` | Dispositivo de reproducción |
+| `captureFormat` | _(auto)_ | Solo backend `ffmpeg`: `"dshow"` (Win), `"alsa"`, `"avfoundation"` (Mac) |
+| `playbackFormat` | _(auto)_ | Solo backend `ffmpeg`: `"wasapi"` (Win), `"alsa"`, `"coreaudio"` (Mac) |
+| `vox` | `true` | Activar VOX automático |
+| `voxThresholdRms` | `800` | Umbral RMS para abrir el canal. Ver logs `[nivel] pico RMS=XXX` para calibrar |
+| `voxHangMs` | `800` | Cola del VOX: ms con audio bajo umbral antes de soltar PTT |
+| `txGateRms` | `50` | Umbral mínimo de RMS para enviar un paquete (filtra silencio de fondo) |
+| `inputGain` | `0.5` | Ganancia de captura (0.1–2.0). Subir si el nivel es bajo; bajar si hay distorsión |
+| `outputGain` | `1.0` | Ganancia de reproducción hacia la radio |
+| `postRxSuppressMs` | `2500` | Bloqueo VOX tras recibir audio de la sala (anti-feedback de altavoz) |
+| `postTxSuppressMs` | `1000` | Bloqueo VOX tras fin de TX propio (anti-eco inmediato). Ver nota abajo |
+
+> **Calibrar `voxThresholdRms`**: observar la línea `[nivel] pico RMS=XXX` en los logs durante silencio y durante transmisión. El umbral debe quedar entre ambos valores (ruido de fondo típico: <200; voz CB: >3000).
+>
+> **`postTxSuppressMs`**: si el relay retransmite solo justo al soltar el PTT (eco de altavoz que retriggeriza el VOX), subir a 2000–3000 ms. Con antena y altavoz bien separados, 500–1000 ms es suficiente.
+
+### Actualizar config existente desde versiones anteriores
+
+Si ya tienes un `/etc/eqso-relay/CB.json` de antes de Julio 2026, añade estos campos en la sección `audio` para aprovechar los nuevos defaults:
+
+```json
+"audio": {
+  "voxHangMs": 800,
+  "postRxSuppressMs": 2500,
+  "postTxSuppressMs": 1000
+}
+```
+
+Los parámetros que no aparezcan en tu JSON toman el valor del default del código.
+
 ### Diagnóstico del relay
 
 ```bash
-# Estado HTTP (localhost)
-curl http://127.0.0.1:8009/status
+# Estado HTTP (localhost) — muestra txPackets, rxPackets, estado conexión, etc.
+curl http://127.0.0.1:8009/status | python3 -m json.tool
 
-# PTT manual
+# PTT manual (prueba sin radio)
 curl -X POST http://127.0.0.1:8009/ptt/start
 curl -X POST http://127.0.0.1:8009/ptt/stop
 
-# Forzar reconexión
+# Forzar reconexión al servidor
 curl -X POST http://127.0.0.1:8009/reconnect
 
-# Ver nivel RMS en logs (cada 5s) para calibrar VOX
-# [nivel] pico RMS=XXX (XX.X dBFS)  VOXumbral=1500
+# Ver nivel RMS en logs (cada 5s) para calibrar voxThresholdRms
+# [nivel] pico RMS=XXX (XX.X dBFS)  VOXumbral=800
+
+# Verificar que txPackets sube al hablar (confirma que el encoder GSM funciona)
+watch -n2 'curl -s http://127.0.0.1:8009/status | python3 -m json.tool | grep -E "txPackets|rxPackets|state"'
 ```
 
 ---
