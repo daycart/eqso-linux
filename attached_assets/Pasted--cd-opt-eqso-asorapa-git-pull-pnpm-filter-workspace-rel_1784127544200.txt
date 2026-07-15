@@ -1,0 +1,29 @@
+ cd /opt/eqso-asorapa && git pull && pnpm --filter @workspace/relay-daemon run build && sudo systemctl restart eqso-relay@CB
+sudo journalctl -u eqso-relay@CB -f | grep -E "gsm-enc|txPackets|VOX|PTT activado|error"
+remote: Enumerating objects: 18, done.
+remote: Counting objects: 100% (18/18), done.
+remote: Compressing objects: 100% (12/12), done.
+remote: Total 12 (delta 10), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (12/12), 1.79 KiB | 27.00 KiB/s, done.
+From https://github.com/daycart/eqso-linux-client
+   208bfb1..ee37cc0  main       -> origin/main
+Updating 208bfb1..ee37cc0
+Fast-forward
+ artifacts/relay-daemon/src/gsm-codec.ts | 19 ++++++-------------
+ artifacts/relay-daemon/src/main.ts      | 13 +++++++------
+ 2 files changed, 13 insertions(+), 19 deletions(-)
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+jul 15 14:58:00 ubuntus eqso-relay-CB[84475]: [main] 2026-07-15T14:58:00.267Z   VOX      : ON (umbral=800 hang=1500ms)
+jul 15 14:58:05 ubuntus eqso-relay-CB[84475]: [audio] 2026-07-15T14:58:05.339Z [nivel] pico RMS=3063 (-20.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:58:10 ubuntus eqso-relay-CB[84475]: [audio] 2026-07-15T14:58:10.337Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:58:15 ubuntus eqso-relay-CB[84475]: [audio] 2026-07-15T14:58:15.337Z [nivel] pico RMS=16 (-66.4 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:58:16 ubuntus eqso-relay-CB[84475]: [main] 2026-07-15T14:58:16.775Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+jul 15 14:58:20 ubuntus eqso-relay-CB[84475]: [audio] 2026-07-15T14:58:20.338Z [nivel] pico RMS=22017 (-3.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:58:25 ubuntus eqso-relay-CB[84475]: [audio] 2026-07-15T14:58:25.339Z [nivel] pico RMS=22373 (-3.3 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:58:30 ubuntus eqso-relay-CB[84475]: [audio] 2026-07-15T14:58:30.340Z [nivel] pico RMS=22831 (-3.1 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:58:30 ubuntus eqso-relay-CB[84475]: [main] 2026-07-15T14:58:30.540Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-07-15T14:58:35.540Z)
+jul 15 14:58:35 ubuntus eqso-relay-CB[84475]: [audio] 2026-07-15T14:58:35.341Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
