@@ -3,3 +3,4 @@
 - [Relay operator token injection](relay-operator-token.md) — relay_operator web clients necesitan RELAY_TOKENS inyectado por el servidor al hacer join vía EqsoProxy.
 - [VM deploy build order](vm-deploy-build-order.md) — en la VM siempre compilar el cliente React ANTES que el servidor; build.mjs solo copia, no recompila.
 - [isAdmin dual-role logic](isadmin-dual-role.md) — admin+relay users: showRelayPanel solo si !isAdmin; DB necesita is_admin=true + rebuild cliente para que funcione.
+- [GSM encoder crash: -avioflags direct](gsm-encoder-avioflags.md) — el muxer GSM de ffmpeg (output) no soporta -avioflags direct → exit 1 silencioso; NO usarlo en el encoder.

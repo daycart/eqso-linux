@@ -95,7 +95,9 @@ export class GsmEncoder extends EventEmitter {
       "-f", "s16le", "-ar", "8000", "-ac", "1",
       "-i", "pipe:0",
       "-f", "gsm", "-ar", "8000",
-      "-avioflags", "direct",
+      // NOTA: NO usar -avioflags direct aquí — el muxer GSM de salida no lo
+      // soporta y ffmpeg termina con exit 1 inmediatamente (sin log si quiet).
+      // El decoder (GSM→s16le) sí lo tolera porque s16le es raw y puede flush.
       "pipe:1",
     ], { stdio: ["pipe", "pipe", "pipe"] });
 
