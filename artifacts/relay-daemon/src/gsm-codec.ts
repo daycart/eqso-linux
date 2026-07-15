@@ -10,6 +10,20 @@
 import { spawn, ChildProcessWithoutNullStreams } from "child_process";
 import { EventEmitter } from "events";
 
+declare const require: NodeRequire;
+
+/** Resuelve el binario ffmpeg: ffmpeg-static bundled si existe, sino PATH. */
+function resolveFfmpeg(): string {
+  try {
+    const p = (require as (id: string) => string | null)("ffmpeg-static");
+    if (p) return p;
+  } catch { /* usar PATH */ }
+  return "ffmpeg";
+}
+
+const FFMPEG_BIN = resolveFfmpeg();
+console.log(`[gsm-codec] ffmpeg bin: ${FFMPEG_BIN}`);
+
 export const GSM_FRAME_BYTES   = 33;
 export const GSM_FRAME_SAMPLES = 160;
 export const FRAMES_PER_PACKET = 6;
@@ -25,7 +39,7 @@ export class GsmDecoder extends EventEmitter {
 
   start(): void {
     if (this.proc) return;
-    this.proc = spawn("ffmpeg", [
+    this.proc = spawn(FFMPEG_BIN, [
       "-hide_banner", "-loglevel", "quiet",
       "-probesize", "32", "-analyzeduration", "0",
       "-f", "gsm", "-ar", "8000",
@@ -89,7 +103,7 @@ export class GsmEncoder extends EventEmitter {
     this.stopped = false;
     if (this.restartTimer) { clearTimeout(this.restartTimer); this.restartTimer = null; }
 
-    this.proc = spawn("ffmpeg", [
+    this.proc = spawn(FFMPEG_BIN, [
       "-hide_banner", "-loglevel", "error",
       "-probesize", "32", "-analyzeduration", "0",
       "-f", "s16le", "-ar", "8000", "-ac", "1",

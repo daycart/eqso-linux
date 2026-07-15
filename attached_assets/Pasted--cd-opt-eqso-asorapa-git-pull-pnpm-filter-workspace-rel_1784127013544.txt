@@ -1,0 +1,60 @@
+ cd /opt/eqso-asorapa && git pull && pnpm --filter @workspace/relay-daemon run build && sudo systemctl restart eqso-relay@CB
+sudo journalctl -u eqso-relay@CB -f | grep -E "gsm-enc|VOX|PTT|txPackets|nivel"
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 6 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (6/6), 917 bytes | 48.00 KiB/s, done.
+From https://github.com/daycart/eqso-linux-client
+   0c1e96b..f54376a  main       -> origin/main
+Updating 0c1e96b..f54376a
+Fast-forward
+ artifacts/relay-daemon/src/gsm-codec.ts | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+jul 15 14:49:24 ubuntus eqso-relay-CB[83179]: [main] 2026-07-15T14:49:24.075Z   VOX      : ON (umbral=800 hang=1500ms)
+jul 15 14:49:24 ubuntus eqso-relay-CB[83179]: [main] 2026-07-15T14:49:24.077Z   PTT Ser. : /dev/eqso-ptt (rts)
+jul 15 14:49:24 ubuntus eqso-relay-CB[83179]: [ptt] 2026-07-15T14:49:24.080Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+jul 15 14:49:24 ubuntus eqso-relay-CB[83179]: [main] 2026-07-15T14:49:24.201Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+jul 15 14:49:24 ubuntus eqso-relay-CB[83179]: [ptt] 2026-07-15T14:49:24.327Z PTT serial listo (/dev/eqso-ptt, rts)
+jul 15 14:49:24 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x3fa47700] Unknown encoder 'libgsm'
+jul 15 14:49:24 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:25 ubuntus eqso-relay-CB[83179]: [eqso] 2026-07-15T14:49:25.762Z PTT liberado [0x0d]
+jul 15 14:49:25 ubuntus eqso-relay-CB[83179]: [main] 2026-07-15T14:49:25.763Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-07-15T14:49:30.763Z)
+jul 15 14:49:27 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x3826f700] Unknown encoder 'libgsm'
+jul 15 14:49:27 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:29 ubuntus eqso-relay-CB[83179]: [audio] 2026-07-15T14:49:29.153Z [nivel] pico RMS=12076 (-8.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:49:29 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x1d196700] Unknown encoder 'libgsm'
+jul 15 14:49:29 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:32 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x415c5700] Unknown encoder 'libgsm'
+jul 15 14:49:32 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:34 ubuntus eqso-relay-CB[83179]: [audio] 2026-07-15T14:49:34.154Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:49:35 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x23e55700] Unknown encoder 'libgsm'
+jul 15 14:49:35 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:37 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0xb4ae700] Unknown encoder 'libgsm'
+jul 15 14:49:37 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:39 ubuntus eqso-relay-CB[83179]: [audio] 2026-07-15T14:49:39.154Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:49:40 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x7ce9700]
+jul 15 14:49:40 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: Unknown encoder 'libgsm'
+jul 15 14:49:40 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:40 ubuntus eqso-relay-CB[83179]: [main] 2026-07-15T14:49:40.281Z VOX: PTT activado \Uffffffff inicio transmision (suppress was 2026-07-15T14:49:30.763Z)
+jul 15 14:49:42 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x1e542700] Unknown encoder 'libgsm'
+jul 15 14:49:42 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:44 ubuntus eqso-relay-CB[83179]: [audio] 2026-07-15T14:49:44.153Z [nivel] pico RMS=22153 (-3.4 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:49:45 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x21e34700] Unknown encoder 'libgsm'
+jul 15 14:49:45 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:48 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x9ab5700] Unknown encoder 'libgsm'
+jul 15 14:49:48 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:49 ubuntus eqso-relay-CB[83179]: [audio] 2026-07-15T14:49:49.154Z [nivel] pico RMS=22802 (-3.1 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:49:49 ubuntus eqso-relay-CB[83179]: [eqso] 2026-07-15T14:49:49.838Z PTT liberado [0x0d]
+jul 15 14:49:49 ubuntus eqso-relay-CB[83179]: [main] 2026-07-15T14:49:49.839Z VOX: PTT liberado \Uffffffff fin transmision (suppress hasta 2026-07-15T14:49:54.839Z)
+jul 15 14:49:50 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x26fc1700] Unknown encoder 'libgsm'
+jul 15 14:49:50 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:49:53 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x35948700] Unknown encoder 'libgsm'
+jul 15 14:49:53 ubuntus eqso-relay-CB[83179]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+^C
+david@ubuntus:/opt/eqso-asorapa$ 
