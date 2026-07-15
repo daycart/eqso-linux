@@ -19,18 +19,19 @@ import { SerialPtt } from "./serial-ptt.js";
 import { startControlServer, RelayStatus } from "./control-server.js";
 import { GSM_PACKET_BYTES } from "./gsm-codec.js";
 
-// Inyectar el directorio del binario ffmpeg-static en PATH para que todos los
-// procesos hijos (gsm-codec, ffmpeg-audio) encuentren ffmpeg sin instalacion.
-// En Linux/Raspi con ffmpeg del sistema esto es no-op.
-{
+const cfg = loadConfig();
+
+// Inyectar ffmpeg-static en PATH SOLO cuando el backend es "ffmpeg" (Windows/macOS).
+// En Linux/alsa NO se hace: el ffmpeg-static del pnpm store puede carecer de libgsm
+// mientras que el ffmpeg del sistema (/usr/bin/ffmpeg) sí lo tiene. Inyectarlo
+// pondría el binario sin libgsm por delante del sistema, rompiendo gsm-codec.ts.
+if (cfg.backend === "ffmpeg") {
   const bin = resolveFfmpegBin();
   if (bin !== "ffmpeg") {
     const dir = path.dirname(bin);
     process.env["PATH"] = `${dir}${path.delimiter}${process.env["PATH"] ?? ""}`;
   }
 }
-
-const cfg = loadConfig();
 const startTime = Date.now();
 
 // ─── Estado compartido ────────────────────────────────────────────────────────

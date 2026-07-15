@@ -10,19 +10,12 @@
 import { spawn, ChildProcessWithoutNullStreams } from "child_process";
 import { EventEmitter } from "events";
 
-declare const require: NodeRequire;
-
-/** Resuelve el binario ffmpeg: ffmpeg-static bundled si existe, sino PATH. */
-function resolveFfmpeg(): string {
-  try {
-    const p = (require as (id: string) => string | null)("ffmpeg-static");
-    if (p) return p;
-  } catch { /* usar PATH */ }
-  return "ffmpeg";
-}
-
-const FFMPEG_BIN = resolveFfmpeg();
-console.log(`[gsm-codec] ffmpeg bin: ${FFMPEG_BIN}`);
+// gsm-codec usa el ffmpeg del PATH del sistema.
+// En Linux/alsa: el sistema ffmpeg tiene libgsm compilado.
+// En Windows/ffmpeg-audio: main.ts inyecta ffmpeg-static en PATH antes de arrancar.
+// IMPORTANTE: no usar ffmpeg-static directamente aquí — ese binario puede carecer
+// de libgsm aunque el del sistema lo tenga (ej: pnpm store vs /usr/bin/ffmpeg).
+const FFMPEG_BIN = "ffmpeg";
 
 export const GSM_FRAME_BYTES   = 33;
 export const GSM_FRAME_SAMPLES = 160;
