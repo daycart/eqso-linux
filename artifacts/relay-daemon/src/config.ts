@@ -13,6 +13,7 @@ export interface AudioConfig {
   inputGain: number;
   outputGain: number;
   postRxSuppressMs: number;
+  postTxSuppressMs: number;  // bloqueo VOX tras fin de TX propio (anti-eco inmediato)
 }
 
 export interface ControlConfig {
@@ -56,11 +57,12 @@ const DEFAULTS: RelayConfig = {
     playbackDevice: "plughw:1,0",
     vox: true,
     voxThresholdRms: 800,
-    voxHangMs: 1500,
+    voxHangMs: 800,
     txGateRms: 50,
     inputGain: 0.5,
     outputGain: 1.0,
     postRxSuppressMs: 2500,
+    postTxSuppressMs: 1000,
   },
   control: {
     enabled: true,

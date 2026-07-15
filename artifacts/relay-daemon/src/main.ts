@@ -94,7 +94,7 @@ let postRxVoxSuppressUntil = 0;
 // Observado en logs: re-trigger a 1066ms pese a ventana de 1500ms → se sube
 // a 5000ms para cubrir holgadamente todos los casos. En CB la pausa tipica
 // entre transmisiones es >5s, por lo que no penaliza el uso normal.
-const POST_TX_VOX_SUPPRESS_MS = 5000;
+const POST_TX_VOX_SUPPRESS_MS = cfg.audio.postTxSuppressMs;
 
 
 function setRxActive(): void {
