@@ -81,26 +81,42 @@ export class GsmEncoder extends EventEmitter {
   private proc: ChildProcessWithoutNullStreams | null = null;
   private accum = Buffer.alloc(0);
   private ready = false;
+  private stopped = false;
+  private restartTimer: ReturnType<typeof setTimeout> | null = null;
 
   start(): void {
     if (this.proc) return;
+    this.stopped = false;
+    if (this.restartTimer) { clearTimeout(this.restartTimer); this.restartTimer = null; }
+
     this.proc = spawn("ffmpeg", [
-      "-hide_banner", "-loglevel", "quiet",
+      "-hide_banner", "-loglevel", "error",
       "-probesize", "32", "-analyzeduration", "0",
       "-f", "s16le", "-ar", "8000", "-ac", "1",
       "-i", "pipe:0",
       "-f", "gsm", "-ar", "8000",
-      "-avioflags", "direct",   // sin buffer AVIOContext — flush inmediato tras cada paquete
+      "-avioflags", "direct",
       "pipe:1",
     ], { stdio: ["pipe", "pipe", "pipe"] });
 
-    this.proc.stderr.on("data", () => {});
-    this.proc.on("error", (err) => {
-      console.error(`[gsm-enc] ffmpeg error: ${err.message}`);
+    this.proc.stderr.on("data", (d: Buffer) => {
+      const msg = d.toString().trim();
+      if (msg) console.error(`[gsm-enc] ffmpeg: ${msg}`);
     });
-    this.proc.on("close", () => {
+    this.proc.on("error", (err) => {
+      console.error(`[gsm-enc] ffmpeg spawn error: ${err.message}`);
+    });
+    this.proc.on("close", (code) => {
+      console.error(`[gsm-enc] ffmpeg encoder cerrado (exit ${code ?? "?"}) — ${this.stopped ? "parada intencional" : "reiniciando en 2s"}`);
       this.proc  = null;
       this.ready = false;
+      this.accum = Buffer.alloc(0);
+      if (!this.stopped) {
+        this.restartTimer = setTimeout(() => {
+          this.restartTimer = null;
+          if (!this.stopped) this.start();
+        }, 2000);
+      }
     });
     this.proc.stdout.on("data", (chunk: Buffer) => {
       this.accum = Buffer.concat([this.accum, chunk]);
@@ -126,6 +142,8 @@ export class GsmEncoder extends EventEmitter {
   }
 
   stop(): void {
+    this.stopped = true;
+    if (this.restartTimer) { clearTimeout(this.restartTimer); this.restartTimer = null; }
     try { this.proc?.stdin.end(); this.proc?.kill("SIGTERM"); } catch { /* ignore */ }
     this.proc  = null;
     this.ready = false;
