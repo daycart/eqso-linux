@@ -323,10 +323,11 @@ sudo journalctl -u eqso-relay@CB -f
     "playbackDevice": "plughw:1,0",
     "vox": true,
     "voxThresholdRms": 1500,
-    "voxHangMs": 5000,
+    "voxHangMs": 800,
     "inputGain": 0.3,
     "outputGain": 1.0,
-    "postRxSuppressMs": 6000
+    "postRxSuppressMs": 2500,
+    "postTxSuppressMs": 1000
   },
   "ptt": { "device": "/dev/ttyACM0", "method": "rts", "inverted": false }
 }
@@ -386,10 +387,11 @@ Unregister-ScheduledTask -TaskName "eQSO Relay CB" -Confirm:$false
     "playbackFormat": "wasapi",
     "vox": true,
     "voxThresholdRms": 1500,
-    "voxHangMs": 5000,
+    "voxHangMs": 800,
     "inputGain": 0.3,
     "outputGain": 1.0,
-    "postRxSuppressMs": 6000
+    "postRxSuppressMs": 2500,
+    "postTxSuppressMs": 1000
   },
   "ptt": { "device": "COM3", "method": "rts", "inverted": false }
 }
@@ -444,8 +446,22 @@ curl -X POST http://127.0.0.1:8009/reconnect
 ### Backend ffmpeg multiplataforma
 
 - `FfmpegAudio` (`artifacts/relay-daemon/src/ffmpeg-audio.ts`) usa el binario de `ffmpeg-static` (ya dependencia del proyecto), no requiere instalación adicional.
-- `resolveFfmpegBin()` en `ffmpeg-audio.ts` inyecta el directorio del binario en `PATH` al arrancar, para que `gsm-codec.ts` (que hace `spawn("ffmpeg", ...)`) también encuentre el binario en Windows.
+- `resolveFfmpegBin()` en `ffmpeg-audio.ts` inyecta el directorio del binario en `PATH`, pero **solo cuando `backend = "ffmpeg"`** (Windows/macOS). En Linux/alsa NO se inyecta: el pnpm content-store de `ffmpeg-static` puede carecer de `libgsm` aunque el `/usr/bin/ffmpeg` del sistema sí lo tenga. Inyectarlo siempre lo pondría por delante del sistema y rompería el encoder GSM.
+- `gsm-codec.ts` usa `spawn("ffmpeg", ...)` literal (no `ffmpeg-static`). En Linux/alsa encuentra el ffmpeg del sistema; en Windows/ffmpeg-audio, el PATH inyectado por `main.ts` apunta a `ffmpeg-static`.
 - Si `backend` no se especifica en el JSON → usa `"alsa"` (comportamiento anterior sin cambios).
+
+### VOX timing — retardo entre transmisiones
+
+El retardo TX→TX está controlado por dos parámetros acumulativos:
+
+| Parámetro config | Descripción | Default |
+|---|---|---|
+| `voxHangMs` | Cola del VOX: tiempo desde que el audio baja del umbral hasta soltar PTT | 800 ms |
+| `postTxSuppressMs` | Bloqueo VOX tras fin de TX propio (anti-eco inmediato) | 1000 ms |
+| `postRxSuppressMs` | Bloqueo VOX tras recibir audio de la sala (anti-feedback) | 2500 ms |
+
+- Si el relay empieza a "eco-loopearse" (se oye a sí mismo y retransmite), subir `postTxSuppressMs` a 2000–3000 ms.
+- `voxHangMs` por debajo de 500 ms da PTT nervioso si la radio tiene squelch lento.
 
 ---
 
@@ -468,6 +484,11 @@ curl -X POST http://127.0.0.1:8009/reconnect
 ---
 
 ## Changelog
+
+### v1.3 — Julio 2026
+- **Fix GsmEncoder en Linux**: `ffmpeg-static` del pnpm store carecía de `libgsm`; se inyectaba en PATH delante del sistema → encoder fallaba silenciosamente con exit 8 (`txPackets=0`). Fix: inyección de PATH condicionada a `backend="ffmpeg"` (solo Windows/macOS).
+- **`postTxSuppressMs` configurable**: bloqueo VOX tras TX propio, antes hardcodeado a 5000 ms. Ahora campo en `audio` config (default 1000 ms). Reduce el retardo entre transmisiones de ~6 s a ~1-2 s.
+- **`voxHangMs` default ajustado**: 1500 ms → 800 ms. Cola de VOX más corta para CB.
 
 ### Relay Daemon — Backend multiplataforma (Junio 2026)
 - Nuevo `FfmpegAudio` (`ffmpeg-audio.ts`): backend multiplataforma (Windows/Linux/Raspi/macOS)
