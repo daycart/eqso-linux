@@ -94,10 +94,11 @@ export class GsmEncoder extends EventEmitter {
       "-probesize", "32", "-analyzeduration", "0",
       "-f", "s16le", "-ar", "8000", "-ac", "1",
       "-i", "pipe:0",
+      "-c:a", "libgsm",   // especificar codec explícito — ffmpeg no selecciona
+      // el encoder GSM por defecto en builds que no exponen "gsm" como encoder
+      // default pero sí tienen libgsm compilado (ej: Ubuntu 22.04 ffmpeg apt).
+      // Sin esto: "Default encoder for format gsm is probably disabled" → exit 8.
       "-f", "gsm", "-ar", "8000",
-      // NOTA: NO usar -avioflags direct aquí — el muxer GSM de salida no lo
-      // soporta y ffmpeg termina con exit 1 inmediatamente (sin log si quiet).
-      // El decoder (GSM→s16le) sí lo tolera porque s16le es raw y puede flush.
       "pipe:1",
     ], { stdio: ["pipe", "pipe", "pipe"] });
 

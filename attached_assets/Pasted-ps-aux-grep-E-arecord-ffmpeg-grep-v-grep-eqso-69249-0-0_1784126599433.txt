@@ -1,0 +1,173 @@
+ps aux | grep -E 'arecord|ffmpeg' | grep -v grep
+eqso       69249  0.0  0.0 488396 12704 ?        Sl   06:12   0:06 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+eqso       69256  0.0  0.2 275332 44588 ?        SL   06:12   0:00 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+eqso       74145  1.3  0.0   7828  3828 ?        S    13:10   1:14 arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+eqso       74183  0.0  0.2 275332 44576 ?        SL   13:12   0:01 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+david@ubuntus:~$ sudo journalctl -u eqso-relay@CB --since "13:43:00" -n 40 | grep -E "arecord|PTT|VOX|nivel|Semi|suspendiendo|reanudando|gsm-enc"
+[sudo] password for david: 
+jul 15 14:37:30 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:37:30.959Z [nivel] pico RMS=16 (-66.4 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:37:35 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:37:35.959Z [nivel] pico RMS=16 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:37:40 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:37:40.960Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:37:45 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:37:45.961Z [nivel] pico RMS=15 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:37:50 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:37:50.960Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:37:55 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:37:55.962Z [nivel] pico RMS=15 (-66.8 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:00 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:00.963Z [nivel] pico RMS=16 (-66.3 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:05 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:05.964Z [nivel] pico RMS=16 (-66.4 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:10 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:10.965Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:15 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:15.967Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:20 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:20.968Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:25 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:25.969Z [nivel] pico RMS=16 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:30 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:30.970Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:35 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:35.970Z [nivel] pico RMS=16 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:40 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:40.970Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:45 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:45.971Z [nivel] pico RMS=16 (-66.2 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:50 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:50.971Z [nivel] pico RMS=16 (-66.1 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:38:55 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:38:55.973Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:00 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:00.972Z [nivel] pico RMS=16 (-66.4 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:05 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:05.973Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:10 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:10.973Z [nivel] pico RMS=16 (-66.4 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:15 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:15.975Z [nivel] pico RMS=16 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:20 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:20.975Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:25 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:25.976Z [nivel] pico RMS=16 (-66.3 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:30 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:30.977Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:35 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:35.977Z [nivel] pico RMS=16 (-66.4 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:40 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:40.977Z [nivel] pico RMS=16 (-66.2 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:45 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:45.979Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:50 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:50.980Z [nivel] pico RMS=15 (-66.8 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:39:55 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:39:55.980Z [nivel] pico RMS=17 (-66.0 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:00 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:00.981Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:05 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:05.980Z [nivel] pico RMS=15 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:10 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:10.981Z [nivel] pico RMS=15 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:15 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:15.981Z [nivel] pico RMS=15 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:20 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:20.981Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:25 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:25.981Z [nivel] pico RMS=15 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:30 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:30.982Z [nivel] pico RMS=15 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:35 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:35.983Z [nivel] pico RMS=15 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:40 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:40.983Z [nivel] pico RMS=15 (-66.6 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:40:45 ubuntus eqso-relay-CB[69226]: [audio] 2026-07-15T14:40:45.983Z [nivel] pico RMS=15 (-66.5 dBFS)  VOXumbral=800  gain=0.5
+david@ubuntus:~$ cd /opt/eqso-asorapa
+git pull
+pnpm --filter @workspace/relay-daemon run build
+sudo systemctl restart eqso-relay@CB
+sudo journalctl -u eqso-relay@CB -f
+remote: Enumerating objects: 11, done.
+remote: Counting objects: 100% (11/11), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 6 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (6/6), 1.19 KiB | 39.00 KiB/s, done.
+From https://github.com/daycart/eqso-linux-client
+   91ae81d..0c1e96b  main       -> origin/main
+Updating 91ae81d..0c1e96b
+Fast-forward
+ artifacts/relay-daemon/src/gsm-codec.ts | 30 +++++++++++++++++++++++++-----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
+
+> @workspace/relay-daemon@1.0.0 build /opt/eqso-asorapa/artifacts/relay-daemon
+> node ./build.mjs
+
+relay-daemon build OK
+jul 15 14:42:21 ubuntus eqso-relay-CB[82193]:   : values=off
+jul 15 14:42:21 ubuntus eqso-relay-CB[82175]:   Mic sidetone OFF (numid=3)
+jul 15 14:42:21 ubuntus eqso-relay-CB[82175]:   Mic sidetone OFF (by name)
+jul 15 14:42:21 ubuntus eqso-relay-CB[82194]: Simple mixer control 'Auto Gain Control',0
+jul 15 14:42:21 ubuntus eqso-relay-CB[82194]:   Capabilities: pswitch pswitch-joined
+jul 15 14:42:21 ubuntus eqso-relay-CB[82194]:   Playback channels: Mono
+jul 15 14:42:21 ubuntus eqso-relay-CB[82194]:   Mono: Playback [off]
+jul 15 14:42:21 ubuntus eqso-relay-CB[82175]:   AGC OFF
+jul 15 14:42:21 ubuntus eqso-relay-CB[82175]: ALSA setup: completado (chip detectado: CM108)
+jul 15 14:42:21 ubuntus systemd[1]: Started eqso-relay@CB.service - eQSO Radioenlace \Uffffffff sala CB.
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [config] Cargado: /etc/eqso-relay/CB.json
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [config] Configuracion activa: {
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "callsign": "0R-IN70WN",
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "room": "CB",
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "password": "asorapa-cb-2026",
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "message": "Radio Enlace",
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "server": "127.0.0.1",
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "port": 2171,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "reconnectMinMs": 500,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "reconnectMaxMs": 60000,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "audio": {
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "captureDevice": "plughw:1,0",
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "playbackDevice": "plughw:1,0",
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "vox": true,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "voxThresholdRms": 800,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "voxHangMs": 1500,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "txGateRms": 0,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "inputGain": 0.5,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "outputGain": 1,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "postRxSuppressMs": 6000,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "voxDebounceChunks": 2
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   },
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "control": {
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "enabled": true,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "port": 8009,
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "host": "127.0.0.1"
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   },
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   "ptt": {
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "device": "/dev/eqso-ptt",
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "method": "rts",
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:     "inverted": false
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]:   }
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: }
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.912Z ============================================================
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.913Z eQSO Relay Daemon arrancado
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.913Z   Callsign : 0R-IN70WN
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.913Z   Sala     : CB
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.914Z   Servidor : 127.0.0.1:2171
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.914Z   VOX      : ON (umbral=800 hang=1500ms)
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.916Z   Backend  : alsa
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.916Z   Captura  : plughw:1,0
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.916Z   Playback : plughw:1,0
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.917Z   PTT Ser. : /dev/eqso-ptt (rts)
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:21.918Z ============================================================
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [ptt] 2026-07-15T14:42:21.920Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+jul 15 14:42:21 ubuntus eqso-relay-CB[82195]: [audio] 2026-07-15T14:42:21.988Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:22.005Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"\Uffffffff
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [control] 2026-07-15T14:42:22.056Z Control HTTP escuchando en http://127.0.0.1:8009
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [eqso] 2026-07-15T14:42:22.077Z TCP conectado a 127.0.0.1:2171
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [ptt] 2026-07-15T14:42:22.083Z PTT serial listo (/dev/eqso-ptt, rts)
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [eqso] 2026-07-15T14:42:22.096Z Handshake recibido \Uffffffff conexion establecida
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:22.099Z Conectado \Uffffffff enviando JOIN\Uffffffff
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [eqso] 2026-07-15T14:42:22.103Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [eqso] 2026-07-15T14:42:22.108Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:22.108Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:22.112Z Sala: 0R-PORTATIL se ha unido
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [main] 2026-07-15T14:42:22.112Z Sala: 0R-IN70WN se ha unido
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x10c6f980] Automatic encoder selection failed Default encoder for format gsm (codec gsm) is probably disabled. Please choose an encoder manually.
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [aost#0:0 @ 0x10c6f980] Error selecting an encoder
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: Error opening output file pipe:1.
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: Error opening output files: Encoder not found
+jul 15 14:42:22 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:42:25 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg: [aost#0:0 @ 0xe039980] Automatic encoder selection failed Default encoder for format gsm (codec gsm) is probably disabled. Please choose an encoder manually.
+jul 15 14:42:25 ubuntus eqso-relay-CB[82195]: [aost#0:0 @ 0xe039980] Error selecting an encoder
+jul 15 14:42:25 ubuntus eqso-relay-CB[82195]: Error opening output file pipe:1.
+jul 15 14:42:25 ubuntus eqso-relay-CB[82195]: Error opening output files: Encoder not found
+jul 15 14:42:25 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:42:27 ubuntus eqso-relay-CB[82195]: [audio] 2026-07-15T14:42:27.002Z [nivel] pico RMS=12076 (-8.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:42:27 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x8db9980] Automatic encoder selection failed Default encoder for format gsm (codec gsm) is probably disabled. Please choose an encoder manually.
+jul 15 14:42:27 ubuntus eqso-relay-CB[82195]: [aost#0:0 @ 0x8db9980] Error selecting an encoder
+jul 15 14:42:27 ubuntus eqso-relay-CB[82195]: Error opening output file pipe:1.
+jul 15 14:42:27 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg: Error opening output files: Encoder not found
+jul 15 14:42:27 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:42:30 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x2a2a4980] Automatic encoder selection failed Default encoder for format gsm (codec gsm) is probably disabled. Please choose an encoder manually.
+jul 15 14:42:30 ubuntus eqso-relay-CB[82195]: [aost#0:0 @ 0x2a2a4980] Error selecting an encoder
+jul 15 14:42:30 ubuntus eqso-relay-CB[82195]: Error opening output file pipe:1.
+jul 15 14:42:30 ubuntus eqso-relay-CB[82195]: Error opening output files: Encoder not found
+jul 15 14:42:30 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:42:32 ubuntus eqso-relay-CB[82195]: [audio] 2026-07-15T14:42:32.001Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:42:32 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x9405980] Automatic encoder selection failed Default encoder for format gsm (codec gsm) is probably disabled. Please choose an encoder manually.
+jul 15 14:42:32 ubuntus eqso-relay-CB[82195]: [aost#0:0 @ 0x9405980] Error selecting an encoder
+jul 15 14:42:32 ubuntus eqso-relay-CB[82195]: Error opening output file pipe:1.
+jul 15 14:42:32 ubuntus eqso-relay-CB[82195]: Error opening output files: Encoder not found
+jul 15 14:42:32 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:42:35 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x930b980] Automatic encoder selection failed Default encoder for format gsm (codec gsm) is probably disabled. Please choose an encoder manually.
+jul 15 14:42:35 ubuntus eqso-relay-CB[82195]: [aost#0:0 @ 0x930b980] Error selecting an encoder
+jul 15 14:42:35 ubuntus eqso-relay-CB[82195]: Error opening output file pipe:1.
+jul 15 14:42:35 ubuntus eqso-relay-CB[82195]: Error opening output files: Encoder not found
+jul 15 14:42:35 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
+jul 15 14:42:37 ubuntus eqso-relay-CB[82195]: [audio] 2026-07-15T14:42:37.002Z [nivel] pico RMS=15 (-66.7 dBFS)  VOXumbral=800  gain=0.5
+jul 15 14:42:37 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg: [aost#0:0 @ 0x2d9fd980] Automatic encoder selection failed Default encoder for format gsm (codec gsm) is probably disabled. Please choose an encoder manually.
+jul 15 14:42:37 ubuntus eqso-relay-CB[82195]: [aost#0:0 @ 0x2d9fd980] Error selecting an encoder
+jul 15 14:42:37 ubuntus eqso-relay-CB[82195]: Error opening output file pipe:1.
+jul 15 14:42:37 ubuntus eqso-relay-CB[82195]: Error opening output files: Encoder not found
+jul 15 14:42:37 ubuntus eqso-relay-CB[82195]: [gsm-enc] ffmpeg encoder cerrado (exit 8) \Uffffffff reiniciando en 2s
