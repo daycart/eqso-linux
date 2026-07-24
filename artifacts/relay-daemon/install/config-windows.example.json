@@ -48,12 +48,13 @@
 
     "vox": true,
     "voxThresholdRms": 1500,
-    "voxHangMs": 5000,
+    "voxHangMs": 800,
     "txGateRms": 50,
 
     "inputGain":  0.3,
     "outputGain": 1.0,
-    "postRxSuppressMs": 6000
+    "postRxSuppressMs": 2500,
+    "postTxSuppressMs": 1000
   },
 
   "control": {

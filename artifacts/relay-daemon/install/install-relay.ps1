@@ -11,6 +11,11 @@
 # ============================================================
 
 #Requires -Version 5.1
+
+# Permitir ejecutar scripts en esta sesión (necesario para que npm/pnpm funcionen).
+# Solo afecta a este proceso — no cambia la política global del sistema.
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
+
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
@@ -86,8 +91,8 @@ Write-Ok "ffmpeg $(ffmpeg -version 2>$null | Select-Object -First 1)"
 Write-Step "2/6  Instalando pnpm"
 
 if (-not (Get-Command pnpm -ErrorAction SilentlyContinue)) {
-    Write-Info "Instalando pnpm..."
-    npm install -g pnpm
+    Write-Info "Instalando pnpm via winget..."
+    winget install pnpm.pnpm --silent --accept-source-agreements --accept-package-agreements
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
 Write-Ok "pnpm $(pnpm --version 2>$null)"
@@ -176,11 +181,12 @@ $configJson = @"
     "playbackFormat":  "wasapi",
     "vox": true,
     "voxThresholdRms": 1500,
-    "voxHangMs": 5000,
+    "voxHangMs": 800,
     "txGateRms": 50,
     "inputGain": 0.3,
     "outputGain": 1.0,
-    "postRxSuppressMs": 6000
+    "postRxSuppressMs": 2500,
+    "postTxSuppressMs": 1000
   },
   "ptt": {
     "device": "$PTT_DEVICE",
