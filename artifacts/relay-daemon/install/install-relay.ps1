@@ -17,7 +17,9 @@
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 
 Set-StrictMode -Version Latest
-$ErrorActionPreference = 'Stop'
+# 'Stop' para errores de PowerShell, pero los comandos nativos (node, pnpm)
+# pueden escribir warnings a stderr; se gestiona caso a caso.
+$ErrorActionPreference = 'Continue'
 
 # ── Verificar que somos Administrador ─────────────────────
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
