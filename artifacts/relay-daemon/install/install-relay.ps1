@@ -17,8 +17,8 @@
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 
 Set-StrictMode -Version Latest
-# 'Stop' para errores de PowerShell, pero los comandos nativos (node, pnpm)
-# pueden escribir warnings a stderr; se gestiona caso a caso.
+# pnpm y Node.js pueden escribir avisos en stderr aunque terminen correctamente.
+# Los pasos críticos comprueban explícitamente sus resultados más abajo.
 $ErrorActionPreference = 'Continue'
 
 # ── Verificar que somos Administrador ─────────────────────
@@ -222,27 +222,62 @@ $startScriptPath = "$CONFIG_DIR\start-$ROOM.cmd"
 $startScript | Out-File -FilePath $startScriptPath -Encoding ascii
 Write-Ok "Script de arranque: $startScriptPath"
 
-# Registrar tarea en el Programador de tareas de Windows
+# Registrar tarea en el Programador de tareas de Windows.
+# No usamos New-ScheduledTaskSettingsSet -RestartOnFailure porque ese
+# parámetro no existe en algunas versiones de Windows PowerShell 5.1.
+# El XML mantiene el reinicio automático y es compatible con esas versiones.
 $taskName = "eQSO Relay $ROOM"
-$action   = New-ScheduledTaskAction -Execute $startScriptPath
-$trigger  = New-ScheduledTaskTrigger -AtStartup
-$settings = New-ScheduledTaskSettingsSet `
-    -RestartOnFailure `
-    -RestartInterval  (New-TimeSpan -Minutes 1) `
-    -RestartCount     10 `
-    -ExecutionTimeLimit ([TimeSpan]::Zero) `
-    -MultipleInstances IgnoreNew
+$xmlComSpec = [System.Security.SecurityElement]::Escape($env:ComSpec)
+$xmlArguments = [System.Security.SecurityElement]::Escape("/c `"$startScriptPath`"")
+$taskXml = @"
+<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo>
+    <Description>eQSO Relay $ROOM</Description>
+  </RegistrationInfo>
+  <Triggers>
+    <BootTrigger>
+      <Enabled>true</Enabled>
+    </BootTrigger>
+  </Triggers>
+  <Principals>
+    <Principal id="Author">
+      <UserId>S-1-5-18</UserId>
+      <RunLevel>HighestAvailable</RunLevel>
+    </Principal>
+  </Principals>
+  <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <StartWhenAvailable>true</StartWhenAvailable>
+    <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
+    <RestartOnFailure>
+      <Interval>PT1M</Interval>
+      <Count>10</Count>
+    </RestartOnFailure>
+  </Settings>
+  <Actions Context="Author">
+    <Exec>
+      <Command>$xmlComSpec</Command>
+      <Arguments>$xmlArguments</Arguments>
+      <WorkingDirectory>$scriptDir</WorkingDirectory>
+    </Exec>
+  </Actions>
+</Task>
+"@
 
 # Eliminar tarea existente si hay
 Unregister-ScheduledTask -TaskName $taskName -Confirm:$false -ErrorAction SilentlyContinue
 
-Register-ScheduledTask `
-    -TaskName $taskName `
-    -Action   $action `
-    -Trigger  $trigger `
-    -Settings $settings `
-    -RunLevel Highest `
-    -Force | Out-Null
+try {
+    Register-ScheduledTask -TaskName $taskName -Xml $taskXml -Force -ErrorAction Stop | Out-Null
+    Get-ScheduledTask -TaskName $taskName -ErrorAction Stop | Out-Null
+} catch {
+    Write-Host "No se pudo registrar la tarea '$taskName'." -ForegroundColor Red
+    Write-Host $_.Exception.Message -ForegroundColor Red
+    throw
+}
 
 Write-Ok "Tarea programada registrada: '$taskName'"
 
