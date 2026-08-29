@@ -5,4 +5,5 @@
 - [isAdmin dual-role logic](isadmin-dual-role.md) — relay_operator+isAdmin: ve ambos paneles (no confinado, con botón volver). relay_operator puro: panel relay confinado sin navegación. role=admin: solo admin panel.
 - [GSM encoder crash: -avioflags direct](gsm-encoder-avioflags.md) — el muxer GSM de ffmpeg (output) no soporta -avioflags direct → exit 1 silencioso; NO usarlo en el encoder.
 - [ffmpeg-static vs sistema en Linux/alsa](ffmpeg-static-libgsm.md) — ffmpeg-static del pnpm store carece de libgsm; inyectar su PATH antes del sistema rompe gsm-codec. Condicionar PATH injection a backend=ffmpeg.
+- [Dispositivos WASAPI en Windows](ffmpeg-wasapi-device-list.md) — WASAPI se usa como salida en el relay; para descubrir altavoces hay que consultar los endpoints de audio de Windows, no `ffmpeg -f wasapi -i dummy`.
 - [VOX timing retardo TX→TX](vox-timing.md) — retardo entre TX: voxHangMs + POST_TX_VOX_SUPPRESS_MS (era 5000ms hardcoded). Ahora configurable postTxSuppressMs (default 1000ms), voxHangMs default 800ms.
