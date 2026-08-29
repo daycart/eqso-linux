@@ -104,7 +104,18 @@ Write-Step "3/6  Código fuente"
 
 if (Test-Path "$INSTALL_DIR\.git") {
     Write-Info "Repositorio existente → actualizando..."
+    if (Test-Path "$INSTALL_DIR\.git\MERGE_HEAD") {
+        Write-Host "El repositorio tiene una fusión de Git sin terminar." -ForegroundColor Red
+        Write-Host "Ejecuta: git -C `"$INSTALL_DIR`" merge --abort" -ForegroundColor Yellow
+        Write-Host "Después vuelve a ejecutar este instalador." -ForegroundColor Yellow
+        exit 1
+    }
     git -C $INSTALL_DIR pull --quiet
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "No se pudo actualizar el repositorio." -ForegroundColor Red
+        Write-Host "Revisa el estado con: git -C `"$INSTALL_DIR`" status" -ForegroundColor Yellow
+        exit 1
+    }
     Write-Ok "Código actualizado"
 } else {
     Write-Info "Clonando repositorio en $INSTALL_DIR ..."
