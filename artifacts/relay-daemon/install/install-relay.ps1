@@ -89,15 +89,16 @@ if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
 }
 Write-Ok "ffmpeg $(ffmpeg -version 2>$null | Select-Object -First 1)"
 
-# ── Paso 2: pnpm ───────────────────────────────────────────
-Write-Step "2/6  Instalando pnpm"
+# ── Paso 2: npm ────────────────────────────────────────────
+Write-Step "2/6  Verificando npm"
 
-if (-not (Get-Command pnpm.cmd -ErrorAction SilentlyContinue)) {
-    Write-Info "Instalando pnpm via winget..."
-    winget install pnpm.pnpm --silent --accept-source-agreements --accept-package-agreements
-    $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+# Usamos npm.cmd directamente para evitar el wrapper npm.ps1, que puede
+# estar bloqueado por la política de ejecución de PowerShell.
+if (-not (Get-Command npm.cmd -ErrorAction SilentlyContinue)) {
+    Write-Host "npm no está disponible. Reinstala Node.js LTS y vuelve a intentarlo." -ForegroundColor Red
+    exit 1
 }
-Write-Ok "pnpm $(pnpm.cmd --version 2>$null)"
+Write-Ok "npm $(npm.cmd --version 2>$null)"
 
 # ── Paso 3: Código fuente ──────────────────────────────────
 Write-Step "3/6  Código fuente"
@@ -123,13 +124,20 @@ if (Test-Path "$INSTALL_DIR\.git") {
     Write-Ok "Repositorio clonado"
 }
 
-Set-Location $INSTALL_DIR
+$relayDir = "$INSTALL_DIR\artifacts\relay-daemon"
+Set-Location $relayDir
 
-Write-Info "Instalando dependencias npm..."
-pnpm.cmd install --reporter=silent 2>&1 | Where-Object { $_ -notmatch "^$|WARN|onlyBuiltDependencies|pnpm field" } | Out-Host
+Write-Info "Instalando dependencias del relay..."
+# Se instala solo relay-daemon, fuera del workspace pnpm. Esto evita que
+# Windows cargue dependencias y restricciones específicas del entorno Linux.
+npm.cmd install --no-audit --no-fund
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "La instalación de dependencias del relay ha fallado." -ForegroundColor Red
+    exit 1
+}
 
 Write-Info "Compilando relay daemon..."
-pnpm.cmd --filter "@workspace/relay-daemon" run build
+npm.cmd run build
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path "$INSTALL_DIR\artifacts\relay-daemon\dist\main.mjs")) {
     Write-Host "La compilación del relay ha fallado o no ha generado dist\main.mjs." -ForegroundColor Red
     Write-Host "Revisa el mensaje anterior y vuelve a ejecutar el instalador." -ForegroundColor Red
