@@ -1,0 +1,45 @@
+in": 1,
+    "postRxSuppressMs": 2500,
+    "postTxSuppressMs": 1000,
+    "captureFormat": "dshow",
+    "playbackFormat": "wasapi"
+  },
+  "control": {
+    "enabled": true,
+    "port": 8009,
+    "host": "127.0.0.1"
+  },
+  "ptt": {
+    "device": "",
+    "method": "rts",
+    "inverted": false
+  },
+  "backend": "ffmpeg"
+}
+[audio-ffmpeg] 2026-08-29T22:44:31.983Z Backend FFmpeg: bin=C:\Users\DavidAycart\eqso-linux\node_modules\.pnpm\ffmpeg-static@5.3.0\node_modules\ffmpeg-static\ffmpeg.exe captureFormat=dshow playbackFormat=wasapi
+[main] 2026-08-29T22:44:32.010Z ============================================================
+[main] 2026-08-29T22:44:32.011Z eQSO Relay Daemon arrancado
+[main] 2026-08-29T22:44:32.012Z   Callsign : 0R-WIN
+[main] 2026-08-29T22:44:32.013Z   Sala     : CB
+[main] 2026-08-29T22:44:32.014Z   Servidor : asorapa.sytes.net:2172
+[main] 2026-08-29T22:44:32.014Z   VOX      : ON (umbral=1500 hang=800ms)
+[main] 2026-08-29T22:44:32.015Z   Backend  : ffmpeg
+[main] 2026-08-29T22:44:32.015Z   Captura  : Micrófono (Sound Blaster Play! 3) (dshow)
+[main] 2026-08-29T22:44:32.015Z   Playback : Altavoces (Sound Blaster Play! 3) (wasapi)
+[main] 2026-08-29T22:44:32.016Z   PTT Ser. : deshabilitado
+[main] 2026-08-29T22:44:32.016Z ============================================================
+[audio-ffmpeg] 2026-08-29T22:44:32.053Z Captura: C:\Users\DavidAycart\eqso-linux\node_modules\.pnpm\ffmpeg-static@5.3.0\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=Micrófono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-08-29T22:44:32.077Z Conectando a asorapa.sytes.net:2172 como "0R-WIN" en sala "CB"…
+[control] 2026-08-29T22:44:32.100Z Control HTTP escuchando en http://127.0.0.1:8009
+[eqso] 2026-08-29T22:44:32.175Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-08-29T22:44:32.256Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:44:32.257Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:44:32.259Z JOIN enviado: callsign="0R-WIN" sala="CB"
+[eqso] 2026-08-29T22:44:32.302Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:44:32.302Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:44:32.395Z Sala: 0R-IN70WN se ha unido
+[main] 2026-08-29T22:44:32.396Z Sala: 0R-PORTATIL se ha unido
+[main] 2026-08-29T22:44:32.398Z Sala: 0R-WIN se ha unido
+[audio-ffmpeg] 2026-08-29T22:44:37.093Z [nivel] pico RMS=2 (-85.3 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-08-29T22:44:42.087Z [nivel] pico RMS=2 (-85.5 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-08-29T22:44:47.088Z [nivel] pico RMS=2 (-85.3 dBFS)  VOXumbral=1500  gain=0.3
