@@ -1,0 +1,244 @@
+ cmd.exe /k "C:\eqso-relay\start-CB.cmd"
+[config] Error al leer C:\eqso-relay\CB.json: SyntaxError: Expected ',' or '}' after property value in JSON at position 253 (line 11 column 5)
+    at JSON.parse (<anonymous>)
+    at loadConfig (C:\Users\DavidAycart\eqso-linux\artifacts\relay-daemon\src\config.ts:102:23)
+    at <anonymous> (C:\Users\DavidAycart\eqso-linux\artifacts\relay-daemon\src\main.ts:22:13)
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+[config] Configuracion activa: {
+  "callsign": "0R-IN70WN",
+  "room": "CB",
+  "password": "",
+  "message": "Radio Enlace",
+  "server": "193.152.83.229",
+  "port": 2172,
+  "reconnectMinMs": 500,
+  "reconnectMaxMs": 60000,
+  "audio": {
+    "captureDevice": "plughw:1,0",
+    "playbackDevice": "plughw:1,0",
+    "vox": true,
+    "voxThresholdRms": 800,
+    "voxHangMs": 800,
+    "txGateRms": 50,
+    "inputGain": 0.5,
+    "outputGain": 1,
+    "postRxSuppressMs": 2500,
+    "postTxSuppressMs": 1000
+  },
+  "control": {
+    "enabled": true,
+    "port": 8009,
+    "host": "127.0.0.1"
+  },
+  "ptt": {
+    "device": "/dev/ttyACM0",
+    "method": "rts",
+    "inverted": false
+  }
+}
+[main] 2026-08-29T22:34:12.336Z ============================================================
+[main] 2026-08-29T22:34:12.337Z eQSO Relay Daemon arrancado
+[main] 2026-08-29T22:34:12.338Z   Callsign : 0R-IN70WN
+[main] 2026-08-29T22:34:12.343Z   Sala     : CB
+[main] 2026-08-29T22:34:12.344Z   Servidor : 193.152.83.229:2172
+[main] 2026-08-29T22:34:12.344Z   VOX      : ON (umbral=800 hang=800ms)
+[main] 2026-08-29T22:34:12.345Z   Backend  : alsa
+[main] 2026-08-29T22:34:12.345Z   Captura  : plughw:1,0
+[main] 2026-08-29T22:34:12.346Z   Playback : plughw:1,0
+[main] 2026-08-29T22:34:12.346Z   PTT Ser. : /dev/ttyACM0 (rts)
+[main] 2026-08-29T22:34:12.346Z ============================================================
+[ptt] 2026-08-29T22:34:12.347Z Iniciando PTT serial: /dev/ttyACM0 (rts)
+[audio] 2026-08-29T22:34:12.894Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[main] 2026-08-29T22:34:12.896Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[audio] 2026-08-29T22:34:12.904Z [arecord] Error: spawn arecord ENOENT
+[main] 2026-08-29T22:34:12.905Z [audio] ERROR ALSA: spawn arecord ENOENT — relay sigue activo, el audio se recuperará
+[control] 2026-08-29T22:34:12.909Z Control HTTP escuchando en http://127.0.0.1:8009
+[ptt] 2026-08-29T22:34:12.912Z [ptt-helper] no se encontr� Python; ejecutar sin argumentos para instalar desde el Microsoft Store o deshabilitar este acceso directo desde Configuraci�n > Aplicaciones > Configuraci�n avanzada de aplicaciones > Alias de ejecuci�n de aplicaciones.
+[ptt] 2026-08-29T22:34:12.915Z PTT serial: proceso terminado (code 9009)
+[audio] 2026-08-29T22:34:12.916Z [arecord] Terminado (code -4058)
+[eqso] 2026-08-29T22:34:12.946Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:13.015Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:13.017Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:13.019Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:13.058Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:13.059Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:13.075Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:13.075Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:13.077Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:13.078Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:13.078Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:13.588Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:13.650Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:13.718Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:13.719Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:13.721Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:13.774Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:13.774Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:13.783Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:13.783Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:13.784Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:13.784Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:13.785Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:14.292Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:14.335Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:14.391Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:14.391Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:14.394Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:14.450Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:14.451Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:14.453Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:14.454Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:14.455Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:14.456Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:14.456Z TCP desconectado de 193.152.83.229:2172
+[audio] 2026-08-29T22:34:14.932Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-08-29T22:34:14.937Z [arecord] Error: spawn arecord ENOENT
+[main] 2026-08-29T22:34:14.937Z [audio] ERROR ALSA: spawn arecord ENOENT — relay sigue activo, el audio se recuperará
+[audio] 2026-08-29T22:34:14.938Z [arecord] Terminado (code -4058)
+[main] 2026-08-29T22:34:14.964Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:15.006Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:15.066Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:15.067Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:15.070Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:15.110Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:15.111Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:15.118Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:15.119Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:15.122Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:15.123Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:15.126Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:15.635Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:15.691Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:15.766Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:15.767Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:15.769Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:15.810Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:15.811Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:15.818Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:15.818Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:15.820Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:15.820Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:15.821Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:16.322Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:16.358Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:16.435Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:16.435Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:16.438Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:16.486Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:16.487Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:16.489Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:16.490Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:16.492Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:16.492Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:16.493Z TCP desconectado de 193.152.83.229:2172
+[audio] 2026-08-29T22:34:16.948Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-08-29T22:34:16.951Z [arecord] Error: spawn arecord ENOENT
+[main] 2026-08-29T22:34:16.951Z [audio] ERROR ALSA: spawn arecord ENOENT — relay sigue activo, el audio se recuperará
+[audio] 2026-08-29T22:34:16.953Z [arecord] Terminado (code -4058)
+[main] 2026-08-29T22:34:17.010Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:17.070Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:17.146Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:17.147Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:17.149Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:17.203Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:17.204Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:17.239Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:17.239Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:17.241Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:17.241Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:17.242Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:17.744Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:17.795Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:17.862Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:17.863Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:17.865Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:17.914Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:17.915Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:17.924Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:17.925Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:17.927Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:17.927Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:17.928Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:18.432Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:18.479Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:18.555Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:18.555Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:18.558Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:18.599Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:18.599Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:18.624Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:18.627Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:18.629Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:18.630Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:18.631Z TCP desconectado de 193.152.83.229:2172
+[audio] 2026-08-29T22:34:18.963Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-08-29T22:34:18.966Z [arecord] Error: spawn arecord ENOENT
+[main] 2026-08-29T22:34:18.967Z [audio] ERROR ALSA: spawn arecord ENOENT — relay sigue activo, el audio se recuperará
+[audio] 2026-08-29T22:34:18.968Z [arecord] Terminado (code -4058)
+[main] 2026-08-29T22:34:19.151Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:19.199Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:19.267Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:19.267Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:19.268Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:19.323Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:19.324Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:19.331Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:19.331Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:19.333Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:19.333Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:19.334Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:19.837Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:19.882Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:19.950Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:19.951Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:19.953Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:19.994Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:19.996Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:20.006Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:20.007Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:20.009Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:20.009Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:20.010Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:20.540Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:20.599Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:20.661Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:20.661Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:20.664Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:20.706Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:20.707Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:20.718Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:20.719Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:20.720Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:20.721Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:20.722Z TCP desconectado de 193.152.83.229:2172
+[audio] 2026-08-29T22:34:20.978Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-08-29T22:34:20.981Z [arecord] Error: spawn arecord ENOENT
+[main] 2026-08-29T22:34:20.981Z [audio] ERROR ALSA: spawn arecord ENOENT — relay sigue activo, el audio se recuperará
+[audio] 2026-08-29T22:34:20.983Z [arecord] Terminado (code -4058)
+[main] 2026-08-29T22:34:21.228Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:21.282Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:21.358Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:21.359Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:21.361Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:21.419Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:21.419Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:21.422Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:21.423Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:21.424Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:21.425Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:21.426Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:21.930Z Conectando a 193.152.83.229:2172 como "0R-IN70WN" en sala "CB"…
+[eqso] 2026-08-29T22:34:21.983Z TCP conectado a 193.152.83.229:2172
+[eqso] 2026-08-29T22:34:22.051Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:34:22.051Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:34:22.054Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-08-29T22:34:22.103Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:34:22.104Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-08-29T22:34:22.110Z Mensaje del servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:22.111Z Mensaje servidor: Acceso denegado: token de radioenlace invalido
+[main] 2026-08-29T22:34:22.112Z Desconectado del servidor eQSO
+[main] 2026-08-29T22:34:22.113Z Reintento #1 en 1s…
+[eqso] 2026-08-29T22:34:22.113Z TCP desconectado de 193.152.83.229:2172
+[main] 2026-08-29T22:34:22.329Z Señal SIGINT recibida — apagando…
