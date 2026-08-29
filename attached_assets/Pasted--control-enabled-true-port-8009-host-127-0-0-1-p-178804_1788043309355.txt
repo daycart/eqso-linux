@@ -1,0 +1,78 @@
+
+  },
+  "control": {
+    "enabled": true,
+    "port": 8009,
+    "host": "127.0.0.1"
+  },
+  "ptt": {
+    "device": "",
+    "method": "rts",
+    "inverted": false
+  },
+  "backend": "ffmpeg"
+}
+[audio-ffmpeg] 2026-08-29T22:40:50.655Z Backend FFmpeg: bin=C:\Users\DavidAycart\eqso-linux\node_modules\.pnpm\ffmpeg-static@5.3.0\node_modules\ffmpeg-static\ffmpeg.exe captureFormat=dshow playbackFormat=wasapi
+[main] 2026-08-29T22:40:50.663Z ============================================================
+[main] 2026-08-29T22:40:50.663Z eQSO Relay Daemon arrancado
+[main] 2026-08-29T22:40:50.663Z   Callsign : 0R-WIN
+[main] 2026-08-29T22:40:50.663Z   Sala     : CB
+[main] 2026-08-29T22:40:50.663Z   Servidor : asorapa.sytes.net:2172
+[main] 2026-08-29T22:40:50.663Z   VOX      : ON (umbral=1500 hang=800ms)
+[main] 2026-08-29T22:40:50.664Z   Backend  : ffmpeg
+[main] 2026-08-29T22:40:50.664Z   Captura  : Microfono (Sound Blaster Play! 3) (dshow)
+[main] 2026-08-29T22:40:50.664Z   Playback : Altavoces (Sound Blaster Play! 3) (wasapi)
+[main] 2026-08-29T22:40:50.664Z   PTT Ser. : deshabilitado
+[main] 2026-08-29T22:40:50.664Z ============================================================
+[audio-ffmpeg] 2026-08-29T22:40:50.680Z Captura: C:\Users\DavidAycart\eqso-linux\node_modules\.pnpm\ffmpeg-static@5.3.0\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=Microfono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-08-29T22:40:50.689Z Conectando a asorapa.sytes.net:2172 como "0R-WIN" en sala "CB"…
+[control] 2026-08-29T22:40:50.706Z Control HTTP escuchando en http://127.0.0.1:8009
+[audio-ffmpeg] 2026-08-29T22:40:50.730Z [ffmpeg-cap] [dshow @ 00000235fbf1b5c0] Could not find audio only device with name [Microfono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-08-29T22:40:50.731Z [ffmpeg-cap] [dshow @ 00000235fbf1b5c0] Could not enumerate audio only devices (or none found).
+[audio-ffmpeg] 2026-08-29T22:40:50.737Z [ffmpeg-cap] [in#0 @ 00000235fbf1b400] Error opening input: I/O error
+Error opening input file audio=Microfono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-08-29T22:40:50.742Z [ffmpeg-cap] Terminado (code 4294967291)
+[eqso] 2026-08-29T22:40:50.790Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-08-29T22:40:50.874Z Handshake recibido — conexion establecida
+[main] 2026-08-29T22:40:50.875Z Conectado — enviando JOIN…
+[eqso] 2026-08-29T22:40:50.878Z JOIN enviado: callsign="0R-WIN" sala="CB"
+[eqso] 2026-08-29T22:40:50.925Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:40:50.926Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-08-29T22:40:51.022Z Sala: 0R-IN70WN se ha unido
+[main] 2026-08-29T22:40:51.023Z Sala: 0R-PORTATIL se ha unido
+[main] 2026-08-29T22:40:51.025Z Sala: 0R-WIN se ha unido
+[audio-ffmpeg] 2026-08-29T22:40:52.748Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-08-29T22:40:52.749Z Captura: C:\Users\DavidAycart\eqso-linux\node_modules\.pnpm\ffmpeg-static@5.3.0\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=Microfono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-08-29T22:40:52.828Z [ffmpeg-cap] [dshow @ 00000245502ab5c0] Could not find audio only device with name [Microfono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-08-29T22:40:52.829Z [ffmpeg-cap] [dshow @ 00000245502ab5c0] Could not enumerate audio only devices (or none found).
+[audio-ffmpeg] 2026-08-29T22:40:52.833Z [ffmpeg-cap] [in#0 @ 00000245502ab400] Error opening input: I/O error
+Error opening input file audio=Microfono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-08-29T22:40:52.838Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-08-29T22:40:54.842Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-08-29T22:40:54.842Z Captura: C:\Users\DavidAycart\eqso-linux\node_modules\.pnpm\ffmpeg-static@5.3.0\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=Microfono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-08-29T22:40:54.924Z [ffmpeg-cap] [dshow @ 000002245089b5c0] Could not find audio only device with name [Microfono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-08-29T22:40:54.926Z [ffmpeg-cap] [dshow @ 000002245089b5c0] Could not enumerate audio only devices (or none found).
+[audio-ffmpeg] 2026-08-29T22:40:54.933Z [ffmpeg-cap] [in#0 @ 000002245089b400] Error opening input: I/O error
+Error opening input file audio=Microfono (Sound Blaster Play! 3).
+[audio-ffmpeg] 2026-08-29T22:40:54.933Z [ffmpeg-cap] Error opening input files: I/O error
+[audio-ffmpeg] 2026-08-29T22:40:54.939Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-08-29T22:40:56.951Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-08-29T22:40:56.951Z Captura: C:\Users\DavidAycart\eqso-linux\node_modules\.pnpm\ffmpeg-static@5.3.0\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=Microfono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-08-29T22:40:57.036Z [ffmpeg-cap] [dshow @ 000001e04a96b5c0] Could not find audio only device with name [Microfono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-08-29T22:40:57.037Z [ffmpeg-cap] [dshow @ 000001e04a96b5c0] Could not enumerate audio only devices (or none found).
+[audio-ffmpeg] 2026-08-29T22:40:57.045Z [ffmpeg-cap] [in#0 @ 000001e04a96b400] Error opening input: I/O error
+Error opening input file audio=Microfono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-08-29T22:40:57.055Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-08-29T22:40:59.061Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-08-29T22:40:59.062Z Captura: C:\Users\DavidAycart\eqso-linux\node_modules\.pnpm\ffmpeg-static@5.3.0\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=Microfono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-08-29T22:40:59.141Z [ffmpeg-cap] [dshow @ 000001e449ccb5c0] Could not find audio only device with name [Microfono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-08-29T22:40:59.142Z [ffmpeg-cap] [dshow @ 000001e449ccb5c0] Could not enumerate audio only devices (or none found).
+[audio-ffmpeg] 2026-08-29T22:40:59.148Z [ffmpeg-cap] [in#0 @ 000001e449ccb400] Error opening input: I/O error
+Error opening input file audio=Microfono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-08-29T22:40:59.165Z [ffmpeg-cap] Terminado (code 4294967291)
+[main] 2026-08-29T22:40:59.836Z Señal SIGINT recibida — apagando…
+¿Desea terminar el trabajo por lotes (S/N)?   "Playback: $($c.audio.playbackDevice)"
