@@ -92,12 +92,12 @@ Write-Ok "ffmpeg $(ffmpeg -version 2>$null | Select-Object -First 1)"
 # ── Paso 2: pnpm ───────────────────────────────────────────
 Write-Step "2/6  Instalando pnpm"
 
-if (-not (Get-Command pnpm -ErrorAction SilentlyContinue)) {
+if (-not (Get-Command pnpm.cmd -ErrorAction SilentlyContinue)) {
     Write-Info "Instalando pnpm via winget..."
     winget install pnpm.pnpm --silent --accept-source-agreements --accept-package-agreements
     $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 }
-Write-Ok "pnpm $(pnpm --version 2>$null)"
+Write-Ok "pnpm $(pnpm.cmd --version 2>$null)"
 
 # ── Paso 3: Código fuente ──────────────────────────────────
 Write-Step "3/6  Código fuente"
@@ -115,10 +115,10 @@ if (Test-Path "$INSTALL_DIR\.git") {
 Set-Location $INSTALL_DIR
 
 Write-Info "Instalando dependencias npm..."
-pnpm install --reporter=silent 2>&1 | Where-Object { $_ -notmatch "^$|WARN|onlyBuiltDependencies|pnpm field" } | Out-Host
+pnpm.cmd install --reporter=silent 2>&1 | Where-Object { $_ -notmatch "^$|WARN|onlyBuiltDependencies|pnpm field" } | Out-Host
 
 Write-Info "Compilando relay daemon..."
-pnpm --filter "@workspace/relay-daemon" run build
+pnpm.cmd --filter "@workspace/relay-daemon" run build
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path "$INSTALL_DIR\artifacts\relay-daemon\dist\main.mjs")) {
     Write-Host "La compilación del relay ha fallado o no ha generado dist\main.mjs." -ForegroundColor Red
     Write-Host "Revisa el mensaje anterior y vuelve a ejecutar el instalador." -ForegroundColor Red
