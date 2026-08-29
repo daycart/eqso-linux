@@ -251,6 +251,8 @@ Write-Ok "Script de arranque: $startScriptPath"
 # parámetro no existe en algunas versiones de Windows PowerShell 5.1.
 # El XML mantiene el reinicio automático y es compatible con esas versiones.
 $taskName = "eQSO Relay $ROOM"
+$userId = "$env:USERDOMAIN\$env:USERNAME"
+$xmlUserId = [System.Security.SecurityElement]::Escape($userId)
 $xmlComSpec = [System.Security.SecurityElement]::Escape($env:ComSpec)
 $xmlArguments = [System.Security.SecurityElement]::Escape("/c `"$startScriptPath`"")
 $taskXml = @"
@@ -260,13 +262,15 @@ $taskXml = @"
     <Description>eQSO Relay $ROOM</Description>
   </RegistrationInfo>
   <Triggers>
-    <BootTrigger>
+    <LogonTrigger>
+      <UserId>$xmlUserId</UserId>
       <Enabled>true</Enabled>
-    </BootTrigger>
+    </LogonTrigger>
   </Triggers>
   <Principals>
     <Principal id="Author">
-      <UserId>S-1-5-18</UserId>
+      <UserId>$xmlUserId</UserId>
+      <LogonType>InteractiveToken</LogonType>
       <RunLevel>HighestAvailable</RunLevel>
     </Principal>
   </Principals>
