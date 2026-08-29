@@ -119,6 +119,11 @@ pnpm install --reporter=silent 2>&1 | Where-Object { $_ -notmatch "^$|WARN|onlyB
 
 Write-Info "Compilando relay daemon..."
 pnpm --filter "@workspace/relay-daemon" run build
+if ($LASTEXITCODE -ne 0 -or -not (Test-Path "$INSTALL_DIR\artifacts\relay-daemon\dist\main.mjs")) {
+    Write-Host "La compilación del relay ha fallado o no ha generado dist\main.mjs." -ForegroundColor Red
+    Write-Host "Revisa el mensaje anterior y vuelve a ejecutar el instalador." -ForegroundColor Red
+    exit 1
+}
 Write-Ok "Compilación completada"
 
 # ── Paso 4: Detectar dispositivos de audio y COM ──────────
