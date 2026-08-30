@@ -5,7 +5,7 @@ export interface AudioConfig {
   captureDevice: string;
   playbackDevice: string;
   captureFormat?: string;   // ffmpeg format: "dshow"|"alsa"|"pulse"|"avfoundation" (auto si no se indica)
-  playbackFormat?: string;  // ffmpeg format: "wasapi"|"alsa"|"coreaudio" (auto si no se indica)
+  playbackFormat?: string;  // "ffplay" en Windows; formato ffmpeg "alsa"|"coreaudio" en otros sistemas
   vox: boolean;
   voxThresholdRms: number;
   voxHangMs: number;
@@ -99,10 +99,12 @@ export function loadConfig(): RelayConfig {
   let fromFile: Partial<RelayConfig> = {};
   if (fs.existsSync(configFile)) {
     try {
-      fromFile = JSON.parse(fs.readFileSync(configFile, "utf8")) as Partial<RelayConfig>;
+      const rawConfig = fs.readFileSync(configFile, "utf8").replace(/^\uFEFF/, "");
+      fromFile = JSON.parse(rawConfig) as Partial<RelayConfig>;
       console.log(`[config] Cargado: ${configFile}`);
     } catch (err) {
       console.error(`[config] Error al leer ${configFile}:`, err);
+      throw err;
     }
   } else {
     console.warn(`[config] Archivo no encontrado: ${configFile} — usando valores por defecto`);

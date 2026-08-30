@@ -2,16 +2,16 @@
  * Audio via FFmpeg — captura y reproduccion multiplataforma.
  *
  * Misma interfaz que AlsaAudio pero usa ffmpeg en lugar de arecord/aplay.
- * Compatible con Windows (DirectShow/WASAPI), Linux (ALSA/PulseAudio) y Raspberry Pi.
+ * Compatible con Windows (DirectShow/FFplay-SDL), Linux (ALSA/PulseAudio) y Raspberry Pi.
  *
  * Captura:  ffmpeg (dshow/alsa/pulse) → PCM S16LE 8kHz mono → GsmEncoder → EqsoClient
- * Playback: EqsoClient → GsmDecoder → PCM → upsample → ffmpeg (wasapi/alsa) → mic radio
+ * Playback: EqsoClient → GsmDecoder → PCM → upsample → ffplay/ffmpeg → mic radio
  *
  * Half-duplex: misma logica que AlsaAudio — suspende captura al iniciar RX,
  * reanuda captura al terminar RX. Evita conflictos en tarjetas USB half-duplex.
  *
  * Formatos ffmpeg por defecto segun plataforma:
- *   Windows  → captura: dshow   | playback: wasapi
+ *   Windows  → captura: dshow   | playback: ffplay (SDL/WASAPI)
  *   Linux    → captura: alsa    | playback: alsa
  *   macOS    → captura: avfoundation | playback: coreaudio
  * Se pueden sobreescribir con "captureFormat" / "playbackFormat" en el JSON.
@@ -40,6 +40,8 @@ const UPSAMPLE_FACTOR = PLAYBACK_SAMPLE_RATE / 8000; // 6
 
 /** Resuelve la ruta al binario ffmpeg: ffmpeg-static si esta disponible, PATH si no. */
 export function resolveFfmpegBin(): string {
+  const configured = process.env.FFMPEG_PATH?.trim();
+  if (configured) return configured;
   try {
     const p = require("ffmpeg-static") as string | null;
     if (p) return p;
@@ -47,10 +49,17 @@ export function resolveFfmpegBin(): string {
   return "ffmpeg";
 }
 
+/** FFplay usa SDL para reproducir PCM en Windows; el instalador fija su ruta absoluta. */
+export function resolveFfplayBin(): string {
+  const configured = process.env.FFPLAY_PATH?.trim();
+  if (configured) return configured;
+  return process.platform === "win32" ? "ffplay.exe" : "ffplay";
+}
+
 /** Formatos ffmpeg por defecto segun la plataforma del sistema. */
 function defaultFormats(): { capture: string; playback: string } {
   switch (process.platform) {
-    case "win32":  return { capture: "dshow",        playback: "wasapi" };
+    case "win32":  return { capture: "dshow",        playback: "ffplay" };
     case "darwin": return { capture: "avfoundation", playback: "coreaudio" };
     default:       return { capture: "alsa",         playback: "alsa" };
   }
@@ -104,6 +113,7 @@ export class FfmpegAudio extends EventEmitter {
   private readonly captureFormat: string;
   private readonly playbackFormat: string;
   private readonly ffmpegBin: string;
+  private readonly ffplayBin: string;
 
   constructor(private cfg: AudioConfig) {
     super();
@@ -111,7 +121,8 @@ export class FfmpegAudio extends EventEmitter {
     this.captureFormat  = cfg.captureFormat  ?? defs.capture;
     this.playbackFormat = cfg.playbackFormat ?? defs.playback;
     this.ffmpegBin = resolveFfmpegBin();
-    log(`Backend FFmpeg: bin=${this.ffmpegBin} captureFormat=${this.captureFormat} playbackFormat=${this.playbackFormat}`);
+    this.ffplayBin = resolveFfplayBin();
+    log(`Backend FFmpeg: bin=${this.ffmpegBin} ffplay=${this.ffplayBin} captureFormat=${this.captureFormat} playbackFormat=${this.playbackFormat}`);
   }
 
   start(): void {
@@ -379,16 +390,27 @@ export class FfmpegAudio extends EventEmitter {
   private doOpenPlayer(): void {
     if (this.stopping) return;
 
-    const args = [
-      "-hide_banner", "-loglevel", "error",
-      "-f", "s16le", "-ar", String(PLAYBACK_SAMPLE_RATE), "-ac", "1",
-      "-i", "pipe:0",
-      "-f", this.playbackFormat,
-      this.cfg.playbackDevice,
-    ];
+    const useFfplay = this.playbackFormat === "ffplay";
+    const playerBin = useFfplay ? this.ffplayBin : this.ffmpegBin;
+    const args = useFfplay
+      ? [
+          "-hide_banner", "-loglevel", "error", "-nodisp", "-autoexit",
+          "-f", "s16le", "-ar", String(PLAYBACK_SAMPLE_RATE), "-ac", "1",
+          "-i", "pipe:0",
+        ]
+      : [
+          "-hide_banner", "-loglevel", "error",
+          "-f", "s16le", "-ar", String(PLAYBACK_SAMPLE_RATE), "-ac", "1",
+          "-i", "pipe:0",
+          "-f", this.playbackFormat,
+          this.cfg.playbackDevice,
+        ];
+    const env = useFfplay
+      ? { ...process.env, SDL_AUDIO_DEVICE_NAME: this.cfg.playbackDevice }
+      : process.env;
 
-    log(`Playback: ${this.ffmpegBin} ${args.join(" ")}`);
-    this.player = spawn(this.ffmpegBin, args, { stdio: ["pipe", "ignore", "pipe"] });
+    log(`Playback: ${playerBin} ${args.join(" ")} device=${this.cfg.playbackDevice}`);
+    this.player = spawn(playerBin, args, { stdio: ["pipe", "ignore", "pipe"], env });
     const p = this.player;
 
     p.stderr.on("data", (d: Buffer) => {
