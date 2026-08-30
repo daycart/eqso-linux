@@ -275,7 +275,7 @@ bash artifacts/relay-daemon/install/install-relay.sh
 ```
 
 El script:
-1. Instala `ffmpeg`, `git`, `curl` vía apt si faltan
+1. Instala `ffmpeg`, `git`, `curl` y `alsa-utils` vía apt si faltan (`aplay`/`arecord`)
 2. Instala `pnpm` y `Node.js LTS` en el home del usuario (sin tocar el sistema)
 3. Clona o actualiza el repositorio en `~/eqso-linux-client`
 4. Compila el relay daemon
