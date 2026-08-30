@@ -455,13 +455,20 @@ connect();
 
 // ─── Señales del sistema ──────────────────────────────────────────────────────
 
+let shutdownStarted = false;
+
 function shutdown(sig: string): void {
+  if (shutdownStarted) return;
+  shutdownStarted = true;
   log(`Señal ${sig} recibida — apagando…`);
   if (pttActive) { eqsoClient?.endTx(); }
   eqsoClient?.disconnect();
   serialPtt.stop();
   audio.stop();
-  process.exit(0);
+  // En Windows, dar tiempo a FFmpeg para cerrar DirectShow antes de terminar
+  // Node reduce el riesgo de dejar VirtualBox sin integracion del raton.
+  const shutdownDelayMs = process.platform === "win32" ? 1500 : 100;
+  setTimeout(() => process.exit(0), shutdownDelayMs);
 }
 
 process.on("SIGTERM", () => shutdown("SIGTERM"));
