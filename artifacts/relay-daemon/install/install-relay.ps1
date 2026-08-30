@@ -435,18 +435,18 @@ if (-not $CALLSIGN.StartsWith("0R-")) {
 $CAPTURE_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la entrada de audio DirectShow" -Devices $captureDevices
 $PLAYBACK_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la salida de audio Windows" -Devices $playbackDevices
 
-if (-not (Test-AudioCapture -FfmpegPath $ffmpegPath -CaptureDevice $CAPTURE_DEVICE)) {
-    Write-Host "La tarea programada no se creara hasta que ambos dispositivos funcionen." -ForegroundColor Red
-    exit 1
-}
-if ($env:RELAY_INSTALL_TEST_PLAYBACK -eq "1") {
+if ($env:RELAY_INSTALL_TEST_AUDIO -eq "1") {
+    if (-not (Test-AudioCapture -FfmpegPath $ffmpegPath -CaptureDevice $CAPTURE_DEVICE)) {
+        Write-Host "La tarea programada no se creara hasta que la captura de audio funcione." -ForegroundColor Red
+        exit 1
+    }
     if (-not (Test-AudioPlayback -FfplayPath $ffplayPath -PlaybackDevice $PLAYBACK_DEVICE)) {
         Write-Host "La tarea programada no se creara hasta que la salida de audio funcione." -ForegroundColor Red
         exit 1
     }
 } else {
-    Write-Info "Prueba de reproduccion omitida para evitar interferencias con la VM."
-    Write-Info "Para activarla manualmente: `$env:RELAY_INSTALL_TEST_PLAYBACK = '1'"
+    Write-Info "Pruebas de audio omitidas para evitar interferencias con la VM."
+    Write-Info "Para activarlas manualmente: `$env:RELAY_INSTALL_TEST_AUDIO = '1'"
 }
 
 $PTT_DEVICE = ""
@@ -617,16 +617,27 @@ try {
 
 Write-Ok "Tarea programada registrada: '$taskName'"
 
-# Arrancar ahora mismo
-Write-Info "Arrancando el relay..."
-Start-ScheduledTask -TaskName $taskName
-Start-Sleep -Seconds 3
+# Arrancar ahora mismo solo mediante una opcion explicita. En el modo
+# seguro, la tarea queda registrada pero no abre los dispositivos de audio.
+$startRelayNow = $env:RELAY_INSTALL_START_NOW -eq "1"
+if ($startRelayNow) {
+    Write-Info "Arrancando el relay..."
+    Start-ScheduledTask -TaskName $taskName
+    Start-Sleep -Seconds 3
+} else {
+    Write-Info "Tarea registrada sin arrancar; no se abriran dispositivos de audio."
+}
 
 $taskStatus = (Get-ScheduledTask -TaskName $taskName).State
 
 # -- Resultado ----------------------------------------------
 Write-Host ""
-if ($taskStatus -eq "Running") {
+if (-not $startRelayNow) {
+    Write-Host "  ============================================" -ForegroundColor Green
+    Write-Host "    OK  INSTALACION COMPLETADA - Relay PENDIENTE" -ForegroundColor Green
+    Write-Host "  ============================================" -ForegroundColor Green
+    Write-Info "Inicia el relay cuando quieras con Start-ScheduledTask -TaskName '$taskName'"
+} elseif ($taskStatus -eq "Running") {
     Write-Host "  ============================================" -ForegroundColor Green
     Write-Host "    OK  INSTALACION COMPLETADA - Relay ACTIVO" -ForegroundColor Green
     Write-Host "  ============================================" -ForegroundColor Green
