@@ -12,3 +12,10 @@ id = "SHNvpZmZHIaZlgPY6nq9Q"
 uri = "file://guia_relay_instalacion.docx"
 type = "word_document"
 title = "Guía Completa — eQSO Relay Daemon v1.3"
+
+[[outputs]]
+id = "5i3nfQCe-qQFJpAokgK-e"
+uri = "file://artifacts/relay-daemon/install/install-relay-windows.zip"
+type = "unspecified"
+title = "Instalador eQSO Relay para Windows"
+description = "Descarga este ZIP, extraelo y abre install-relay-windows.cmd con doble clic. El archivo conserva la extension CMD correcta."
