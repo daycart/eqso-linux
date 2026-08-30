@@ -573,7 +573,7 @@ set "NODE_ENV=production"
 set "CONFIG_FILE=$configPath"
 set "FFPLAY_PATH=$ffplayPath"
 cd /d "$scriptDir"
-"$nodePath" --enable-source-maps dist\main.mjs
+"$nodePath" --enable-source-maps dist\main.mjs >> "$CONFIG_DIR\relay-$ROOM.log" 2>&1
 "@
 
 $startScriptPath = "$CONFIG_DIR\start-$ROOM.cmd"
