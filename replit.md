@@ -495,8 +495,8 @@ watch -n2 'curl -s http://127.0.0.1:8009/status | python3 -m json.tool | grep -E
 
 ### Backend ffmpeg multiplataforma
 
-- `FfmpegAudio` (`artifacts/relay-daemon/src/ffmpeg-audio.ts`) usa el binario de `ffmpeg-static` (ya dependencia del proyecto), no requiere instalación adicional.
-- `resolveFfmpegBin()` en `ffmpeg-audio.ts` inyecta el directorio del binario en `PATH`, pero **solo cuando `backend = "ffmpeg"`** (Windows/macOS). En Linux/alsa NO se inyecta: el pnpm content-store de `ffmpeg-static` puede carecer de `libgsm` aunque el `/usr/bin/ffmpeg` del sistema sí lo tenga. Inyectarlo siempre lo pondría por delante del sistema y rompería el encoder GSM.
+- En Windows, `FfmpegAudio` (`artifacts/relay-daemon/src/ffmpeg-audio.ts`) prioriza el binario de `ffmpeg-static` que ya funcionaba con DirectShow en VirtualBox; `FFMPEG_PATH` queda solo como fallback cuando no existe el binario incluido.
+- `main.ts` inyecta el directorio resuelto en `PATH`, pero **solo cuando `backend = "ffmpeg"`**. En Linux/alsa NO se inyecta: el pnpm content-store de `ffmpeg-static` puede carecer de `libgsm` aunque el `/usr/bin/ffmpeg` del sistema sí lo tenga. Inyectarlo siempre lo pondría por delante del sistema y rompería el encoder GSM.
 - `gsm-codec.ts` usa `spawn("ffmpeg", ...)` literal (no `ffmpeg-static`). En Linux/alsa encuentra el ffmpeg del sistema; en Windows/ffmpeg-audio, el PATH inyectado por `main.ts` apunta a `ffmpeg-static`.
 - Si `backend` no se especifica en el JSON → usa `"alsa"` (comportamiento anterior sin cambios).
 

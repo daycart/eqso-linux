@@ -544,7 +544,6 @@ $startScript = @"
 set "RELAY_INSTANCE=$ROOM"
 set "NODE_ENV=production"
 set "CONFIG_FILE=$configPath"
-set "FFMPEG_PATH=$ffmpegPath"
 set "FFPLAY_PATH=$ffplayPath"
 cd /d "$scriptDir"
 "$nodePath" --enable-source-maps dist\main.mjs

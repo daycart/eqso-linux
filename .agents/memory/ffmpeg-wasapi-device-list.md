@@ -6,4 +6,4 @@ En Windows, el backend del relay captura mediante DirectShow (`dshow`) y reprodu
 
 **Why:** La configuración `playbackFormat: "wasapi"` generaba un comando de salida inválido que podía dejar el relay conectado pero sin audio hacia la radio.
 
-**How to apply:** Obtener la entrada con DirectShow y los altavoces con `Get-PnpDevice -Class AudioEndpoint`; usar `captureFormat: "dshow"` y `playbackFormat: "ffplay"`, y probar ambos antes de registrar el relay.
+**How to apply:** Obtener la entrada con DirectShow y los altavoces con `Get-PnpDevice -Class AudioEndpoint`; usar `captureFormat: "dshow"` y `playbackFormat: "ffplay"`. En VirtualBox no abrir dispositivos ni iniciar el relay durante la instalación: registrar la tarea desactivada y probar después de forma explícita.

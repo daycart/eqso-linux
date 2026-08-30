@@ -1,14 +1,14 @@
 ---
-name: ffmpeg-static vs sistema en Linux/alsa
-description: El binario de ffmpeg-static instalado por pnpm carece de libgsm en Ubuntu; inyectar su PATH rompe gsm-codec.
+name: Seleccion de ffmpeg-static por plataforma
+description: Windows prioriza ffmpeg-static para DirectShow; Linux/alsa prioriza el FFmpeg del sistema con libgsm.
 ---
 
 ## Regla
 
-En Linux con backend `alsa`, NO inyectar ffmpeg-static en PATH. El ffmpeg del sistema (`/usr/bin/ffmpeg`) tiene libgsm compilado; el binario de ffmpeg-static del pnpm content-addressable store NO.
+En Windows con backend `ffmpeg`, priorizar `ffmpeg-static` para la captura DirectShow. En Linux con backend `alsa`, NO inyectar ffmpeg-static en PATH: el ffmpeg del sistema (`/usr/bin/ffmpeg`) tiene libgsm compilado y el binario estático puede no tenerlo.
 
-**Why:** pnpm instala ffmpeg-static en su store interno (no en `node_modules/ffmpeg-static/ffmpeg` directamente visible). `require("ffmpeg-static")` lo resuelve y devuelve una ruta válida. Si main.ts lo inyecta en PATH, ese binario sin libgsm queda por delante del sistema y gsm-codec falla con "Unknown encoder 'libgsm'" (exit 8).
+**Why:** La VM Windows funcionaba con `ffmpeg-static`; al forzar el FFmpeg de Winget/Gyan mediante `FFMPEG_PATH`, abrir DirectShow provocó bloqueos de entrada en VirtualBox. En Linux, poner el binario estático por delante del sistema rompe el encoder GSM con "Unknown encoder 'libgsm'".
 
-**How to apply:** En `main.ts`, la inyección de PATH está condicionada a `cfg.backend === "ffmpeg"`. Para backend `alsa` (Linux/Raspi) no se toca PATH → sistema ffmpeg tiene prioridad → libgsm disponible.
+**How to apply:** Resolver primero `ffmpeg-static` en Windows y usar `FFMPEG_PATH` solo como fallback. Para backend `alsa` (Linux/Raspi), no tocar PATH: el FFmpeg del sistema debe conservar la prioridad.
 
 En `gsm-codec.ts`, `FFMPEG_BIN = "ffmpeg"` (literal, no require ffmpeg-static). Así, en alsa usa el sistema; en ffmpeg-audio, usa lo que main.ts haya inyectado en PATH.
