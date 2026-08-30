@@ -339,6 +339,76 @@ sudo journalctl -u eqso-relay@CB -f
 }
 ```
 
+### Administrar y actualizar el relay en Linux/Raspberry Pi
+
+Sustituye `CB` por el nombre real de la sala. El servicio se llama
+`eqso-relay@<SALA>` y está gestionado por `systemd`.
+
+#### Actualizar el software
+
+Ejecuta estos pasos cuando quieras traer una versión nueva del repositorio:
+
+```bash
+cd ~/eqso-linux-client
+git pull
+pnpm install
+pnpm --filter @workspace/relay-daemon run build
+sudo systemctl restart eqso-relay@CB
+```
+
+- `cd` entra en la copia local del proyecto.
+- `git pull` descarga los cambios publicados en GitHub.
+- `pnpm install` instala o actualiza las dependencias necesarias.
+- `pnpm ... build` compila el relay daemon que ejecutará systemd.
+- `systemctl restart` detiene la versión anterior y arranca la nueva. También
+  aplica los cambios realizados en `/etc/eqso-relay/CB.json`.
+
+#### Consultar el estado y los logs
+
+```bash
+sudo systemctl status eqso-relay@CB
+sudo journalctl -u eqso-relay@CB -f
+curl http://127.0.0.1:8009/status
+```
+
+- `systemctl status` muestra si está `active (running)`, el PID, el tiempo
+  activo y las últimas líneas del servicio. Solo consulta; no cambia nada.
+- `journalctl ... -f` muestra el log en tiempo real, incluidos errores de
+  audio, conexión, VOX y PTT. Pulsa `Ctrl+C` para dejar de verlo; el relay
+  continúa funcionando.
+- `curl .../status` consulta el estado HTTP local del daemon, con información
+  de conexión y contadores TX/RX. No reinicia ni modifica el servicio.
+
+#### Parar, iniciar y reiniciar
+
+```bash
+sudo systemctl stop eqso-relay@CB
+sudo systemctl start eqso-relay@CB
+sudo systemctl restart eqso-relay@CB
+```
+
+- `stop` detiene temporalmente el relay para mantenimiento. El servicio sigue
+  instalado; con la unidad actual, una parada manual no provoca un reinicio
+  automático.
+- `start` arranca un relay que estaba parado, sin recompilar ni modificar la
+  configuración.
+- `restart` hace `stop` y `start` seguidos. Úsalo después de cambiar el JSON o
+  compilar una versión nueva.
+
+Para volver a activar el arranque automático tras reiniciar la Raspberry Pi:
+
+```bash
+sudo systemctl enable eqso-relay@CB
+```
+
+`enable` no arranca el relay en ese momento; solo lo deja preparado para
+iniciarse con systemd en el siguiente arranque. Para activarlo y arrancarlo
+inmediatamente se puede usar:
+
+```bash
+sudo systemctl enable --now eqso-relay@CB
+```
+
 ### Instalación en Windows — script automático
 
 La opción recomendada es descargar el ZIP del lanzador de Windows:
@@ -396,18 +466,53 @@ Al comienzo del instalador se elige el tipo de equipo:
 
 En un PC físico se elige `1` para probar captura y reproducción, arrancar el relay y activar el inicio de sesión. En una VM se elige `2`; se detectan los dispositivos, pero no se abren ni se inicia la tarea.
 
-Comandos útiles tras la instalación:
-```powershell
-# Ver logs en tiempo real
-Get-Content "C:\eqso-relay\relay-CB.log" -Wait -Tail 20
+### Administrar y actualizar el relay en Windows
 
-# Parar / Reiniciar
+Sustituye `CB` por el nombre real de la sala. La instalación crea la tarea
+programada `eQSO Relay CB`, el archivo de configuración
+`C:\eqso-relay\CB.json` y el log `C:\eqso-relay\relay-CB.log`.
+
+#### Consultar el log
+
+```powershell
+Get-Content "C:\eqso-relay\relay-CB.log" -Wait -Tail 20
+```
+
+`Get-Content` muestra las últimas 20 líneas y, gracias a `-Wait`, sigue
+mostrando las nuevas líneas en tiempo real. Pulsa `Ctrl+C` para salir de la
+vista del log; no detiene el relay.
+
+#### Parar, iniciar y reiniciar
+
+```powershell
 Stop-ScheduledTask  -TaskName "eQSO Relay CB"
 Start-ScheduledTask -TaskName "eQSO Relay CB"
+Stop-ScheduledTask  -TaskName "eQSO Relay CB"; Start-ScheduledTask -TaskName "eQSO Relay CB"
+```
 
-# Desinstalar
+- `Stop-ScheduledTask` detiene el proceso actual. La tarea sigue registrada y
+  sus archivos no se borran.
+- `Start-ScheduledTask` arranca la tarea registrada. Úsalo después de una
+  parada manual o para iniciar una instalación hecha en modo máquina virtual.
+- La línea con `Stop` y `Start` en una sola instrucción reinicia el relay.
+  Es útil después de modificar el JSON o actualizar el código.
+
+#### Actualizar el software
+
+La forma recomendada es volver a ejecutar `install-relay-windows.cmd` como
+administrador. El lanzador actualiza el repositorio y recompila el daemon.
+Después, inicia la tarea si la instalación es para un PC físico.
+
+#### Quitar el arranque automático
+
+```powershell
 Unregister-ScheduledTask -TaskName "eQSO Relay CB" -Confirm:$false
 ```
+
+`Unregister-ScheduledTask` elimina la tarea del Programador de tareas, por lo
+que deja de iniciarse automáticamente al iniciar sesión. No borra el JSON,
+los logs ni el código descargado. Para volver a registrarla hay que ejecutar
+de nuevo el instalador.
 
 ### Configuración para Windows
 
