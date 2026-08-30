@@ -325,11 +325,13 @@ if ($playbackDevices.Count -eq 0) {
 
 Write-Host ""
 Write-Host "  Puertos COM disponibles (para PTT serial):" -ForegroundColor Cyan
-Get-WmiObject Win32_SerialPort 2>$null | ForEach-Object {
-    Write-Host "    $($_.DeviceID)  — $($_.Name)"
-}
-if (-not (Get-WmiObject Win32_SerialPort 2>$null)) {
+$serialPorts = @(Get-WmiObject Win32_SerialPort -ErrorAction SilentlyContinue)
+if ($serialPorts.Count -eq 0) {
     Write-Host "    (ninguno detectado)"
+} else {
+    foreach ($serialPort in $serialPorts) {
+        Write-Host "    $($serialPort.DeviceID)  — $($serialPort.Name)"
+    }
 }
 
 # ── Paso 5: Configuración interactiva ─────────────────────
