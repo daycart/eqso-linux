@@ -50,8 +50,18 @@ function Write-Step { param($msg)
 function Get-DirectShowAudioDevices {
     param([string]$FfmpegPath)
 
-    $lines = @(& $FfmpegPath -hide_banner -list_devices true -f dshow -i dummy 2>&1 |
-        ForEach-Object { $_.ToString() })
+    $tempPath = [System.IO.Path]::GetTempFileName()
+    try {
+        Start-Process -FilePath $FfmpegPath `
+            -ArgumentList @("-hide_banner", "-list_devices", "true", "-f", "dshow", "-i", "dummy") `
+            -RedirectStandardError $tempPath `
+            -NoNewWindow -Wait | Out-Null
+        $utf8 = New-Object System.Text.UTF8Encoding($false)
+        $lines = @([System.IO.File]::ReadAllLines($tempPath, $utf8))
+    } finally {
+        Remove-Item -Path $tempPath -Force -ErrorAction SilentlyContinue
+    }
+
     $devices = @()
 
     foreach ($line in $lines) {
