@@ -207,11 +207,12 @@ cat << ENDJSON | sudo tee "$CONFIG_DIR/$ROOM.json" > /dev/null
     "playbackDevice": "$AUDIO_DEVICE",
     "vox": true,
     "voxThresholdRms": 1500,
-    "voxHangMs": 5000,
+    "voxHangMs": 800,
     "txGateRms": 50,
     "inputGain": 0.3,
     "outputGain": 1.0,
-    "postRxSuppressMs": 6000
+    "postRxSuppressMs": 2500,
+    "postTxSuppressMs": 1000
   },
   "ptt": {
     "device": "$PTT_DEVICE",
