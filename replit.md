@@ -265,6 +265,12 @@ El daemon hace VOX automático: detecta audio de la radio y abre el canal sin in
 
 Un solo comando instala todo de forma interactiva (pnpm, Node.js, compilación, config y servicio systemd):
 
+Script descargable directamente:
+
+```text
+https://github.com/daycart/eqso-linux/raw/refs/heads/main/artifacts/relay-daemon/install/install-relay.sh
+```
+
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/install/install-relay.sh)
 ```
@@ -335,14 +341,18 @@ sudo journalctl -u eqso-relay@CB -f
 
 ### Instalación en Windows — script automático
 
-La opción recomendada es descargar `install-relay-windows.cmd` desde la carpeta de instalación del repositorio:
+La opción recomendada es descargar el ZIP del lanzador de Windows:
 
 ```text
-https://github.com/daycart/eqso-linux/tree/test/windows-relay-installer/artifacts/relay-daemon/install
+https://github.com/daycart/eqso-linux/raw/refs/heads/test/windows-relay-installer/artifacts/relay-daemon/install/install-relay-windows.zip
 ```
 
+Después de extraerlo, abre `install-relay-windows.cmd` con doble clic.
+
+También se puede descargar directamente el archivo CMD:
+
 ```text
-artifacts/relay-daemon/install/install-relay-windows.cmd
+https://github.com/daycart/eqso-linux/raw/refs/heads/test/windows-relay-installer/artifacts/relay-daemon/install/install-relay-windows.cmd
 ```
 
 El lanzador:
