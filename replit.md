@@ -357,14 +357,17 @@ El script:
 7. Omite por defecto las pruebas activas de captura y reproducción para evitar interferencias con VirtualBox
 8. Genera `C:\eqso-relay\<SALA>.json` como UTF-8 sin BOM, lo valida y no continúa si es incorrecto
 9. Registra una **tarea programada de Windows** que inicia el relay al iniciar sesión y se reinicia automáticamente si falla
-10. No arranca la tarea durante la instalación salvo que se solicite explícitamente
+10. No arranca la tarea durante la instalación ni activa el autoinicio salvo que se solicite explícitamente
 
-Las pruebas de audio y el arranque inmediato pueden activarse explícitamente antes de ejecutar el instalador:
+Las pruebas de audio, el arranque inmediato y el autoinicio pueden activarse explícitamente antes de ejecutar el instalador:
 
 ```powershell
 $env:RELAY_INSTALL_TEST_AUDIO = "1"
 $env:RELAY_INSTALL_START_NOW = "1"
+$env:RELAY_INSTALL_AUTOSTART = "1"
 ```
+
+Para una instalación de prueba en VirtualBox no se deben definir esas variables. La tarea queda registrada y desactivada hasta que se habilite manualmente.
 
 Comandos útiles tras la instalación:
 ```powershell

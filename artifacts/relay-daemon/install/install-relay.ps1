@@ -563,6 +563,8 @@ $userId = "$env:USERDOMAIN\$env:USERNAME"
 $xmlUserId = [System.Security.SecurityElement]::Escape($userId)
 $xmlComSpec = [System.Security.SecurityElement]::Escape($env:ComSpec)
 $xmlArguments = [System.Security.SecurityElement]::Escape("/c `"$startScriptPath`"")
+$autoStart = $env:RELAY_INSTALL_AUTOSTART -eq "1"
+$xmlTriggerEnabled = if ($autoStart) { "true" } else { "false" }
 $taskXml = @"
 <?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
@@ -572,7 +574,7 @@ $taskXml = @"
   <Triggers>
     <LogonTrigger>
       <UserId>$xmlUserId</UserId>
-      <Enabled>true</Enabled>
+      <Enabled>$xmlTriggerEnabled</Enabled>
     </LogonTrigger>
   </Triggers>
   <Principals>
@@ -637,6 +639,9 @@ if (-not $startRelayNow) {
     Write-Host "    OK  INSTALACION COMPLETADA - Relay PENDIENTE" -ForegroundColor Green
     Write-Host "  ============================================" -ForegroundColor Green
     Write-Info "Inicia el relay cuando quieras con Start-ScheduledTask -TaskName '$taskName'"
+    if (-not $autoStart) {
+        Write-Info "Autoinicio desactivado. Para activarlo: Enable-ScheduledTask -TaskName '$taskName'"
+    }
 } elseif ($taskStatus -eq "Running") {
     Write-Host "  ============================================" -ForegroundColor Green
     Write-Host "    OK  INSTALACION COMPLETADA - Relay ACTIVO" -ForegroundColor Green
