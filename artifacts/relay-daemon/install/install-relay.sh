@@ -48,6 +48,9 @@ PKGS=""
 command -v ffmpeg &>/dev/null || PKGS="$PKGS ffmpeg"
 command -v git    &>/dev/null || PKGS="$PKGS git"
 command -v curl   &>/dev/null || PKGS="$PKGS curl"
+if ! command -v aplay &>/dev/null || ! command -v arecord &>/dev/null; then
+  PKGS="$PKGS alsa-utils"
+fi
 
 if [ -n "$PKGS" ]; then
   info "Instalando:$PKGS"
@@ -55,6 +58,7 @@ if [ -n "$PKGS" ]; then
   sudo apt-get install -y $PKGS -qq
 fi
 ok "ffmpeg $(ffmpeg -version 2>&1 | head -1 | awk '{print $3}')"
+ok "alsa-utils $(aplay --version 2>&1 | head -1 | awk '{print $NF}')"
 
 # ── Grupos del sistema (audio + dialout para serial PTT) ──
 GROUPS_CHANGED=0
