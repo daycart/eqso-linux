@@ -335,7 +335,20 @@ sudo journalctl -u eqso-relay@CB -f
 
 ### Instalación en Windows — script automático
 
-PowerShell como **Administrador**, un solo comando:
+La opción recomendada es descargar `install-relay-windows.cmd` y abrirlo con doble clic:
+
+```text
+artifacts/relay-daemon/install/install-relay-windows.cmd
+```
+
+El lanzador:
+
+- Solicita permisos de Administrador automáticamente.
+- Usa `install-relay.ps1` si está en la misma carpeta.
+- Si se descarga solo, descarga el instalador actual desde GitHub.
+- No requiere escribir comandos en PowerShell.
+
+Alternativamente, PowerShell como **Administrador**:
 
 ```powershell
 irm https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-relay.ps1 | iex
