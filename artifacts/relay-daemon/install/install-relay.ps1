@@ -47,6 +47,24 @@ function Write-Step { param($msg)
     Write-Host "  ============================================" -ForegroundColor Blue
 }
 
+function Read-InstallationMode {
+    while ($true) {
+        Write-Host "  Tipo de instalacion:" -ForegroundColor Cyan
+        Write-Host "    1. PC fisico (automatizacion maxima: prueba y arranque)"
+        Write-Host "    2. Maquina virtual (modo seguro: sin abrir audio ni arrancar)"
+        $selection = (Read-Host "  Selecciona [1-2, por defecto 2]").Trim()
+        if ([string]::IsNullOrWhiteSpace($selection)) { $selection = "2" }
+
+        if ($selection -eq "1") {
+            return "physical"
+        }
+        if ($selection -eq "2") {
+            return "vm"
+        }
+        Write-Warn "Selecciona 1 para PC fisico o 2 para maquina virtual."
+    }
+}
+
 function Repair-NativeUtf8Text {
     param([string]$Text)
 
@@ -283,6 +301,14 @@ Write-Host "  ============================================" -ForegroundColor Blu
 Write-Host "  Instala el nodo de radioenlace eQSO en Windows."
 Write-Host ""
 
+$INSTALLATION_MODE = Read-InstallationMode
+$IS_PHYSICAL_INSTALL = $INSTALLATION_MODE -eq "physical"
+if ($IS_PHYSICAL_INSTALL) {
+    Write-Info "Modo PC fisico: se probaran los dispositivos y se activara el relay."
+} else {
+    Write-Info "Modo maquina virtual: se omitiran pruebas y arranque para proteger la VM."
+}
+
 # -- Funcion auxiliar: instalar con winget ------------------
 function Install-WithWinget {
     param($Id, $Name)
@@ -435,7 +461,7 @@ if (-not $CALLSIGN.StartsWith("0R-")) {
 $CAPTURE_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la entrada de audio DirectShow" -Devices $captureDevices
 $PLAYBACK_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la salida de audio Windows" -Devices $playbackDevices
 
-if ($env:RELAY_INSTALL_TEST_AUDIO -eq "1") {
+if ($IS_PHYSICAL_INSTALL) {
     if (-not (Test-AudioCapture -FfmpegPath $ffmpegPath -CaptureDevice $CAPTURE_DEVICE)) {
         Write-Host "La tarea programada no se creara hasta que la captura de audio funcione." -ForegroundColor Red
         exit 1
@@ -446,7 +472,6 @@ if ($env:RELAY_INSTALL_TEST_AUDIO -eq "1") {
     }
 } else {
     Write-Info "Pruebas de audio omitidas para evitar interferencias con la VM."
-    Write-Info "Para activarlas manualmente: `$env:RELAY_INSTALL_TEST_AUDIO = '1'"
 }
 
 $PTT_DEVICE = ""
@@ -562,7 +587,7 @@ $userId = "$env:USERDOMAIN\$env:USERNAME"
 $xmlUserId = [System.Security.SecurityElement]::Escape($userId)
 $xmlComSpec = [System.Security.SecurityElement]::Escape($env:ComSpec)
 $xmlArguments = [System.Security.SecurityElement]::Escape("/c `"$startScriptPath`"")
-$autoStart = $env:RELAY_INSTALL_AUTOSTART -eq "1"
+$autoStart = $IS_PHYSICAL_INSTALL
 $xmlTriggerEnabled = if ($autoStart) { "true" } else { "false" }
 $taskXml = @"
 <?xml version="1.0" encoding="UTF-16"?>
@@ -620,7 +645,7 @@ Write-Ok "Tarea programada registrada: '$taskName'"
 
 # Arrancar ahora mismo solo mediante una opcion explicita. En el modo
 # seguro, la tarea queda registrada pero no abre los dispositivos de audio.
-$startRelayNow = $env:RELAY_INSTALL_START_NOW -eq "1"
+$startRelayNow = $IS_PHYSICAL_INSTALL
 if ($startRelayNow) {
     Write-Info "Arrancando el relay..."
     Start-ScheduledTask -TaskName $taskName
