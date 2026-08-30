@@ -259,7 +259,7 @@ El daemon hace VOX automático: detecta audio de la radio y abre el canal sin in
 | Backend | Plataforma | Configuración |
 |---|---|---|
 | `alsa` (default) | Linux, Raspberry Pi | `captureDevice: "plughw:X,0"` |
-| `ffmpeg` | Windows, Linux sin ALSA | `captureDevice: "USB Audio Device"`, `captureFormat: "dshow"`, `playbackFormat: "wasapi"` |
+| `ffmpeg` | Windows, Linux sin ALSA | `captureDevice: "USB Audio Device"`, `captureFormat: "dshow"`, `playbackFormat: "ffplay"` |
 
 ### Instalación en Linux / Raspberry Pi — script automático
 
@@ -294,10 +294,10 @@ pnpm env use --global lts
 pnpm install
 pnpm --filter @workspace/relay-daemon run build
 
-# Identificar tarjeta USB: aplay -l  →  "plughw:X,0"
+# Identificar tarjeta USB: aplay -l y arecord -l  →  "plughw:X,0"
 # Identificar puerto serie: ls /dev/ttyACM* /dev/ttyUSB*
 
-sudo apt install ffmpeg
+sudo apt install ffmpeg alsa-utils
 sudo mkdir -p /etc/eqso-relay
 sudo cp artifacts/relay-daemon/install/config.example.json /etc/eqso-relay/CB.json
 sudo nano /etc/eqso-relay/CB.json
@@ -335,7 +335,11 @@ sudo journalctl -u eqso-relay@CB -f
 
 ### Instalación en Windows — script automático
 
-La opción recomendada es descargar `install-relay-windows.cmd` y abrirlo con doble clic:
+La opción recomendada es descargar `install-relay-windows.cmd` desde la carpeta de instalación del repositorio:
+
+```text
+https://github.com/daycart/eqso-linux/tree/test/windows-relay-installer/artifacts/relay-daemon/install
+```
 
 ```text
 artifacts/relay-daemon/install/install-relay-windows.cmd
@@ -347,6 +351,8 @@ El lanzador:
 - Usa `install-relay.ps1` si está en la misma carpeta.
 - Si se descarga solo, descarga el instalador actual desde GitHub.
 - No requiere escribir comandos en PowerShell.
+
+Si el navegador añade `.txt`, activa la visualización de extensiones en el Explorador de archivos y renombra el archivo para que termine exactamente en `.cmd`.
 
 Alternativamente, PowerShell como **Administrador**:
 
@@ -377,6 +383,8 @@ Al comienzo del instalador se elige el tipo de equipo:
 
 - **PC físico**: automatización máxima, prueba ambos dispositivos, arranca el relay y activa el inicio de sesión.
 - **Máquina virtual**: modo seguro, no abre los dispositivos de audio, no arranca el relay y deja la tarea desactivada.
+
+En un PC físico se elige `1` para probar captura y reproducción, arrancar el relay y activar el inicio de sesión. En una VM se elige `2`; se detectan los dispositivos, pero no se abren ni se inicia la tarea.
 
 Comandos útiles tras la instalación:
 ```powershell
