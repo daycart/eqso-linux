@@ -1,8 +1,8 @@
 # ============================================================
-#  eQSO ASORAPA — Instalador automático de Relay Daemon (Windows)
+#  eQSO ASORAPA - Instalador automatico de Relay Daemon (Windows)
 #  Compatibilidad: Windows 10 / 11 (PowerShell 5.1 o superior)
 #
-#  Instalación con un solo comando (PowerShell como Administrador):
+#  Instalacion con un solo comando (PowerShell como Administrador):
 #    irm https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-relay.ps1 | iex
 #
 #  O clonando el repo primero:
@@ -12,21 +12,21 @@
 
 #Requires -Version 5.1
 
-# Permitir ejecutar scripts en esta sesión (necesario para que npm/pnpm funcionen).
-# Solo afecta a este proceso — no cambia la política global del sistema.
+# Permitir ejecutar scripts en esta sesion (necesario para que npm/pnpm funcionen).
+# Solo afecta a este proceso - no cambia la politica global del sistema.
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 
 Set-StrictMode -Version Latest
 # pnpm y Node.js pueden escribir avisos en stderr aunque terminen correctamente.
-# Los pasos críticos comprueban explícitamente sus resultados más abajo.
+# Los pasos criticos comprueban explicitamente sus resultados mas abajo.
 $ErrorActionPreference = 'Continue'
 
-# ── Verificar que somos Administrador ─────────────────────
+# -- Verificar que somos Administrador ----------------------
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
     Write-Host ""
     Write-Host "  Este script necesita ejecutarse como Administrador." -ForegroundColor Yellow
-    Write-Host "  Haz clic derecho en PowerShell → 'Ejecutar como administrador'" -ForegroundColor Yellow
+    Write-Host "  Haz clic derecho en PowerShell -> 'Ejecutar como administrador'" -ForegroundColor Yellow
     Write-Host "  y vuelve a ejecutar el script." -ForegroundColor Yellow
     Write-Host ""
     Read-Host "  Pulsa Enter para salir"
@@ -119,7 +119,7 @@ function Read-DeviceChoice {
             return $selection
         }
 
-        Write-Warn "Selecciona un número de la lista o copia un nombre exactamente."
+        Write-Warn "Selecciona un numero de la lista o copia un nombre exactamente."
     }
 }
 
@@ -137,7 +137,7 @@ function Test-AudioDevices {
         Write-Host "No se pudo abrir la entrada de audio '$CaptureDevice'." -ForegroundColor Red
         return $false
     }
-    Write-Ok "Entrada de audio válida"
+    Write-Ok "Entrada de audio valida"
 
     Write-Info "Probando la salida seleccionada con un tono corto..."
     $previousAudioDevice = $env:SDL_AUDIO_DEVICE_NAME
@@ -151,7 +151,7 @@ function Test-AudioDevices {
     } finally {
         $env:SDL_AUDIO_DEVICE_NAME = $previousAudioDevice
     }
-    Write-Ok "Salida de audio válida"
+    Write-Ok "Salida de audio valida"
 
     return $true
 }
@@ -162,7 +162,7 @@ function Test-RelayConfig {
     try {
         $config = Get-Content -Path $Path -Raw | ConvertFrom-Json
     } catch {
-        Write-Host "El JSON generado no es válido: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "El JSON generado no es valido: $($_.Exception.Message)" -ForegroundColor Red
         return $false
     }
 
@@ -189,26 +189,26 @@ function Test-RelayConfig {
 
 Write-Host ""
 Write-Host "  ============================================" -ForegroundColor Blue
-Write-Host "    eQSO ASORAPA — Instalador Relay Daemon" -ForegroundColor Blue
+Write-Host "    eQSO ASORAPA - Instalador Relay Daemon" -ForegroundColor Blue
 Write-Host "  ============================================" -ForegroundColor Blue
 Write-Host "  Instala el nodo de radioenlace eQSO en Windows."
 Write-Host ""
 
-# ── Función auxiliar: instalar con winget ─────────────────
+# -- Funcion auxiliar: instalar con winget ------------------
 function Install-WithWinget {
     param($Id, $Name)
     $installed = winget list --id $Id --accept-source-agreements 2>$null | Select-String $Id
     if (-not $installed) {
         Write-Info "Instalando $Name via winget..."
         winget install --id $Id --silent --accept-source-agreements --accept-package-agreements
-        # Actualizar PATH en la sesión actual
+        # Actualizar PATH en la sesion actual
         $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     } else {
         Write-Ok "$Name ya instalado"
     }
 }
 
-# ── Paso 1: Dependencias ───────────────────────────────────
+# -- Paso 1: Dependencias -----------------------------------
 Write-Step "1/6  Instalando dependencias del sistema"
 
 # Git
@@ -229,26 +229,26 @@ if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
 }
 Write-Ok "ffmpeg $(ffmpeg -version 2>$null | Select-Object -First 1)"
 
-# ── Paso 2: npm ────────────────────────────────────────────
+# -- Paso 2: npm --------------------------------------------
 Write-Step "2/6  Verificando npm"
 
 # Usamos npm.cmd directamente para evitar el wrapper npm.ps1, que puede
-# estar bloqueado por la política de ejecución de PowerShell.
+# estar bloqueado por la politica de ejecucion de PowerShell.
 if (-not (Get-Command npm.cmd -ErrorAction SilentlyContinue)) {
-    Write-Host "npm no está disponible. Reinstala Node.js LTS y vuelve a intentarlo." -ForegroundColor Red
+    Write-Host "npm no esta disponible. Reinstala Node.js LTS y vuelve a intentarlo." -ForegroundColor Red
     exit 1
 }
 Write-Ok "npm $(npm.cmd --version 2>$null)"
 
-# ── Paso 3: Código fuente ──────────────────────────────────
-Write-Step "3/6  Código fuente"
+# -- Paso 3: Codigo fuente ----------------------------------
+Write-Step "3/6  Codigo fuente"
 
 if (Test-Path "$INSTALL_DIR\.git") {
-    Write-Info "Repositorio existente → actualizando..."
+    Write-Info "Repositorio existente -> actualizando..."
     if (Test-Path "$INSTALL_DIR\.git\MERGE_HEAD") {
-        Write-Host "El repositorio tiene una fusión de Git sin terminar." -ForegroundColor Red
+        Write-Host "El repositorio tiene una fusion de Git sin terminar." -ForegroundColor Red
         Write-Host "Ejecuta: git -C `"$INSTALL_DIR`" merge --abort" -ForegroundColor Yellow
-        Write-Host "Después vuelve a ejecutar este instalador." -ForegroundColor Yellow
+        Write-Host "Despues vuelve a ejecutar este instalador." -ForegroundColor Yellow
         exit 1
     }
     git -C $INSTALL_DIR pull --quiet
@@ -257,7 +257,7 @@ if (Test-Path "$INSTALL_DIR\.git") {
         Write-Host "Revisa el estado con: git -C `"$INSTALL_DIR`" status" -ForegroundColor Yellow
         exit 1
     }
-    Write-Ok "Código actualizado"
+    Write-Ok "Codigo actualizado"
 } else {
     Write-Info "Clonando repositorio en $INSTALL_DIR ..."
     git clone --quiet $REPO_URL $INSTALL_DIR
@@ -269,23 +269,23 @@ Set-Location $relayDir
 
 Write-Info "Instalando dependencias del relay..."
 # Se instala solo relay-daemon, fuera del workspace pnpm. Esto evita que
-# Windows cargue dependencias y restricciones específicas del entorno Linux.
+# Windows cargue dependencias y restricciones especificas del entorno Linux.
 npm.cmd install --no-audit --no-fund
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "La instalación de dependencias del relay ha fallado." -ForegroundColor Red
+    Write-Host "La instalacion de dependencias del relay ha fallado." -ForegroundColor Red
     exit 1
 }
 
 Write-Info "Compilando relay daemon..."
 npm.cmd run build
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path "$INSTALL_DIR\artifacts\relay-daemon\dist\main.mjs")) {
-    Write-Host "La compilación del relay ha fallado o no ha generado dist\main.mjs." -ForegroundColor Red
+    Write-Host "La compilacion del relay ha fallado o no ha generado dist\main.mjs." -ForegroundColor Red
     Write-Host "Revisa el mensaje anterior y vuelve a ejecutar el instalador." -ForegroundColor Red
     exit 1
 }
-Write-Ok "Compilación completada"
+Write-Ok "Compilacion completada"
 
-# ── Paso 4: Detectar dispositivos de audio y COM ──────────
+# -- Paso 4: Detectar dispositivos de audio y COM -----------
 Write-Step "4/6  Detectando dispositivos"
 
 Write-Host ""
@@ -293,7 +293,7 @@ Write-Host "  Entradas de audio DirectShow disponibles:" -ForegroundColor Cyan
 $ffmpegPath = (Get-Command ffmpeg -ErrorAction Stop).Source
 $ffplayCommand = Get-Command ffplay -ErrorAction SilentlyContinue
 if (-not $ffplayCommand) {
-    Write-Host "FFplay no está disponible. Reinstala FFmpeg con winget y vuelve a intentarlo." -ForegroundColor Red
+    Write-Host "FFplay no esta disponible. Reinstala FFmpeg con winget y vuelve a intentarlo." -ForegroundColor Red
     exit 1
 }
 $ffplayPath = $ffplayCommand.Source
@@ -330,12 +330,12 @@ if ($serialPorts.Count -eq 0) {
     Write-Host "    (ninguno detectado)"
 } else {
     foreach ($serialPort in $serialPorts) {
-        Write-Host "    $($serialPort.DeviceID)  — $($serialPort.Name)"
+        Write-Host "    $($serialPort.DeviceID) - $($serialPort.Name)"
     }
 }
 
-# ── Paso 5: Configuración interactiva ─────────────────────
-Write-Step "5/6  Configuración del relay"
+# -- Paso 5: Configuracion interactiva -----------------------
+Write-Step "5/6  Configuracion del relay"
 Write-Host ""
 
 $CALLSIGN = Read-RequiredValue "  Callsign del relay (formato 0R-NOMBRE, ej: 0R-WINPC)"
@@ -347,7 +347,7 @@ $CAPTURE_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la entrada de audio Di
 $PLAYBACK_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la salida de audio Windows" -Devices $playbackDevices
 
 if (-not (Test-AudioDevices -FfmpegPath $ffmpegPath -FfplayPath $ffplayPath -CaptureDevice $CAPTURE_DEVICE -PlaybackDevice $PLAYBACK_DEVICE)) {
-    Write-Host "La tarea programada no se creará hasta que ambos dispositivos funcionen." -ForegroundColor Red
+    Write-Host "La tarea programada no se creara hasta que ambos dispositivos funcionen." -ForegroundColor Red
     exit 1
 }
 
@@ -357,10 +357,10 @@ while ($true) {
     if ([string]::IsNullOrWhiteSpace($PTT_DEVICE) -or $PTT_DEVICE -match "^COM\d+$") {
         break
     }
-    Write-Warn "El puerto debe tener el formato COM seguido de un número, o dejarse vacío."
+    Write-Warn "El puerto debe tener el formato COM seguido de un numero, o dejarse vacio."
 }
 
-$RELAY_TOKEN = Read-Host "  Token/contraseña del relay (facilitado por el administrador)" -AsSecureString
+$RELAY_TOKEN = Read-Host "  Token/contrasena del relay (facilitado por el administrador)" -AsSecureString
 $tokenBstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($RELAY_TOKEN)
 try {
     $RELAY_TOKEN_PLAIN = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($tokenBstr)
@@ -378,11 +378,11 @@ $PORT_INPUT = Read-Host "  Puerto del servidor [default: 2172]"
 if (-not $PORT_INPUT) { $PORT_INPUT = "2172" }
 [int]$PORT = 0
 if (-not [int]::TryParse($PORT_INPUT, [ref]$PORT) -or $PORT -lt 1 -or $PORT -gt 65535) {
-    Write-Host "El puerto debe ser un número entre 1 y 65535." -ForegroundColor Red
+    Write-Host "El puerto debe ser un numero entre 1 y 65535." -ForegroundColor Red
     exit 1
 }
 
-# ── Crear config JSON ─────────────────────────────────────
+# -- Crear config JSON --------------------------------------
 New-Item -ItemType Directory -Path $CONFIG_DIR -Force | Out-Null
 
 $configPath = "$CONFIG_DIR\$ROOM.json"
@@ -424,7 +424,7 @@ $configObject = [ordered]@{
 $configJson = $configObject | ConvertTo-Json -Depth 10
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 [System.IO.File]::WriteAllText($configPath, $configJson + [Environment]::NewLine, $utf8NoBom)
-Write-Ok "Configuración guardada en $configPath"
+Write-Ok "Configuracion guardada en $configPath"
 
 $RELAY_TOKEN_PLAIN = $null
 
@@ -432,9 +432,9 @@ if (-not (Test-RelayConfig $configPath)) {
     Write-Host "Corrige los datos indicados y vuelve a ejecutar el instalador." -ForegroundColor Red
     exit 1
 }
-Write-Ok "Configuración JSON validada"
+Write-Ok "Configuracion JSON validada"
 
-# ── Paso 6: Instalar como tarea programada ────────────────
+# -- Paso 6: Instalar como tarea programada -----------------
 Write-Step "6/6  Instalando como servicio de Windows"
 
 $nodePath  = (Get-Command node).Source
@@ -458,8 +458,8 @@ Write-Ok "Script de arranque: $startScriptPath"
 
 # Registrar tarea en el Programador de tareas de Windows.
 # No usamos New-ScheduledTaskSettingsSet -RestartOnFailure porque ese
-# parámetro no existe en algunas versiones de Windows PowerShell 5.1.
-# El XML mantiene el reinicio automático y es compatible con esas versiones.
+# parametro no existe en algunas versiones de Windows PowerShell 5.1.
+# El XML mantiene el reinicio automatico y es compatible con esas versiones.
 $taskName = "eQSO Relay $ROOM"
 $userId = "$env:USERDOMAIN\$env:USERNAME"
 $xmlUserId = [System.Security.SecurityElement]::Escape($userId)
@@ -526,15 +526,15 @@ Start-Sleep -Seconds 3
 
 $taskStatus = (Get-ScheduledTask -TaskName $taskName).State
 
-# ── Resultado ─────────────────────────────────────────────
+# -- Resultado ----------------------------------------------
 Write-Host ""
 if ($taskStatus -eq "Running") {
     Write-Host "  ============================================" -ForegroundColor Green
-    Write-Host "    OK  INSTALACION COMPLETADA — Relay ACTIVO" -ForegroundColor Green
+    Write-Host "    OK  INSTALACION COMPLETADA - Relay ACTIVO" -ForegroundColor Green
     Write-Host "  ============================================" -ForegroundColor Green
 } else {
     Write-Host "  ============================================" -ForegroundColor Yellow
-    Write-Host "    !  INSTALACION COMPLETADA — Verifica estado" -ForegroundColor Yellow
+    Write-Host "    !  INSTALACION COMPLETADA - Verifica estado" -ForegroundColor Yellow
     Write-Host "  ============================================" -ForegroundColor Yellow
     Write-Warn "Estado de la tarea: $taskStatus"
 }
@@ -547,9 +547,9 @@ Write-Host "  Captura  : $CAPTURE_DEVICE"
 Write-Host "  Playback : $PLAYBACK_DEVICE"
 if ($PTT_DEVICE) { Write-Host "  PTT      : $PTT_DEVICE" } else { Write-Host "  PTT      : deshabilitado" }
 Write-Host "  Config   : $configPath"
-Write-Host "  Código   : $INSTALL_DIR"
+Write-Host "  Codigo   : $INSTALL_DIR"
 Write-Host ""
-Write-Host "  Comandos útiles:" -ForegroundColor Cyan
+Write-Host "  Comandos utiles:" -ForegroundColor Cyan
 Write-Host "    Ver log en tiempo real:"
 Write-Host "      Get-Content `"$CONFIG_DIR\relay-$ROOM.log`" -Wait -Tail 20"
 Write-Host "    Parar el relay:"
@@ -559,7 +559,7 @@ Write-Host "      Stop-ScheduledTask -TaskName '$taskName'; Start-ScheduledTask 
 Write-Host "    Desinstalar:"
 Write-Host "      Unregister-ScheduledTask -TaskName '$taskName' -Confirm:`$false"
 Write-Host ""
-Write-Host "  Calibración VOX: edita $configPath" -ForegroundColor Cyan
+Write-Host "  Calibracion VOX: edita $configPath" -ForegroundColor Cyan
 Write-Host "    Sube voxThresholdRms si dispara con ruido de fondo."
 Write-Host "    Baja voxThresholdRms si no detecta la voz de la radio."
 Write-Host ""
