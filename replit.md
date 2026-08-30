@@ -354,14 +354,16 @@ El script:
 4. Compila el relay daemon (backend `ffmpeg` para Windows)
 5. Lista entradas DirectShow, salidas de audio Windows y puertos COM disponibles
 6. Pregunta por separado el dispositivo de captura y el de reproducción, además del callsign, sala, servidor, token y PTT
-7. Prueba la captura DirectShow con un límite de 10 segundos; la prueba de reproducción se omite por defecto para evitar interferencias con VirtualBox
+7. Omite por defecto las pruebas activas de captura y reproducción para evitar interferencias con VirtualBox
 8. Genera `C:\eqso-relay\<SALA>.json` como UTF-8 sin BOM, lo valida y no continúa si es incorrecto
-9. Registra y arranca una **tarea programada de Windows** que inicia el relay al iniciar sesión y se reinicia automáticamente si falla
+9. Registra una **tarea programada de Windows** que inicia el relay al iniciar sesión y se reinicia automáticamente si falla
+10. No arranca la tarea durante la instalación salvo que se solicite explícitamente
 
-La prueba opcional de reproducción con FFplay puede activarse antes de ejecutar el instalador:
+Las pruebas de audio y el arranque inmediato pueden activarse explícitamente antes de ejecutar el instalador:
 
 ```powershell
-$env:RELAY_INSTALL_TEST_PLAYBACK = "1"
+$env:RELAY_INSTALL_TEST_AUDIO = "1"
+$env:RELAY_INSTALL_START_NOW = "1"
 ```
 
 Comandos útiles tras la instalación:
