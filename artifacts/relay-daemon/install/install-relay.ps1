@@ -2,7 +2,9 @@
 #  eQSO ASORAPA - Instalador automatico de Relay Daemon (Windows)
 #  Compatibilidad: Windows 10 / 11 (PowerShell 5.1 o superior)
 #
-#  Instalacion con un solo comando (PowerShell como Administrador):
+#  Instalacion recomendada: abrir install-relay-windows.cmd con doble clic.
+#
+#  Alternativa con un solo comando (PowerShell como Administrador):
 #    irm https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-relay.ps1 | iex
 #
 #  O clonando el repo primero:
