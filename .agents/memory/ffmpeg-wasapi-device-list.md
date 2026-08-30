@@ -1,9 +1,9 @@
 ---
-name: Dispositivos WASAPI en Windows
-description: Descubrimiento de los nombres de entrada y salida de audio para el relay Windows con ffmpeg-static.
+name: Audio de entrada y salida en Windows
+description: DirectShow para captura y FFplay/SDL para reproducción en el relay Windows.
 ---
-En Windows, el backend del relay captura mediante DirectShow (`dshow`) y reproduce mediante WASAPI como formato de salida. En la compilación ffmpeg-static usada por el relay, `wasapi` no funciona como formato de entrada para `-list_devices true -i dummy`; los nombres de reproducción deben consultarse en los endpoints de audio de Windows.
+En Windows, el backend del relay captura mediante DirectShow (`dshow`) y reproduce PCM mediante FFplay/SDL. No usar `-f wasapi` como salida de FFmpeg: WASAPI es un dispositivo de entrada, no un muxer de salida. Los nombres de reproducción se consultan en los endpoints de audio de Windows y FFplay los recibe mediante `SDL_AUDIO_DEVICE_NAME`.
 
-**Why:** Intentar listar WASAPI como una entrada produce `Unknown input format: wasapi` y puede confundirse con un problema de instalación o del controlador.
+**Why:** La configuración `playbackFormat: "wasapi"` generaba un comando de salida inválido que podía dejar el relay conectado pero sin audio hacia la radio.
 
-**How to apply:** Obtener la entrada con DirectShow y los altavoces con `Get-PnpDevice -Class AudioEndpoint`; copiar los nombres exactos a `captureDevice` y `playbackDevice`.
+**How to apply:** Obtener la entrada con DirectShow y los altavoces con `Get-PnpDevice -Class AudioEndpoint`; usar `captureFormat: "dshow"` y `playbackFormat: "ffplay"`, y probar ambos antes de registrar el relay.

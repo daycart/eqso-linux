@@ -35,16 +35,19 @@
 
   "audio": {
     "_comment_devices": [
-      "captureDevice / playbackDevice: nombre exacto del dispositivo en Windows.",
-      "  Obtener con: ffmpeg -list_devices true -f dshow -i dummy",
-      "  Ejemplo: 'USB Audio Device', 'C-Media USB Audio Device', 'Microphone (USB Audio)'",
+      "captureDevice: nombre exacto de la entrada DirectShow (Microphone/Microfono).",
+      "playbackDevice: nombre exacto de la salida SDL (Speakers/Altavoces).",
+      "  Obtener entradas con: ffmpeg -list_devices true -f dshow -i dummy",
+      "  Obtener salidas con: Get-PnpDevice -Class AudioEndpoint",
+      "  Ejemplo entrada: 'Microphone (USB Audio Device)'.",
+      "  Ejemplo salida: 'Speakers (USB Audio Device)'.",
       "captureFormat: 'dshow' para captura DirectShow (unico que funciona en Windows).",
-      "playbackFormat: 'wasapi' para reproduccion WASAPI (mejor latencia en Windows)."
+      "playbackFormat: 'ffplay' para reproduccion SDL sobre la salida Windows."
     ],
-    "captureDevice":   "USB Audio Device",
-    "playbackDevice":  "USB Audio Device",
+    "captureDevice":   "Microphone (USB Audio Device)",
+    "playbackDevice":  "Speakers (USB Audio Device)",
     "captureFormat":   "dshow",
-    "playbackFormat":  "wasapi",
+    "playbackFormat":  "ffplay",
 
     "vox": true,
     "voxThresholdRms": 1500,
