@@ -47,6 +47,29 @@ function Write-Step { param($msg)
     Write-Host "  ============================================" -ForegroundColor Blue
 }
 
+function Repair-NativeUtf8Text {
+    param([string]$Text)
+
+    if ([string]::IsNullOrEmpty($Text) -or $Text -notmatch "[\u251C\u2502\u252C\uFFFD]") {
+        return $Text
+    }
+
+    $utf8 = New-Object System.Text.UTF8Encoding($false)
+    foreach ($codePage in @(437, 850)) {
+        try {
+            $encoding = [System.Text.Encoding]::GetEncoding($codePage)
+            $candidate = $utf8.GetString($encoding.GetBytes($Text))
+            if ($candidate -notmatch "[\u251C\u2502\u252C\uFFFD]") {
+                return $candidate
+            }
+        } catch {
+            # El code page puede no estar disponible en algunas instalaciones.
+        }
+    }
+
+    return $Text
+}
+
 function Get-DirectShowAudioDevices {
     param([string]$FfmpegPath)
 
@@ -57,7 +80,10 @@ function Get-DirectShowAudioDevices {
             -RedirectStandardError $tempPath `
             -NoNewWindow -Wait | Out-Null
         $utf8 = New-Object System.Text.UTF8Encoding($false)
-        $lines = @([System.IO.File]::ReadAllLines($tempPath, $utf8))
+        $lines = @(
+            [System.IO.File]::ReadAllLines($tempPath, $utf8) |
+                ForEach-Object { Repair-NativeUtf8Text $_ }
+        )
     } finally {
         Remove-Item -Path $tempPath -Force -ErrorAction SilentlyContinue
     }
