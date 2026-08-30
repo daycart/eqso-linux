@@ -38,14 +38,24 @@ const JITTER_PRE_BUFFER_SAMPLES = 4800;
 const PLAYBACK_SAMPLE_RATE = 48000;
 const UPSAMPLE_FACTOR = PLAYBACK_SAMPLE_RATE / 8000; // 6
 
-/** Resuelve la ruta al binario ffmpeg: ffmpeg-static si esta disponible, PATH si no. */
+/**
+ * Resuelve la ruta al binario ffmpeg.
+ * Windows prioriza ffmpeg-static porque es la combinacion que ya funcionaba
+ * con DirectShow en la VM. Linux prioriza la ruta configurada del sistema:
+ * ffmpeg-static puede carecer de libgsm en esa plataforma.
+ */
 export function resolveFfmpegBin(): string {
-  const configured = process.env.FFMPEG_PATH?.trim();
-  if (configured) return configured;
+  let bundled: string | null = null;
   try {
     const p = require("ffmpeg-static") as string | null;
-    if (p) return p;
+    if (p) bundled = p;
   } catch { /* usar PATH */ }
+
+  if (process.platform === "win32" && bundled) return bundled;
+
+  const configured = process.env.FFMPEG_PATH?.trim();
+  if (configured) return configured;
+  if (bundled) return bundled;
   return "ffmpeg";
 }
 
