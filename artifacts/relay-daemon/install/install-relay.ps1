@@ -70,6 +70,41 @@ function Repair-NativeUtf8Text {
     return $Text
 }
 
+function Invoke-InstallerTestProcess {
+    param(
+        [string]$FilePath,
+        [string[]]$ArgumentList,
+        [int]$TimeoutMs
+    )
+
+    $stdoutPath = [System.IO.Path]::GetTempFileName()
+    $stderrPath = [System.IO.Path]::GetTempFileName()
+    $process = $null
+    try {
+        $process = Start-Process -FilePath $FilePath `
+            -ArgumentList $ArgumentList `
+            -RedirectStandardOutput $stdoutPath `
+            -RedirectStandardError $stderrPath `
+            -WindowStyle Hidden -PassThru
+
+        if (-not $process.WaitForExit($TimeoutMs)) {
+            Write-Warn "El proceso de prueba no respondio en $TimeoutMs ms; se cancelara."
+            try { $process.Kill() } catch { }
+            return -1
+        }
+
+        if ($process.ExitCode -ne 0 -and (Test-Path $stderrPath)) {
+            $errorText = Get-Content -Path $stderrPath -Raw -ErrorAction SilentlyContinue
+            if ($errorText) {
+                Write-Host $errorText.Trim() -ForegroundColor DarkYellow
+            }
+        }
+        return $process.ExitCode
+    } finally {
+        Remove-Item -Path $stdoutPath, $stderrPath -Force -ErrorAction SilentlyContinue
+    }
+}
+
 function Get-DirectShowAudioDevices {
     param([string]$FfmpegPath)
 
@@ -168,8 +203,11 @@ function Test-AudioDevices {
     )
 
     Write-Info "Probando la entrada DirectShow durante 1 segundo..."
-    & $FfmpegPath -hide_banner -loglevel error -f dshow -i "audio=$CaptureDevice" -t 1 -f null NUL
-    if ($LASTEXITCODE -ne 0) {
+    $captureInput = '"' + "audio=$CaptureDevice" + '"'
+    $captureExitCode = Invoke-InstallerTestProcess -FilePath $FfmpegPath `
+        -ArgumentList @("-hide_banner", "-loglevel", "error", "-f", "dshow", "-i", $captureInput, "-t", "1", "-f", "null", "NUL") `
+        -TimeoutMs 10000
+    if ($captureExitCode -ne 0) {
         Write-Host "No se pudo abrir la entrada de audio '$CaptureDevice'." -ForegroundColor Red
         return $false
     }
@@ -179,8 +217,10 @@ function Test-AudioDevices {
     $previousAudioDevice = $env:SDL_AUDIO_DEVICE_NAME
     try {
         $env:SDL_AUDIO_DEVICE_NAME = $PlaybackDevice
-        & $FfplayPath -hide_banner -loglevel error -nodisp -autoexit -f lavfi -i "sine=frequency=700:sample_rate=48000:duration=1"
-        if ($LASTEXITCODE -ne 0) {
+        $playbackExitCode = Invoke-InstallerTestProcess -FilePath $FfplayPath `
+            -ArgumentList @("-hide_banner", "-loglevel", "error", "-nodisp", "-autoexit", "-f", "lavfi", "-i", "sine=frequency=700:sample_rate=48000:duration=1") `
+            -TimeoutMs 10000
+        if ($playbackExitCode -ne 0) {
             Write-Host "No se pudo abrir la salida de audio '$PlaybackDevice'." -ForegroundColor Red
             return $false
         }
