@@ -349,13 +349,20 @@ powershell -ExecutionPolicy Bypass -File eqso-linux\artifacts\relay-daemon\insta
 
 El script:
 1. Instala `git`, `Node.js LTS` y `ffmpeg` via `winget` si no están presentes
-2. Instala `pnpm` via npm
+2. Instala las dependencias del relay mediante `npm`
 3. Clona o actualiza el repositorio en `%USERPROFILE%\eqso-linux`
 4. Compila el relay daemon (backend `ffmpeg` para Windows)
-5. Lista dispositivos de audio (dshow) y puertos COM disponibles
-6. Pregunta callsign, sala, servidor, token y dispositivos
-7. Crea `C:\eqso-relay\<SALA>.json` con la configuración
-8. Registra una **tarea programada de Windows** que arranca el relay al iniciar sesión y se reinicia automáticamente si falla
+5. Lista entradas DirectShow, salidas de audio Windows y puertos COM disponibles
+6. Pregunta por separado el dispositivo de captura y el de reproducción, además del callsign, sala, servidor, token y PTT
+7. Prueba la captura DirectShow con un límite de 10 segundos; la prueba de reproducción se omite por defecto para evitar interferencias con VirtualBox
+8. Genera `C:\eqso-relay\<SALA>.json` como UTF-8 sin BOM, lo valida y no continúa si es incorrecto
+9. Registra y arranca una **tarea programada de Windows** que inicia el relay al iniciar sesión y se reinicia automáticamente si falla
+
+La prueba opcional de reproducción con FFplay puede activarse antes de ejecutar el instalador:
+
+```powershell
+$env:RELAY_INSTALL_TEST_PLAYBACK = "1"
+```
 
 Comandos útiles tras la instalación:
 ```powershell
@@ -381,10 +388,10 @@ Unregister-ScheduledTask -TaskName "eQSO Relay CB" -Confirm:$false
   "server": "asorapa.sytes.net",
   "port": 2172,
   "audio": {
-    "captureDevice": "USB Audio Device",
-    "playbackDevice": "USB Audio Device",
+    "captureDevice": "Microphone (USB Audio Device)",
+    "playbackDevice": "Speakers (USB Audio Device)",
     "captureFormat": "dshow",
-    "playbackFormat": "wasapi",
+    "playbackFormat": "ffplay",
     "vox": true,
     "voxThresholdRms": 1500,
     "voxHangMs": 800,
@@ -397,16 +404,16 @@ Unregister-ScheduledTask -TaskName "eQSO Relay CB" -Confirm:$false
 }
 ```
 
-> Para listar dispositivos en Windows: `ffmpeg -list_devices true -f dshow -i dummy`
+> Para listar entradas en Windows: `ffmpeg -list_devices true -f dshow -i dummy`. Para salidas: `Get-PnpDevice -Class AudioEndpoint`. El instalador prueba ambos dispositivos antes de registrar la tarea.
 
 ### Referencia completa de parámetros `audio`
 
 | Parámetro | Default | Descripción |
 |---|---|---|
-| `captureDevice` | `"plughw:1,0"` | Dispositivo de captura ALSA (Linux) o nombre dshow/wasapi (Windows) |
+| `captureDevice` | `"plughw:1,0"` | Dispositivo de captura ALSA (Linux) o nombre DirectShow (Windows) |
 | `playbackDevice` | `"plughw:1,0"` | Dispositivo de reproducción |
 | `captureFormat` | _(auto)_ | Solo backend `ffmpeg`: `"dshow"` (Win), `"alsa"`, `"avfoundation"` (Mac) |
-| `playbackFormat` | _(auto)_ | Solo backend `ffmpeg`: `"wasapi"` (Win), `"alsa"`, `"coreaudio"` (Mac) |
+| `playbackFormat` | _(auto)_ | Solo backend `ffmpeg`: `"ffplay"` (Windows), `"alsa"`, `"coreaudio"` (Mac) |
 | `vox` | `true` | Activar VOX automático |
 | `voxThresholdRms` | `800` | Umbral RMS para abrir el canal. Ver logs `[nivel] pico RMS=XXX` para calibrar |
 | `voxHangMs` | `800` | Cola del VOX: ms con audio bajo umbral antes de soltar PTT |
