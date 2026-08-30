@@ -109,11 +109,17 @@ function Get-DirectShowAudioDevices {
     param([string]$FfmpegPath)
 
     $tempPath = [System.IO.Path]::GetTempFileName()
+    $process = $null
     try {
-        Start-Process -FilePath $FfmpegPath `
+        $process = Start-Process -FilePath $FfmpegPath `
             -ArgumentList @("-hide_banner", "-list_devices", "true", "-f", "dshow", "-i", "dummy") `
             -RedirectStandardError $tempPath `
-            -NoNewWindow -Wait | Out-Null
+            -WindowStyle Hidden -PassThru
+        if (-not $process.WaitForExit(10000)) {
+            Write-Warn "FFmpeg no respondio al enumerar dispositivos; se omitira la lista."
+            try { $process.Kill() } catch { }
+            return @()
+        }
         $utf8 = New-Object System.Text.UTF8Encoding($false)
         $lines = @(
             [System.IO.File]::ReadAllLines($tempPath, $utf8) |
@@ -194,12 +200,10 @@ function Read-DeviceChoice {
     }
 }
 
-function Test-AudioDevices {
+function Test-AudioCapture {
     param(
         [string]$FfmpegPath,
-        [string]$FfplayPath,
-        [string]$CaptureDevice,
-        [string]$PlaybackDevice
+        [string]$CaptureDevice
     )
 
     Write-Info "Probando la entrada DirectShow durante 1 segundo..."
@@ -212,6 +216,15 @@ function Test-AudioDevices {
         return $false
     }
     Write-Ok "Entrada de audio valida"
+
+    return $true
+}
+
+function Test-AudioPlayback {
+    param(
+        [string]$FfplayPath,
+        [string]$PlaybackDevice
+    )
 
     Write-Info "Probando la salida seleccionada con un tono corto..."
     $previousAudioDevice = $env:SDL_AUDIO_DEVICE_NAME
@@ -422,9 +435,18 @@ if (-not $CALLSIGN.StartsWith("0R-")) {
 $CAPTURE_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la entrada de audio DirectShow" -Devices $captureDevices
 $PLAYBACK_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la salida de audio Windows" -Devices $playbackDevices
 
-if (-not (Test-AudioDevices -FfmpegPath $ffmpegPath -FfplayPath $ffplayPath -CaptureDevice $CAPTURE_DEVICE -PlaybackDevice $PLAYBACK_DEVICE)) {
+if (-not (Test-AudioCapture -FfmpegPath $ffmpegPath -CaptureDevice $CAPTURE_DEVICE)) {
     Write-Host "La tarea programada no se creara hasta que ambos dispositivos funcionen." -ForegroundColor Red
     exit 1
+}
+if ($env:RELAY_INSTALL_TEST_PLAYBACK -eq "1") {
+    if (-not (Test-AudioPlayback -FfplayPath $ffplayPath -PlaybackDevice $PLAYBACK_DEVICE)) {
+        Write-Host "La tarea programada no se creara hasta que la salida de audio funcione." -ForegroundColor Red
+        exit 1
+    }
+} else {
+    Write-Info "Prueba de reproduccion omitida para evitar interferencias con la VM."
+    Write-Info "Para activarla manualmente: `$env:RELAY_INSTALL_TEST_PLAYBACK = '1'"
 }
 
 $PTT_DEVICE = ""
