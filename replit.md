@@ -414,7 +414,7 @@ sudo systemctl enable --now eqso-relay@CB
 La opción recomendada es descargar el ZIP del lanzador de Windows:
 
 ```text
-https://github.com/daycart/eqso-linux/raw/refs/heads/test/windows-relay-installer/artifacts/relay-daemon/install/install-relay-windows.zip
+https://github.com/daycart/eqso-linux/raw/refs/heads/test/windows-relay-installer/artifacts/relay-daemon/install/install-relay-windows-v1.7.zip
 ```
 
 Después de extraerlo, abre `install-relay-windows.cmd` con doble clic.
