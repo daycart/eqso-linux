@@ -471,6 +471,10 @@ En un PC físico se elige `1` para probar captura y reproducción, arrancar el r
 Sustituye `CB` por el nombre real de la sala. La instalación crea la tarea
 programada `eQSO Relay CB`, el archivo de configuración
 `C:\eqso-relay\CB.json` y el log `C:\eqso-relay\relay-CB.log`.
+El instalador crea el archivo de log antes de arrancar la tarea. El script de
+arranque añade una línea de inicio y otra de finalización con el código de
+salida; de ese modo también queda registrado un error de Node o de la ruta de
+audio.
 
 #### Consultar el log
 
@@ -481,6 +485,20 @@ Get-Content "C:\eqso-relay\relay-CB.log" -Wait -Tail 20
 `Get-Content` muestra las últimas 20 líneas y, gracias a `-Wait`, sigue
 mostrando las nuevas líneas en tiempo real. Pulsa `Ctrl+C` para salir de la
 vista del log; no detiene el relay.
+La sintaxis correcta es `Get-Content "C:\..."`; `Get-C:\...` no es un comando
+válido de PowerShell.
+
+Si quieres comprobar si existe el archivo y cuándo se ejecutó la tarea:
+
+```powershell
+Test-Path "C:\eqso-relay\relay-CB.log"
+Get-ScheduledTaskInfo -TaskName "eQSO Relay CB"
+```
+
+`Test-Path` devuelve `True` si el archivo existe. `Get-ScheduledTaskInfo`
+muestra la última ejecución y el último código de resultado de la tarea. Si
+el log no existe después de instalar, vuelve a ejecutar el instalador
+actualizado como Administrador.
 
 #### Parar, iniciar y reiniciar
 
