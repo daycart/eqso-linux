@@ -590,6 +590,20 @@ $startScriptPath = "$CONFIG_DIR\start-$ROOM.cmd"
 $startScript | Out-File -FilePath $startScriptPath -Encoding ascii
 Write-Ok "Script de arranque: $startScriptPath"
 
+# Crear un lanzador VBScript oculto para la tarea programada. Ejecutar el CMD
+# directamente abre una ventana de consola visible durante toda la vida del
+# daemon; wscript.exe con ventana 0 lo mantiene en segundo plano.
+$hiddenLauncherPath = "$CONFIG_DIR\run-$ROOM.vbs"
+$escapedStartScriptPath = $startScriptPath.Replace('"', '""')
+$hiddenLauncher = @"
+Set shell = CreateObject("WScript.Shell")
+command = "cmd.exe /d /c " & Chr(34) & "$escapedStartScriptPath" & Chr(34)
+exitCode = shell.Run(command, 0, True)
+WScript.Quit exitCode
+"@
+[System.IO.File]::WriteAllText($hiddenLauncherPath, $hiddenLauncher, [System.Text.Encoding]::ASCII)
+Write-Ok "Lanzador oculto: $hiddenLauncherPath"
+
 # Registrar tarea en el Programador de tareas de Windows.
 # No usamos New-ScheduledTaskSettingsSet -RestartOnFailure porque ese
 # parametro no existe en algunas versiones de Windows PowerShell 5.1.
@@ -597,8 +611,9 @@ Write-Ok "Script de arranque: $startScriptPath"
 $taskName = "eQSO Relay $ROOM"
 $userId = "$env:USERDOMAIN\$env:USERNAME"
 $xmlUserId = [System.Security.SecurityElement]::Escape($userId)
-$xmlComSpec = [System.Security.SecurityElement]::Escape($env:ComSpec)
-$xmlArguments = [System.Security.SecurityElement]::Escape("/c `"$startScriptPath`"")
+$wscriptPath = Join-Path $env:WINDIR "System32\wscript.exe"
+$xmlWscriptPath = [System.Security.SecurityElement]::Escape($wscriptPath)
+$xmlArguments = [System.Security.SecurityElement]::Escape("//B //NoLogo `"$hiddenLauncherPath`"")
 $autoStart = $IS_PHYSICAL_INSTALL
 $xmlTriggerEnabled = if ($autoStart) { "true" } else { "false" }
 $taskXml = @"
@@ -621,6 +636,7 @@ $taskXml = @"
     </Principal>
   </Principals>
   <Settings>
+    <Hidden>true</Hidden>
     <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
     <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
     <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
@@ -633,7 +649,7 @@ $taskXml = @"
   </Settings>
   <Actions Context="Author">
     <Exec>
-      <Command>$xmlComSpec</Command>
+      <Command>$xmlWscriptPath</Command>
       <Arguments>$xmlArguments</Arguments>
       <WorkingDirectory>$scriptDir</WorkingDirectory>
     </Exec>
