@@ -458,6 +458,7 @@ El script:
 9. En máquina virtual omite las pruebas activas y deja el relay detenido y el autoinicio desactivado
 10. Genera `C:\eqso-relay\<SALA>.json` como UTF-8 sin BOM, lo valida y no continúa si es incorrecto
 11. Registra una **tarea programada de Windows** que inicia el relay al iniciar sesión y se reinicia automáticamente si falla
+12. Usa un lanzador oculto (`wscript.exe`) para que el daemon funcione en segundo plano sin dejar una ventana CMD visible
 
 Al comienzo del instalador se elige el tipo de equipo:
 
@@ -465,6 +466,12 @@ Al comienzo del instalador se elige el tipo de equipo:
 - **Máquina virtual**: modo seguro, no abre los dispositivos de audio, no arranca el relay y deja la tarea desactivada.
 
 En un PC físico se elige `1` para probar captura y reproducción, arrancar el relay y activar el inicio de sesión. En una VM se elige `2`; se detectan los dispositivos, pero no se abren ni se inicia la tarea.
+
+Cuando el relay se inicia mediante la tarea programada no debe quedar ninguna
+ventana de CMD en primer plano. Si se abre manualmente
+`C:\eqso-relay\start-<SALA>.cmd`, sí es normal que la ventana permanezca
+abierta mientras el daemon está funcionando; para ejecutarlo en segundo plano
+se debe iniciar la tarea programada.
 
 ### Administrar y actualizar el relay en Windows
 
