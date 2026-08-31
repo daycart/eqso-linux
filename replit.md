@@ -414,7 +414,7 @@ sudo systemctl enable --now eqso-relay@CB
 La opción recomendada es descargar el ZIP del lanzador de Windows:
 
 ```text
-https://github.com/daycart/eqso-linux/raw/refs/heads/test/windows-relay-installer/artifacts/relay-daemon/install/install-relay-windows-v1.7.zip
+https://github.com/daycart/eqso-linux/raw/refs/heads/test/windows-relay-installer/artifacts/relay-daemon/install/install-relay-windows-v1.8.zip
 ```
 
 Después de extraerlo, abre `install-relay-windows.cmd` con doble clic.
@@ -510,17 +510,22 @@ actualizado como Administrador.
 #### Parar, iniciar y reiniciar
 
 ```powershell
-Stop-ScheduledTask  -TaskName "eQSO Relay CB"
+powershell.exe -ExecutionPolicy Bypass -File "C:\eqso-relay\stop-CB.ps1"
 Start-ScheduledTask -TaskName "eQSO Relay CB"
-Stop-ScheduledTask  -TaskName "eQSO Relay CB"; Start-ScheduledTask -TaskName "eQSO Relay CB"
+powershell.exe -ExecutionPolicy Bypass -File "C:\eqso-relay\stop-CB.ps1"; Start-ScheduledTask -TaskName "eQSO Relay CB"
 ```
 
-- `Stop-ScheduledTask` detiene el proceso actual. La tarea sigue registrada y
+- `stop-CB.ps1` detiene la tarea y también el proceso `node.exe` de esa sala,
+  junto con sus procesos de audio FFmpeg/FFplay. La tarea sigue registrada y
   sus archivos no se borran.
 - `Start-ScheduledTask` arranca la tarea registrada. Úsalo después de una
   parada manual o para iniciar una instalación hecha en modo máquina virtual.
-- La línea con `Stop` y `Start` en una sola instrucción reinicia el relay.
+- La línea con el script de parada y `Start` reinicia completamente el relay.
   Es útil después de modificar el JSON o actualizar el código.
+
+No uses `Stop-ScheduledTask` por sí solo con el lanzador oculto: detiene la
+tarea de Windows, pero puede dejar vivo el proceso hijo de Node. En ese caso
+la tarea aparece parada mientras el log continúa recibiendo datos.
 
 #### Actualizar el software
 
@@ -531,9 +536,11 @@ Después, inicia la tarea si la instalación es para un PC físico.
 #### Quitar el arranque automático
 
 ```powershell
+powershell.exe -ExecutionPolicy Bypass -File "C:\eqso-relay\stop-CB.ps1"
 Unregister-ScheduledTask -TaskName "eQSO Relay CB" -Confirm:$false
 ```
 
+Primero se detiene el daemon y sus procesos de audio. Después,
 `Unregister-ScheduledTask` elimina la tarea del Programador de tareas, por lo
 que deja de iniciarse automáticamente al iniciar sesión. No borra el JSON,
 los logs ni el código descargado. Para volver a registrarla hay que ejecutar

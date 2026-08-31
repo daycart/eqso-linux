@@ -11,8 +11,8 @@ title = "Guia Instalacion Relay — Windows / Linux / Raspberry Pi"
 id = "SHNvpZmZHIaZlgPY6nq9Q"
 uri = "file://guia_relay_instalacion.docx"
 type = "word_document"
-title = "Manual eQSO Relay Daemon v1.7 — ZIP Windows corregido"
-description = "Enlaza al ZIP versionado que contiene install-relay-windows.cmd e install-relay.ps1."
+title = "Manual eQSO Relay Daemon v1.8"
+description = "Corrige la parada en Windows: el nuevo stop-CB.ps1 detiene la tarea y el proceso Node/FFmpeg de la sala."
 
 [[outputs]]
 id = "5i3nfQCe-qQFJpAokgK-e"
