@@ -564,6 +564,12 @@ Write-Step "6/6  Instalando como servicio de Windows"
 
 $nodePath  = (Get-Command node).Source
 $scriptDir = "$INSTALL_DIR\artifacts\relay-daemon"
+$logPath   = "$CONFIG_DIR\relay-$ROOM.log"
+
+# Crear el log antes de registrar/arrancar la tarea. Así siempre hay un
+# archivo que consultar aunque el proceso de Node no llegue a iniciar.
+New-Item -ItemType File -Path $logPath -Force | Out-Null
+Write-Ok "Log preparado en $logPath"
 
 # Crear script de arranque con variables de entorno
 $startScript = @"
@@ -573,7 +579,11 @@ set "NODE_ENV=production"
 set "CONFIG_FILE=$configPath"
 set "FFPLAY_PATH=$ffplayPath"
 cd /d "$scriptDir"
-"$nodePath" --enable-source-maps dist\main.mjs >> "$CONFIG_DIR\relay-$ROOM.log" 2>&1
+echo [%date% %time%] Iniciando relay $ROOM >> "$logPath"
+"$nodePath" --enable-source-maps dist\main.mjs >> "$logPath" 2>&1
+set "RELAY_EXIT_CODE=%ERRORLEVEL%"
+echo [%date% %time%] Relay finalizado con codigo %RELAY_EXIT_CODE% >> "$logPath"
+exit /b %RELAY_EXIT_CODE%
 "@
 
 $startScriptPath = "$CONFIG_DIR\start-$ROOM.cmd"
