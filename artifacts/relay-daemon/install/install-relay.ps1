@@ -565,6 +565,7 @@ Write-Step "6/6  Instalando como servicio de Windows"
 $nodePath  = (Get-Command node).Source
 $scriptDir = "$INSTALL_DIR\artifacts\relay-daemon"
 $logPath   = "$CONFIG_DIR\relay-$ROOM.log"
+$taskName  = "eQSO Relay $ROOM"
 
 # Crear el log antes de registrar/arrancar la tarea. Así siempre hay un
 # archivo que consultar aunque el proceso de Node no llegue a iniciar.
@@ -580,7 +581,7 @@ set "CONFIG_FILE=$configPath"
 set "FFPLAY_PATH=$ffplayPath"
 cd /d "$scriptDir"
 echo [%date% %time%] Iniciando relay $ROOM >> "$logPath"
-"$nodePath" --enable-source-maps dist\main.mjs >> "$logPath" 2>&1
+"$nodePath" --enable-source-maps dist\main.mjs --eqso-relay-instance=$ROOM >> "$logPath" 2>&1
 set "RELAY_EXIT_CODE=%ERRORLEVEL%"
 echo [%date% %time%] Relay finalizado con codigo %RELAY_EXIT_CODE% >> "$logPath"
 exit /b %RELAY_EXIT_CODE%
@@ -589,6 +590,50 @@ exit /b %RELAY_EXIT_CODE%
 $startScriptPath = "$CONFIG_DIR\start-$ROOM.cmd"
 $startScript | Out-File -FilePath $startScriptPath -Encoding ascii
 Write-Ok "Script de arranque: $startScriptPath"
+
+# Crear un comando de parada completo. Stop-ScheduledTask detiene la tarea,
+# pero los wrappers cmd/wscript pueden dejar vivo el node.exe hijo. El
+# identificador único en la línea de comandos permite cerrar solo este relay.
+$stopScriptPath = "$CONFIG_DIR\stop-$ROOM.ps1"
+$stopScript = @'
+$ErrorActionPreference = "Stop"
+$taskName = "__TASK_NAME__"
+$instanceMarker = "--eqso-relay-instance=__ROOM__"
+
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    $arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+    $elevated = Start-Process -FilePath "powershell.exe" -ArgumentList $arguments -Verb RunAs -Wait -PassThru
+    exit $elevated.ExitCode
+}
+
+Stop-ScheduledTask -TaskName $taskName -ErrorAction Stop
+Start-Sleep -Milliseconds 500
+
+$processes = @(Get-CimInstance Win32_Process -Filter "Name = 'node.exe'" |
+    Where-Object { $_.CommandLine -and $_.CommandLine.Contains($instanceMarker) })
+
+foreach ($process in $processes) {
+    & "$env:SystemRoot\System32\taskkill.exe" /PID $process.ProcessId /T /F | Out-Null
+}
+
+$state = "Running"
+for ($attempt = 0; $attempt -lt 20; $attempt++) {
+    $state = (Get-ScheduledTask -TaskName $taskName -ErrorAction Stop).State
+    if ($state -ne "Running") {
+        break
+    }
+    Start-Sleep -Milliseconds 250
+}
+if ($state -eq "Running") {
+    throw "La tarea '$taskName' sigue en estado Running."
+}
+
+Write-Host "Relay detenido: $taskName" -ForegroundColor Green
+'@
+$stopScript = $stopScript.Replace("__TASK_NAME__", $taskName).Replace("__ROOM__", $ROOM)
+[System.IO.File]::WriteAllText($stopScriptPath, $stopScript, (New-Object System.Text.UTF8Encoding($false)))
+Write-Ok "Script de parada: $stopScriptPath"
 
 # Crear un lanzador VBScript oculto para la tarea programada. Ejecutar el CMD
 # directamente abre una ventana de consola visible durante toda la vida del
@@ -608,7 +653,6 @@ Write-Ok "Lanzador oculto: $hiddenLauncherPath"
 # No usamos New-ScheduledTaskSettingsSet -RestartOnFailure porque ese
 # parametro no existe en algunas versiones de Windows PowerShell 5.1.
 # El XML mantiene el reinicio automatico y es compatible con esas versiones.
-$taskName = "eQSO Relay $ROOM"
 $userId = "$env:USERDOMAIN\$env:USERNAME"
 $xmlUserId = [System.Security.SecurityElement]::Escape($userId)
 $wscriptPath = Join-Path $env:WINDIR "System32\wscript.exe"
@@ -719,11 +763,11 @@ Write-Host "  Comandos utiles:" -ForegroundColor Cyan
 Write-Host "    Ver log en tiempo real:"
 Write-Host "      Get-Content `"$CONFIG_DIR\relay-$ROOM.log`" -Wait -Tail 20"
 Write-Host "    Parar el relay:"
-Write-Host "      Stop-ScheduledTask -TaskName '$taskName'"
+Write-Host "      powershell.exe -ExecutionPolicy Bypass -File `"$stopScriptPath`""
 Write-Host "    Reiniciar el relay:"
-Write-Host "      Stop-ScheduledTask -TaskName '$taskName'; Start-ScheduledTask -TaskName '$taskName'"
+Write-Host "      powershell.exe -ExecutionPolicy Bypass -File `"$stopScriptPath`"; Start-ScheduledTask -TaskName '$taskName'"
 Write-Host "    Desinstalar:"
-Write-Host "      Unregister-ScheduledTask -TaskName '$taskName' -Confirm:`$false"
+Write-Host "      powershell.exe -ExecutionPolicy Bypass -File `"$stopScriptPath`"; Unregister-ScheduledTask -TaskName '$taskName' -Confirm:`$false"
 Write-Host ""
 Write-Host "  Calibracion VOX: edita $configPath" -ForegroundColor Cyan
 Write-Host "    Sube voxThresholdRms si dispara con ruido de fondo."
