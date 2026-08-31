@@ -11,8 +11,8 @@ title = "Guia Instalacion Relay — Windows / Linux / Raspberry Pi"
 id = "SHNvpZmZHIaZlgPY6nq9Q"
 uri = "file://guia_relay_instalacion.docx"
 type = "word_document"
-title = "Manual eQSO Relay Daemon v1.5"
-description = "Manual actualizado con explicación detallada de los comandos de administración, actualización, estado, logs, parada, inicio y arranque automático en Windows y Linux/Raspberry Pi."
+title = "Manual eQSO Relay Daemon v1.6"
+description = "Incluye la corrección del log de Windows y las instrucciones para comprobar el archivo, la última ejecución de la tarea y los errores de arranque."
 
 [[outputs]]
 id = "5i3nfQCe-qQFJpAokgK-e"
