@@ -143,3 +143,17 @@ mtime_ms = 1788633731242
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/c7a875c3-2a91-4474-acab-b4094b2e77c9/5bc68869-9a56-47ba-aef3-f5d94af5fc17"
 storage_version_token = "1788633739622155"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "ADY2wfVNUdU4fLC7YFd0P"
+uri = "file://output/ultimo-original/reassembled.wav"
+type = "audio"
+title = "Audio reconstruido de la última captura original"
+description = "79 paquetes GSM reconstruidos del flujo completo servidor original → v1.13, incluyendo paquetes TCP fusionados."
+logical_id = "27a1c4e0-475e-4e57-b59d-ee6c48559ee8"
+content_hash = "sha256:07c833bdbd2c9c7057efcaddcf9246db4cd0157e0394f557195faeeecf86d500"
+size = 151758
+mtime_ms = 1788635162436
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/27a1c4e0-475e-4e57-b59d-ee6c48559ee8/c3c1ae4c-d221-4634-96cf-c604cfe707b8"
+storage_version_token = "1788635172017568"
+content_type = "audio/wav"
