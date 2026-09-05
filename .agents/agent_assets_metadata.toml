@@ -213,3 +213,17 @@ mtime_ms = 1788646303447
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/547add2e-6504-413b-81b7-d4f8e67f0e99/245eed16-d238-4794-8749-466c25d1c07b"
 storage_version_token = "1788647186258002"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "LwjKFLPthm9TSmS3-qS3C"
+uri = "file://output/downloads/prueba-v113-gsm.zip"
+type = "unspecified"
+title = "Descargar prueba-v113-gsm.zip"
+description = "ZIP descargable que contiene ffmpeg-relay.gsm. Descomprímelo antes de seleccionarlo en el panel."
+logical_id = "07fcf336-b40b-4e69-a0a0-5c123af36a0d"
+content_hash = "sha256:03452820eab199625160146f3ae426eef411e6132c7947a49d0b1906a24bf941"
+size = 24584
+mtime_ms = 1788647254175
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/07fcf336-b40b-4e69-a0a0-5c123af36a0d/96733533-99fa-41f1-878e-85be37057556"
+storage_version_token = "1788647260142875"
+content_type = "application/octet-stream"
