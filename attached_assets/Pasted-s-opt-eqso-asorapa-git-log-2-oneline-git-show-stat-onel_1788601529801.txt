@@ -1,0 +1,53 @@
+s:/opt/eqso-asorapa$ git log -2 --oneline
+git show --stat --oneline HEAD
+1c07ad9 (HEAD -> main) Fix repeated PTT in legacy eQSO v1.13
+f88a4a9 (backup-vm-antes-fix-ptt-v113) Fix legacy eQSO PTT packet framing
+1c07ad9 (HEAD -> main) Fix repeated PTT in legacy eQSO v1.13
+ artifacts/api-server/src/eqso/tcp-server.ts | 38 +++++++++++++++++++++++++++++++++-----
+ 1 file changed, 33 insertions(+), 5 deletions(-)
+david@ubuntus:/opt/eqso-asorapa$ BASE_PATH=/ pnpm --filter @workspace/eqso-client run build
+pnpm --filter @workspace/api-server run build
+
+> @workspace/eqso-client@0.0.0 build /opt/eqso-asorapa/artifacts/eqso-client
+> vite build --config vite.config.ts
+
+vite v7.3.1 building client environment for production...
+src/components/ui/tooltip.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+✓ 1782 modules transformed.
+dist/public/index.html                   0.73 kB │ gzip:   0.41 kB
+dist/public/assets/index-DOHi6-ro.css  118.15 kB │ gzip:  19.54 kB
+dist/public/assets/index-pG-Uq_gH.js   433.04 kB │ gzip: 127.54 kB
+✓ built in 25.93s
+
+> @workspace/api-server@0.0.0 build /opt/eqso-asorapa/artifacts/api-server
+> node ./build.mjs
+
+
+  dist/index.mjs                       2.4mb ⚠️
+  dist/pino-worker.mjs               153.4kb
+  dist/pino-file.mjs                 142.0kb
+  dist/pino-pretty.mjs               114.6kb
+  dist/thread-stream-worker.mjs        7.3kb
+  dist/index.mjs.map                   4.1mb
+  dist/pino-worker.mjs.map           256.9kb
+  dist/pino-file.mjs.map             229.0kb
+  dist/pino-pretty.mjs.map           203.9kb
+  dist/thread-stream-worker.mjs.map   12.0kb
+
+⚡ Done in 2943ms
+Copied client build: /opt/eqso-asorapa/artifacts/eqso-client/dist/public → /opt/eqso-asorapa/artifacts/api-server/dist/public
+david@ubuntus:/opt/eqso-asorapa$ sudo systemctl restart eqso.service
+sudo systemctl status eqso.service --no-pager -l
+sudo ss -lntp | grep -E ':2171|:8008'
+[sudo] password for david: 
+● eqso.service - eQSO ASORAPA Server
+     Loaded: loaded (/etc/systemd/system/eqso.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-09-05 09:45:14 UTC; 224ms ago
+   Main PID: 1219769 (node)
+      Tasks: 6 (limit: 19094)
+     Memory: 3.4M (peak: 3.4M)
+        CPU: 151ms
+     CGroup: /system.slice/eqso.service
+             └─1219769 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+
+sep 05 09:45:14 ubuntus systemd[1]: Started eqso.service - eQSO ASORAPA Server.
