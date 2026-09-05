@@ -199,3 +199,17 @@ mtime_ms = 1788646304023
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/baf05b3d-f044-4519-86d9-e92d011da20f/eb2a1226-9a54-4e40-85a5-6a70d831bfb7"
 storage_version_token = "1788646314034732"
 content_type = "audio/wav"
+
+[[outputs]]
+id = "JnEHwPiJN0w--13NbAYE0"
+uri = "file://output/v113-mic-reference/ffmpeg-relay.gsm"
+type = "unspecified"
+title = "Archivo GSM para la prueba v1.13"
+description = "141 paquetes GSM recodificados con el filtro y libgsm del relay. Descárgalo y selecciónalo en el panel de diagnóstico."
+logical_id = "547add2e-6504-413b-81b7-d4f8e67f0e99"
+content_hash = "sha256:2bfab91a7ddb30a3d40983a7b65118cd3cf9dda80c2b56745e8396717bfda69b"
+size = 27918
+mtime_ms = 1788646303447
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/547add2e-6504-413b-81b7-d4f8e67f0e99/6dce9bc8-8285-4bc4-bf17-7c48324d55a5"
+storage_version_token = "1788646718883012"
+content_type = "application/octet-stream"
