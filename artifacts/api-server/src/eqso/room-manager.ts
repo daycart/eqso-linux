@@ -33,6 +33,7 @@ export interface ClientInfo {
   pingMs: number;
   isRelay?: boolean;
   legacyV113?: boolean;
+  lastLegacyIgnoreAt?: number;
   send: (data: Buffer) => void;
   close: () => void;
 }
