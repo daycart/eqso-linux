@@ -25,6 +25,7 @@ import {
 } from "./protocol";
 
 const SERVER_VERSION = "eQSO Linux Server v1.0";
+const LEGACY_AUDIO_PACE_MS = 120;
 
 // One FFmpeg GSM decoder per TCP client (keyed by client UUID)
 const tcpDecoders = new Map<string, FfmpegGsmDecoder>();
@@ -49,6 +50,7 @@ interface TcpClientState {
    *  Llamado desde processSingleByte cuando el cliente envía RELEASE_PTT (0x0d),
    *  así los últimos frames llegan al navegador sin el retardo de 120ms/paquete. */
   flushPaceQueue?: () => void;
+  stopLegacyAudioQueue?: () => void;
 }
 
 function sendRoomList(state: TcpClientState): void {
@@ -483,6 +485,7 @@ function handleData(state: TcpClientState, data: Buffer): void {
 function handleDisconnect(state: TcpClientState): void {
   if (state.disconnected) return; // guard: error event is always followed by close event
   state.disconnected = true;
+  state.stopLegacyAudioQueue?.();
 
   const decoder = tcpDecoders.get(state.id);
   if (decoder) {
@@ -530,6 +533,33 @@ export function startTcpServer(port: number): net.Server {
       return;
     }
 
+    const legacyAudioQueue: Buffer[] = [];
+    let legacyAudioTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const sendNextLegacyVoice = () => {
+      const packet = legacyAudioQueue.shift();
+      if (!packet || state.disconnected) {
+        legacyAudioTimer = null;
+        return;
+      }
+
+      safeWriteLegacyVoice(state, packet);
+      legacyAudioTimer = setTimeout(sendNextLegacyVoice, LEGACY_AUDIO_PACE_MS);
+    };
+
+    const queueLegacyVoice = (packet: Buffer) => {
+      legacyAudioQueue.push(Buffer.from(packet));
+      if (!legacyAudioTimer) sendNextLegacyVoice();
+    };
+
+    state.stopLegacyAudioQueue = () => {
+      if (legacyAudioTimer) {
+        clearTimeout(legacyAudioTimer);
+        legacyAudioTimer = null;
+      }
+      legacyAudioQueue.length = 0;
+    };
+
     const clientInfo: ClientInfo = {
       id,
       name: `_ANON_${id.slice(0, 6)}`,
@@ -547,7 +577,7 @@ export function startTcpServer(port: number): net.Server {
           data.length === AUDIO_PAYLOAD_SIZE + 1 &&
           data[0] === EQSO_COMMANDS.VOICE
         ) {
-          safeWriteLegacyVoice(state, data);
+          queueLegacyVoice(data);
         } else {
           safeWrite(state, data);
         }
