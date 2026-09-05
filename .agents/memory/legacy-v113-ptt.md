@@ -3,8 +3,8 @@ name: Protocolo PTT de eQSO v1.13
 description: Secuencia de control del servidor original necesaria para que el cliente de escritorio transmita más de una vez.
 ---
 
-El servidor eQSO original responde al emisor con `06 <nameLen> <name>` y su propio USER_UPDATE de PTT iniciado, pero sólo después de recibir dos bloques GSM completos. Nunca se debe responder entre el opcode `01` y sus 198 bytes: hacerlo deja a v1.13 enviando bloques de silencio digital. Tras `0d`, responde una sola vez con `08`, `06 00` y el USER_UPDATE de PTT liberado; v1.13 puede repetir `0d` varias veces por una única liberación.
+El servidor original divide el inicio PTT así: tras el primer bloque GSM completo envía sólo `06`; tras el segundo envía `<nameLen><name>` y el USER_UPDATE iniciado en una escritura. Nunca responder entre `01` y sus 198 bytes: v1.13 pasa a enviar silencio. Tras `0d`, responde una vez con `08` y, unos 100 ms después, `06 00` + USER_UPDATE liberado.
 
-**Why:** Capturas comparativas demostraron que v1.13 sólo transmite una vez cuando recibe `08` pero no los mensajes dirigidos al propio emisor. Una primera implementación respondió demasiado pronto y produjo 74 bloques GSM idénticos a −66,3 dB aunque el servidor los reenviara correctamente. El servidor original confirma después del segundo bloque completo.
+**Why:** Capturas comparativas demostraron que v1.13 sólo transmite una vez cuando la secuencia o el tráfico de reposo difieren del original. Responder demasiado pronto produjo bloques de silencio digital. Además, reenviar a v1.13 los `02` que cada relay genera cada 150 ms creó una tasa 15 veces superior a la original y lo mantuvo ocupado tras soltar PTT.
 
-**How to apply:** Compatibilizar específicamente clientes v1.13 (handshake observado `0a78000000`), contar bloques GSM completos por sesión TX, confirmar al completar el segundo y procesar sólo el primer `0d`. No enviar `06 00` a gateways/relays Windows de otro handshake.
+**How to apply:** Para `0a78000000`, replicar el inicio dividido entre bloques 1 y 2, procesar sólo el primer `0d` y filtrarle los `02` de alta frecuencia de los relays; el keepalive proactivo `0c` basta. No cambiar el tráfico de gateways `0a82`.
