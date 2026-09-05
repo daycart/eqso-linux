@@ -1,0 +1,41 @@
+david@ubuntus:/opt/eqso-asorapa$ cd /opt/eqso-asorapa
+git branch --show-current
+git status --short
+git remote -v
+main
+?? .env
+?? artifacts/relay-daemon/install/alsa-setup.sh.bak
+?? artifacts/relay-daemon/src/alsa-audio.ts.bak
+?? artifacts/relay-daemon/src/main.ts.pre-fix
+?? audio/
+?? node
+?? wake-audio.sh
+origin  https://github.com/daycart/eqso-linux-client.git (fetch)
+origin  https://github.com/daycart/eqso-linux-client.git (push)
+david@ubuntus:/opt/eqso-asorapa$ sudo systemctl status 1155273 --no-pager -l
+● eqso.service - eQSO ASORAPA Server
+     Loaded: loaded (/etc/systemd/system/eqso.service; enabled; preset: enabled)
+     Active: active (running) since Fri 2026-09-04 06:30:11 UTC; 1 day 1h ago
+   Main PID: 1155273 (node)
+      Tasks: 36 (limit: 19094)
+     Memory: 130.1M (peak: 143.1M)
+        CPU: 12min 17.664s
+     CGroup: /system.slice/eqso.service
+             ├─1155273 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+             ├─1155386 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             ├─1212011 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             ├─1215709 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             ├─1215710 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 pipe:1
+             └─1215711 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036123,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036227,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036275,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036363,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036424,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036513,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036587,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036669,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036727,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036811,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:13:56 ubuntus node[1155273]: {"level":30,"time":1788596036888,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
