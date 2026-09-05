@@ -51,3 +51,17 @@ mtime_ms = 1788625955394
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/1e4bf666-f14a-438d-8d82-00173273e5bd/7beb8364-12ea-4a80-926e-a029f190b841"
 storage_version_token = "1788625964269865"
 content_type = "audio/wav"
+
+[[outputs]]
+id = "R1_lp7gJhAw9I_GHgTCnR"
+uri = "file://output/radio-recibida-despues-filtro.wav"
+type = "audio"
+title = "Audio GSM recibido por v1.13"
+description = "Los mismos 177 bloques GSM de la última captura, decodificados con FFmpeg fuera del cliente antiguo."
+logical_id = "7e1f0545-6f5a-435a-a8d2-0412f366a188"
+content_hash = "sha256:01c21c41bc62714318e05dcf9c273a4f8069144cb9afe4a9b79d6b8c7b09d7eb"
+size = 339918
+mtime_ms = 1788626840138
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/7e1f0545-6f5a-435a-a8d2-0412f366a188/bc6388e7-9167-4ff9-837a-d2671b5ea8e8"
+storage_version_token = "1788626844616482"
+content_type = "audio/wav"
