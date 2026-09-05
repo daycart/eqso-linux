@@ -1,0 +1,51 @@
+ sudo journalctl -u eqso.service -n 50 --no-pager
+sep 05 08:32:38 ubuntus node[1155273]: {"level":30,"time":1788597158759,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:38 ubuntus node[1155273]: {"level":30,"time":1788597158793,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:38 ubuntus node[1155273]: {"level":30,"time":1788597158900,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:38 ubuntus node[1155273]: {"level":30,"time":1788597158945,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159062,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159095,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159211,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159247,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159358,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159397,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159502,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159548,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159650,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159699,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159800,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159850,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:39 ubuntus node[1155273]: {"level":30,"time":1788597159950,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:40 ubuntus node[1155273]: {"level":30,"time":1788597160002,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:40 ubuntus node[1155273]: {"level":30,"time":1788597160099,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:40 ubuntus node[1155273]: {"level":30,"time":1788597160150,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:40 ubuntus node[1155273]: {"level":30,"time":1788597160267,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:40 ubuntus node[1155273]: {"level":30,"time":1788597160304,"pid":1155273,"hostname":"ubuntus","bytes":1,"hex":"02","msg":"eQSO proxy: received TCP data"}
+sep 05 08:32:40 ubuntus systemd[1]: Stopping eqso.service - eQSO ASORAPA Server...
+sep 05 08:32:40 ubuntus systemd[1]: eqso.service: Deactivated successfully.
+sep 05 08:32:40 ubuntus systemd[1]: Stopped eqso.service - eQSO ASORAPA Server.
+sep 05 08:32:40 ubuntus systemd[1]: eqso.service: Consumed 13min 14.903s CPU time, 143.1M memory peak, 0B memory swap peak.
+sep 05 08:32:40 ubuntus systemd[1]: Started eqso.service - eQSO ASORAPA Server.
+sep 05 08:32:42 ubuntus node[1216980]: {"level":30,"time":1788597162295,"pid":1216980,"hostname":"ubuntus","publicDir":"/opt/eqso-asorapa/artifacts/api-server/dist/public","msg":"Serving React client from static files"}
+sep 05 08:32:42 ubuntus node[1216980]: {"level":30,"time":1788597162310,"pid":1216980,"hostname":"ubuntus","msg":"eQSO WebSocket bridge ready on /ws"}
+sep 05 08:32:42 ubuntus node[1216980]: {"level":30,"time":1788597162310,"pid":1216980,"hostname":"ubuntus","msg":"Relay WS notifier ready on /ws-relay"}
+sep 05 08:32:42 ubuntus node[1216980]: {"level":30,"time":1788597162383,"pid":1216980,"hostname":"ubuntus","port":8080,"msg":"HTTP + WebSocket server listening"}
+sep 05 08:32:42 ubuntus node[1216980]: {"level":30,"time":1788597162386,"pid":1216980,"hostname":"ubuntus","port":2171,"msg":"eQSO TCP server listening"}
+sep 05 08:32:42 ubuntus node[1216980]: {"level":30,"time":1788597162387,"pid":1216980,"hostname":"ubuntus","port":8008,"msg":"eQSO TCP server listening"}
+sep 05 08:32:42 ubuntus node[1216980]: {"level":30,"time":1788597162578,"pid":1216980,"hostname":"ubuntus","count":0,"msg":"RelayManager: loaded relay configurations"}
+sep 05 08:32:42 ubuntus node[1216980]: {"level":30,"time":1788597162591,"pid":1216980,"hostname":"ubuntus","count":0,"msg":"Moderation: bans loaded from DB"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164056,"pid":1216980,"hostname":"ubuntus","id":"3885d202-b3ca-454c-bf0d-e59835a2ed31","addr":"127.0.0.1","msg":"New TCP eQSO connection"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164057,"pid":1216980,"hostname":"ubuntus","id":"3885d202-b3ca-454c-bf0d-e59835a2ed31","addr":"127.0.0.1","msg":"eQSO TCP client registered — waiting for handshake"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164138,"pid":1216980,"hostname":"ubuntus","id":"3885d202-b3ca-454c-bf0d-e59835a2ed31","hex":"0a82000000","msg":"eQSO TCP handshake complete — sending room list"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164164,"pid":1216980,"hostname":"ubuntus","id":"3885d202-b3ca-454c-bf0d-e59835a2ed31","name":"0R-IN70WN","room":"CB","bufLen":42,"msg":"eQSO TCP JOIN parsed"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164168,"pid":1216980,"hostname":"ubuntus","id":"3885d202-b3ca-454c-bf0d-e59835a2ed31","name":"0R-IN70WN","msg":"TCP relay authenticated with relay token"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164172,"pid":1216980,"hostname":"ubuntus","id":"3885d202-b3ca-454c-bf0d-e59835a2ed31","name":"0R-IN70WN","room":"CB","memberCount":1,"members":["0R-IN70WN"],"hex":"1601000000000000000930522d494e3730574e0c526164696f20456e6c61636500","msg":"eQSO TCP sending user list to joining client"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164173,"pid":1216980,"hostname":"ubuntus","id":"3885d202-b3ca-454c-bf0d-e59835a2ed31","name":"0R-IN70WN","room":"CB","memberCount":1,"msg":"TCP client joined room"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164269,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164269,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","addr":"192.168.1.33","msg":"eQSO TCP client registered — waiting for handshake"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164309,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","hex":"0a82000000","msg":"eQSO TCP handshake complete — sending room list"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164381,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","name":"0R-PORTATIL","room":"CB","bufLen":47,"msg":"eQSO TCP JOIN parsed"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164383,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","name":"0R-PORTATIL","msg":"TCP relay authenticated with relay token"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164391,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","name":"0R-PORTATIL","room":"CB","memberCount":2,"members":["0R-IN70WN","0R-PORTATIL"],"hex":"1602000000000000000930522d494e3730574e0c526164696f20456e6c61636500000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200","msg":"eQSO TCP sending user list to joining client"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164393,"pid":1216980,"hostname":"ubuntus","to":"0R-IN70WN","joining":"0R-PORTATIL","msg":"eQSO TCP notifying existing member of new join"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164399,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","name":"0R-PORTATIL","room":"CB","memberCount":2,"msg":"TCP client joined room"}

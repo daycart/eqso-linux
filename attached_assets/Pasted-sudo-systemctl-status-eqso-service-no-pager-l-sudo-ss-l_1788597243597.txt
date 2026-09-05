@@ -1,0 +1,25 @@
+sudo systemctl status eqso.service --no-pager -l
+sudo ss -lntp | grep ':2171'
+● eqso.service - eQSO ASORAPA Server
+     Loaded: loaded (/etc/systemd/system/eqso.service; enabled; preset: enabled)
+     Active: active (running) since Sat 2026-09-05 08:32:40 UTC; 15s ago
+   Main PID: 1216980 (node)
+      Tasks: 13 (limit: 19094)
+     Memory: 64.3M (peak: 64.7M)
+        CPU: 4.629s
+     CGroup: /system.slice/eqso.service
+             ├─1216980 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+             ├─1216994 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             └─1216995 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164172,"pid":1216980,"hostname":"ubuntus","id":"3885d202-b3ca-454c-bf0d-e59835a2ed31","name":"0R-IN70WN","room":"CB","memberCount":1,"members":["0R-IN70WN"],"hex":"1601000000000000000930522d494e3730574e0c526164696f20456e6c61636500","msg":"eQSO TCP sending user list to joining client"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164173,"pid":1216980,"hostname":"ubuntus","id":"3885d202-b3ca-454c-bf0d-e59835a2ed31","name":"0R-IN70WN","room":"CB","memberCount":1,"msg":"TCP client joined room"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164269,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164269,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","addr":"192.168.1.33","msg":"eQSO TCP client registered — waiting for handshake"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164309,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","hex":"0a82000000","msg":"eQSO TCP handshake complete — sending room list"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164381,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","name":"0R-PORTATIL","room":"CB","bufLen":47,"msg":"eQSO TCP JOIN parsed"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164383,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","name":"0R-PORTATIL","msg":"TCP relay authenticated with relay token"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164391,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","name":"0R-PORTATIL","room":"CB","memberCount":2,"members":["0R-IN70WN","0R-PORTATIL"],"hex":"1602000000000000000930522d494e3730574e0c526164696f20456e6c61636500000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200","msg":"eQSO TCP sending user list to joining client"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164393,"pid":1216980,"hostname":"ubuntus","to":"0R-IN70WN","joining":"0R-PORTATIL","msg":"eQSO TCP notifying existing member of new join"}
+sep 05 08:32:44 ubuntus node[1216980]: {"level":30,"time":1788597164399,"pid":1216980,"hostname":"ubuntus","id":"65165b9f-c8b7-4b38-98fa-3ad084a53521","name":"0R-PORTATIL","room":"CB","memberCount":2,"msg":"TCP client joined room"}
+LISTEN 0      511          0.0.0.0:2171       0.0.0.0:*    users:(("node",pid=1216980,fd=19))   
