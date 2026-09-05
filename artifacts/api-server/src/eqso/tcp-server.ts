@@ -36,6 +36,10 @@ interface TcpClientState {
   readMultiByte: boolean;
   multiByteCmd: number;
   handshakeDone: boolean;
+  /** eQSO desktop v1.13 identifies itself with handshake [0x0a, 0x78, 0, 0, 0].
+   *  It requires the original server's PTT owner and self-update responses in
+   *  order to transmit again after releasing PTT. */
+  legacyV113: boolean;
   disconnected: boolean; // guard against double-disconnect (error + close both fire)
   /** Drena inmediatamente los paquetes GSM pendientes en el pace queue.
    *  Llamado desde processSingleByte cuando el cliente envía RELEASE_PTT (0x0d),
@@ -73,6 +77,14 @@ function safeWrite(state: TcpClientState, data: Buffer): void {
   }
 }
 
+function buildLegacyPttOwner(name: string): Buffer {
+  const nameBuf = Buffer.from(name, "ascii");
+  return Buffer.concat([
+    Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, nameBuf.length]),
+    nameBuf,
+  ]);
+}
+
 function handleHandshake(state: TcpClientState, chunk: Buffer): void {
   if (
     chunk.length >= 5 &&
@@ -101,7 +113,14 @@ function processSingleByte(state: TcpClientState, byte: number): void {
         const wasAlreadyOurs = roomManager.isLockedBy(client.room, state.id);
         roomManager.tryLockRoom(client.room, state.id);
         if (!wasAlreadyOurs) {
-          roomManager.broadcastToRoom(client.room, buildPttStarted(client.name), state.id);
+          const started = buildPttStarted(client.name);
+          if (state.legacyV113) {
+            // Original eQSO server sequence observed on the wire:
+            // [0x06][nameLen][name], followed by the sender's own PTT update.
+            safeWrite(state, buildLegacyPttOwner(client.name));
+            safeWrite(state, started);
+          }
+          roomManager.broadcastToRoom(client.room, started, state.id);
         }
         inactivityManager.recordActivity(client.room);
       }
@@ -135,10 +154,14 @@ function processSingleByte(state: TcpClientState, byte: number): void {
       if (client?.room) {
         const rel = buildPttReleased(client.name);
         roomManager.broadcastToRoom(client.room, rel, state.id);
-        // Solo [0x08] (canal liberado OK). El [0x06, 0x00] que enviábamos antes
-        // hacía que los relays Windows eQSO se desconectaran 17ms después de
-        // liberar PTT (lo interpretaban como "expulsado de sala").
         safeWrite(state, Buffer.from([0x08]));
+        if (state.legacyV113) {
+          // v1.13 needs the original server's clear-owner marker and its own
+          // PTT-released update. Do not send these to 0x82 relay/gateway clients:
+          // some Windows gateways interpret [0x06, 0x00] as removal from room.
+          safeWrite(state, Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]));
+          safeWrite(state, rel);
+        }
         roomManager.unlockRoom(client.room, state.id);
         // Drena inmediatamente los paquetes GSM que quedaron en el pace queue.
         // Sin esto, los últimos 3-5 paquetes GSM del relay CB se entregan al
@@ -187,9 +210,13 @@ function processMultiByte(state: TcpClientState, byte: number): void {
         // Accept any 5-byte handshake starting with 0x0a — different eQSO client
         // versions use different second bytes (0x82 for proxy, 0x78 for Windows client v1.13)
         if (state.buf[0] === EQSO_COMMANDS.HANDSHAKE) {
+          state.legacyV113 = state.buf[1] === 0x78;
           safeWrite(state, HANDSHAKE_SERVER);
           state.handshakeDone = true;
-          logger.info({ id: state.id, hex: state.buf.toString("hex") }, "eQSO TCP handshake complete — sending room list");
+          logger.info(
+            { id: state.id, hex: state.buf.toString("hex"), legacyV113: state.legacyV113 },
+            "eQSO TCP handshake complete — sending room list"
+          );
           sendRoomList(state);
         } else {
           logger.warn({ id: state.id, hex: state.buf.toString("hex") }, "eQSO TCP bad handshake bytes");
@@ -426,6 +453,7 @@ export function startTcpServer(port: number): net.Server {
       readMultiByte: false,
       multiByteCmd: 0,
       handshakeDone: false,
+      legacyV113: false,
       disconnected: false,
     };
 
