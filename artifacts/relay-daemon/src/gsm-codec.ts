@@ -23,6 +23,11 @@ export const FRAMES_PER_PACKET = 6;
 export const GSM_PACKET_BYTES  = GSM_FRAME_BYTES * FRAMES_PER_PACKET;   // 198
 export const PCM_PACKET_BYTES  = GSM_FRAME_SAMPLES * FRAMES_PER_PACKET * 2; // 1920
 
+// Voice-band cleanup selected against a real radio capture. Apply before GSM:
+// remove rumble below 250 Hz, hiss above 3 kHz and moderate stationary noise
+// without the metallic artifacts produced by stronger denoising.
+const TX_VOICE_FILTER = "highpass=f=250,lowpass=f=3000,afftdn=nr=12:nf=-32:tn=1";
+
 // ─── Decoder: GSM bytes → Int16 PCM ─────────────────────────────────────────
 
 export class GsmDecoder extends EventEmitter {
@@ -101,6 +106,7 @@ export class GsmEncoder extends EventEmitter {
       "-probesize", "32", "-analyzeduration", "0",
       "-f", "s16le", "-ar", "8000", "-ac", "1",
       "-i", "pipe:0",
+      "-af", TX_VOICE_FILTER,
       "-c:a", "libgsm",   // especificar codec explícito — ffmpeg no selecciona
       // el encoder GSM por defecto en builds que no exponen "gsm" como encoder
       // default pero sí tienen libgsm compilado (ej: Ubuntu 22.04 ffmpeg apt).
