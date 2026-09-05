@@ -7,4 +7,3 @@
 - [Selección de FFmpeg por plataforma](ffmpeg-static-libgsm.md) — Windows/DirectShow prioriza ffmpeg-static; Linux/alsa conserva el FFmpeg del sistema con libgsm.
 - [Audio Windows: DirectShow + FFplay](ffmpeg-wasapi-device-list.md) — capturar con DirectShow y reproducir con FFplay/SDL; `wasapi` no es un muxer de salida FFmpeg.
 - [VOX timing retardo TX→TX](vox-timing.md) — retardo entre TX: voxHangMs + POST_TX_VOX_SUPPRESS_MS (era 5000ms hardcoded). Ahora configurable postTxSuppressMs (default 1000ms), voxHangMs default 800ms.
-- [User-update clásico sin terminador](legacy-user-update-framing.md) — acciones leave/PTT start/PTT end terminan tras el indicativo; un NUL extra desalinea audio y bloquea clientes antiguos.
