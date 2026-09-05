@@ -147,16 +147,10 @@ function processSingleByte(state: TcpClientState, byte: number): void {
           client.room,
           Buffer.from([0x02]),
           state.id,
-          // Relay daemons emit 0x02 every 150ms, while the original server
-          // delivered roughly one every 3 seconds to v1.13. Preserve that
-          // low-rate signal without keeping the legacy client permanently busy.
-          (target) => {
-            if (!target.legacyV113) return true;
-            const now = Date.now();
-            if (now - (target.lastLegacyIgnoreAt ?? 0) < 3_000) return false;
-            target.lastLegacyIgnoreAt = now;
-            return true;
-          }
+          // Relay daemons emit 0x02 every 150ms. Passing that flood to v1.13
+          // keeps it in receive/busy state after releasing PTT. Modern relays
+          // still receive it; v1.13 uses the server's proactive 0x0c keepalive.
+          (target) => !target.legacyV113
         );
       }
       break;
