@@ -40,6 +40,10 @@ interface TcpClientState {
    *  It requires the original server's PTT owner and self-update responses in
    *  order to transmit again after releasing PTT. */
   legacyV113: boolean;
+  /** Number of complete GSM blocks received in the current v1.13 TX.
+   *  The original server acknowledges PTT after block 2, never between the
+   *  one-byte VOICE opcode and its 198-byte payload. */
+  legacyVoiceBlocksInTx: number;
   disconnected: boolean; // guard against double-disconnect (error + close both fire)
   /** Drena inmediatamente los paquetes GSM pendientes en el pace queue.
    *  Llamado desde processSingleByte cuando el cliente envía RELEASE_PTT (0x0d),
@@ -115,10 +119,10 @@ function processSingleByte(state: TcpClientState, byte: number): void {
         if (!wasAlreadyOurs) {
           const started = buildPttStarted(client.name);
           if (state.legacyV113) {
-            // Original eQSO server sequence observed on the wire:
-            // [0x06][nameLen][name], followed by the sender's own PTT update.
-            safeWrite(state, buildLegacyPttOwner(client.name));
-            safeWrite(state, started);
+            // Defer the self-ack until complete GSM blocks have arrived.
+            // Replying here interrupts v1.13 between its split VOICE opcode
+            // and payload, causing it to transmit only GSM silence.
+            state.legacyVoiceBlocksInTx = 0;
           }
           roomManager.broadcastToRoom(client.room, started, state.id);
         }
@@ -152,6 +156,9 @@ function processSingleByte(state: TcpClientState, byte: number): void {
 
     case EQSO_COMMANDS.RELEASE_PTT:
       if (client?.room) {
+        // v1.13 repeats 0x0d several times for one button release. The original
+        // server emits the release sequence only once per active TX.
+        if (!roomManager.isLockedBy(client.room, state.id)) break;
         const rel = buildPttReleased(client.name);
         roomManager.broadcastToRoom(client.room, rel, state.id);
         safeWrite(state, Buffer.from([0x08]));
@@ -162,6 +169,7 @@ function processSingleByte(state: TcpClientState, byte: number): void {
           safeWrite(state, Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]));
           safeWrite(state, rel);
         }
+        state.legacyVoiceBlocksInTx = 0;
         roomManager.unlockRoom(client.room, state.id);
         // Drena inmediatamente los paquetes GSM que quedaron en el pace queue.
         // Sin esto, los últimos 3-5 paquetes GSM del relay CB se entregan al
@@ -293,6 +301,20 @@ function processMultiByte(state: TcpClientState, byte: number): void {
 
           // Feed to per-client FFmpeg decoder; WS broadcast happens in "pcm" event
           tcpDecoders.get(state.id)?.decode(Buffer.from(gsmPayload));
+
+          if (
+            state.legacyV113 &&
+            roomManager.isLockedBy(client.room, state.id) &&
+            state.legacyVoiceBlocksInTx < 2
+          ) {
+            state.legacyVoiceBlocksInTx += 1;
+            if (state.legacyVoiceBlocksInTx === 2) {
+              // Wire-compatible timing observed against the original eQSO
+              // server: acknowledge only after receiving GSM block 2.
+              safeWrite(state, buildLegacyPttOwner(client.name));
+              safeWrite(state, buildPttStarted(client.name));
+            }
+          }
         }
         state.buf = state.buf.slice(AUDIO_PAYLOAD_SIZE);
         if (state.buf.length === 0) {
@@ -454,6 +476,7 @@ export function startTcpServer(port: number): net.Server {
       multiByteCmd: 0,
       handshakeDone: false,
       legacyV113: false,
+      legacyVoiceBlocksInTx: 0,
       disconnected: false,
     };
 
