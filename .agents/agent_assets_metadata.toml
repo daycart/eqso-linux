@@ -65,3 +65,31 @@ mtime_ms = 1788626840138
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/7e1f0545-6f5a-435a-a8d2-0412f366a188/bc6388e7-9167-4ff9-837a-d2671b5ea8e8"
 storage_version_token = "1788626844616482"
 content_type = "audio/wav"
+
+[[outputs]]
+id = "FrWAk9yu4YBmKkJkqT2va"
+uri = "file://output/v113-codec-test/continuous.wav"
+type = "audio"
+title = "Decodificación GSM continua"
+description = "Los 168 paquetes de la captura, decodificados manteniendo el estado GSM entre paquetes."
+logical_id = "c1914510-d8ad-4e80-ab92-44840129f69f"
+content_hash = "sha256:471966db6c0b4a44c087e67e9ab348e1cce5ff3b5b86d408c83eacca414404a2"
+size = 322638
+mtime_ms = 1788632530496
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/c1914510-d8ad-4e80-ab92-44840129f69f/939a4dbc-ec32-48aa-aa3d-a80f5ed22548"
+storage_version_token = "1788632557203093"
+content_type = "audio/wav"
+
+[[outputs]]
+id = "aE_hBujUsHumj6Q_MMwLj"
+uri = "file://output/v113-codec-test/reset-each-packet.wav"
+type = "audio"
+title = "GSM reiniciado cada 198 bytes"
+description = "Los mismos 168 paquetes, reiniciando el decodificador en cada bloque como podría hacer eQSO v1.13."
+logical_id = "5793815a-a7d1-4a47-8b10-783893e64ce2"
+content_hash = "sha256:04baafe4c4e74d8c6dd183ffa4df657925a7a3c5253bd8a8f6ec7fcfccb1a373"
+size = 322638
+mtime_ms = 1788632550044
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/5793815a-a7d1-4a47-8b10-783893e64ce2/2604b5e5-e0d4-4c31-b8f2-e364a72115a1"
+storage_version_token = "1788632558352145"
+content_type = "audio/wav"
