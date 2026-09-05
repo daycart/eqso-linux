@@ -307,6 +307,35 @@ router.post("/inactivity/trigger", async (req, res) => {
   }
 });
 
+// POST /api/admin/diagnostic/gsm-replay?room=... — replay raw 198-byte GSM packets
+router.post(
+  "/diagnostic/gsm-replay",
+  express.raw({ type: ["audio/gsm", "application/octet-stream"], limit: "2mb" }),
+  async (req, res) => {
+    const room = typeof req.query.room === "string" ? req.query.room.trim() : "";
+    if (!room) {
+      res.status(400).json({ error: "Indica la sala de destino" });
+      return;
+    }
+    if (!roomManager.getRooms().includes(room)) {
+      res.status(404).json({ error: `La sala "${room}" no está activa` });
+      return;
+    }
+    if (!Buffer.isBuffer(req.body) || req.body.length === 0) {
+      res.status(400).json({ error: "Selecciona un archivo GSM válido" });
+      return;
+    }
+
+    const members = roomManager.getRoomMembers(room);
+    try {
+      const packets = await inactivityManager.replayRawGsm(room, req.body as Buffer);
+      res.json({ ok: true, room, members: members.length, packets });
+    } catch (err) {
+      res.status(400).json({ error: err instanceof Error ? err.message : String(err) });
+    }
+  }
+);
+
 // ── Moderación — Mutes ────────────────────────────────────────────────────────
 
 // POST /api/admin/moderation/mute — silenciar indicativo
