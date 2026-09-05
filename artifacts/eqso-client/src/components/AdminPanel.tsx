@@ -75,6 +75,8 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
   const [inactUploading, setInactUploading] = useState(false);
   const [inactTriggerRoom, setInactTriggerRoom] = useState("");
   const [inactMsg, setInactMsg] = useState<string | null>(null);
+  const [gsmReplayFile, setGsmReplayFile] = useState<File | null>(null);
+  const [gsmReplaying, setGsmReplaying] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -323,6 +325,33 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
     }
   }
 
+  async function replayDiagnosticGsm() {
+    if (!gsmReplayFile || !inactTriggerRoom.trim()) {
+      setInactMsg("Selecciona el archivo .gsm e indica una sala activa.");
+      return;
+    }
+    setInactMsg(null);
+    setGsmReplaying(true);
+    try {
+      const buf = await gsmReplayFile.arrayBuffer();
+      const room = encodeURIComponent(inactTriggerRoom.trim());
+      const res = await fetch(`${getApiBase()}/api/admin/diagnostic/gsm-replay?room=${room}`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "audio/gsm" },
+        body: buf,
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Error");
+      setInactMsg(
+        `Prueba GSM completada en "${json.room}": ${json.packets} paquetes enviados a ${json.members} usuario(s).`
+      );
+    } catch (e: unknown) {
+      setInactMsg(e instanceof Error ? e.message : "Error al reproducir GSM");
+    } finally {
+      setGsmReplaying(false);
+    }
+  }
+
   return (
     <div className="flex flex-col flex-1 bg-gray-950 overflow-hidden">
       {/* Header */}
@@ -528,6 +557,36 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
                 {!inactConfig.audioExists && (
                   <p className="text-xs text-yellow-600 mt-2">Sube un archivo .wav para poder probar el anuncio.</p>
                 )}
+              </div>
+
+              {/* Raw GSM diagnostic replay */}
+              <div className="bg-gray-900 border border-cyan-900/60 rounded-xl p-5">
+                <p className="text-sm font-medium text-cyan-200 mb-1">Prueba de compatibilidad GSM con v1.13</p>
+                <p className="text-xs text-gray-500 mb-3">
+                  Envía un archivo GSM ya codificado directamente a los clientes TCP de la sala, sin volver a convertirlo.
+                </p>
+                <div className="flex flex-wrap gap-3 items-center">
+                  <label className="cursor-pointer inline-block px-4 py-2 rounded-lg text-sm font-medium bg-cyan-950 hover:bg-cyan-900 text-cyan-200">
+                    {gsmReplayFile ? gsmReplayFile.name : "Seleccionar archivo .gsm"}
+                    <input
+                      type="file"
+                      accept=".gsm,audio/gsm,application/octet-stream"
+                      className="hidden"
+                      disabled={gsmReplaying}
+                      onChange={(e) => setGsmReplayFile(e.target.files?.[0] ?? null)}
+                    />
+                  </label>
+                  <button
+                    onClick={replayDiagnosticGsm}
+                    disabled={!gsmReplayFile || !inactTriggerRoom.trim() || gsmReplaying}
+                    className="bg-cyan-900 hover:bg-cyan-800 text-cyan-100 text-sm px-4 py-2 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {gsmReplaying ? "Enviando..." : "Enviar a v1.13"}
+                  </button>
+                </div>
+                <p className="text-xs text-gray-600 mt-2">
+                  Usa la sala indicada arriba. La prueba ocupa la sala durante la reproducción.
+                </p>
               </div>
             </>
           )}

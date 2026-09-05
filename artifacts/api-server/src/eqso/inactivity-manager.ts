@@ -11,6 +11,7 @@ const PACKET_INTERVAL_MS = 120; // 6 GSM frames × 20ms = 120ms per eQSO audio p
 // 960 samples = 6 GSM frames × 160 samples each (matches eQSO packet timing).
 const REMOTE_CHUNK_SAMPLES = 960;
 const SERVER_CALLSIGN = "SERVIDOR";
+const DIAGNOSTIC_CALLSIGN = "PRUEBA-GSM";
 const DEFAULT_TIMEOUT_MIN = 10;
 const DEFAULT_AUDIO_FILE = path.join(process.cwd(), "audio", "inactivity.wav");
 
@@ -105,6 +106,51 @@ class InactivityManager {
   async trigger(room: string): Promise<void> {
     if (this.playing.has(room)) throw new Error("Ya se está reproduciendo en esa sala");
     await this.playForRoom(room);
+  }
+
+  async replayRawGsm(room: string, gsm: Buffer): Promise<number> {
+    if (this.playing.has(room)) throw new Error("Ya se está reproduciendo en esa sala");
+    if (gsm.length === 0 || gsm.length % AUDIO_PAYLOAD_SIZE !== 0) {
+      throw new Error(`El archivo debe contener paquetes GSM completos de ${AUDIO_PAYLOAD_SIZE} bytes`);
+    }
+
+    const locked = roomManager.tryLockRoom(room, "_DIAGNOSTIC_GSM_");
+    if (!locked) throw new Error("La sala está ocupada por una transmisión");
+
+    const packetCount = gsm.length / AUDIO_PAYLOAD_SIZE;
+    this.playing.add(room);
+    try {
+      roomManager.broadcastToRoom(
+        room,
+        buildUserJoined(DIAGNOSTIC_CALLSIGN, "Prueba controlada del codificador")
+      );
+      roomManager.broadcastToRoom(room, buildPttStarted(DIAGNOSTIC_CALLSIGN));
+
+      await new Promise<void>((resolve) => {
+        let offset = 0;
+        const timer = setInterval(() => {
+          if (offset >= gsm.length) {
+            clearInterval(timer);
+            resolve();
+            return;
+          }
+          const packet = Buffer.allocUnsafe(AUDIO_PAYLOAD_SIZE + 1);
+          packet[0] = 0x01;
+          gsm.copy(packet, 1, offset, offset + AUDIO_PAYLOAD_SIZE);
+          offset += AUDIO_PAYLOAD_SIZE;
+          roomManager.broadcastToTcpClientsInRoom(room, packet);
+        }, PACKET_INTERVAL_MS);
+      });
+
+      roomManager.broadcastToRoom(room, buildPttReleased(DIAGNOSTIC_CALLSIGN));
+      roomManager.broadcastToRoom(room, buildUserLeft(DIAGNOSTIC_CALLSIGN));
+      logger.info({ room, packetCount }, "Raw GSM diagnostic replay completed");
+      return packetCount;
+    } finally {
+      roomManager.unlockRoom(room, "_DIAGNOSTIC_GSM_");
+      this.playing.delete(room);
+      this.lastActivity.set(room, Date.now());
+    }
   }
 
   // ── Audio playback ────────────────────────────────────────────────────────────
