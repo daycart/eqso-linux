@@ -26,6 +26,8 @@ import {
 
 const SERVER_VERSION = "eQSO Linux Server v1.0";
 const LEGACY_AUDIO_PACE_MS = 120;
+const LEGACY_KEEPALIVE_MS = 2_500;
+const DEFAULT_KEEPALIVE_MS = 8_000;
 
 // One FFmpeg GSM decoder per TCP client (keyed by client UUID)
 const tcpDecoders = new Map<string, FfmpegGsmDecoder>();
@@ -671,9 +673,19 @@ export function startTcpServer(port: number): net.Server {
     // lo que los Windows relays necesitan es datos SERVIDOR→cliente.
     // [0x0c] = keepalive estándar eQSO; lo enviamos cada 8s sin esperar
     // respuesta (el eco del cliente se silencia en el case KEEPALIVE arriba).
+    // El servidor original envía 0x0c a v1.13 aproximadamente cada 2,54s.
+    // Para legacy pasa por su cola de salida, evitando insertar el keepalive
+    // entre el opcode 0x01 y los 198 bytes de un bloque GSM.
+    let lastKeepaliveAt = Date.now();
     const keepaliveInterval = setInterval(() => {
-      if (!state.disconnected) safeWrite(state, KEEPALIVE_PACKET);
-    }, 8_000);
+      if (state.disconnected) return;
+      const period = state.legacyV113 ? LEGACY_KEEPALIVE_MS : DEFAULT_KEEPALIVE_MS;
+      const now = Date.now();
+      if (now - lastKeepaliveAt >= period) {
+        lastKeepaliveAt = now;
+        clientInfo.send(KEEPALIVE_PACKET);
+      }
+    }, 250);
 
     socket.on("data", (data: Buffer) => {
       const ci = roomManager.getClient(id);
