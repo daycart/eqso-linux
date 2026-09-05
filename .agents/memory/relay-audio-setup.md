@@ -54,4 +54,8 @@ Este path lo crea automáticamente Ubuntu sin necesitar reglas udev personalizad
 ```
 
 Señal cruda de radio CB vía SB Play! 3: RMS ~11000-17000 a 8kHz.
-Con inputGain=0.5 la señal procesada está bien por encima del umbral sin saturar.
+Para radio → eQSO, `inputGain=0.12` deja la voz alrededor de −18 dB RMS y evita la saturación observada con 0.5. La limpieza preferida sobre captura real es 250–3000 Hz + reducción moderada de ruido; la variante fuerte degradaba más la voz.
+
+**Why:** Con `inputGain=0.5`, los paquetes GSM llegaban a 0 dBFS y sonaban como ruido recortado en v1.13. Tras bajar a 0.12 la voz se volvió inteligible; el filtro suave fue preferido frente a una reducción más agresiva.
+
+**How to apply:** Mantener el filtrado antes de codificar a GSM, sólo en el sentido radio → eQSO. No aplicar esa ganancia ni ese filtro al audio eQSO → radio.
