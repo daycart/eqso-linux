@@ -93,3 +93,25 @@ mtime_ms = 1788632550044
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/5793815a-a7d1-4a47-8b10-783893e64ce2/2604b5e5-e0d4-4c31-b8f2-e364a72115a1"
 storage_version_token = "1788632558352145"
 content_type = "audio/wav"
+
+[[outputs]]
+id = "WCyrS6q1YcXL88qa1KxNd"
+uri = "file://output/v113-original-replay/original-server.wav"
+type = "audio"
+title = "Audio GSM del servidor original"
+description = "13,3 segundos extraídos directamente de la captura del servidor eQSO original; se usará como muestra de referencia para reproducirla hacia v1.13."
+logical_id = "a7b1eba9-6f93-4e13-9f24-7d5c6620330f"
+
+[[outputs]]
+id = "T03BWs3ka23QWTwmO1SmR"
+uri = "file://output/v113-original-replay/original-server.gsm"
+type = "unspecified"
+title = "Muestra GSM original"
+description = "111 paquetes GSM exactos procedentes del servidor original, preparados para la prueba de reproducción hacia v1.13."
+logical_id = "ec2ebc0b-2729-4f2a-a1f2-89f430c5ca32"
+content_hash = "sha256:1b8ad2fd7e798bf9fefe3751cd644dcd90742b00db6887d73b55f129af3f8c12"
+size = 21978
+mtime_ms = 1788633551982
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/ec2ebc0b-2729-4f2a-a1f2-89f430c5ca32/74f8ae2d-f9e9-4a51-acd1-59b59e1fec4e"
+storage_version_token = "1788633571322465"
+content_type = "application/octet-stream"
