@@ -533,31 +533,43 @@ export function startTcpServer(port: number): net.Server {
       return;
     }
 
-    const legacyAudioQueue: Buffer[] = [];
-    let legacyAudioTimer: ReturnType<typeof setTimeout> | null = null;
+    const legacyOutboundQueue: Array<{ data: Buffer; voice: boolean }> = [];
+    let legacyOutboundTimer: ReturnType<typeof setTimeout> | null = null;
 
-    const sendNextLegacyVoice = () => {
-      const packet = legacyAudioQueue.shift();
-      if (!packet || state.disconnected) {
-        legacyAudioTimer = null;
+    const processLegacyOutboundQueue = () => {
+      if (state.disconnected) {
+        legacyOutboundTimer = null;
+        legacyOutboundQueue.length = 0;
         return;
       }
 
-      safeWriteLegacyVoice(state, packet);
-      legacyAudioTimer = setTimeout(sendNextLegacyVoice, LEGACY_AUDIO_PACE_MS);
+      while (legacyOutboundQueue.length > 0) {
+        const item = legacyOutboundQueue.shift()!;
+        if (item.voice) {
+          safeWriteLegacyVoice(state, item.data);
+          legacyOutboundTimer = setTimeout(() => {
+            legacyOutboundTimer = null;
+            processLegacyOutboundQueue();
+          }, LEGACY_AUDIO_PACE_MS);
+          return;
+        }
+        safeWrite(state, item.data);
+      }
+
+      legacyOutboundTimer = null;
     };
 
-    const queueLegacyVoice = (packet: Buffer) => {
-      legacyAudioQueue.push(Buffer.from(packet));
-      if (!legacyAudioTimer) sendNextLegacyVoice();
+    const queueLegacyOutbound = (data: Buffer, voice: boolean) => {
+      legacyOutboundQueue.push({ data: Buffer.from(data), voice });
+      if (!legacyOutboundTimer) processLegacyOutboundQueue();
     };
 
     state.stopLegacyAudioQueue = () => {
-      if (legacyAudioTimer) {
-        clearTimeout(legacyAudioTimer);
-        legacyAudioTimer = null;
+      if (legacyOutboundTimer) {
+        clearTimeout(legacyOutboundTimer);
+        legacyOutboundTimer = null;
       }
-      legacyAudioQueue.length = 0;
+      legacyOutboundQueue.length = 0;
     };
 
     const clientInfo: ClientInfo = {
@@ -572,12 +584,11 @@ export function startTcpServer(port: number): net.Server {
       pingMs: 0,
       send: (data: Buffer) => {
         clientInfo.txBytes += data.length;
-        if (
-          state.legacyV113 &&
-          data.length === AUDIO_PAYLOAD_SIZE + 1 &&
-          data[0] === EQSO_COMMANDS.VOICE
-        ) {
-          queueLegacyVoice(data);
+        if (state.legacyV113) {
+          const voice =
+            data.length === AUDIO_PAYLOAD_SIZE + 1 &&
+            data[0] === EQSO_COMMANDS.VOICE;
+          queueLegacyOutbound(data, voice);
         } else {
           safeWrite(state, data);
         }
