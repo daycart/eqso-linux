@@ -157,3 +157,17 @@ mtime_ms = 1788635162436
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/27a1c4e0-475e-4e57-b59d-ee6c48559ee8/c3c1ae4c-d221-4634-96cf-c604cfe707b8"
 storage_version_token = "1788635172017568"
 content_type = "audio/wav"
+
+[[outputs]]
+id = "VxZhLolSBKcN6HmCWIUjn"
+uri = "file://output/v113-mic-reference/v113-microfono.wav"
+type = "audio"
+title = "Audio de micrófono extraído de v1.13"
+description = "Voz reconstruida directamente de los 141 paquetes GSM enviados por eQSO v1.13 al servidor original (16,92 segundos)."
+logical_id = "abd4d2c6-1286-42ef-a7ab-0a3567abdbd8"
+content_hash = "sha256:852987bc075a420ad24919772cc56fe424733c1a5f08a313689b0aeef2d2fae3"
+size = 270798
+mtime_ms = 1788645943548
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/abd4d2c6-1286-42ef-a7ab-0a3567abdbd8/ba186eae-a1bb-449a-9a7e-0c9f2513899f"
+storage_version_token = "1788645949445556"
+content_type = "audio/wav"
