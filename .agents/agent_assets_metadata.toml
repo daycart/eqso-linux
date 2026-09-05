@@ -171,3 +171,31 @@ mtime_ms = 1788645943548
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/abd4d2c6-1286-42ef-a7ab-0a3567abdbd8/ba186eae-a1bb-449a-9a7e-0c9f2513899f"
 storage_version_token = "1788645949445556"
 content_type = "audio/wav"
+
+[[outputs]]
+id = "YneBobLQFS5nm6Bt982sY"
+uri = "file://output/v113-mic-reference/ffmpeg-relay-decodificado.wav"
+type = "audio"
+title = "B — Recodificado por el relay"
+description = "La misma voz, pasada por el filtro actual y el encoder libgsm de FFmpeg."
+logical_id = "8d20e648-d2ff-4587-9a89-e3a4b4dddb1d"
+content_hash = "sha256:1934c0577e87b1095cc2496e926529eb628e11d46c19a4998709277429711801"
+size = 270798
+mtime_ms = 1788646303667
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/8d20e648-d2ff-4587-9a89-e3a4b4dddb1d/eb7d744a-9f91-489e-b769-2e0f1c71bd1d"
+storage_version_token = "1788646313309683"
+content_type = "audio/wav"
+
+[[outputs]]
+id = "ZuXeJhD0q0ovN_UIXDR5y"
+uri = "file://output/v113-mic-reference/ffmpeg-sin-filtro-decodificado.wav"
+type = "audio"
+title = "C — FFmpeg sin filtro"
+description = "Control: la misma voz recodificada con libgsm sin el filtro de radio."
+logical_id = "baf05b3d-f044-4519-86d9-e92d011da20f"
+content_hash = "sha256:d241e1aff77220313e83eb50553e24152959f85ed3aefc4fb407a88961947797"
+size = 270798
+mtime_ms = 1788646304023
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/baf05b3d-f044-4519-86d9-e92d011da20f/eb2a1226-9a54-4e40-85a5-6a70d831bfb7"
+storage_version_token = "1788646314034732"
+content_type = "audio/wav"
