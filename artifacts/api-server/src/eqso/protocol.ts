@@ -122,7 +122,6 @@ export function buildUserLeft(name: string): Buffer {
     Buffer.from([0x16, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00]),
     Buffer.from([nb.length]),
     nb,
-    Buffer.from([0x00]),
   ]);
 }
 
@@ -132,7 +131,6 @@ export function buildPttStarted(name: string): Buffer {
     Buffer.from([0x16, 0x01, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00]),
     Buffer.from([nb.length]),
     nb,
-    Buffer.from([0x00]),
   ]);
 }
 
@@ -142,7 +140,6 @@ export function buildPttReleased(name: string): Buffer {
     Buffer.from([0x16, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00]),
     Buffer.from([nb.length]),
     nb,
-    Buffer.from([0x00]),
   ]);
 }
 
