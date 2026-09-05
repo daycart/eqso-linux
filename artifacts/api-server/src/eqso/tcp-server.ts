@@ -81,6 +81,23 @@ function safeWrite(state: TcpClientState, data: Buffer): void {
   }
 }
 
+function safeWriteLegacyVoice(state: TcpClientState, data: Buffer): void {
+  try {
+    if (state.socket.destroyed) return;
+
+    // The original eQSO server writes the one-byte VOICE opcode first and the
+    // 198-byte GSM payload in a second operation. v1.13's receive path depends
+    // on that pattern even though TCP is formally a byte stream.
+    state.socket.write(data.subarray(0, 1), () => {
+      if (!state.socket.destroyed) {
+        state.socket.write(data.subarray(1));
+      }
+    });
+  } catch (err) {
+    logger.warn({ err, id: state.id }, "TCP legacy voice write error");
+  }
+}
+
 function buildLegacyPttOwnerPayload(name: string): Buffer {
   const nameBuf = Buffer.from(name, "ascii");
   return Buffer.concat([
@@ -523,7 +540,18 @@ export function startTcpServer(port: number): net.Server {
       txBytes: 0,
       rxBytes: 0,
       pingMs: 0,
-      send: (data: Buffer) => { clientInfo.txBytes += data.length; safeWrite(state, data); },
+      send: (data: Buffer) => {
+        clientInfo.txBytes += data.length;
+        if (
+          state.legacyV113 &&
+          data.length === AUDIO_PAYLOAD_SIZE + 1 &&
+          data[0] === EQSO_COMMANDS.VOICE
+        ) {
+          safeWriteLegacyVoice(state, data);
+        } else {
+          safeWrite(state, data);
+        }
+      },
       close: () => socket.destroy(),
     };
 
