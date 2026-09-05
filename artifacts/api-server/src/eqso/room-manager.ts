@@ -32,6 +32,7 @@ export interface ClientInfo {
   rxBytes: number;
   pingMs: number;
   isRelay?: boolean;
+  legacyV113?: boolean;
   send: (data: Buffer) => void;
   close: () => void;
 }
@@ -144,13 +145,18 @@ export class RoomManager extends EventEmitter {
     if (this.roomLocks.get(room) === clientId) this.roomLocks.delete(room);
   }
 
-  broadcastToRoom(room: string, data: Buffer, excludeId?: string): void {
+  broadcastToRoom(
+    room: string,
+    data: Buffer,
+    excludeId?: string,
+    includeClient?: (client: ClientInfo) => boolean
+  ): void {
     const members = this.rooms.get(room);
     if (members) {
       for (const id of members) {
         if (id === excludeId) continue;
         const c = this.clients.get(id);
-        if (c) {
+        if (c && (!includeClient || includeClient(c))) {
           try {
             c.send(data); // txBytes is tracked inside each client's send() callback
           } catch { /* ignore */ }

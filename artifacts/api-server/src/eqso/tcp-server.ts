@@ -81,10 +81,10 @@ function safeWrite(state: TcpClientState, data: Buffer): void {
   }
 }
 
-function buildLegacyPttOwner(name: string): Buffer {
+function buildLegacyPttOwnerPayload(name: string): Buffer {
   const nameBuf = Buffer.from(name, "ascii");
   return Buffer.concat([
-    Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, nameBuf.length]),
+    Buffer.from([nameBuf.length]),
     nameBuf,
   ]);
 }
@@ -143,7 +143,15 @@ function processSingleByte(state: TcpClientState, byte: number): void {
       // como "payload" retrasaba el broadcast a 750ms y enviaba 4 bytes [0x00]
       // extra que podían corromper el parser de los relays Windows.
       if (client?.room) {
-        roomManager.broadcastToRoom(client.room, Buffer.from([0x02]), state.id);
+        roomManager.broadcastToRoom(
+          client.room,
+          Buffer.from([0x02]),
+          state.id,
+          // Relay daemons emit 0x02 every 150ms. Passing that flood to v1.13
+          // keeps it in receive/busy state after releasing PTT. Modern relays
+          // still receive it; v1.13 uses the server's proactive 0x0c keepalive.
+          (target) => !target.legacyV113
+        );
       }
       break;
 
@@ -166,8 +174,13 @@ function processSingleByte(state: TcpClientState, byte: number): void {
           // v1.13 needs the original server's clear-owner marker and its own
           // PTT-released update. Do not send these to 0x82 relay/gateway clients:
           // some Windows gateways interpret [0x06, 0x00] as removal from room.
-          safeWrite(state, Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]));
-          safeWrite(state, rel);
+          safeWrite(
+            state,
+            Buffer.concat([
+              Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]),
+              rel,
+            ])
+          );
         }
         state.legacyVoiceBlocksInTx = 0;
         roomManager.unlockRoom(client.room, state.id);
@@ -219,6 +232,8 @@ function processMultiByte(state: TcpClientState, byte: number): void {
         // versions use different second bytes (0x82 for proxy, 0x78 for Windows client v1.13)
         if (state.buf[0] === EQSO_COMMANDS.HANDSHAKE) {
           state.legacyV113 = state.buf[1] === 0x78;
+          const client = roomManager.getClient(state.id);
+          if (client) client.legacyV113 = state.legacyV113;
           safeWrite(state, HANDSHAKE_SERVER);
           state.handshakeDone = true;
           logger.info(
@@ -308,11 +323,19 @@ function processMultiByte(state: TcpClientState, byte: number): void {
             state.legacyVoiceBlocksInTx < 2
           ) {
             state.legacyVoiceBlocksInTx += 1;
-            if (state.legacyVoiceBlocksInTx === 2) {
-              // Wire-compatible timing observed against the original eQSO
-              // server: acknowledge only after receiving GSM block 2.
-              safeWrite(state, buildLegacyPttOwner(client.name));
-              safeWrite(state, buildPttStarted(client.name));
+            if (state.legacyVoiceBlocksInTx === 1) {
+              // The original server sends only the 0x06 opcode after block 1.
+              safeWrite(state, Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2]));
+            } else {
+              // After block 2 it completes the owner packet and appends the
+              // self PTT update in the same write.
+              safeWrite(
+                state,
+                Buffer.concat([
+                  buildLegacyPttOwnerPayload(client.name),
+                  buildPttStarted(client.name),
+                ])
+              );
             }
           }
         }
