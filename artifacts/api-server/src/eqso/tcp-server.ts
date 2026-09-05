@@ -489,6 +489,10 @@ function handleDisconnect(state: TcpClientState): void {
 export function startTcpServer(port: number): net.Server {
   const server = net.createServer((socket) => {
     const id = randomUUID();
+    // Legacy eQSO clients are sensitive to multiple 199-byte voice messages
+    // being coalesced into one TCP read. Send each write immediately instead
+    // of letting Nagle combine adjacent GSM packets or control messages.
+    socket.setNoDelay(true);
     logger.info({ id, addr: socket.remoteAddress }, "New TCP eQSO connection");
 
     const state: TcpClientState = {
