@@ -1,0 +1,132 @@
+:/opt/eqso-asorapa$ cd /opt/eqso-asorapa
+
+git status --short
+
+echo "LOCAL:"
+git rev-parse --short HEAD
+
+echo "GITHUB:"
+git rev-parse --short origin/main
+
+echo "COMMITS SOLO EN LA VM:"
+git log --oneline origin/main..HEAD
+
+echo "COMMITS SOLO EN GITHUB:"
+git log --oneline HEAD..origin/main
+
+echo "ARCHIVOS DIFERENTES:"
+git diff --stat origin/main...HEAD
+?? .env
+?? artifacts/relay-daemon/install/alsa-setup.sh.bak
+?? artifacts/relay-daemon/src/alsa-audio.ts.bak
+?? artifacts/relay-daemon/src/main.ts.pre-fix
+?? audio/
+?? node
+?? wake-audio.sh
+LOCAL:
+89c571a
+GITHUB:
+2d4312f
+COMMITS SOLO EN LA VM:
+89c571a (HEAD -> main) fix(relay): POST_TX_VOX_SUPPRESS_MS usa cfg.audio.postTxSuppressMs
+3c87d0f feat(relay): postTxSuppressMs configurable, voxHangMs default 800ms
+ee37cc0 fix(relay): inyectar PATH de ffmpeg-static solo en backend ffmpeg
+29002b0 fix(relay): gsm-codec usa "ffmpeg" del sistema, no ffmpeg-static
+208bfb1 fix(relay): log ffmpeg bin resuelto al arrancar
+9c32aaa fix(relay): gsm-codec usa ffmpeg-static bundled en lugar de PATH
+f54376a fix(relay): encoder GSM necesita -c:a libgsm explicito
+0c1e96b fix(relay): eliminar -avioflags direct del encoder GSM + auto-restart
+91ae81d fix: admin+relay users land on main UI, pure relay goes direct to panel
+58a77b2 fix: show both admin and relay panels for admin+relay users
+6026cdd fix: propagate isAdmin to client session; fix relay+admin panel access
+8d381ed fix: propagate isAdmin to client session; fix relay+admin panel access
+49be8c5 feat: add isAdmin flag for combined admin+relay_operator role
+5f3569e feat: add isAdmin flag for combined admin+relay_operator role
+5e684f4 feat: add isAdmin flag for combined admin+relay_operator role
+748b9e2 feat: add isAdmin flag for combined admin+relay_operator role
+ed5c494 feat: add isAdmin flag for combined admin+relay_operator role
+67362b9 feat: add isAdmin flag for combined admin+relay_operator role
+2fb2ed9 fix: inject relay token for relay_operator web clients joining via EqsoProxy
+8a352b1 fix: use noServer:true + upgrade router to avoid dual-WSS interference
+7ca73de fix: use noServer:true + upgrade router to avoid dual-WSS interference
+ea6346a fix: use noServer:true + upgrade router to avoid dual-WSS interference
+COMMITS SOLO EN GITHUB:
+2d4312f (origin/main, origin/HEAD) Fix legacy eQSO PTT packet framing
+5366d72 fix(windows): run relay task at user logon
+2398db7 Add image asset for documentation
+ad7b525 fix(windows): install relay dependencies with npm
+ce3641c Add new attached images
+c2840ad Add new image asset
+a7f9e93 fix(install): stop on unfinished git merge
+b3f170f Add new image asset
+97a5f94 fix(install): make preinstall work on Windows
+e73a569 Add image asset
+fbc588e fix(windows): use pnpm cmd wrapper
+f2c6f1b Add image asset to attached assets directory
+403b124 fix(windows): verify relay build output
+ba90704 Add image asset to documentation
+fb13f5e Add image asset
+51fc8e8 Add image asset
+55f2ace fix(windows): register relay task on older PowerShell
+b56d897 fix(windows): NativeCommandError al ejecutar pnpm con ErrorActionPreference Stop
+9e22c90 Add WhatsApp image asset
+a72d74a Update relay daemon installation scripts and add asset
+3e76b06 docs: gu<C3><AD>a completa relay daemon v1.3 con paneles admin y operador
+d5ab012 Add screenshots of user, server, and relay admin panels
+38fd436 Clarify admin and relay panel access rules
+5108298 Update relay panel logic to allow toggling between admin and relay interfaces
+f3b0fca Clarify user roles and admin panel permissions
+a93e65e Update documentation title for relay installation guide
+068d58d Update installation guide with latest configuration and parameters
+dc6a4bb Update installation guide with new audio parameters and configuration details
+39fcd06 Update documentation with audio relay improvements and fixes
+8c37ef7 fix(relay): audio CB entra en sala eQSO + retardo TX reducido
+047f20f Adjust VOX timing to reduce transmission delays
+6f897ce Update audio codec to use system ffmpeg for Linux
+c5c0a01 Update audio encoder to use system ffmpeg reliably
+f5cbdf4 Make audio encoder use bundled ffmpeg binary directly
+d561856 Add explicit GSM codec to audio encoder
+ba299a2 Fix crash in audio encoder by removing incompatible flag
+cd59514 Add automatic restart and improved logging for the audio encoder
+cbcf864 Add image file for visual reference
+9ba97b6 Add detailed logs to diagnose audio transmission issues
+c71966f Update installation guide with new admin panel and VM build order information
+5d6719a fix: isAdmin dual-role - admin+relay users land on main UI
+583306a Adjust login behavior to show main interface for administrators
+708f286 Make relay operators and admins with relay access go directly to the relay panel
+...skipping...
+2d4312f (origin/main, origin/HEAD) Fix legacy eQSO PTT packet framing
+5366d72 fix(windows): run relay task at user logon
+2398db7 Add image asset for documentation
+ad7b525 fix(windows): install relay dependencies with npm
+ce3641c Add new attached images
+c2840ad Add new image asset
+a7f9e93 fix(install): stop on unfinished git merge
+b3f170f Add new image asset
+97a5f94 fix(install): make preinstall work on Windows
+e73a569 Add image asset
+fbc588e fix(windows): use pnpm cmd wrapper
+f2c6f1b Add image asset to attached assets directory
+403b124 fix(windows): verify relay build output
+ba90704 Add image asset to documentation
+fb13f5e Add image asset
+51fc8e8 Add image asset
+55f2ace fix(windows): register relay task on older PowerShell
+b56d897 fix(windows): NativeCommandError al ejecutar pnpm con ErrorActionPreference Stop
+9e22c90 Add WhatsApp image asset
+a72d74a Update relay daemon installation scripts and add asset
+3e76b06 docs: gu<C3><AD>a completa relay daemon v1.3 con paneles admin y operador
+d5ab012 Add screenshots of user, server, and relay admin panels
+38fd436 Clarify admin and relay panel access rules
+5108298 Update relay panel logic to allow toggling between admin and relay interfaces
+f3b0fca Clarify user roles and admin panel permissions
+a93e65e Update documentation title for relay installation guide
+068d58d Update installation guide with latest configuration and parameters
+dc6a4bb Update installation guide with new audio parameters and configuration details
+39fcd06 Update documentation with audio relay improvements and fixes
+8c37ef7 fix(relay): audio CB entra en sala eQSO + retardo TX reducido
+047f20f Adjust VOX timing to reduce transmission delays
+6f897ce Update audio codec to use system ffmpeg for Linux
+c5c0a01 Update audio encoder to use system ffmpeg reliably
+f5cbdf4 Make audio encoder use bundled ffmpeg binary directly
+d561856 Add 
