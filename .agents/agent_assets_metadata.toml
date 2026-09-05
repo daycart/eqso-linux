@@ -6,6 +6,7 @@ id = "9KxvJqFPrCB2FButGG4l2"
 uri = "file://guia_relay_raspi.pdf"
 type = "pdf"
 title = "Guia Instalacion Relay — Windows / Linux / Raspberry Pi"
+logical_id = "a2470f15-3c28-451f-98e7-2078f8b446f3"
 
 [[outputs]]
 id = "SHNvpZmZHIaZlgPY6nq9Q"
@@ -13,6 +14,7 @@ uri = "file://guia_relay_instalacion.docx"
 type = "word_document"
 title = "Manual eQSO Relay Daemon v1.8"
 description = "Corrige la parada en Windows: el nuevo stop-CB.ps1 detiene la tarea y el proceso Node/FFmpeg de la sala."
+logical_id = "e0731ad8-1ad3-49c3-bc84-a61ae2934bec"
 
 [[outputs]]
 id = "5i3nfQCe-qQFJpAokgK-e"
@@ -20,3 +22,32 @@ uri = "file://artifacts/relay-daemon/install/install-relay-windows.zip"
 type = "unspecified"
 title = "Instalador eQSO Relay para Windows"
 description = "Descarga este ZIP, extraelo y abre install-relay-windows.cmd con doble clic. El archivo conserva la extension CMD correcta."
+logical_id = "9ca7465f-b484-4ac4-b698-d49d788a3684"
+
+[[outputs]]
+id = "OxwXKHXSO3A5r1eoE6ziz"
+uri = "file://output/radio-filtro-suave.wav"
+type = "audio"
+title = "Filtro suave"
+description = "Pasa-banda de voz 250–3000 Hz y reducción moderada de ruido. Conserva más naturalidad."
+logical_id = "e5050aca-de67-4dbd-b69e-593286a2a06c"
+content_hash = "sha256:38737478a223e13dd6c08f3a29480025bdfdf0f7084711789408373d82e628cb"
+size = 124878
+mtime_ms = 1788625955242
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/e5050aca-de67-4dbd-b69e-593286a2a06c/1c5bbf80-6a05-4a44-acb6-2c6685a5ae57"
+storage_version_token = "1788625963564226"
+content_type = "audio/wav"
+
+[[outputs]]
+id = "UCVJVilJaAIaGVs7dObRD"
+uri = "file://output/radio-filtro-fuerte.wav"
+type = "audio"
+title = "Filtro fuerte"
+description = "Pasa-banda 300–2700 Hz y reducción intensa de ruido. Puede sonar más procesado."
+logical_id = "1e4bf666-f14a-438d-8d82-00173273e5bd"
+content_hash = "sha256:2d580133dcc842d51084ebbdfc92c865bf620802957dfbbaf9e99acb0c74c015"
+size = 124878
+mtime_ms = 1788625955394
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/1e4bf666-f14a-438d-8d82-00173273e5bd/7beb8364-12ea-4a80-926e-a029f190b841"
+storage_version_token = "1788625964269865"
+content_type = "audio/wav"
