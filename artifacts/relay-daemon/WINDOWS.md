@@ -18,6 +18,12 @@ El instalador de Windows instala o localiza Node.js, FFmpeg/FFplay y Python.
 También genera la configuración, los scripts de arranque/parada y la tarea
 programada del relay.
 
+El daemon aplica un bloqueo de instancia asociado a `CB.json`. Si Windows o el
+Programador de tareas intentan abrir una segunda copia del mismo relay, esa
+copia termina antes de conectar al servidor o abrir los dispositivos. Si un
+cierre forzado deja un bloqueo huérfano, se recupera automáticamente cuando el
+PID anterior ya no existe.
+
 La contraseña o token de la sala no debe escribirse en esta documentación,
 registros compartidos ni capturas públicas.
 
