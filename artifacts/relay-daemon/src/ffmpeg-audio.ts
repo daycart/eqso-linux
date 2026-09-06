@@ -405,7 +405,9 @@ export class FfmpegAudio extends EventEmitter {
     const args = useFfplay
       ? [
           "-hide_banner", "-loglevel", "error", "-nodisp", "-autoexit",
-          "-f", "s16le", "-ar", String(PLAYBACK_SAMPLE_RATE), "-ac", "1",
+          "-f", "s16le",
+          "-sample_rate", String(PLAYBACK_SAMPLE_RATE),
+          "-ch_layout", "mono",
           "-i", "pipe:0",
         ]
       : [
@@ -422,6 +424,13 @@ export class FfmpegAudio extends EventEmitter {
     log(`Playback: ${playerBin} ${args.join(" ")} device=${this.cfg.playbackDevice}`);
     this.player = spawn(playerBin, args, { stdio: ["pipe", "ignore", "pipe"], env });
     const p = this.player;
+
+    // Si FFplay termina antes de consumir todo el PCM, stdin emite EPIPE de
+    // forma asincrona. Sin listener, Node trata ese evento como no manejado
+    // y finaliza el daemon completo.
+    p.stdin.on("error", (err: NodeJS.ErrnoException) => {
+      if (err.code !== "EPIPE") log(`[ffmpeg-play] Error stdin: ${err.message}`);
+    });
 
     p.stderr.on("data", (d: Buffer) => {
       const msg = d.toString().trim();

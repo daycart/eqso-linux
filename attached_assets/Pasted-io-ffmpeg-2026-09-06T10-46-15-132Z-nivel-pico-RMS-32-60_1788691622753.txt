@@ -1,0 +1,47 @@
+io-ffmpeg] 2026-09-06T10:46:15.132Z [nivel] pico RMS=32 (-60.3 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T10:46:20.144Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T10:46:21.241Z Sala: PRUEBAS_CB se ha unido
+[main] 2026-09-06T10:46:24.396Z TX: PRUEBAS_CB transmitiendo
+[main] 2026-09-06T10:46:24.397Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-09-06T10:46:26.897Z (2500ms)
+[audio-ffmpeg] 2026-09-06T10:46:24.398Z [audio] Semi-duplex: suspendiendo captura ffmpeg para RX (preventivo)
+[audio-ffmpeg] 2026-09-06T10:46:24.400Z [playGsm] pkt#1 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T10:46:24.401Z [audio] pkt#1 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T10:46:24.501Z [playGsm] pkt#2 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T10:46:24.503Z [audio] pkt#2 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T10:46:24.551Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T10:46:24.628Z [playGsm] pkt#3 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T10:46:24.628Z [audio] pkt#3 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T10:46:24.643Z [playPcm] chunk#1 â†’ jitterBuf=960 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:46:24.643Z [playPcm] chunk#2 â†’ jitterBuf=1920 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:46:24.643Z [playPcm] chunk#3 â†’ jitterBuf=2880 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:46:24.754Z [playPcm] chunk#4 â†’ jitterBuf=3840 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:46:24.875Z [playPcm] chunk#5 â†’ jitterBuf=4800 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:46:24.876Z Playback: C:\Users\david\AppData\Local\Microsoft\WinGet\Links\ffplay.exe -hide_banner -loglevel error -nodisp -autoexit -f s16le -ar 48000 -ac 1 -i pipe:0 device=Altavoces (Sound Blaster Play! 3)
+[audio-ffmpeg] 2026-09-06T10:46:25.935Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T10:46:25.936Z Sala: 0R-IN70WN ha salido
+[audio-ffmpeg] 2026-09-06T10:46:26.135Z [ffmpeg-play] Failed to set value '1' for option 'ac': Option not found
+node:events:487
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: write EPIPE
+    at afterWriteDispatched (node:internal/stream_base_commons:159:15)
+    at writevGeneric (node:internal/stream_base_commons:142:3)
+    at Socket._writeGeneric (node:net:1169:11)
+    at Socket._writev (node:net:1178:8)
+    at doWrite (node:internal/streams/writable:594:12)
+    at clearBuffer (node:internal/streams/writable:773:5)
+    at onwrite (node:internal/streams/writable:651:7)
+    at WritableState.onwrite [as callback] (node:internal/streams/writable:350:26)
+    at WriteWrap.onWriteComplete [as oncomplete] (node:internal/stream_base_commons:105:10)
+Emitted 'error' event on Socket instance at:
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  errno: -4047,
+  code: 'EPIPE',
+  syscall: 'write'
+}
+
+Node.js v24.19.0
+[06/09/2026 12:46:26,18] Relay finalizado con codigo 1
