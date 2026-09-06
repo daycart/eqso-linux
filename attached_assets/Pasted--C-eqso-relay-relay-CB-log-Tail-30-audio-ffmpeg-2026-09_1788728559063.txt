@@ -1,0 +1,31 @@
+"C:\eqso-relay\relay-CB.log" -Tail 30
+}
+[audio-ffmpeg] 2026-09-06T21:02:02.245Z Backend FFmpeg: bin=C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe ffplay=C:\Users\david\AppData\Local\Microsoft\WinGet\Links\ffplay.exe captureFormat=dshow playbackFormat=ffplay
+[main] 2026-09-06T21:02:02.258Z ============================================================
+[main] 2026-09-06T21:02:02.258Z eQSO Relay Daemon arrancado
+[main] 2026-09-06T21:02:02.258Z   Callsign : 0R-WINPC
+[main] 2026-09-06T21:02:02.258Z   Sala     : CB
+[main] 2026-09-06T21:02:02.258Z   Servidor : asorapa.sytes.net:2172
+[main] 2026-09-06T21:02:02.258Z   VOX      : ON (umbral=800 hang=1800ms)
+[main] 2026-09-06T21:02:02.258Z   Backend  : ffmpeg
+[main] 2026-09-06T21:02:02.258Z   Captura  : MicrÃ³fono (Sound Blaster Play! 3) (dshow)
+[main] 2026-09-06T21:02:02.258Z   Playback : Altavoces (Sound Blaster Play! 3) (ffplay)
+[main] 2026-09-06T21:02:02.258Z   PTT Ser. : COM5 (rts)
+[main] 2026-09-06T21:02:02.259Z ============================================================
+[ptt] 2026-09-06T21:02:02.259Z Iniciando PTT serial: COM5 (rts)
+[audio-ffmpeg] 2026-09-06T21:02:02.307Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T21:02:02.324Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[control] 2026-09-06T21:02:02.370Z Control HTTP escuchando en http://127.0.0.1:8009
+[eqso] 2026-09-06T21:02:02.468Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T21:02:02.534Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T21:02:02.535Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T21:02:02.536Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T21:02:02.541Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T21:02:02.541Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T21:02:02.595Z Sala: PRUEBAS_CB se ha unido
+[main] 2026-09-06T21:02:02.595Z Sala: 0R-PORTATIL se ha unido
+[main] 2026-09-06T21:02:02.595Z Sala: 0R-WINPC se ha unido
+[ptt] 2026-09-06T21:02:02.738Z PTT serial listo (COM5, rts)
+[audio-ffmpeg] 2026-09-06T21:02:07.328Z [nivel] pico RMS=24 (-62.7 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T21:02:12.333Z [nivel] pico RMS=25 (-62.5 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T21:02:17.343Z [nivel] pico RMS=25 (-62.5 dBFS)  VOXumbral=800  gain=0.3
