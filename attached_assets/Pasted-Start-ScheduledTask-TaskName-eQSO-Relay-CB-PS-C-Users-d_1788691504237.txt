@@ -1,0 +1,43 @@
+Start-ScheduledTask -TaskName "eQSO Relay CB"
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Start-Sleep -Seconds 5
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Get-Content C:\eqso-relay\relay-CB.log -Tail 40
+  },
+  "control": {
+    "enabled": true,
+    "port": 8009,
+    "host": "127.0.0.1"
+  },
+  "ptt": {
+    "device": "COM5",
+    "method": "rts",
+    "inverted": false
+  },
+  "backend": "ffmpeg"
+}
+[audio-ffmpeg] 2026-09-06T10:44:24.942Z Backend FFmpeg: bin=C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe ffplay=C:\Users\david\AppData\Local\Microsoft\WinGet\Links\ffplay.exe captureFormat=dshow playbackFormat=ffplay
+[main] 2026-09-06T10:44:24.954Z ============================================================
+[main] 2026-09-06T10:44:24.954Z eQSO Relay Daemon arrancado
+[main] 2026-09-06T10:44:24.954Z   Callsign : 0R-WINPC
+[main] 2026-09-06T10:44:24.954Z   Sala     : CB
+[main] 2026-09-06T10:44:24.954Z   Servidor : asorapa.sytes.net:2172
+[main] 2026-09-06T10:44:24.954Z   VOX      : ON (umbral=1500 hang=800ms)
+[main] 2026-09-06T10:44:24.954Z   Backend  : ffmpeg
+[main] 2026-09-06T10:44:24.954Z   Captura  : MicrÃ³fono (Sound Blaster Play! 3) (dshow)
+[main] 2026-09-06T10:44:24.954Z   Playback : Altavoces (Sound Blaster Play! 3) (ffplay)
+[main] 2026-09-06T10:44:24.954Z   PTT Ser. : COM5 (rts)
+[main] 2026-09-06T10:44:24.955Z ============================================================
+[ptt] 2026-09-06T10:44:24.955Z Iniciando PTT serial: COM5 (rts)
+[audio-ffmpeg] 2026-09-06T10:44:24.997Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T10:44:25.015Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[control] 2026-09-06T10:44:25.040Z Control HTTP escuchando en http://127.0.0.1:8009
+[eqso] 2026-09-06T10:44:25.123Z TCP conectado a asorapa.sytes.net:2172
+[ptt] 2026-09-06T10:44:25.152Z PTT serial listo (COM5, rts)
+[eqso] 2026-09-06T10:44:25.191Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T10:44:25.191Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T10:44:25.192Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T10:44:25.199Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:44:25.199Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:44:25.240Z Sala: 0R-PORTATIL se ha unido
+[main] 2026-09-06T10:44:25.240Z Sala: 0R-IN70WN se ha unido
+[main] 2026-09-06T10:44:25.240Z Sala: 0R-WINPC se ha unido
+[audio-ffmpeg] 2026-09-06T10:44:30.020Z [nivel] pico RMS=32 (-60.3 dBFS)  VOXumbral=1500  gain=0.3
