@@ -56,6 +56,7 @@
 
     "inputGain":  0.3,
     "outputGain": 1.0,
+    "rxHangMs": 1200,
     "postRxSuppressMs": 2500,
     "postTxSuppressMs": 1000
   },

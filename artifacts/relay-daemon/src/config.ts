@@ -12,6 +12,7 @@ export interface AudioConfig {
   txGateRms: number;
   inputGain: number;
   outputGain: number;
+  rxHangMs: number;           // tiempo desde el ultimo paquete RX hasta liberar PTT
   postRxSuppressMs: number;
   postTxSuppressMs: number;  // bloqueo VOX tras fin de TX propio (anti-eco inmediato)
 }
@@ -61,6 +62,7 @@ const DEFAULTS: RelayConfig = {
     txGateRms: 50,
     inputGain: 0.5,
     outputGain: 1.0,
+    rxHangMs: 1200,
     postRxSuppressMs: 2500,
     postTxSuppressMs: 1000,
   },

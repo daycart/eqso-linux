@@ -50,12 +50,10 @@ let mutedRx = false; // silenciar reproduccion de audio RX via comando 0x1f
 // tiempo + margen para que el sonido del altavoz no active el micro.
 let rxActive = false;
 let rxInhibitTimer: ReturnType<typeof setTimeout> | null = null;
-// 1500 ms: tiempo máximo de espera entre paquetes GSM antes de bajar el PTT
-// serial y reiniciar arecord. Con paquetes cada ~120ms, 1500ms cubre cualquier
-// gap de jitter de red sin cortar el final del audio. Valor anterior (400ms)
-// era insuficiente: el timer expiraba entre paquetes → PTT baja → arecord
-// reinicia → siguiente paquete sube PTT → [0x09] enviado → [0x08] del servidor.
-const RX_HANG_MS = 4000;  // 4s para absorber jitter de hasta 800ms entre paquetes
+// Tiempo máximo desde el último paquete GSM antes de bajar el PTT serial.
+// Los paquetes normales llegan cada ~120ms; 1200ms absorbe jitter amplio sin
+// mantener la portadora bloqueada durante cuatro segundos al terminar el audio.
+const RX_HANG_MS = Math.max(400, cfg.audio.rxHangMs);
 
 // ─── Supresion post-TX (anti-eco del servidor) ────────────────────────────────
 // El relay NO recibe su propio audio de vuelta del servidor (el TCP server
