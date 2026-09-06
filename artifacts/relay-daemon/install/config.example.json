@@ -55,12 +55,14 @@
       "VOX: activacion automatica de TX por nivel de audio de la radio.",
       "voxThresholdRms: sube si dispara con ruido de fondo (prueba 2000-3000).",
       "                 baja si no activa con la voz de la radio (prueba 800-1200).",
+      "voxSustainRms: umbral inferior para mantener una transmision activa.",
       "voxHangMs: tiempo que el PTT permanece activo tras silencio (ms).",
       "txGateRms: nivel minimo para enviar paquete GSM (filtra silencio puro)."
     ],
     "vox": true,
     "voxThresholdRms": 1500,
-    "voxHangMs": 5000,
+    "voxSustainRms": 150,
+    "voxHangMs": 1800,
     "txGateRms": 50,
 
     "_comment_gain": [

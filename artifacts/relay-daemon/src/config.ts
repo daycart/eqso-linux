@@ -45,6 +45,21 @@ export interface RelayConfig {
   ptt: PttSerialConfig;
 }
 
+export const SHIPPED_VOX_PROFILES = Object.freeze({
+  windows: Object.freeze({
+    thresholdRms: 800,
+    sustainRms: 150,
+    hangMs: 1800,
+  }),
+  linux: Object.freeze({
+    thresholdRms: 1500,
+    sustainRms: 150,
+    hangMs: 1800,
+  }),
+});
+
+export const DEFAULT_VOX_CONFIG = SHIPPED_VOX_PROFILES.windows;
+
 const DEFAULTS: RelayConfig = {
   callsign: "0R-IN70WN",
   room: "CB",
@@ -58,9 +73,9 @@ const DEFAULTS: RelayConfig = {
     captureDevice: "plughw:1,0",
     playbackDevice: "plughw:1,0",
     vox: true,
-    voxThresholdRms: 800,
-    voxSustainRms: 150,
-    voxHangMs: 800,
+    voxThresholdRms: DEFAULT_VOX_CONFIG.thresholdRms,
+    voxSustainRms: DEFAULT_VOX_CONFIG.sustainRms,
+    voxHangMs: DEFAULT_VOX_CONFIG.hangMs,
     txGateRms: 50,
     inputGain: 0.5,
     outputGain: 1.0,

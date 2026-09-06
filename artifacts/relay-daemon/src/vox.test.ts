@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
+import fs from "node:fs";
 import test from "node:test";
+import { SHIPPED_VOX_PROFILES } from "./config.js";
 import { Vox } from "./vox.js";
+import { REAL_RADIO_RMS_100MS } from "./vox-real-radio.fixture.js";
 
 const pcm = (level: number): Int16Array => new Int16Array(160).fill(level);
 const sleep = (ms: number): Promise<void> =>
@@ -73,4 +76,48 @@ test("una conversación larga genera un solo inicio y un solo final", async () =
   vox.processPcm(pcm(31));
   await sleep(70);
   assert.deepEqual(events, ["start", "end"]);
+});
+
+async function validateRealRadioProfile(
+  profile: (typeof SHIPPED_VOX_PROFILES)[keyof typeof SHIPPED_VOX_PROFILES],
+): Promise<string[]> {
+  // Reproducción 10 veces más rápida: 100 ms reales equivalen a 10 ms de test,
+  // por lo que el hang predeterminado se escala por el mismo factor.
+  const timeScale = 10;
+  const vox = new Vox(
+    profile.thresholdRms,
+    profile.sustainRms,
+    profile.hangMs / timeScale,
+  );
+  const events = recordEvents(vox);
+
+  for (const rms of REAL_RADIO_RMS_100MS) {
+    vox.processPcm(pcm(rms));
+    await sleep(10);
+  }
+  await sleep(200);
+  return events;
+}
+
+for (const [name, profile] of Object.entries(SHIPPED_VOX_PROFILES)) {
+  test(`la muestra real no se fragmenta con el perfil ${name}`, async () => {
+    assert.deepEqual(await validateRealRadioProfile(profile), ["start", "end"]);
+  });
+}
+
+test("los instaladores declaran exactamente los perfiles VOX comprobados", () => {
+  const shippedFiles = [
+    ["install/install-relay.ps1", SHIPPED_VOX_PROFILES.windows],
+    ["install/config-windows.example.json", SHIPPED_VOX_PROFILES.windows],
+    ["install/install-relay.sh", SHIPPED_VOX_PROFILES.linux],
+    ["install/install-operator.sh", SHIPPED_VOX_PROFILES.linux],
+    ["install/config.example.json", SHIPPED_VOX_PROFILES.linux],
+  ] as const;
+
+  for (const [file, profile] of shippedFiles) {
+    const content = fs.readFileSync(file, "utf8");
+    assert.match(content, new RegExp(`voxThresholdRms[^\\d]+${profile.thresholdRms}`), file);
+    assert.match(content, new RegExp(`voxSustainRms[^\\d]+${profile.sustainRms}`), file);
+    assert.match(content, new RegExp(`voxHangMs[^\\d]+${profile.hangMs}`), file);
+  }
 });

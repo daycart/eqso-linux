@@ -70,6 +70,8 @@ Parámetros más importantes:
 | Parámetro | Descripción | Valor inicial | Ajuste |
 |---|---|---|---|
 | `voxThresholdRms` | Umbral de activación VOX | 1500 | Sube si dispara con ruido de fondo; baja si no activa con la voz |
+| `voxSustainRms` | Umbral para mantener una transmisión ya iniciada | 150 | Debe quedar por encima del ruido en reposo y por debajo de la voz suave |
+| `voxHangMs` | Espera antes de cerrar el canal tras silencio real | 1800 | Evita fragmentar conversaciones durante pausas breves; añade 1,8 s al cierre |
 | `inputGain` | Ganancia del micrófono | 0.3 | Sube si el audio llega bajo al servidor; baja si se satura |
 | `outputGain` | Ganancia del altavoz | 1.0 | Sube si la radio suena baja; baja si hay distorsión |
 | `captureDevice` | Dispositivo de entrada ALSA | plughw:1,0 | Usa `arecord -l` para ver los disponibles |

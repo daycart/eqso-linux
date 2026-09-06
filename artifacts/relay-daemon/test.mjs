@@ -1,8 +1,11 @@
 import { build } from "esbuild";
-import { rmSync } from "fs";
+import { mkdtempSync, rmSync } from "fs";
 import { spawnSync } from "child_process";
+import os from "os";
+import path from "path";
 
-const outdir = ".test-dist";
+const outdir = mkdtempSync(path.join(os.tmpdir(), "eqso-relay-test-"));
+const testBundle = path.join(outdir, "vox.test.mjs");
 
 try {
   await build({
@@ -11,13 +14,13 @@ try {
     platform: "node",
     target: "node20",
     format: "esm",
-    outfile: `${outdir}/vox.test.mjs`,
+    outfile: testBundle,
     sourcemap: "inline",
   });
 
   const result = spawnSync(
     process.execPath,
-    ["--test", `${outdir}/vox.test.mjs`],
+    ["--test", testBundle],
     { stdio: "inherit" },
   );
   process.exitCode = result.status ?? 1;
