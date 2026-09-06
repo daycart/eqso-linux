@@ -220,6 +220,22 @@ function Read-DeviceChoice {
     }
 }
 
+function Confirm-ManualAudioOverride {
+    param(
+        [string]$DeviceType,
+        [string]$DeviceName,
+        [string]$ManualCommand
+    )
+
+    Write-Warn "La prueba automatica de $DeviceType no ha sido concluyente."
+    Write-Host "  Dispositivo: $DeviceName" -ForegroundColor Yellow
+    Write-Host "  Si ya comprobaste manualmente que funciona, puedes continuar." -ForegroundColor Yellow
+    Write-Host "  Comando manual:" -ForegroundColor Cyan
+    Write-Host "    $ManualCommand" -ForegroundColor White
+    $answer = (Read-Host "  Continuar usando este dispositivo? [s/N]").Trim()
+    return $answer -match "^(s|si|sí|y|yes)$"
+}
+
 function Test-AudioCapture {
     param(
         [string]$FfmpegPath,
@@ -467,12 +483,20 @@ $PLAYBACK_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la salida de audio Wi
 
 if ($IS_PHYSICAL_INSTALL) {
     if (-not (Test-AudioCapture -FfmpegPath $ffmpegPath -CaptureDevice $CAPTURE_DEVICE)) {
-        Write-Host "La tarea programada no se creara hasta que la captura de audio funcione." -ForegroundColor Red
-        exit 1
+        $manualCapture = "ffmpeg -hide_banner -loglevel error -f dshow -i audio=`"$CAPTURE_DEVICE`" -t 1 -f null NUL"
+        if (-not (Confirm-ManualAudioOverride -DeviceType "entrada de audio" -DeviceName $CAPTURE_DEVICE -ManualCommand $manualCapture)) {
+            Write-Host "Instalacion cancelada: no se confirmo la entrada de audio." -ForegroundColor Red
+            exit 1
+        }
+        Write-Warn "Entrada aceptada tras comprobacion manual."
     }
     if (-not (Test-AudioPlayback -FfplayPath $ffplayPath -PlaybackDevice $PLAYBACK_DEVICE)) {
-        Write-Host "La tarea programada no se creara hasta que la salida de audio funcione." -ForegroundColor Red
-        exit 1
+        $manualPlayback = "set SDL_AUDIO_DEVICE_NAME=$PLAYBACK_DEVICE && ffplay -nodisp -autoexit -f lavfi -i sine=frequency=700:sample_rate=48000:duration=1"
+        if (-not (Confirm-ManualAudioOverride -DeviceType "salida de audio" -DeviceName $PLAYBACK_DEVICE -ManualCommand $manualPlayback)) {
+            Write-Host "Instalacion cancelada: no se confirmo la salida de audio." -ForegroundColor Red
+            exit 1
+        }
+        Write-Warn "Salida aceptada tras comprobacion manual."
     }
 } else {
     Write-Info "Pruebas de audio omitidas para evitar interferencias con la VM."
