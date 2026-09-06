@@ -1,4 +1,4 @@
-# ============================================================
+# ------------------------------------------------------------
 #  eQSO ASORAPA - Instalador automatico de Relay Daemon (Windows)
 #  Compatibilidad: Windows 10 / 11 (PowerShell 5.1 o superior)
 #
@@ -10,7 +10,7 @@
 #  O clonando el repo primero:
 #    git clone https://github.com/daycart/eqso-linux
 #    powershell -ExecutionPolicy Bypass -File eqso-linux\artifacts\relay-daemon\install\install-relay.ps1
-# ============================================================
+# ------------------------------------------------------------
 
 #Requires -Version 5.1
 
@@ -44,9 +44,9 @@ function Write-Info { param($msg) Write-Host "   ->  $msg" -ForegroundColor Cyan
 function Write-Warn { param($msg) Write-Host "   !   $msg" -ForegroundColor Yellow }
 function Write-Step { param($msg)
     Write-Host ""
-    Write-Host "  ============================================" -ForegroundColor Blue
+    Write-Host "  --------------------------------------------" -ForegroundColor Blue
     Write-Host "    $msg" -ForegroundColor Blue
-    Write-Host "  ============================================" -ForegroundColor Blue
+    Write-Host "  --------------------------------------------" -ForegroundColor Blue
 }
 
 function Read-InstallationMode {
@@ -327,9 +327,9 @@ function Test-RelayConfig {
 }
 
 Write-Host ""
-Write-Host "  ============================================" -ForegroundColor Blue
+Write-Host "  --------------------------------------------" -ForegroundColor Blue
 Write-Host "    eQSO ASORAPA - Instalador Relay Daemon" -ForegroundColor Blue
-Write-Host "  ============================================" -ForegroundColor Blue
+Write-Host "  --------------------------------------------" -ForegroundColor Blue
 Write-Host "  Instala el nodo de radioenlace eQSO en Windows."
 Write-Host ""
 
@@ -788,21 +788,21 @@ $taskStatus = (Get-ScheduledTask -TaskName $taskName).State
 # -- Resultado ----------------------------------------------
 Write-Host ""
 if (-not $startRelayNow) {
-    Write-Host "  ============================================" -ForegroundColor Green
+    Write-Host "  --------------------------------------------" -ForegroundColor Green
     Write-Host "    OK  INSTALACION COMPLETADA - Relay PENDIENTE" -ForegroundColor Green
-    Write-Host "  ============================================" -ForegroundColor Green
+    Write-Host "  --------------------------------------------" -ForegroundColor Green
     Write-Info "Inicia el relay cuando quieras con Start-ScheduledTask -TaskName '$taskName'"
     if (-not $autoStart) {
         Write-Info "Autoinicio desactivado. Para activarlo: Enable-ScheduledTask -TaskName '$taskName'"
     }
 } elseif ($taskStatus -eq "Running") {
-    Write-Host "  ============================================" -ForegroundColor Green
+    Write-Host "  --------------------------------------------" -ForegroundColor Green
     Write-Host "    OK  INSTALACION COMPLETADA - Relay ACTIVO" -ForegroundColor Green
-    Write-Host "  ============================================" -ForegroundColor Green
+    Write-Host "  --------------------------------------------" -ForegroundColor Green
 } else {
-    Write-Host "  ============================================" -ForegroundColor Yellow
+    Write-Host "  --------------------------------------------" -ForegroundColor Yellow
     Write-Host "    !  INSTALACION COMPLETADA - Verifica estado" -ForegroundColor Yellow
-    Write-Host "  ============================================" -ForegroundColor Yellow
+    Write-Host "  --------------------------------------------" -ForegroundColor Yellow
     Write-Warn "Estado de la tarea: $taskStatus"
 }
 
