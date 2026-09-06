@@ -8,3 +8,4 @@
 - [Audio Windows: DirectShow + FFplay](ffmpeg-wasapi-device-list.md) — capturar con DirectShow y reproducir con FFplay/SDL; `wasapi` no es un muxer de salida FFmpeg.
 - [VOX timing retardo TX→TX](vox-timing.md) — retardo entre TX: voxHangMs + POST_TX_VOX_SUPPRESS_MS (era 5000ms hardcoded). Ahora configurable postTxSuppressMs (default 1000ms), voxHangMs default 800ms.
 - [Protocolo PTT de eQSO v1.13](legacy-v113-ptt.md) — el servidor original confirma inicio y fin al propio emisor; omitir esos ecos bloquea la segunda transmisión.
+- [Publicación inmediata del instalador Windows](windows-installer-release.md) — raw.githubusercontent.com/main puede servir una versión antigua; validar y usar una URL fijada al commit.

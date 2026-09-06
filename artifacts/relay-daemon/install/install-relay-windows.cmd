@@ -7,7 +7,7 @@ rem Si install-relay.ps1 esta en la misma carpeta, lo usa directamente.
 rem Si se descarga solo, obtiene el instalador desde GitHub.
 set "SCRIPT_DIR=%~dp0"
 set "LOCAL_SCRIPT=%SCRIPT_DIR%install-relay.ps1"
-set "REMOTE_URL=https://raw.githubusercontent.com/daycart/eqso-linux/test/windows-relay-installer/artifacts/relay-daemon/install/install-relay.ps1"
+set "REMOTE_URL=https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-relay.ps1"
 set "DOWNLOADED_SCRIPT=%TEMP%\eqso-install-relay-%RANDOM%.ps1"
 set "SCRIPT_PATH="
 set "DOWNLOADED=0"
