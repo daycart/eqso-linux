@@ -227,3 +227,17 @@ mtime_ms = 1788647254175
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/07fcf336-b40b-4e69-a0a0-5c123af36a0d/96733533-99fa-41f1-878e-85be37057556"
 storage_version_token = "1788647260142875"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "7qfIoCsCY0vJ2_1YIYt95"
+uri = "file://output/downloads/instalador-relay-windows-actual.zip"
+type = "unspecified"
+title = "Instalador Relay Windows actualizado"
+description = "Descomprime el ZIP y ejecuta install-relay-windows.cmd; la ventana permanecerá abierta si falla una prueba."
+logical_id = "c040f3cd-66a3-4cbe-b888-8cb46a3bdf20"
+content_hash = "sha256:0c1f399602402a47428ab47c117a1ea4fcb646a605077c66f623d6d74288336e"
+size = 10310
+mtime_ms = 1788686431781
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/c040f3cd-66a3-4cbe-b888-8cb46a3bdf20/ce6f6374-91b9-48ea-988f-beba77b40b85"
+storage_version_token = "1788686435779457"
+content_type = "application/octet-stream"
