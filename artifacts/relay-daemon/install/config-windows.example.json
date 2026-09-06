@@ -50,15 +50,15 @@
     "playbackFormat":  "ffplay",
 
     "vox": true,
-    "voxThresholdRms": 1500,
-    "voxHangMs": 800,
+    "voxThresholdRms": 800,
+    "voxHangMs": 1800,
     "txGateRms": 50,
 
     "inputGain":  0.3,
     "outputGain": 1.0,
     "rxHangMs": 1200,
     "postRxSuppressMs": 2500,
-    "postTxSuppressMs": 1000
+    "postTxSuppressMs": 600
   },
 
   "control": {

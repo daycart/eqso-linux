@@ -32,15 +32,23 @@ registros compartidos ni capturas públicas.
 ```json
 {
   "audio": {
+    "voxThresholdRms": 800,
+    "voxHangMs": 1800,
     "rxHangMs": 1200,
-    "postRxSuppressMs": 2500
+    "postRxSuppressMs": 2500,
+    "postTxSuppressMs": 600
   }
 }
 ```
 
+- `voxThresholdRms`: activa con voz normal de la radio sin exigir hablar fuerte.
+- `voxHangMs`: mantiene la transmisión durante pausas breves entre palabras para
+  que no se corte y vuelva a abrir.
 - `rxHangMs`: mantiene el PTT durante 1,2 segundos desde el último paquete de
   audio recibido. El valor anterior de 4000 ms producía un cambio de turno
   innecesariamente lento.
+- `postTxSuppressMs`: margen corto después de terminar una transmisión propia.
+  Un valor de 600 ms permite recuperar antes el audio si el VOX se cerrase.
 - `postRxSuppressMs`: impide temporalmente que el VOX retransmita el final del
   audio recibido como si fuese una nueva transmisión. No mantiene pulsado el
   PTT. Si el cambio radio → sala resulta lento y no hay realimentación, se puede

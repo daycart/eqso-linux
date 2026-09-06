@@ -1,0 +1,60 @@
+> powershell.exe -NoProfile -ExecutionPolicy Bypass `
+>>   -File "C:\eqso-relay\stop-CB.ps1"
+Relay detenido: eQSO Relay CB                                                                                                                                                                   PS C:\Users\david\eqso-linux\artifacts\relay-daemon>                                                                                                                                            PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Stop-ScheduledTask -TaskName "eQSO Relay CB" -ErrorAction SilentlyContinue                                                                 PS C:\Users\david\eqso-linux\artifacts\relay-daemon>                                                                                                                                            PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Get-CimInstance Win32_Process |
+>>   Where-Object {
+>>     $_.Name -eq "node.exe" -and (
+>>       $_.CommandLine -like "*relay-daemon*dist*main.mjs*" -or
+>>       $_.CommandLine -like "*--eqso-relay-instance=CB*"
+>>     )
+>>   } |
+>>   ForEach-Object {
+>>     Write-Host "Cerrando relay antiguo PID $($_.ProcessId)"
+>>     & "$env:SystemRoot\System32\taskkill.exe" /PID $_.ProcessId /T /F
+>>   }
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Invoke-WebRequest `
+>>   "https://raw.githubusercontent.com/daycart/eqso-linux/dfd962277cedf934177189b8ab57dcb49c152481/artifacts/relay-daemon/src/main.ts" `
+>>   -OutFile "$env:USERPROFILE\eqso-linux\artifacts\relay-daemon\src\main.ts"
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon>
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Invoke-WebRequest `
+>>   "https://raw.githubusercontent.com/daycart/eqso-linux/dfd962277cedf934177189b8ab57dcb49c152481/artifacts/relay-daemon/src/single-instance.ts" `
+>>   -OutFile "$env:USERPROFILE\eqso-linux\artifacts\relay-daemon\src\single-instance.ts"
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Set-Location "$env:USERPROFILE\eqso-linux\artifacts\relay-daemon"
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon>
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon> & "C:\Program Files\nodejs\node.exe" .\build.mjs
+relay-daemon build OK
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon>
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Start-ScheduledTask -TaskName "eQSO Relay CB"
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon>
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Start-Sleep -Seconds 5
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon>
+PS C:\Users\david\eqso-linux\artifacts\relay-daemon> Get-Content "C:\eqso-relay\relay-CB.log" -Tail 30
+    "inverted": false
+  },
+  "backend": "ffmpeg"
+}
+[audio-ffmpeg] 2026-09-06T17:06:15.383Z Backend FFmpeg: bin=C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe ffplay=C:\Users\david\AppData\Local\Microsoft\WinGet\Links\ffplay.exe captureFormat=dshow playbackFormat=ffplay
+[main] 2026-09-06T17:06:15.403Z ============================================================
+[main] 2026-09-06T17:06:15.403Z eQSO Relay Daemon arrancado
+[main] 2026-09-06T17:06:15.403Z   Callsign : 0R-WINPC
+[main] 2026-09-06T17:06:15.403Z   Sala     : CB
+[main] 2026-09-06T17:06:15.403Z   Servidor : asorapa.sytes.net:2172
+[main] 2026-09-06T17:06:15.403Z   VOX      : ON (umbral=800 hang=1800ms)
+[main] 2026-09-06T17:06:15.403Z   Backend  : ffmpeg
+[main] 2026-09-06T17:06:15.403Z   Captura  : MicrÃ³fono (Sound Blaster Play! 3) (dshow)
+[main] 2026-09-06T17:06:15.403Z   Playback : Altavoces (Sound Blaster Play! 3) (ffplay)
+[main] 2026-09-06T17:06:15.403Z   PTT Ser. : COM5 (rts)
+[main] 2026-09-06T17:06:15.403Z ============================================================
+[ptt] 2026-09-06T17:06:15.403Z Iniciando PTT serial: COM5 (rts)
+[audio-ffmpeg] 2026-09-06T17:06:15.450Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T17:06:15.476Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[control] 2026-09-06T17:06:15.559Z Control HTTP escuchando en http://127.0.0.1:8009
+[eqso] 2026-09-06T17:06:15.638Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T17:06:15.732Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T17:06:15.733Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T17:06:15.734Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T17:06:15.739Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T17:06:15.739Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T17:06:15.795Z Sala: 0R-PORTATIL se ha unido
+[main] 2026-09-06T17:06:15.795Z Sala: 0R-WINPC se ha unido
+[ptt] 2026-09-06T17:06:16.543Z PTT serial listo (COM5, rts)
+[audio-ffmpeg] 2026-09-06T17:06:20.490Z [nivel] pico RMS=31 (-60.5 dBFS)  VOXumbral=800  gain=0.3
