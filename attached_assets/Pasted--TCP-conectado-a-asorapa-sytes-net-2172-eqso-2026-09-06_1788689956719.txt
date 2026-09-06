@@ -1,0 +1,49 @@
+ TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T10:18:37.206Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T10:18:37.206Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T10:18:37.207Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T10:18:37.214Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:18:37.214Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T10:18:37.262Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T10:18:37.263Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T10:18:37.263Z Desconectado del servidor eQSO
+[main] 2026-09-06T10:18:37.263Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T10:18:37.263Z TCP desconectado de asorapa.sytes.net:2172
+[audio-ffmpeg] 2026-09-06T10:18:37.877Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T10:18:40.266Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T10:18:40.308Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T10:18:40.387Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T10:18:40.387Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T10:18:40.388Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T10:18:40.395Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:18:40.395Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T10:18:40.444Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T10:18:40.444Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T10:18:40.447Z Desconectado del servidor eQSO
+[main] 2026-09-06T10:18:40.447Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T10:18:40.448Z TCP desconectado de asorapa.sytes.net:2172
+[audio-ffmpeg] 2026-09-06T10:18:42.880Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T10:18:43.463Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T10:18:43.548Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T10:18:43.632Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T10:18:43.632Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T10:18:43.633Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T10:18:43.633Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:18:43.633Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T10:18:43.697Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T10:18:43.697Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T10:18:43.697Z Desconectado del servidor eQSO
+[main] 2026-09-06T10:18:43.697Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T10:18:43.698Z TCP desconectado de asorapa.sytes.net:2172
+[main] 2026-09-06T10:18:46.701Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T10:18:46.760Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T10:18:46.837Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T10:18:46.837Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T10:18:46.837Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T10:18:46.842Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:18:46.842Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T10:18:46.907Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T10:18:46.907Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T10:18:46.908Z Desconectado del servidor eQSO
+[main] 2026-09-06T10:18:46.908Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T10:18:46.908Z TCP desconectado de asorapa.sytes.net:2172
