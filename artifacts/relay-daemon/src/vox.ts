@@ -6,6 +6,7 @@
  *
  * Parametros configurables:
  *  - thresholdRms: nivel minimo de señal para activar (0–32767, defecto 800)
+ *  - sustainRms:   nivel minimo para mantener una TX ya activa (defecto 150)
  *  - hangMs:       tiempo que espera en silencio antes de desactivar (defecto 1000 ms)
  */
 
@@ -17,6 +18,7 @@ export class Vox extends EventEmitter {
 
   constructor(
     private readonly thresholdRms: number,
+    private readonly sustainRms: number,
     private readonly hangMs: number,
   ) {
     super();
@@ -26,7 +28,9 @@ export class Vox extends EventEmitter {
   processPcm(pcm: Int16Array): void {
     const rms = calcRms(pcm);
 
-    if (rms >= this.thresholdRms) {
+    const currentThreshold = this.active ? this.sustainRms : this.thresholdRms;
+
+    if (rms >= currentThreshold) {
       // Señal detectada: cancela el temporizador de hang si estaba activo
       if (this.hangTimer) { clearTimeout(this.hangTimer); this.hangTimer = null; }
       if (!this.active) {

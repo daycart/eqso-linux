@@ -1,0 +1,36 @@
+{
+    "backend":  "ffmpeg",
+    "callsign":  "0R-WINPC",
+    "room":  "CB",
+    "password":  "REDACTED",
+    "message":  "Radio Enlace CB",
+    "server":  "asorapa.sytes.net",
+    "port":  2172,
+    "reconnectMinMs":  3000,
+    "reconnectMaxMs":  60000,
+    "audio":  {
+                  "captureDevice":  "Micrófono (Sound Blaster Play! 3)",
+                  "playbackDevice":  "Altavoces (Sound Blaster Play! 3)",
+                  "captureFormat":  "dshow",
+                  "playbackFormat":  "ffplay",
+                  "vox":  true,
+                  "voxThresholdRms":  800,
+                  "voxHangMs":  1800,
+                  "txGateRms":  50,
+                  "inputGain":  0.3,
+                  "outputGain":  1,
+                  "postRxSuppressMs":  2500,
+                  "postTxSuppressMs":  600
+              },
+    "control":  {
+                    "enabled":  true,
+                    "port":  8009,
+                    "host":  "127.0.0.1"
+                },
+    "ptt":  {
+                "device":  "COM5",
+                "method":  "rts",
+                "inverted":  false
+            }
+}
+
