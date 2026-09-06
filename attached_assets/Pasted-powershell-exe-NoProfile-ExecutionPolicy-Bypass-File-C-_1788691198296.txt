@@ -1,0 +1,48 @@
+powershell.exe -NoProfile -ExecutionPolicy Bypass `
+>>   -File "C:\eqso-relay\stop-CB.ps1"
+Relay detenido: eQSO Relay CB
+PS C:\WINDOWS\system32>
+PS C:\WINDOWS\system32> Start-ScheduledTask -TaskName "eQSO Relay CB"
+PS C:\WINDOWS\system32> Start-Sleep -Seconds 5
+PS C:\WINDOWS\system32>
+PS C:\WINDOWS\system32> Get-Content C:\eqso-relay\relay-CB.log -Tail 40
+    "enabled": true,
+    "port": 8009,
+    "host": "127.0.0.1"
+  },
+  "ptt": {
+    "device": "COM5",
+    "method": "rts",
+    "inverted": false
+  },
+  "backend": "ffmpeg"
+}
+[audio-ffmpeg] 2026-09-06T10:39:13.148Z Backend FFmpeg: bin=C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe ffplay=C:\Users\david\AppData\Local\Microsoft\WinGet\Links\ffplay.exe captureFormat=dshow playbackFormat=ffplay
+[main] 2026-09-06T10:39:13.166Z ============================================================
+[main] 2026-09-06T10:39:13.166Z eQSO Relay Daemon arrancado
+[main] 2026-09-06T10:39:13.166Z   Callsign : 0R-WINPC
+[main] 2026-09-06T10:39:13.166Z   Sala     : CB
+[main] 2026-09-06T10:39:13.166Z   Servidor : asorapa.sytes.net:2172
+[main] 2026-09-06T10:39:13.166Z   VOX      : ON (umbral=1500 hang=800ms)
+[main] 2026-09-06T10:39:13.166Z   Backend  : ffmpeg
+[main] 2026-09-06T10:39:13.166Z   Captura  : MicrÃ³fono (Sound Blaster Play! 3) (dshow)
+[main] 2026-09-06T10:39:13.166Z   Playback : Altavoces (Sound Blaster Play! 3) (ffplay)
+[main] 2026-09-06T10:39:13.166Z   PTT Ser. : COM5 (rts)
+[main] 2026-09-06T10:39:13.166Z ============================================================
+[ptt] 2026-09-06T10:39:13.166Z Iniciando PTT serial: COM5 (rts)
+[audio-ffmpeg] 2026-09-06T10:39:13.246Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T10:39:13.260Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[control] 2026-09-06T10:39:13.293Z Control HTTP escuchando en http://127.0.0.1:8009
+[ptt] 2026-09-06T10:39:13.348Z [ptt-helper] no se encontrï¿½ Python; ejecutar sin argumentos p
+[ptt] 2026-09-06T10:39:13.349Z [ptt-helper] ara instalar desde el Microsoft Store o deshabilitar este acceso directo desde Configuraciï¿½n > Aplicaciones > Configuraciï¿½n avanzada de aplicaciones > Alias de ejecuciï¿½n de aplicaciones.
+[ptt] 2026-09-06T10:39:13.356Z PTT serial: proceso terminado (code 9009)
+[eqso] 2026-09-06T10:39:13.378Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T10:39:13.476Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T10:39:13.476Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T10:39:13.477Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T10:39:13.477Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:39:13.477Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:39:13.541Z Sala: 0R-PORTATIL se ha unido
+[main] 2026-09-06T10:39:13.541Z Sala: 0R-IN70WN se ha unido
+[main] 2026-09-06T10:39:13.542Z Sala: 0R-WINPC se ha unido
+[audio-ffmpeg] 2026-09-06T10:39:18.263Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
