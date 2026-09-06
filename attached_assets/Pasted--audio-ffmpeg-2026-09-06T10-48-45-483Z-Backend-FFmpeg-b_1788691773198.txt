@@ -1,0 +1,56 @@
+
+}
+[audio-ffmpeg] 2026-09-06T10:48:45.483Z Backend FFmpeg: bin=C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe ffplay=C:\Users\david\AppData\Local\Microsoft\WinGet\Links\ffplay.exe captureFormat=dshow playbackFormat=ffplay
+[main] 2026-09-06T10:48:45.514Z ============================================================
+[main] 2026-09-06T10:48:45.514Z eQSO Relay Daemon arrancado
+[main] 2026-09-06T10:48:45.514Z   Callsign : 0R-WINPC
+[main] 2026-09-06T10:48:45.515Z   Sala     : CB
+[main] 2026-09-06T10:48:45.515Z   Servidor : asorapa.sytes.net:2172
+[main] 2026-09-06T10:48:45.515Z   VOX      : ON (umbral=1500 hang=800ms)
+[main] 2026-09-06T10:48:45.515Z   Backend  : ffmpeg
+[main] 2026-09-06T10:48:45.515Z   Captura  : MicrÃ³fono (Sound Blaster Play! 3) (dshow)
+[main] 2026-09-06T10:48:45.515Z   Playback : Altavoces (Sound Blaster Play! 3) (ffplay)
+[main] 2026-09-06T10:48:45.515Z   PTT Ser. : COM5 (rts)
+[main] 2026-09-06T10:48:45.515Z ============================================================
+[ptt] 2026-09-06T10:48:45.515Z Iniciando PTT serial: COM5 (rts)
+[audio-ffmpeg] 2026-09-06T10:48:45.564Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T10:48:45.577Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[control] 2026-09-06T10:48:45.605Z Control HTTP escuchando en http://127.0.0.1:8009
+[ptt] 2026-09-06T10:48:45.714Z PTT serial listo (COM5, rts)
+[eqso] 2026-09-06T10:48:46.713Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T10:48:46.780Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T10:48:46.780Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T10:48:46.781Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T10:48:46.786Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:48:46.786Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T10:48:46.843Z Sala: 0R-PORTATIL se ha unido
+[main] 2026-09-06T10:48:46.843Z Sala: PRUEBAS_CB se ha unido
+[main] 2026-09-06T10:48:46.844Z Sala: 0R-IN70WN se ha unido
+[main] 2026-09-06T10:48:46.845Z Sala: 0R-WINPC se ha unido
+[audio-ffmpeg] 2026-09-06T10:48:50.590Z [nivel] pico RMS=32 (-60.3 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T10:48:55.602Z [nivel] pico RMS=32 (-60.3 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T10:48:58.980Z TX: PRUEBAS_CB transmitiendo
+[main] 2026-09-06T10:48:58.980Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-09-06T10:49:01.480Z (2500ms)
+[audio-ffmpeg] 2026-09-06T10:48:58.981Z [audio] Semi-duplex: suspendiendo captura ffmpeg para RX (preventivo)
+[audio-ffmpeg] 2026-09-06T10:48:58.982Z [playGsm] pkt#1 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T10:48:58.983Z [audio] pkt#1 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T10:48:58.989Z [playPcm] chunk#1 â†’ jitterBuf=960 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:48:59.002Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T10:48:59.092Z [playGsm] pkt#2 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T10:48:59.093Z [audio] pkt#2 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T10:48:59.097Z [playPcm] chunk#2 â†’ jitterBuf=1920 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:48:59.200Z [playGsm] pkt#3 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T10:48:59.200Z [audio] pkt#3 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T10:48:59.202Z [playPcm] chunk#3 â†’ jitterBuf=2880 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:48:59.342Z [playPcm] chunk#4 â†’ jitterBuf=3840 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:48:59.454Z [playPcm] chunk#5 â†’ jitterBuf=4800 playerStarting=false
+[audio-ffmpeg] 2026-09-06T10:48:59.458Z Playback: C:\Users\david\AppData\Local\Microsoft\WinGet\Links\ffplay.exe -hide_banner -loglevel error -nodisp -autoexit -f s16le -sample_rate 48000 -ch_layout mono -i pipe:0 device=Altavoces (Sound Blaster Play! 3)
+
+[main] 2026-09-06T10:48:59.827Z Sala: 0R-IN70WN ha salido
+[audio-ffmpeg] 2026-09-06T10:49:00.612Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T10:49:04.271Z TX: PRUEBAS_CB libero canal
+[main] 2026-09-06T10:49:07.905Z [rxInhibit] playback_ended: suppress extendido â†’ 2026-09-06T10:49:10.405Z (prev=2026-09-06T10:49:01.480Z)
+[audio-ffmpeg] 2026-09-06T10:49:08.068Z [ffmpeg-play] Terminado (code 0)
+[audio-ffmpeg] 2026-09-06T10:49:08.069Z [audio] Semi-duplex: reanudando captura
+[audio-ffmpeg] 2026-09-06T10:49:08.069Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T10:49:08.891Z Sala: 0R-IN70WN se ha unido
