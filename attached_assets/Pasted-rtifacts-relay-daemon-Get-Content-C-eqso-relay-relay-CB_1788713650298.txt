@@ -1,0 +1,101 @@
+rtifacts\relay-daemon> Get-Content "C:\eqso-relay\relay-CB.log" -Tail 100
+[main] 2026-09-06T16:52:08.172Z Desconectado del servidor eQSO
+[main] 2026-09-06T16:52:08.172Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T16:52:08.172Z TCP desconectado de asorapa.sytes.net:2172
+[audio-ffmpeg] 2026-09-06T16:52:08.666Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=800  gain=0.3
+[main] 2026-09-06T16:52:11.179Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T16:52:11.279Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T16:52:11.370Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T16:52:11.370Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T16:52:11.371Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T16:52:11.371Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T16:52:11.371Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T16:52:11.430Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:11.431Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:11.432Z Desconectado del servidor eQSO
+[main] 2026-09-06T16:52:11.432Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T16:52:11.432Z TCP desconectado de asorapa.sytes.net:2172
+[audio-ffmpeg] 2026-09-06T16:52:13.668Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=800  gain=0.3
+[main] 2026-09-06T16:52:14.447Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T16:52:14.513Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T16:52:14.613Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T16:52:14.614Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T16:52:14.614Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T16:52:14.621Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T16:52:14.622Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T16:52:14.698Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:14.698Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:14.700Z Desconectado del servidor eQSO
+[main] 2026-09-06T16:52:14.700Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T16:52:14.700Z TCP desconectado de asorapa.sytes.net:2172
+[main] 2026-09-06T16:52:17.703Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T16:52:17.789Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T16:52:17.901Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T16:52:17.901Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T16:52:17.902Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T16:52:17.909Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T16:52:17.910Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T16:52:17.961Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:17.962Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:17.963Z Desconectado del servidor eQSO
+[main] 2026-09-06T16:52:17.963Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T16:52:17.963Z TCP desconectado de asorapa.sytes.net:2172
+[audio-ffmpeg] 2026-09-06T16:52:18.671Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=800  gain=0.3
+[main] 2026-09-06T16:52:20.970Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T16:52:21.021Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T16:52:21.100Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T16:52:21.100Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T16:52:21.101Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T16:52:21.108Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T16:52:21.109Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T16:52:21.161Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:21.161Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:21.162Z Desconectado del servidor eQSO
+[main] 2026-09-06T16:52:21.162Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T16:52:21.163Z TCP desconectado de asorapa.sytes.net:2172
+[audio-ffmpeg] 2026-09-06T16:52:23.671Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=800  gain=0.3
+[main] 2026-09-06T16:52:24.170Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T16:52:24.241Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T16:52:24.333Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T16:52:24.333Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T16:52:24.334Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T16:52:24.341Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T16:52:24.341Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T16:52:24.389Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:24.389Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:24.389Z Desconectado del servidor eQSO
+[main] 2026-09-06T16:52:24.389Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T16:52:24.389Z TCP desconectado de asorapa.sytes.net:2172
+[main] 2026-09-06T16:52:27.395Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T16:52:27.468Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T16:52:27.598Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T16:52:27.599Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T16:52:27.599Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T16:52:27.600Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T16:52:27.600Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[eqso] 2026-09-06T16:52:27.665Z Mensaje del servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:27.665Z Mensaje servidor: Indicativo "0R-WINPC" ya en uso
+[main] 2026-09-06T16:52:27.666Z Desconectado del servidor eQSO
+[main] 2026-09-06T16:52:27.667Z Reintento #1 en 3sâ€¦
+[eqso] 2026-09-06T16:52:27.667Z TCP desconectado de asorapa.sytes.net:2172
+[audio-ffmpeg] 2026-09-06T16:52:28.675Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=800  gain=0.3
+[main] 2026-09-06T16:52:30.678Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[eqso] 2026-09-06T16:52:30.769Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-06T16:52:30.897Z Handshake recibido â€” conexion establecida
+[main] 2026-09-06T16:52:30.897Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-06T16:52:30.898Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-06T16:52:30.898Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T16:52:30.898Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-06T16:52:30.965Z Sala: 0R-PORTATIL se ha unido
+[main] 2026-09-06T16:52:30.966Z Sala: 0R-WINPC se ha unido
+[audio-ffmpeg] 2026-09-06T16:52:33.688Z [nivel] pico RMS=31 (-60.5 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:52:38.689Z [nivel] pico RMS=31 (-60.5 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:52:43.704Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:52:48.706Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:52:53.718Z [nivel] pico RMS=32 (-60.3 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:52:58.723Z [nivel] pico RMS=31 (-60.5 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:53:03.729Z [nivel] pico RMS=31 (-60.5 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:53:08.743Z [nivel] pico RMS=31 (-60.5 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:53:13.756Z [nivel] pico RMS=31 (-60.5 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:53:18.765Z [nivel] pico RMS=31 (-60.4 dBFS)  VOXumbral=800  gain=0.3
+[audio-ffmpeg] 2026-09-06T16:53:23.777Z [nivel] pico RMS=31 (-60.5 dBFS)  VOXumbral=800  gain=0.3

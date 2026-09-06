@@ -11,6 +11,7 @@
 
 import path from "path";
 import { loadConfig } from "./config.js";
+import { acquireInstanceLock } from "./single-instance.js";
 import { EqsoClient } from "./eqso-client.js";
 import { AlsaAudio } from "./alsa-audio.js";
 import { FfmpegAudio, resolveFfmpegBin } from "./ffmpeg-audio.js";
@@ -18,6 +19,20 @@ import { Vox } from "./vox.js";
 import { SerialPtt } from "./serial-ptt.js";
 import { startControlServer, RelayStatus } from "./control-server.js";
 import { GSM_PACKET_BYTES } from "./gsm-codec.js";
+
+const configPath =
+  process.env["CONFIG_FILE"] ??
+  `/etc/eqso-relay/${process.env["RELAY_INSTANCE"] ?? "default"}.json`;
+
+let instanceLock;
+try {
+  instanceLock = acquireInstanceLock(configPath);
+} catch (err) {
+  console.error(`[main] ${new Date().toISOString()} ${(err as Error).message}`);
+  process.exit(2);
+}
+
+process.on("exit", () => instanceLock.release());
 
 const cfg = loadConfig();
 
@@ -463,6 +478,7 @@ function shutdown(sig: string): void {
   eqsoClient?.disconnect();
   serialPtt.stop();
   audio.stop();
+  instanceLock.release();
   // En Windows, dar tiempo a FFmpeg para cerrar DirectShow antes de terminar
   // Node reduce el riesgo de dejar VirtualBox sin integracion del raton.
   const shutdownDelayMs = process.platform === "win32" ? 1500 : 100;
