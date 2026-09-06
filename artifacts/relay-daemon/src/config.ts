@@ -5,13 +5,14 @@ export interface AudioConfig {
   captureDevice: string;
   playbackDevice: string;
   captureFormat?: string;   // ffmpeg format: "dshow"|"alsa"|"pulse"|"avfoundation" (auto si no se indica)
-  playbackFormat?: string;  // ffmpeg format: "wasapi"|"alsa"|"coreaudio" (auto si no se indica)
+  playbackFormat?: string;  // "ffplay" en Windows; formato ffmpeg "alsa"|"coreaudio" en otros sistemas
   vox: boolean;
   voxThresholdRms: number;
   voxHangMs: number;
   txGateRms: number;
   inputGain: number;
   outputGain: number;
+  rxHangMs: number;           // tiempo desde el ultimo paquete RX hasta liberar PTT
   postRxSuppressMs: number;
   postTxSuppressMs: number;  // bloqueo VOX tras fin de TX propio (anti-eco inmediato)
 }
@@ -61,6 +62,7 @@ const DEFAULTS: RelayConfig = {
     txGateRms: 50,
     inputGain: 0.5,
     outputGain: 1.0,
+    rxHangMs: 1200,
     postRxSuppressMs: 2500,
     postTxSuppressMs: 1000,
   },
@@ -99,10 +101,12 @@ export function loadConfig(): RelayConfig {
   let fromFile: Partial<RelayConfig> = {};
   if (fs.existsSync(configFile)) {
     try {
-      fromFile = JSON.parse(fs.readFileSync(configFile, "utf8")) as Partial<RelayConfig>;
+      const rawConfig = fs.readFileSync(configFile, "utf8").replace(/^\uFEFF/, "");
+      fromFile = JSON.parse(rawConfig) as Partial<RelayConfig>;
       console.log(`[config] Cargado: ${configFile}`);
     } catch (err) {
       console.error(`[config] Error al leer ${configFile}:`, err);
+      throw err;
     }
   } else {
     console.warn(`[config] Archivo no encontrado: ${configFile} — usando valores por defecto`);

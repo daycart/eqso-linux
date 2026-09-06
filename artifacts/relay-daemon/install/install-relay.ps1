@@ -364,6 +364,22 @@ if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
 }
 Write-Ok "ffmpeg $(ffmpeg -version 2>$null | Select-Object -First 1)"
 
+# Python 3 (helper PTT serie RTS/DTR)
+Install-WithWinget "Python.Python.3.12" "Python 3.12"
+$pythonPath = @(
+    Get-ChildItem "$env:LOCALAPPDATA\Programs\Python\Python*\python.exe" -ErrorAction SilentlyContinue |
+        Sort-Object FullName -Descending |
+        Select-Object -ExpandProperty FullName
+    (Get-Command python.exe -ErrorAction SilentlyContinue).Source
+) | Where-Object {
+    $_ -and (Test-Path $_) -and $_ -notlike "*\WindowsApps\python.exe"
+} | Select-Object -First 1
+if (-not $pythonPath) {
+    Write-Host "Python 3.12 se instalo, pero no se encontro python.exe." -ForegroundColor Red
+    exit 1
+}
+Write-Ok "Python $(& $pythonPath --version 2>&1)"
+
 # -- Paso 2: npm --------------------------------------------
 Write-Step "2/6  Verificando npm"
 
@@ -558,6 +574,7 @@ $configObject = [ordered]@{
         txGateRms = 50
         inputGain = 0.3
         outputGain = 1.0
+        rxHangMs = 1200
         postRxSuppressMs = 2500
         postTxSuppressMs = 1000
     }
@@ -605,6 +622,7 @@ set "RELAY_INSTANCE=$ROOM"
 set "NODE_ENV=production"
 set "CONFIG_FILE=$configPath"
 set "FFPLAY_PATH=$ffplayPath"
+set "PYTHON_PATH=$pythonPath"
 cd /d "$scriptDir"
 echo [%date% %time%] Iniciando relay $ROOM >> "$logPath"
 "$nodePath" --enable-source-maps dist\main.mjs --eqso-relay-instance=$ROOM >> "$logPath" 2>&1
