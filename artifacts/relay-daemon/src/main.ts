@@ -147,7 +147,11 @@ const serialPtt = new SerialPtt(cfg.ptt);
 
 // ─── Audio y VOX ─────────────────────────────────────────────────────────────
 const audio = cfg.backend === "ffmpeg" ? new FfmpegAudio(cfg.audio) : new AlsaAudio(cfg.audio);
-const vox   = new Vox(cfg.audio.voxThresholdRms, cfg.audio.voxHangMs);
+const vox = new Vox(
+  cfg.audio.voxThresholdRms,
+  cfg.audio.voxSustainRms,
+  cfg.audio.voxHangMs,
+);
 
 // Gate de transmision: nivel minimo para enviar un paquete GSM al servidor.
 // Filtra silencio puro durante el hang del VOX — evita que el navegador acumule
@@ -455,7 +459,7 @@ log(`eQSO Relay Daemon arrancado`);
 log(`  Callsign : ${cfg.callsign}`);
 log(`  Sala     : ${cfg.room}`);
 log(`  Servidor : ${cfg.server}:${cfg.port}`);
-log(`  VOX      : ${cfg.audio.vox ? `ON (umbral=${cfg.audio.voxThresholdRms} hang=${cfg.audio.voxHangMs}ms)` : "OFF"}`);
+log(`  VOX      : ${cfg.audio.vox ? `ON (inicio=${cfg.audio.voxThresholdRms} mantenimiento=${cfg.audio.voxSustainRms} hang=${cfg.audio.voxHangMs}ms)` : "OFF"}`);
 log(`  Backend  : ${cfg.backend ?? "alsa"}`);
 log(`  Captura  : ${cfg.audio.captureDevice}${cfg.audio.captureFormat ? ` (${cfg.audio.captureFormat})` : ""}`);
 log(`  Playback : ${cfg.audio.playbackDevice}${cfg.audio.playbackFormat ? ` (${cfg.audio.playbackFormat})` : ""}`);

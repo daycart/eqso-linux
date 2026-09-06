@@ -570,6 +570,7 @@ $configObject = [ordered]@{
         playbackFormat = "ffplay"
         vox = $true
         voxThresholdRms = 800
+        voxSustainRms = 150
         voxHangMs = 1800
         txGateRms = 50
         inputGain = 0.3

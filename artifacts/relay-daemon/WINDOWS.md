@@ -33,6 +33,7 @@ registros compartidos ni capturas públicas.
 {
   "audio": {
     "voxThresholdRms": 800,
+    "voxSustainRms": 150,
     "voxHangMs": 1800,
     "rxHangMs": 1200,
     "postRxSuppressMs": 2500,
@@ -42,6 +43,9 @@ registros compartidos ni capturas públicas.
 ```
 
 - `voxThresholdRms`: activa con voz normal de la radio sin exigir hablar fuerte.
+- `voxSustainRms`: una vez abierta la transmisión, usa un umbral inferior para
+  mantenerla durante sílabas suaves. El ruido en reposo validado está alrededor
+  de 23–31 RMS, suficientemente por debajo de 150.
 - `voxHangMs`: mantiene la transmisión durante pausas breves entre palabras para
   que no se corte y vuelva a abrir.
 - `rxHangMs`: mantiene el PTT durante 1,2 segundos desde el último paquete de

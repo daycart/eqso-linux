@@ -51,6 +51,7 @@
 
     "vox": true,
     "voxThresholdRms": 800,
+    "voxSustainRms": 150,
     "voxHangMs": 1800,
     "txGateRms": 50,
 

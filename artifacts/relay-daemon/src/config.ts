@@ -8,6 +8,7 @@ export interface AudioConfig {
   playbackFormat?: string;  // "ffplay" en Windows; formato ffmpeg "alsa"|"coreaudio" en otros sistemas
   vox: boolean;
   voxThresholdRms: number;
+  voxSustainRms: number;
   voxHangMs: number;
   txGateRms: number;
   inputGain: number;
@@ -58,6 +59,7 @@ const DEFAULTS: RelayConfig = {
     playbackDevice: "plughw:1,0",
     vox: true,
     voxThresholdRms: 800,
+    voxSustainRms: 150,
     voxHangMs: 800,
     txGateRms: 50,
     inputGain: 0.5,
