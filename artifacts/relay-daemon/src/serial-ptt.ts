@@ -42,7 +42,10 @@ export class SerialPtt extends EventEmitter {
 
     log(`Iniciando PTT serial: ${this.cfg.device} (${this.cfg.method})`);
 
-    this.proc = spawn("python3", [
+    const pythonBin = process.env.PYTHON_PATH?.trim()
+      || (process.platform === "win32" ? "python.exe" : "python3");
+
+    this.proc = spawn(pythonBin, [
       helperPath,
       this.cfg.device,
       this.cfg.method,
@@ -67,7 +70,7 @@ export class SerialPtt extends EventEmitter {
     });
 
     this.proc.on("error", (err) => {
-      log(`PTT serial: no se pudo iniciar python3 — ${err.message}. PTT serial deshabilitado.`);
+      log(`PTT serial: no se pudo iniciar ${pythonBin} — ${err.message}. PTT serial deshabilitado.`);
       this.proc  = null;
       this.ready = false;
     });
