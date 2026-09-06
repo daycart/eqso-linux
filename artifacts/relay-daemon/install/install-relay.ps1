@@ -1,8 +1,10 @@
 # ============================================================
-#  eQSO ASORAPA — Instalador automático de Relay Daemon (Windows)
+#  eQSO ASORAPA - Instalador automatico de Relay Daemon (Windows)
 #  Compatibilidad: Windows 10 / 11 (PowerShell 5.1 o superior)
 #
-#  Instalación con un solo comando (PowerShell como Administrador):
+#  Instalacion recomendada: abrir install-relay-windows.cmd con doble clic.
+#
+#  Alternativa con un solo comando (PowerShell como Administrador):
 #    irm https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-relay.ps1 | iex
 #
 #  O clonando el repo primero:
@@ -12,21 +14,21 @@
 
 #Requires -Version 5.1
 
-# Permitir ejecutar scripts en esta sesión (necesario para que npm/pnpm funcionen).
-# Solo afecta a este proceso — no cambia la política global del sistema.
+# Permitir ejecutar scripts en esta sesion (necesario para que npm/pnpm funcionen).
+# Solo afecta a este proceso - no cambia la politica global del sistema.
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 
 Set-StrictMode -Version Latest
 # pnpm y Node.js pueden escribir avisos en stderr aunque terminen correctamente.
-# Los pasos críticos comprueban explícitamente sus resultados más abajo.
+# Los pasos criticos comprueban explicitamente sus resultados mas abajo.
 $ErrorActionPreference = 'Continue'
 
-# ── Verificar que somos Administrador ─────────────────────
+# -- Verificar que somos Administrador ----------------------
 $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
     Write-Host ""
     Write-Host "  Este script necesita ejecutarse como Administrador." -ForegroundColor Yellow
-    Write-Host "  Haz clic derecho en PowerShell → 'Ejecutar como administrador'" -ForegroundColor Yellow
+    Write-Host "  Haz clic derecho en PowerShell -> 'Ejecutar como administrador'" -ForegroundColor Yellow
     Write-Host "  y vuelve a ejecutar el script." -ForegroundColor Yellow
     Write-Host ""
     Read-Host "  Pulsa Enter para salir"
@@ -47,28 +49,283 @@ function Write-Step { param($msg)
     Write-Host "  ============================================" -ForegroundColor Blue
 }
 
+function Read-InstallationMode {
+    while ($true) {
+        Write-Host "  Tipo de instalacion:" -ForegroundColor Cyan
+        Write-Host "    1. PC fisico (automatizacion maxima: prueba y arranque)"
+        Write-Host "    2. Maquina virtual (modo seguro: sin abrir audio ni arrancar)"
+        $selection = (Read-Host "  Selecciona [1-2, por defecto 2]").Trim()
+        if ([string]::IsNullOrWhiteSpace($selection)) { $selection = "2" }
+
+        if ($selection -eq "1") {
+            return "physical"
+        }
+        if ($selection -eq "2") {
+            return "vm"
+        }
+        Write-Warn "Selecciona 1 para PC fisico o 2 para maquina virtual."
+    }
+}
+
+function Repair-NativeUtf8Text {
+    param([string]$Text)
+
+    if ([string]::IsNullOrEmpty($Text) -or $Text -notmatch "[\u251C\u2502\u252C\uFFFD]") {
+        return $Text
+    }
+
+    $utf8 = New-Object System.Text.UTF8Encoding($false)
+    foreach ($codePage in @(437, 850)) {
+        try {
+            $encoding = [System.Text.Encoding]::GetEncoding($codePage)
+            $candidate = $utf8.GetString($encoding.GetBytes($Text))
+            if ($candidate -notmatch "[\u251C\u2502\u252C\uFFFD]") {
+                return $candidate
+            }
+        } catch {
+            # El code page puede no estar disponible en algunas instalaciones.
+        }
+    }
+
+    return $Text
+}
+
+function Invoke-InstallerTestProcess {
+    param(
+        [string]$FilePath,
+        [string[]]$ArgumentList,
+        [int]$TimeoutMs
+    )
+
+    $stdoutPath = [System.IO.Path]::GetTempFileName()
+    $stderrPath = [System.IO.Path]::GetTempFileName()
+    $process = $null
+    try {
+        $process = Start-Process -FilePath $FilePath `
+            -ArgumentList $ArgumentList `
+            -RedirectStandardOutput $stdoutPath `
+            -RedirectStandardError $stderrPath `
+            -WindowStyle Hidden -PassThru
+
+        if (-not $process.WaitForExit($TimeoutMs)) {
+            Write-Warn "El proceso de prueba no respondio en $TimeoutMs ms; se cancelara."
+            try { $process.Kill() } catch { }
+            return -1
+        }
+
+        if ($process.ExitCode -ne 0 -and (Test-Path $stderrPath)) {
+            $errorText = Get-Content -Path $stderrPath -Raw -ErrorAction SilentlyContinue
+            if ($errorText) {
+                Write-Host $errorText.Trim() -ForegroundColor DarkYellow
+            }
+        }
+        return $process.ExitCode
+    } finally {
+        Remove-Item -Path $stdoutPath, $stderrPath -Force -ErrorAction SilentlyContinue
+    }
+}
+
+function Get-DirectShowAudioDevices {
+    param([string]$FfmpegPath)
+
+    $tempPath = [System.IO.Path]::GetTempFileName()
+    $process = $null
+    try {
+        $process = Start-Process -FilePath $FfmpegPath `
+            -ArgumentList @("-hide_banner", "-list_devices", "true", "-f", "dshow", "-i", "dummy") `
+            -RedirectStandardError $tempPath `
+            -WindowStyle Hidden -PassThru
+        if (-not $process.WaitForExit(10000)) {
+            Write-Warn "FFmpeg no respondio al enumerar dispositivos; se omitira la lista."
+            try { $process.Kill() } catch { }
+            return @()
+        }
+        $utf8 = New-Object System.Text.UTF8Encoding($false)
+        $lines = @(
+            [System.IO.File]::ReadAllLines($tempPath, $utf8) |
+                ForEach-Object { Repair-NativeUtf8Text $_ }
+        )
+    } finally {
+        Remove-Item -Path $tempPath -Force -ErrorAction SilentlyContinue
+    }
+
+    $devices = @()
+
+    foreach ($line in $lines) {
+        if ($line -match '"([^"]+)"\s+\(audio\)\s*$') {
+            $name = $Matches[1]
+            if ($devices -notcontains $name) {
+                $devices += $name
+            }
+        }
+    }
+
+    return $devices
+}
+
+function Get-WindowsAudioEndpoints {
+    if (-not (Get-Command Get-PnpDevice -ErrorAction SilentlyContinue)) {
+        return @()
+    }
+
+    return @(
+        Get-PnpDevice -Class AudioEndpoint -ErrorAction SilentlyContinue |
+            Where-Object { $_.Status -eq "OK" -and $_.FriendlyName } |
+            Select-Object -ExpandProperty FriendlyName -Unique
+    )
+}
+
+function Read-RequiredValue {
+    param([string]$Prompt)
+
+    while ($true) {
+        $value = (Read-Host $Prompt).Trim()
+        if (-not [string]::IsNullOrWhiteSpace($value)) {
+            return $value
+        }
+        Write-Warn "Este valor es obligatorio."
+    }
+}
+
+function Read-DeviceChoice {
+    param(
+        [string]$Prompt,
+        [object[]]$Devices
+    )
+
+    $choices = @($Devices)
+    if ($choices.Count -eq 0) {
+        return (Read-RequiredValue "$Prompt (nombre exacto)")
+    }
+
+    while ($true) {
+        if ($choices.Count -eq 1) {
+            $selection = (Read-Host "$Prompt [Enter para usar 1]").Trim()
+            if ([string]::IsNullOrWhiteSpace($selection)) {
+                return [string]$choices[0]
+            }
+        } else {
+            $selection = (Read-Host "$Prompt [1-$($choices.Count)]").Trim()
+        }
+
+        [int]$index = 0
+        if ([int]::TryParse($selection, [ref]$index) -and $index -ge 1 -and $index -le $choices.Count) {
+            return [string]$choices[$index - 1]
+        }
+        if ($choices -contains $selection) {
+            return $selection
+        }
+
+        Write-Warn "Selecciona un numero de la lista o copia un nombre exactamente."
+    }
+}
+
+function Test-AudioCapture {
+    param(
+        [string]$FfmpegPath,
+        [string]$CaptureDevice
+    )
+
+    Write-Info "Probando la entrada DirectShow durante 1 segundo..."
+    $captureInput = '"' + "audio=$CaptureDevice" + '"'
+    $captureExitCode = Invoke-InstallerTestProcess -FilePath $FfmpegPath `
+        -ArgumentList @("-hide_banner", "-loglevel", "error", "-f", "dshow", "-i", $captureInput, "-t", "1", "-f", "null", "NUL") `
+        -TimeoutMs 10000
+    if ($captureExitCode -ne 0) {
+        Write-Host "No se pudo abrir la entrada de audio '$CaptureDevice'." -ForegroundColor Red
+        return $false
+    }
+    Write-Ok "Entrada de audio valida"
+
+    return $true
+}
+
+function Test-AudioPlayback {
+    param(
+        [string]$FfplayPath,
+        [string]$PlaybackDevice
+    )
+
+    Write-Info "Probando la salida seleccionada con un tono corto..."
+    $previousAudioDevice = $env:SDL_AUDIO_DEVICE_NAME
+    try {
+        $env:SDL_AUDIO_DEVICE_NAME = $PlaybackDevice
+        $playbackExitCode = Invoke-InstallerTestProcess -FilePath $FfplayPath `
+            -ArgumentList @("-hide_banner", "-loglevel", "error", "-nodisp", "-autoexit", "-f", "lavfi", "-i", "sine=frequency=700:sample_rate=48000:duration=1") `
+            -TimeoutMs 10000
+        if ($playbackExitCode -ne 0) {
+            Write-Host "No se pudo abrir la salida de audio '$PlaybackDevice'." -ForegroundColor Red
+            return $false
+        }
+    } finally {
+        $env:SDL_AUDIO_DEVICE_NAME = $previousAudioDevice
+    }
+    Write-Ok "Salida de audio valida"
+
+    return $true
+}
+
+function Test-RelayConfig {
+    param([string]$Path)
+
+    try {
+        $config = Get-Content -Path $Path -Raw | ConvertFrom-Json
+    } catch {
+        Write-Host "El JSON generado no es valido: $($_.Exception.Message)" -ForegroundColor Red
+        return $false
+    }
+
+    $missing = @()
+    if ([string]::IsNullOrWhiteSpace([string]$config.backend)) { $missing += "backend" }
+    if ([string]$config.backend -ne "ffmpeg") { $missing += "backend=ffmpeg" }
+    if ([string]::IsNullOrWhiteSpace([string]$config.callsign)) { $missing += "callsign" }
+    if ([string]::IsNullOrWhiteSpace([string]$config.room)) { $missing += "room" }
+    if ([string]::IsNullOrWhiteSpace([string]$config.password)) { $missing += "password" }
+    if ([string]::IsNullOrWhiteSpace([string]$config.server)) { $missing += "server" }
+    if (-not $config.port -or [int]$config.port -lt 1 -or [int]$config.port -gt 65535) { $missing += "port" }
+    if ([string]::IsNullOrWhiteSpace([string]$config.audio.captureDevice)) { $missing += "audio.captureDevice" }
+    if ([string]::IsNullOrWhiteSpace([string]$config.audio.playbackDevice)) { $missing += "audio.playbackDevice" }
+    if ([string]$config.audio.captureFormat -ne "dshow") { $missing += "audio.captureFormat=dshow" }
+    if ([string]$config.audio.playbackFormat -ne "ffplay") { $missing += "audio.playbackFormat=ffplay" }
+
+    if ($missing.Count -gt 0) {
+        Write-Host "Faltan o son incorrectos estos valores: $($missing -join ', ')" -ForegroundColor Red
+        return $false
+    }
+
+    return $true
+}
+
 Write-Host ""
 Write-Host "  ============================================" -ForegroundColor Blue
-Write-Host "    eQSO ASORAPA — Instalador Relay Daemon" -ForegroundColor Blue
+Write-Host "    eQSO ASORAPA - Instalador Relay Daemon" -ForegroundColor Blue
 Write-Host "  ============================================" -ForegroundColor Blue
 Write-Host "  Instala el nodo de radioenlace eQSO en Windows."
 Write-Host ""
 
-# ── Función auxiliar: instalar con winget ─────────────────
+$INSTALLATION_MODE = Read-InstallationMode
+$IS_PHYSICAL_INSTALL = $INSTALLATION_MODE -eq "physical"
+if ($IS_PHYSICAL_INSTALL) {
+    Write-Info "Modo PC fisico: se probaran los dispositivos y se activara el relay."
+} else {
+    Write-Info "Modo maquina virtual: se omitiran pruebas y arranque para proteger la VM."
+}
+
+# -- Funcion auxiliar: instalar con winget ------------------
 function Install-WithWinget {
     param($Id, $Name)
     $installed = winget list --id $Id --accept-source-agreements 2>$null | Select-String $Id
     if (-not $installed) {
         Write-Info "Instalando $Name via winget..."
         winget install --id $Id --silent --accept-source-agreements --accept-package-agreements
-        # Actualizar PATH en la sesión actual
+        # Actualizar PATH en la sesion actual
         $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     } else {
         Write-Ok "$Name ya instalado"
     }
 }
 
-# ── Paso 1: Dependencias ───────────────────────────────────
+# -- Paso 1: Dependencias -----------------------------------
 Write-Step "1/6  Instalando dependencias del sistema"
 
 # Git
@@ -89,26 +346,26 @@ if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) {
 }
 Write-Ok "ffmpeg $(ffmpeg -version 2>$null | Select-Object -First 1)"
 
-# ── Paso 2: npm ────────────────────────────────────────────
+# -- Paso 2: npm --------------------------------------------
 Write-Step "2/6  Verificando npm"
 
 # Usamos npm.cmd directamente para evitar el wrapper npm.ps1, que puede
-# estar bloqueado por la política de ejecución de PowerShell.
+# estar bloqueado por la politica de ejecucion de PowerShell.
 if (-not (Get-Command npm.cmd -ErrorAction SilentlyContinue)) {
-    Write-Host "npm no está disponible. Reinstala Node.js LTS y vuelve a intentarlo." -ForegroundColor Red
+    Write-Host "npm no esta disponible. Reinstala Node.js LTS y vuelve a intentarlo." -ForegroundColor Red
     exit 1
 }
 Write-Ok "npm $(npm.cmd --version 2>$null)"
 
-# ── Paso 3: Código fuente ──────────────────────────────────
-Write-Step "3/6  Código fuente"
+# -- Paso 3: Codigo fuente ----------------------------------
+Write-Step "3/6  Codigo fuente"
 
 if (Test-Path "$INSTALL_DIR\.git") {
-    Write-Info "Repositorio existente → actualizando..."
+    Write-Info "Repositorio existente -> actualizando..."
     if (Test-Path "$INSTALL_DIR\.git\MERGE_HEAD") {
-        Write-Host "El repositorio tiene una fusión de Git sin terminar." -ForegroundColor Red
+        Write-Host "El repositorio tiene una fusion de Git sin terminar." -ForegroundColor Red
         Write-Host "Ejecuta: git -C `"$INSTALL_DIR`" merge --abort" -ForegroundColor Yellow
-        Write-Host "Después vuelve a ejecutar este instalador." -ForegroundColor Yellow
+        Write-Host "Despues vuelve a ejecutar este instalador." -ForegroundColor Yellow
         exit 1
     }
     git -C $INSTALL_DIR pull --quiet
@@ -117,7 +374,7 @@ if (Test-Path "$INSTALL_DIR\.git") {
         Write-Host "Revisa el estado con: git -C `"$INSTALL_DIR`" status" -ForegroundColor Yellow
         exit 1
     }
-    Write-Ok "Código actualizado"
+    Write-Ok "Codigo actualizado"
 } else {
     Write-Info "Clonando repositorio en $INSTALL_DIR ..."
     git clone --quiet $REPO_URL $INSTALL_DIR
@@ -129,55 +386,112 @@ Set-Location $relayDir
 
 Write-Info "Instalando dependencias del relay..."
 # Se instala solo relay-daemon, fuera del workspace pnpm. Esto evita que
-# Windows cargue dependencias y restricciones específicas del entorno Linux.
+# Windows cargue dependencias y restricciones especificas del entorno Linux.
 npm.cmd install --no-audit --no-fund
 if ($LASTEXITCODE -ne 0) {
-    Write-Host "La instalación de dependencias del relay ha fallado." -ForegroundColor Red
+    Write-Host "La instalacion de dependencias del relay ha fallado." -ForegroundColor Red
     exit 1
 }
 
 Write-Info "Compilando relay daemon..."
 npm.cmd run build
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path "$INSTALL_DIR\artifacts\relay-daemon\dist\main.mjs")) {
-    Write-Host "La compilación del relay ha fallado o no ha generado dist\main.mjs." -ForegroundColor Red
+    Write-Host "La compilacion del relay ha fallado o no ha generado dist\main.mjs." -ForegroundColor Red
     Write-Host "Revisa el mensaje anterior y vuelve a ejecutar el instalador." -ForegroundColor Red
     exit 1
 }
-Write-Ok "Compilación completada"
+Write-Ok "Compilacion completada"
 
-# ── Paso 4: Detectar dispositivos de audio y COM ──────────
+# -- Paso 4: Detectar dispositivos de audio y COM -----------
 Write-Step "4/6  Detectando dispositivos"
 
 Write-Host ""
-Write-Host "  Dispositivos de audio USB disponibles (copia el nombre exacto):" -ForegroundColor Cyan
-ffmpeg -list_devices true -f dshow -i dummy 2>&1 | Select-String '".*"' | ForEach-Object {
-    Write-Host "    $_"
+Write-Host "  Entradas de audio DirectShow disponibles:" -ForegroundColor Cyan
+$ffmpegPath = (Get-Command ffmpeg -ErrorAction Stop).Source
+$ffplayCommand = Get-Command ffplay -ErrorAction SilentlyContinue
+if (-not $ffplayCommand) {
+    Write-Host "FFplay no esta disponible. Reinstala FFmpeg con winget y vuelve a intentarlo." -ForegroundColor Red
+    exit 1
+}
+$ffplayPath = $ffplayCommand.Source
+$captureDevices = @(Get-DirectShowAudioDevices $ffmpegPath)
+if ($captureDevices.Count -eq 0) {
+    Write-Warn "No se han detectado entradas DirectShow. Conecta la interfaz USB y vuelve a ejecutar el instalador."
+} else {
+    for ($i = 0; $i -lt $captureDevices.Count; $i++) {
+        Write-Host "    $($i + 1). $($captureDevices[$i])"
+    }
+}
+
+Write-Host ""
+Write-Host "  Salidas de audio Windows disponibles (WASAPI):" -ForegroundColor Cyan
+$audioEndpoints = @(Get-WindowsAudioEndpoints)
+$playbackDevices = @($audioEndpoints | Where-Object {
+    $_ -match "(?i)(speaker|speakers|altavoz|altavoces|headphone|headphones|auricular|auriculares|output|salida|line out)"
+})
+if ($playbackDevices.Count -eq 0) {
+    $playbackDevices = $audioEndpoints
+}
+if ($playbackDevices.Count -eq 0) {
+    Write-Warn "No se han detectado salidas de audio Windows. Puedes introducir el nombre manualmente."
+} else {
+    for ($i = 0; $i -lt $playbackDevices.Count; $i++) {
+        Write-Host "    $($i + 1). $($playbackDevices[$i])"
+    }
 }
 
 Write-Host ""
 Write-Host "  Puertos COM disponibles (para PTT serial):" -ForegroundColor Cyan
-Get-WmiObject Win32_SerialPort 2>$null | ForEach-Object {
-    Write-Host "    $($_.DeviceID)  — $($_.Name)"
-}
-if (-not (Get-WmiObject Win32_SerialPort 2>$null)) {
+$serialPorts = @(Get-WmiObject Win32_SerialPort -ErrorAction SilentlyContinue)
+if ($serialPorts.Count -eq 0) {
     Write-Host "    (ninguno detectado)"
+} else {
+    foreach ($serialPort in $serialPorts) {
+        Write-Host "    $($serialPort.DeviceID) - $($serialPort.Name)"
+    }
 }
 
-# ── Paso 5: Configuración interactiva ─────────────────────
-Write-Step "5/6  Configuración del relay"
+# -- Paso 5: Configuracion interactiva -----------------------
+Write-Step "5/6  Configuracion del relay"
 Write-Host ""
 
-$CALLSIGN = Read-Host "  Callsign del relay (formato 0R-NOMBRE, ej: 0R-WINPC)"
+$CALLSIGN = Read-RequiredValue "  Callsign del relay (formato 0R-NOMBRE, ej: 0R-WINPC)"
 if (-not $CALLSIGN.StartsWith("0R-")) {
     Write-Warn "Se recomienda el formato 0R-NOMBRE para relays"
 }
 
-$AUDIO_DEVICE = Read-Host "  Nombre exacto del dispositivo de audio (copia de la lista anterior)"
+$CAPTURE_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la entrada de audio DirectShow" -Devices $captureDevices
+$PLAYBACK_DEVICE = Read-DeviceChoice -Prompt "  Selecciona la salida de audio Windows" -Devices $playbackDevices
 
-$PTT_DEVICE = Read-Host "  Puerto COM para PTT (ej: COM3) [Enter si no hay cable PTT]"
+if ($IS_PHYSICAL_INSTALL) {
+    if (-not (Test-AudioCapture -FfmpegPath $ffmpegPath -CaptureDevice $CAPTURE_DEVICE)) {
+        Write-Host "La tarea programada no se creara hasta que la captura de audio funcione." -ForegroundColor Red
+        exit 1
+    }
+    if (-not (Test-AudioPlayback -FfplayPath $ffplayPath -PlaybackDevice $PLAYBACK_DEVICE)) {
+        Write-Host "La tarea programada no se creara hasta que la salida de audio funcione." -ForegroundColor Red
+        exit 1
+    }
+} else {
+    Write-Info "Pruebas de audio omitidas para evitar interferencias con la VM."
+}
 
-$RELAY_TOKEN = Read-Host "  Token/contraseña del relay (facilitado por el administrador)" -AsSecureString
-$RELAY_TOKEN_PLAIN = [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($RELAY_TOKEN))
+$PTT_DEVICE = ""
+while ($true) {
+    $PTT_DEVICE = (Read-Host "  Puerto COM para PTT (ej: COM3) [Enter si no hay cable PTT]").Trim()
+    if ([string]::IsNullOrWhiteSpace($PTT_DEVICE) -or $PTT_DEVICE -match "^COM\d+$") {
+        break
+    }
+    Write-Warn "El puerto debe tener el formato COM seguido de un numero, o dejarse vacio."
+}
+
+$RELAY_TOKEN = Read-Host "  Token/contrasena del relay (facilitado por el administrador)" -AsSecureString
+$tokenBstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($RELAY_TOKEN)
+try {
+    $RELAY_TOKEN_PLAIN = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($tokenBstr)
+} finally {
+    [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($tokenBstr)
+}
 
 $ROOM   = Read-Host "  Sala eQSO [default: CB]"
 if (-not $ROOM) { $ROOM = "CB" }
@@ -185,76 +499,167 @@ if (-not $ROOM) { $ROOM = "CB" }
 $SERVER = Read-Host "  Servidor eQSO [default: asorapa.sytes.net]"
 if (-not $SERVER) { $SERVER = "asorapa.sytes.net" }
 
-$PORT   = Read-Host "  Puerto del servidor [default: 2172]"
-if (-not $PORT) { $PORT = "2172" }
+$PORT_INPUT = Read-Host "  Puerto del servidor [default: 2172]"
+if (-not $PORT_INPUT) { $PORT_INPUT = "2172" }
+[int]$PORT = 0
+if (-not [int]::TryParse($PORT_INPUT, [ref]$PORT) -or $PORT -lt 1 -or $PORT -gt 65535) {
+    Write-Host "El puerto debe ser un numero entre 1 y 65535." -ForegroundColor Red
+    exit 1
+}
 
-# ── Crear config JSON ─────────────────────────────────────
+# -- Crear config JSON --------------------------------------
 New-Item -ItemType Directory -Path $CONFIG_DIR -Force | Out-Null
 
-$configJson = @"
-{
-  "backend": "ffmpeg",
-  "callsign": "$CALLSIGN",
-  "room": "$ROOM",
-  "password": "$RELAY_TOKEN_PLAIN",
-  "message": "Radio Enlace CB",
-  "server": "$SERVER",
-  "port": $PORT,
-  "audio": {
-    "captureDevice":   "$AUDIO_DEVICE",
-    "playbackDevice":  "$AUDIO_DEVICE",
-    "captureFormat":   "dshow",
-    "playbackFormat":  "wasapi",
-    "vox": true,
-    "voxThresholdRms": 1500,
-    "voxHangMs": 800,
-    "txGateRms": 50,
-    "inputGain": 0.3,
-    "outputGain": 1.0,
-    "postRxSuppressMs": 2500,
-    "postTxSuppressMs": 1000
-  },
-  "ptt": {
-    "device": "$PTT_DEVICE",
-    "method": "rts",
-    "inverted": false
-  }
-}
-"@
-
 $configPath = "$CONFIG_DIR\$ROOM.json"
-$configJson | Out-File -FilePath $configPath -Encoding utf8
-Write-Ok "Configuración guardada en $configPath"
+$configObject = [ordered]@{
+    backend = "ffmpeg"
+    callsign = $CALLSIGN
+    room = $ROOM
+    password = $RELAY_TOKEN_PLAIN
+    message = "Radio Enlace CB"
+    server = $SERVER
+    port = $PORT
+    reconnectMinMs = 3000
+    reconnectMaxMs = 60000
+    audio = [ordered]@{
+        captureDevice = $CAPTURE_DEVICE
+        playbackDevice = $PLAYBACK_DEVICE
+        captureFormat = "dshow"
+        playbackFormat = "ffplay"
+        vox = $true
+        voxThresholdRms = 1500
+        voxHangMs = 800
+        txGateRms = 50
+        inputGain = 0.3
+        outputGain = 1.0
+        postRxSuppressMs = 2500
+        postTxSuppressMs = 1000
+    }
+    control = [ordered]@{
+        enabled = $true
+        port = 8009
+        host = "127.0.0.1"
+    }
+    ptt = [ordered]@{
+        device = $PTT_DEVICE
+        method = "rts"
+        inverted = $false
+    }
+}
+$configJson = $configObject | ConvertTo-Json -Depth 10
+$utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+[System.IO.File]::WriteAllText($configPath, $configJson + [Environment]::NewLine, $utf8NoBom)
+Write-Ok "Configuracion guardada en $configPath"
 
-# ── Paso 6: Instalar como tarea programada ────────────────
+$RELAY_TOKEN_PLAIN = $null
+
+if (-not (Test-RelayConfig $configPath)) {
+    Write-Host "Corrige los datos indicados y vuelve a ejecutar el instalador." -ForegroundColor Red
+    exit 1
+}
+Write-Ok "Configuracion JSON validada"
+
+# -- Paso 6: Instalar como tarea programada -----------------
 Write-Step "6/6  Instalando como servicio de Windows"
 
 $nodePath  = (Get-Command node).Source
 $scriptDir = "$INSTALL_DIR\artifacts\relay-daemon"
+$logPath   = "$CONFIG_DIR\relay-$ROOM.log"
+$taskName  = "eQSO Relay $ROOM"
+
+# Crear el log antes de registrar/arrancar la tarea. Así siempre hay un
+# archivo que consultar aunque el proceso de Node no llegue a iniciar.
+New-Item -ItemType File -Path $logPath -Force | Out-Null
+Write-Ok "Log preparado en $logPath"
 
 # Crear script de arranque con variables de entorno
 $startScript = @"
 @echo off
-set RELAY_INSTANCE=$ROOM
-set NODE_ENV=production
-set CONFIG_FILE=$configPath
+set "RELAY_INSTANCE=$ROOM"
+set "NODE_ENV=production"
+set "CONFIG_FILE=$configPath"
+set "FFPLAY_PATH=$ffplayPath"
 cd /d "$scriptDir"
-"$nodePath" --enable-source-maps dist\main.mjs
+echo [%date% %time%] Iniciando relay $ROOM >> "$logPath"
+"$nodePath" --enable-source-maps dist\main.mjs --eqso-relay-instance=$ROOM >> "$logPath" 2>&1
+set "RELAY_EXIT_CODE=%ERRORLEVEL%"
+echo [%date% %time%] Relay finalizado con codigo %RELAY_EXIT_CODE% >> "$logPath"
+exit /b %RELAY_EXIT_CODE%
 "@
 
 $startScriptPath = "$CONFIG_DIR\start-$ROOM.cmd"
 $startScript | Out-File -FilePath $startScriptPath -Encoding ascii
 Write-Ok "Script de arranque: $startScriptPath"
 
+# Crear un comando de parada completo. Stop-ScheduledTask detiene la tarea,
+# pero los wrappers cmd/wscript pueden dejar vivo el node.exe hijo. El
+# identificador único en la línea de comandos permite cerrar solo este relay.
+$stopScriptPath = "$CONFIG_DIR\stop-$ROOM.ps1"
+$stopScript = @'
+$ErrorActionPreference = "Stop"
+$taskName = "__TASK_NAME__"
+$instanceMarker = "--eqso-relay-instance=__ROOM__"
+
+$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+    $arguments = "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`""
+    $elevated = Start-Process -FilePath "powershell.exe" -ArgumentList $arguments -Verb RunAs -Wait -PassThru
+    exit $elevated.ExitCode
+}
+
+Stop-ScheduledTask -TaskName $taskName -ErrorAction Stop
+Start-Sleep -Milliseconds 500
+
+$processes = @(Get-CimInstance Win32_Process -Filter "Name = 'node.exe'" |
+    Where-Object { $_.CommandLine -and $_.CommandLine.Contains($instanceMarker) })
+
+foreach ($process in $processes) {
+    & "$env:SystemRoot\System32\taskkill.exe" /PID $process.ProcessId /T /F | Out-Null
+}
+
+$state = "Running"
+for ($attempt = 0; $attempt -lt 20; $attempt++) {
+    $state = (Get-ScheduledTask -TaskName $taskName -ErrorAction Stop).State
+    if ($state -ne "Running") {
+        break
+    }
+    Start-Sleep -Milliseconds 250
+}
+if ($state -eq "Running") {
+    throw "La tarea '$taskName' sigue en estado Running."
+}
+
+Write-Host "Relay detenido: $taskName" -ForegroundColor Green
+'@
+$stopScript = $stopScript.Replace("__TASK_NAME__", $taskName).Replace("__ROOM__", $ROOM)
+[System.IO.File]::WriteAllText($stopScriptPath, $stopScript, (New-Object System.Text.UTF8Encoding($false)))
+Write-Ok "Script de parada: $stopScriptPath"
+
+# Crear un lanzador VBScript oculto para la tarea programada. Ejecutar el CMD
+# directamente abre una ventana de consola visible durante toda la vida del
+# daemon; wscript.exe con ventana 0 lo mantiene en segundo plano.
+$hiddenLauncherPath = "$CONFIG_DIR\run-$ROOM.vbs"
+$escapedStartScriptPath = $startScriptPath.Replace('"', '""')
+$hiddenLauncher = @"
+Set shell = CreateObject("WScript.Shell")
+command = "cmd.exe /d /c " & Chr(34) & "$escapedStartScriptPath" & Chr(34)
+exitCode = shell.Run(command, 0, True)
+WScript.Quit exitCode
+"@
+[System.IO.File]::WriteAllText($hiddenLauncherPath, $hiddenLauncher, [System.Text.Encoding]::ASCII)
+Write-Ok "Lanzador oculto: $hiddenLauncherPath"
+
 # Registrar tarea en el Programador de tareas de Windows.
 # No usamos New-ScheduledTaskSettingsSet -RestartOnFailure porque ese
-# parámetro no existe en algunas versiones de Windows PowerShell 5.1.
-# El XML mantiene el reinicio automático y es compatible con esas versiones.
-$taskName = "eQSO Relay $ROOM"
+# parametro no existe en algunas versiones de Windows PowerShell 5.1.
+# El XML mantiene el reinicio automatico y es compatible con esas versiones.
 $userId = "$env:USERDOMAIN\$env:USERNAME"
 $xmlUserId = [System.Security.SecurityElement]::Escape($userId)
-$xmlComSpec = [System.Security.SecurityElement]::Escape($env:ComSpec)
-$xmlArguments = [System.Security.SecurityElement]::Escape("/c `"$startScriptPath`"")
+$wscriptPath = Join-Path $env:WINDIR "System32\wscript.exe"
+$xmlWscriptPath = [System.Security.SecurityElement]::Escape($wscriptPath)
+$xmlArguments = [System.Security.SecurityElement]::Escape("//B //NoLogo `"$hiddenLauncherPath`"")
+$autoStart = $IS_PHYSICAL_INSTALL
+$xmlTriggerEnabled = if ($autoStart) { "true" } else { "false" }
 $taskXml = @"
 <?xml version="1.0" encoding="UTF-16"?>
 <Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
@@ -264,7 +669,7 @@ $taskXml = @"
   <Triggers>
     <LogonTrigger>
       <UserId>$xmlUserId</UserId>
-      <Enabled>true</Enabled>
+      <Enabled>$xmlTriggerEnabled</Enabled>
     </LogonTrigger>
   </Triggers>
   <Principals>
@@ -275,6 +680,7 @@ $taskXml = @"
     </Principal>
   </Principals>
   <Settings>
+    <Hidden>true</Hidden>
     <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
     <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
     <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
@@ -287,7 +693,7 @@ $taskXml = @"
   </Settings>
   <Actions Context="Author">
     <Exec>
-      <Command>$xmlComSpec</Command>
+      <Command>$xmlWscriptPath</Command>
       <Arguments>$xmlArguments</Arguments>
       <WorkingDirectory>$scriptDir</WorkingDirectory>
     </Exec>
@@ -309,22 +715,36 @@ try {
 
 Write-Ok "Tarea programada registrada: '$taskName'"
 
-# Arrancar ahora mismo
-Write-Info "Arrancando el relay..."
-Start-ScheduledTask -TaskName $taskName
-Start-Sleep -Seconds 3
+# Arrancar ahora mismo solo mediante una opcion explicita. En el modo
+# seguro, la tarea queda registrada pero no abre los dispositivos de audio.
+$startRelayNow = $IS_PHYSICAL_INSTALL
+if ($startRelayNow) {
+    Write-Info "Arrancando el relay..."
+    Start-ScheduledTask -TaskName $taskName
+    Start-Sleep -Seconds 3
+} else {
+    Write-Info "Tarea registrada sin arrancar; no se abriran dispositivos de audio."
+}
 
 $taskStatus = (Get-ScheduledTask -TaskName $taskName).State
 
-# ── Resultado ─────────────────────────────────────────────
+# -- Resultado ----------------------------------------------
 Write-Host ""
-if ($taskStatus -eq "Running") {
+if (-not $startRelayNow) {
     Write-Host "  ============================================" -ForegroundColor Green
-    Write-Host "    OK  INSTALACION COMPLETADA — Relay ACTIVO" -ForegroundColor Green
+    Write-Host "    OK  INSTALACION COMPLETADA - Relay PENDIENTE" -ForegroundColor Green
+    Write-Host "  ============================================" -ForegroundColor Green
+    Write-Info "Inicia el relay cuando quieras con Start-ScheduledTask -TaskName '$taskName'"
+    if (-not $autoStart) {
+        Write-Info "Autoinicio desactivado. Para activarlo: Enable-ScheduledTask -TaskName '$taskName'"
+    }
+} elseif ($taskStatus -eq "Running") {
+    Write-Host "  ============================================" -ForegroundColor Green
+    Write-Host "    OK  INSTALACION COMPLETADA - Relay ACTIVO" -ForegroundColor Green
     Write-Host "  ============================================" -ForegroundColor Green
 } else {
     Write-Host "  ============================================" -ForegroundColor Yellow
-    Write-Host "    !  INSTALACION COMPLETADA — Verifica estado" -ForegroundColor Yellow
+    Write-Host "    !  INSTALACION COMPLETADA - Verifica estado" -ForegroundColor Yellow
     Write-Host "  ============================================" -ForegroundColor Yellow
     Write-Warn "Estado de la tarea: $taskStatus"
 }
@@ -333,22 +753,23 @@ Write-Host ""
 Write-Host "  Callsign : $CALLSIGN"
 Write-Host "  Servidor : ${SERVER}:${PORT}"
 Write-Host "  Sala     : $ROOM"
-Write-Host "  Audio    : $AUDIO_DEVICE"
+Write-Host "  Captura  : $CAPTURE_DEVICE"
+Write-Host "  Playback : $PLAYBACK_DEVICE"
 if ($PTT_DEVICE) { Write-Host "  PTT      : $PTT_DEVICE" } else { Write-Host "  PTT      : deshabilitado" }
 Write-Host "  Config   : $configPath"
-Write-Host "  Código   : $INSTALL_DIR"
+Write-Host "  Codigo   : $INSTALL_DIR"
 Write-Host ""
-Write-Host "  Comandos útiles:" -ForegroundColor Cyan
+Write-Host "  Comandos utiles:" -ForegroundColor Cyan
 Write-Host "    Ver log en tiempo real:"
 Write-Host "      Get-Content `"$CONFIG_DIR\relay-$ROOM.log`" -Wait -Tail 20"
 Write-Host "    Parar el relay:"
-Write-Host "      Stop-ScheduledTask -TaskName '$taskName'"
+Write-Host "      powershell.exe -ExecutionPolicy Bypass -File `"$stopScriptPath`""
 Write-Host "    Reiniciar el relay:"
-Write-Host "      Stop-ScheduledTask -TaskName '$taskName'; Start-ScheduledTask -TaskName '$taskName'"
+Write-Host "      powershell.exe -ExecutionPolicy Bypass -File `"$stopScriptPath`"; Start-ScheduledTask -TaskName '$taskName'"
 Write-Host "    Desinstalar:"
-Write-Host "      Unregister-ScheduledTask -TaskName '$taskName' -Confirm:`$false"
+Write-Host "      powershell.exe -ExecutionPolicy Bypass -File `"$stopScriptPath`"; Unregister-ScheduledTask -TaskName '$taskName' -Confirm:`$false"
 Write-Host ""
-Write-Host "  Calibración VOX: edita $configPath" -ForegroundColor Cyan
+Write-Host "  Calibracion VOX: edita $configPath" -ForegroundColor Cyan
 Write-Host "    Sube voxThresholdRms si dispara con ruido de fondo."
 Write-Host "    Baja voxThresholdRms si no detecta la voz de la radio."
 Write-Host ""
