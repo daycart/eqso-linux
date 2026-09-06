@@ -23,6 +23,10 @@ Daemon Node.js que conecta una radio CB física (Super Star 3900) al servidor eQ
 
 ## Instalación
 
+Para Windows con Sound Blaster Play! 3 y PTT serie CH343, consulta
+[WINDOWS.md](WINDOWS.md). Esa guía también explica cómo ejecutar simultáneamente
+el cliente eQSO 1.13 sin disputarle el audio ni `COM5` al relay.
+
 ```bash
 # Servicio systemd
 sudo systemctl enable eqso-relay@CB
