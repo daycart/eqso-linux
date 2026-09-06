@@ -1,0 +1,158 @@
+ Get-Content C:\eqso-relay\relay-CB.log -Tail 200
+[audio-ffmpeg] 2026-09-06T09:53:15.123Z [nivel] pico RMS=2 (-83.0 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:53:20.132Z [nivel] pico RMS=2 (-82.9 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:53:25.143Z [nivel] pico RMS=2 (-82.9 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:53:30.153Z [nivel] pico RMS=2 (-82.6 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:53:35.159Z [nivel] pico RMS=2 (-82.5 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:53:40.161Z [nivel] pico RMS=2 (-82.5 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:53:45.172Z [nivel] pico RMS=2 (-82.6 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:53:50.179Z [nivel] pico RMS=2 (-82.7 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:53:55.180Z [nivel] pico RMS=2 (-82.8 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:54:00.185Z [nivel] pico RMS=2 (-82.9 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T09:54:00.936Z VOX: PTT activado â€” inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+[main] 2026-09-06T09:54:01.635Z Sala: 0R-IN70WN ha salido
+[eqso] 2026-09-06T09:54:02.243Z PTT liberado [0x0d]
+[main] 2026-09-06T09:54:02.243Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-06T09:54:03.243Z)
+[main] 2026-09-06T09:54:03.444Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-06T09:54:03.243Z)
+[eqso] 2026-09-06T09:54:04.745Z PTT liberado [0x0d]
+[main] 2026-09-06T09:54:04.745Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-06T09:54:05.745Z)
+[audio-ffmpeg] 2026-09-06T09:54:05.192Z [nivel] pico RMS=5860 (-15.0 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:54:10.193Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T09:54:10.847Z Sala: 0R-IN70WN se ha unido
+[audio-ffmpeg] 2026-09-06T09:54:15.201Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:54:20.210Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:54:25.213Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:54:30.219Z [nivel] pico RMS=32 (-60.1 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:54:35.226Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:54:40.238Z [nivel] pico RMS=32 (-60.1 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T09:54:42.354Z Sala: PRUEBAS_CB se ha unido
+[audio-ffmpeg] 2026-09-06T09:54:45.240Z [nivel] pico RMS=33 (-60.0 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:54:50.245Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T09:54:50.436Z TX: PRUEBAS_CB transmitiendo
+[main] 2026-09-06T09:54:50.437Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-09-06T09:54:52.937Z (2500ms)
+[audio-ffmpeg] 2026-09-06T09:54:50.473Z [audio] Semi-duplex: suspendiendo captura ffmpeg para RX (preventivo)
+[audio-ffmpeg] 2026-09-06T09:54:50.475Z [playGsm] pkt#1 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T09:54:50.475Z [audio] pkt#1 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T09:54:50.483Z [playPcm] chunk#1 â†’ jitterBuf=960 playerStarting=false
+[audio-ffmpeg] 2026-09-06T09:54:50.495Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T09:54:50.548Z [playGsm] pkt#2 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T09:54:50.548Z [audio] pkt#2 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T09:54:50.549Z [playPcm] chunk#2 â†’ jitterBuf=1920 playerStarting=false
+[audio-ffmpeg] 2026-09-06T09:54:50.696Z [playGsm] pkt#3 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T09:54:50.696Z [audio] pkt#3 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T09:54:50.698Z [playPcm] chunk#3 â†’ jitterBuf=2880 playerStarting=false
+[audio-ffmpeg] 2026-09-06T09:54:50.842Z [playPcm] chunk#4 â†’ jitterBuf=3840 playerStarting=false
+[audio-ffmpeg] 2026-09-06T09:54:50.894Z [playPcm] chunk#5 â†’ jitterBuf=4800 playerStarting=false
+[audio-ffmpeg] 2026-09-06T09:54:50.895Z Playback: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f s16le -ar 48000 -ac 1 -i pipe:0 -f ffplay Altavoces (Sound Blaster Play! 3)
+[audio-ffmpeg] 2026-09-06T09:54:51.360Z [ffmpeg-play] [AVFormatContext @ 000001683b4b6340] Requested output format 'ffplay' is not known.
+[out#0 @ 000001683b498a40] Error initializing the muxer for Altavoces (Sound Blaster Play! 3): Invalid argument
+Error opening output file Altavoces (Sound Blaster Play! 3).
+[audio-ffmpeg] 2026-09-06T09:54:51.361Z [ffmpeg-play] Error opening output files: Invalid argument
+[audio-ffmpeg] 2026-09-06T09:54:51.384Z [ffmpeg-play] Terminado (code 4294967274)
+[audio-ffmpeg] 2026-09-06T09:54:51.384Z [audio] Semi-duplex: reanudando captura (player cerrado inesperadamente)
+[audio-ffmpeg] 2026-09-06T09:54:51.384Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T09:54:52.606Z Sala: 0R-IN70WN ha salido
+[audio-ffmpeg] 2026-09-06T09:54:52.823Z [audio] Semi-duplex: matando captura â€” esperando cierre para abrir player
+[audio-ffmpeg] 2026-09-06T09:54:52.848Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T09:54:52.848Z [audio] Captura cerrada â€” abriendo player
+[audio-ffmpeg] 2026-09-06T09:54:52.848Z Playback: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f s16le -ar 48000 -ac 1 -i pipe:0 -f ffplay Altavoces (Sound Blaster Play! 3)
+[main] 2026-09-06T09:54:53.198Z TX: PRUEBAS_CB libero canal
+[audio-ffmpeg] 2026-09-06T09:54:55.255Z [nivel] pico RMS=32 (-60.3 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T09:54:55.357Z TX: PRUEBAS_CB transmitiendo
+[main] 2026-09-06T09:54:55.357Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-09-06T09:54:57.857Z (2500ms)
+[main] 2026-09-06T09:54:55.736Z TX: PRUEBAS_CB libero canal
+[main] 2026-09-06T09:54:56.792Z TX: PRUEBAS_CB transmitiendo
+[main] 2026-09-06T09:54:56.792Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-09-06T09:54:59.292Z (2500ms)
+[audio-ffmpeg] 2026-09-06T09:54:57.132Z [ffmpeg-play] [AVFormatContext @ 0000028ac3276340] Requested output format 'ffplay' is not known.
+[out#0 @ 0000028ac3258a40] Error initializing the muxer for Altavoces (Sound Blaster Play! 3): Invalid argument
+Error opening output file Altavoces (Sound Blaster Play! 3).
+Error opening output files: Invalid argument
+[audio-ffmpeg] 2026-09-06T09:54:57.152Z [ffmpeg-play] Terminado (code 4294967274)
+[audio-ffmpeg] 2026-09-06T09:54:57.153Z [audio] Semi-duplex: reanudando captura (player cerrado inesperadamente)
+[audio-ffmpeg] 2026-09-06T09:54:57.153Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-06T09:54:57.622Z [audio] Semi-duplex: matando captura â€” esperando cierre para abrir player
+[audio-ffmpeg] 2026-09-06T09:54:57.631Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T09:54:57.631Z [audio] Captura cerrada â€” abriendo player
+[audio-ffmpeg] 2026-09-06T09:54:57.631Z Playback: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f s16le -ar 48000 -ac 1 -i pipe:0 -f ffplay Altavoces (Sound Blaster Play! 3)
+[audio-ffmpeg] 2026-09-06T09:54:58.143Z [ffmpeg-play] [AVFormatContext @ 000001fed4286340] Requested output format 'ffplay' is not known.
+[out#0 @ 000001fed4268a40] Error initializing the muxer for Altavoces (Sound Blaster Play! 3): Invalid argument
+Error opening output file Altavoces (Sound Blaster Play! 3).
+Error opening output files: Invalid argument
+[audio-ffmpeg] 2026-09-06T09:54:58.162Z [ffmpeg-play] Terminado (code 4294967274)
+[audio-ffmpeg] 2026-09-06T09:54:58.163Z [audio] Semi-duplex: reanudando captura (player cerrado inesperadamente)
+[audio-ffmpeg] 2026-09-06T09:54:58.163Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-06T09:54:58.682Z [audio] Semi-duplex: matando captura â€” esperando cierre para abrir player
+[audio-ffmpeg] 2026-09-06T09:54:58.692Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T09:54:58.692Z [audio] Captura cerrada â€” abriendo player
+[audio-ffmpeg] 2026-09-06T09:54:58.692Z Playback: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f s16le -ar 48000 -ac 1 -i pipe:0 -f ffplay Altavoces (Sound Blaster Play! 3)
+[audio-ffmpeg] 2026-09-06T09:54:59.326Z [ffmpeg-play] [AVFormatContext @ 000001a4ad9c6340] Requested output format 'ffplay' is not known.
+[out#0 @ 000001a4ad9a8a40] Error initializing the muxer for Altavoces (Sound Blaster Play! 3): Invalid argument
+Error opening output file Altavoces (Sound Blaster Play! 3).
+[audio-ffmpeg] 2026-09-06T09:54:59.327Z [ffmpeg-play] Error opening output files: Invalid argument
+[audio-ffmpeg] 2026-09-06T09:54:59.347Z [ffmpeg-play] Terminado (code 4294967274)
+[audio-ffmpeg] 2026-09-06T09:54:59.347Z [audio] Semi-duplex: reanudando captura (player cerrado inesperadamente)
+[audio-ffmpeg] 2026-09-06T09:54:59.347Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T09:54:59.890Z TX: PRUEBAS_CB libero canal
+[audio-ffmpeg] 2026-09-06T09:55:00.267Z [nivel] pico RMS=31 (-60.5 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T09:55:01.111Z Sala: 0R-IN70WN se ha unido
+[main] 2026-09-06T09:55:03.563Z [rxInhibit] playback_ended: suppress extendido â†’ 2026-09-06T09:55:06.063Z (prev=2026-09-06T09:54:59.292Z)
+[audio-ffmpeg] 2026-09-06T09:55:05.272Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:55:10.275Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:55:15.286Z [nivel] pico RMS=33 (-59.9 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:55:20.293Z [nivel] pico RMS=32 (-60.1 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:55:25.299Z [nivel] pico RMS=33 (-60.1 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:55:30.314Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:55:35.330Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T09:55:37.925Z TX: PRUEBAS_CB transmitiendo
+[main] 2026-09-06T09:55:37.926Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-09-06T09:55:40.425Z (2500ms)
+[audio-ffmpeg] 2026-09-06T09:55:37.926Z [audio] Semi-duplex: suspendiendo captura ffmpeg para RX (preventivo)
+[audio-ffmpeg] 2026-09-06T09:55:37.964Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T09:55:38.131Z Playback: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f s16le -ar 48000 -ac 1 -i pipe:0 -f ffplay Altavoces (Sound Blaster Play! 3)
+[audio-ffmpeg] 2026-09-06T09:55:38.624Z [ffmpeg-play] [AVFormatContext @ 0000020212866340] Requested output format 'ffplay' is not known.
+[out#0 @ 0000020212848a40] Error initializing the muxer for Altavoces (Sound Blaster Play! 3): Invalid argument
+Error opening output file Altavoces (Sound Blaster Play! 3).
+Error opening output files: Invalid argument
+[audio-ffmpeg] 2026-09-06T09:55:38.650Z [ffmpeg-play] Terminado (code 4294967274)
+[audio-ffmpeg] 2026-09-06T09:55:38.650Z [audio] Semi-duplex: reanudando captura (player cerrado inesperadamente)
+[audio-ffmpeg] 2026-09-06T09:55:38.650Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T09:55:38.734Z Sala: 0R-IN70WN ha salido
+[audio-ffmpeg] 2026-09-06T09:55:39.220Z [playGsm] pkt#50 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-06T09:55:39.220Z [audio] pkt#50 len=198b â†’ playGsm OK (pttActive=false rxActive=true)
+[audio-ffmpeg] 2026-09-06T09:55:39.220Z [audio] Semi-duplex: matando captura â€” esperando cierre para abrir player
+[audio-ffmpeg] 2026-09-06T09:55:39.229Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T09:55:39.229Z [audio] Captura cerrada â€” abriendo player
+[audio-ffmpeg] 2026-09-06T09:55:39.229Z Playback: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f s16le -ar 48000 -ac 1 -i pipe:0 -f ffplay Altavoces (Sound Blaster Play! 3)
+[audio-ffmpeg] 2026-09-06T09:55:39.724Z [ffmpeg-play] [AVFormatContext @ 000001d39cca6340] Requested output format 'ffplay' is not known.
+[out#0 @ 000001d39cc88a40] Error initializing the muxer for Altavoces (Sound Blaster Play! 3): Invalid argument
+Error opening output file Altavoces (Sound Blaster Play! 3).
+Error opening output files: Invalid argument
+[audio-ffmpeg] 2026-09-06T09:55:39.741Z [ffmpeg-play] Terminado (code 4294967274)
+[audio-ffmpeg] 2026-09-06T09:55:39.741Z [audio] Semi-duplex: reanudando captura (player cerrado inesperadamente)
+[audio-ffmpeg] 2026-09-06T09:55:39.741Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-06T09:55:40.313Z [audio] Semi-duplex: matando captura â€” esperando cierre para abrir player
+[audio-ffmpeg] 2026-09-06T09:55:40.322Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T09:55:40.322Z [audio] Captura cerrada â€” abriendo player
+[audio-ffmpeg] 2026-09-06T09:55:40.322Z Playback: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f s16le -ar 48000 -ac 1 -i pipe:0 -f ffplay Altavoces (Sound Blaster Play! 3)
+[audio-ffmpeg] 2026-09-06T09:55:40.335Z [nivel] pico RMS=32 (-60.2 dBFS)  VOXumbral=1500  gain=0.3
+[audio-ffmpeg] 2026-09-06T09:55:40.783Z [ffmpeg-play] [AVFormatContext @ 0000025f07b26340] Requested output format 'ffplay' is not known.
+[out#0 @ 0000025f07b08a40] Error initializing the muxer for Altavoces (Sound Blaster Play! 3): Invalid argument
+Error opening output file Altavoces (Sound Blaster Play! 3).
+Error opening output files: Invalid argument
+[audio-ffmpeg] 2026-09-06T09:55:40.806Z [ffmpeg-play] Terminado (code 4294967274)
+[audio-ffmpeg] 2026-09-06T09:55:40.806Z [audio] Semi-duplex: reanudando captura (player cerrado inesperadamente)
+[audio-ffmpeg] 2026-09-06T09:55:40.806Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-06T09:55:41.382Z [audio] Semi-duplex: matando captura â€” esperando cierre para abrir player
+[audio-ffmpeg] 2026-09-06T09:55:41.391Z [ffmpeg-cap] Terminado (code null)
+[audio-ffmpeg] 2026-09-06T09:55:41.391Z [audio] Captura cerrada â€” abriendo player
+[audio-ffmpeg] 2026-09-06T09:55:41.391Z Playback: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f s16le -ar 48000 -ac 1 -i pipe:0 -f ffplay Altavoces (Sound Blaster Play! 3)
+[audio-ffmpeg] 2026-09-06T09:55:41.864Z [ffmpeg-play] [AVFormatContext @ 000001ac94306340] Requested output format 'ffplay' is not known.
+[out#0 @ 000001ac942e8a40] Error initializing the muxer for Altavoces (Sound Blaster Play! 3): Invalid argument
+Error opening output file Altavoces (Sound Blaster Play! 3).
+Error opening output files: Invalid argument
+[audio-ffmpeg] 2026-09-06T09:55:41.877Z [ffmpeg-play] Terminado (code 4294967274)
+[audio-ffmpeg] 2026-09-06T09:55:41.877Z [audio] Semi-duplex: reanudando captura (player cerrado inesperadamente)
+[audio-ffmpeg] 2026-09-06T09:55:41.878Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-06T09:55:42.801Z TX: PRUEBAS_CB libero canal
+[audio-ffmpeg] 2026-09-06T09:55:45.335Z [nivel] pico RMS=31 (-60.3 dBFS)  VOXumbral=1500  gain=0.3
+[main] 2026-09-06T09:55:46.344Z [rxInhibit] playback_ended: suppress extendido â†’ 2026-09-06T09:55:48.844Z (prev=2026-09-06T09:55:40.425Z)
+[main] 2026-09-06T09:55:48.014Z Sala: 0R-IN70WN se ha unido
