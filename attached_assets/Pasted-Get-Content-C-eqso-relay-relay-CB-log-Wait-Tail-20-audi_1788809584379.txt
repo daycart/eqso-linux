@@ -1,0 +1,50 @@
+Get-Content "C:\eqso-relay\relay-CB.log" -Wait -Tail 20
+[audio-ffmpeg] 2026-09-07T19:30:17.756Z [nivel] pico RMS=1254 (-28.3 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:30:22.763Z [nivel] pico RMS=1233 (-28.5 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:30:27.763Z [nivel] pico RMS=1176 (-28.9 dBFS)  VOXumbral=800  gain=0.6
+[eqso] 2026-09-07T19:30:31.295Z PTT liberado [0x0d]
+[main] 2026-09-07T19:30:31.295Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:30:31.895Z)
+[audio-ffmpeg] 2026-09-07T19:30:32.763Z [nivel] pico RMS=990 (-30.4 dBFS)  VOXumbral=800  gain=0.6
+[main] 2026-09-07T19:30:33.312Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:30:31.895Z)
+[eqso] 2026-09-07T19:30:36.309Z PTT liberado [0x0d]
+[main] 2026-09-07T19:30:36.310Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:30:36.910Z)
+[audio-ffmpeg] 2026-09-07T19:30:37.778Z [nivel] pico RMS=2170 (-23.6 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:30:42.790Z [nivel] pico RMS=45 (-57.3 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:30:47.805Z [nivel] pico RMS=45 (-57.2 dBFS)  VOXumbral=800  gain=0.6
+[main] 2026-09-07T19:30:50.511Z Sala: PRUEBAS ha salido
+[audio-ffmpeg] 2026-09-07T19:30:52.806Z [nivel] pico RMS=46 (-57.1 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:30:57.805Z [nivel] pico RMS=45 (-57.2 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:31:02.811Z [nivel] pico RMS=45 (-57.2 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:31:07.811Z [nivel] pico RMS=45 (-57.2 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:31:12.821Z [nivel] pico RMS=45 (-57.2 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:31:17.827Z [nivel] pico RMS=45 (-57.2 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:31:22.841Z [nivel] pico RMS=45 (-57.2 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:31:27.856Z [nivel] pico RMS=45 (-57.3 dBFS)  VOXumbral=800  gain=0.6
+[main] 2026-09-07T19:31:29.810Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:30:36.910Z)
+[audio-ffmpeg] 2026-09-07T19:31:32.862Z [nivel] pico RMS=1096 (-29.5 dBFS)  VOXumbral=800  gain=0.6
+[eqso] 2026-09-07T19:31:37.296Z PTT liberado [0x0d]
+[main] 2026-09-07T19:31:37.297Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:31:37.897Z)
+[audio-ffmpeg] 2026-09-07T19:31:37.873Z [nivel] pico RMS=2285 (-23.1 dBFS)  VOXumbral=800  gain=0.6
+[main] 2026-09-07T19:31:38.880Z Sala: PRUEBAS se ha unido
+[main] 2026-09-07T19:31:40.298Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:31:37.897Z)
+[audio-ffmpeg] 2026-09-07T19:31:42.877Z [nivel] pico RMS=1076 (-29.7 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:31:47.888Z [nivel] pico RMS=1114 (-29.4 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:31:52.893Z [nivel] pico RMS=899 (-31.2 dBFS)  VOXumbral=800  gain=0.6
+[eqso] 2026-09-07T19:31:56.295Z PTT liberado [0x0d]
+[main] 2026-09-07T19:31:56.296Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:31:56.896Z)
+[audio-ffmpeg] 2026-09-07T19:31:57.897Z [nivel] pico RMS=554 (-35.4 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:32:02.897Z [nivel] pico RMS=401 (-38.2 dBFS)  VOXumbral=800  gain=0.6
+[main] 2026-09-07T19:32:04.296Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:31:56.896Z)
+[audio-ffmpeg] 2026-09-07T19:32:07.911Z [nivel] pico RMS=973 (-30.5 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:32:12.911Z [nivel] pico RMS=1145 (-29.1 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:32:17.921Z [nivel] pico RMS=1681 (-25.8 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:32:22.924Z [nivel] pico RMS=1067 (-29.7 dBFS)  VOXumbral=800  gain=0.6
+[eqso] 2026-09-07T19:32:24.795Z PTT liberado [0x0d]
+[main] 2026-09-07T19:32:24.796Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:32:25.396Z)
+[audio-ffmpeg] 2026-09-07T19:32:27.931Z [nivel] pico RMS=43 (-57.6 dBFS)  VOXumbral=800  gain=0.6
+[main] 2026-09-07T19:32:29.313Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:32:25.396Z)
+[audio-ffmpeg] 2026-09-07T19:32:32.942Z [nivel] pico RMS=1210 (-28.7 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:32:37.943Z [nivel] pico RMS=1512 (-26.7 dBFS)  VOXumbral=800  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:32:42.948Z [nivel] pico RMS=2059 (-24.0 dBFS)  VOXumbral=800  gain=0.6
+[eqso] 2026-09-07T19:32:44.811Z PTT liberado [0x0d]
+[main] 2026-09-07T19:32:44.812Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:32:45.412Z)
