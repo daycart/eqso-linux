@@ -1,0 +1,89 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. Todos los derechos reservados.
+
+Prueba la nueva tecnología PowerShell multiplataforma https://aka.ms/pscore6
+
+PS C:\WINDOWS\system32> Get-NetTCPConnection -RemotePort 2172 -ErrorAction SilentlyContinue |
+>>     Select-Object State, LocalPort, RemoteAddress, OwningProcess
+
+      State LocalPort RemoteAddress  OwningProcess
+      ----- --------- -------------  -------------
+Established     52338 193.152.83.229         20212
+
+
+PS C:\WINDOWS\system32> Get-Content "C:\eqso-relay\relay-CB.log" -Tail 60
+[audio-ffmpeg] 2026-09-07T19:07:44.699Z [ffmpeg-cap] [in#0 @ 000001f2ff18d880] Error opening input: I/O error
+Error opening input file audio=MicrÃƒÂ³fono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-09-07T19:07:44.704Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-09-07T19:07:46.714Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-09-07T19:07:46.715Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃƒÂ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-07T19:07:46.800Z [ffmpeg-cap] [dshow @ 000001b4cbcfda00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-09-07T19:07:46.801Z [ffmpeg-cap] [dshow @ 000001b4cbcfda00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type video.
+[audio-ffmpeg] 2026-09-07T19:07:46.804Z [ffmpeg-cap] [in#0 @ 000001b4cbcfd880] Error opening input: I/O error
+Error opening input file audio=MicrÃƒÂ³fono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-09-07T19:07:46.810Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-09-07T19:07:48.818Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-09-07T19:07:48.819Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃƒÂ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-07T19:07:48.913Z [ffmpeg-cap] [dshow @ 00000236c2e7da00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-09-07T19:07:48.915Z [ffmpeg-cap] [dshow @ 00000236c2e7da00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type video.
+[audio-ffmpeg] 2026-09-07T19:07:48.918Z [ffmpeg-cap] [in#0 @ 00000236c2e7d880] Error opening input: I/O error
+Error opening input file audio=MicrÃƒÂ³fono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-09-07T19:07:48.923Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-09-07T19:07:50.938Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-09-07T19:07:50.938Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃƒÂ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-07T19:07:51.035Z [ffmpeg-cap] [dshow @ 000001c39eb7da00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-09-07T19:07:51.036Z [ffmpeg-cap] [dshow @ 000001c39eb7da00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type video.
+[audio-ffmpeg] 2026-09-07T19:07:51.038Z [ffmpeg-cap] [in#0 @ 000001c39eb7d880] Error opening input: I/O error
+Error opening input file audio=MicrÃƒÂ³fono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-09-07T19:07:51.043Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-09-07T19:07:53.051Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-09-07T19:07:53.052Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃƒÂ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-07T19:07:53.137Z [ffmpeg-cap] [dshow @ 0000021ff0ffda00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-09-07T19:07:53.139Z [ffmpeg-cap] [dshow @ 0000021ff0ffda00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type video.
+[audio-ffmpeg] 2026-09-07T19:07:53.142Z [ffmpeg-cap] [in#0 @ 0000021ff0ffd880] Error opening input: I/O error
+Error opening input file audio=MicrÃƒÂ³fono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-09-07T19:07:53.147Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-09-07T19:07:55.150Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-09-07T19:07:55.150Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃƒÂ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-07T19:07:55.255Z [ffmpeg-cap] [dshow @ 0000023a9588da00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-09-07T19:07:55.257Z [ffmpeg-cap] [dshow @ 0000023a9588da00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type video.
+[audio-ffmpeg] 2026-09-07T19:07:55.261Z [ffmpeg-cap] [in#0 @ 0000023a9588d880] Error opening input: I/O error
+Error opening input file audio=MicrÃƒÂ³fono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-09-07T19:07:55.270Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-09-07T19:07:57.283Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-09-07T19:07:57.283Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃƒÂ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-07T19:07:57.367Z [ffmpeg-cap] [dshow @ 00000231861eda00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-09-07T19:07:57.369Z [ffmpeg-cap] [dshow @ 00000231861eda00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type video.
+[audio-ffmpeg] 2026-09-07T19:07:57.371Z [ffmpeg-cap] [in#0 @ 00000231861ed880] Error opening input: I/O error
+Error opening input file audio=MicrÃƒÂ³fono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-09-07T19:07:57.377Z [ffmpeg-cap] Terminado (code 4294967291)
+[audio-ffmpeg] 2026-09-07T19:07:59.378Z [audio] Reintentando captura ffmpeg...
+[audio-ffmpeg] 2026-09-07T19:07:59.378Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃƒÂ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[audio-ffmpeg] 2026-09-07T19:07:59.454Z [ffmpeg-cap] [dshow @ 000001dd0e25da00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type audio.
+[audio-ffmpeg] 2026-09-07T19:07:59.455Z [ffmpeg-cap] [dshow @ 000001dd0e25da00] Could not find audio only device with name [MicrÃƒÂ³fono (Sound Blaster Play! 3)] among source devices of type video.
+[audio-ffmpeg] 2026-09-07T19:07:59.458Z [ffmpeg-cap] [in#0 @ 000001dd0e25d880] Error opening input: I/O error
+Error opening input file audio=MicrÃƒÂ³fono (Sound Blaster Play! 3).
+Error opening input files: I/O error
+[audio-ffmpeg] 2026-09-07T19:07:59.463Z [ffmpeg-cap] Terminado (code 4294967291)
+PS C:\WINDOWS\system32> Get-CimInstance Win32_Process |
+>>     Where-Object {
+>>         $_.Name -match "node|python|ffmpeg|ffplay" -or
+>>         $_.CommandLine -match "eqso-relay"
+>>     } |
+>>     Select-Object ProcessId, ParentProcessId, Name, CommandLine
+
+ProcessId ParentProcessId Name        CommandLine
+--------- --------------- ----        -----------
+    15832           18132 notepad.exe notepad  C:\eqso-relay\CB.json
+    13784            6412 cmd.exe     C:\WINDOWS\system32\cmd.exe /c ""C:\eqso-relay\start-CB.cmd""
+    20212           13784 node.exe    "C:\Program Files\nodejs\node.exe"  --enable-source-maps dist\main.mjs --eqso-relay-instance=CB
+    11464           20212 python.exe  python.exe C:\Users\david\eqso-linux\artifacts\relay-daemon\dist\ptt-helper.py COM5 rts false
+    12520           20212 ffmpeg.exe  ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+     2184           20212 ffmpeg.exe  ffmpeg -hide_banner -loglevel error -probesize 32 -analyzeduration 0 -f s16le -ar 8000 -ac 1 -i pipe:0 -af highpass=f=250,lowpass=f=3000,afftdn=nr=12:...
