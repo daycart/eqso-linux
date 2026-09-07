@@ -1,0 +1,89 @@
+ powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\eqso-relay\stop-CB.ps1"
+Relay detenido: eQSO Relay CB
+PS C:\WINDOWS\system32> Start-Sleep -Seconds 5
+PS C:\WINDOWS\system32>
+PS C:\WINDOWS\system32> $configPath = "C:\eqso-relay\CB.json"
+PS C:\WINDOWS\system32> $config = Get-Content $configPath -Raw -Encoding UTF8 | ConvertFrom-Json
+PS C:\WINDOWS\system32>
+PS C:\WINDOWS\system32> $config.audio.voxThresholdRms = 200
+PS C:\WINDOWS\system32> $config.audio.voxSustainRms = 80
+PS C:\WINDOWS\system32> $config.audio.voxHangMs = 2500
+PS C:\WINDOWS\system32>
+PS C:\WINDOWS\system32> $json = $config | ConvertTo-Json -Depth 20
+PS C:\WINDOWS\system32> $utf8SinBom = New-Object System.Text.UTF8Encoding($false)
+PS C:\WINDOWS\system32> [System.IO.File]::WriteAllText($configPath, $json, $utf8SinBom)
+PS C:\WINDOWS\system32> $config.audio |
+>>     Select-Object voxThresholdRms, voxSustainRms, voxHangMs, inputGain
+
+voxThresholdRms voxSustainRms voxHangMs inputGain
+--------------- ------------- --------- ---------
+            200            80      2500       0,6
+
+
+PS C:\WINDOWS\system32> Start-Process -FilePath "C:\eqso-relay\start-CB.cmd"
+PS C:\WINDOWS\system32> Start-Sleep -Seconds 8
+PS C:\WINDOWS\system32> Get-Content "C:\eqso-relay\relay-CB.log" -Wait -Tail 20
+[main] 2026-09-07T19:57:58.894Z   Servidor : asorapa.sytes.net:2172
+[main] 2026-09-07T19:57:58.894Z   VOX      : ON (inicio=200 mantenimiento=80 hang=2500ms)
+[main] 2026-09-07T19:57:58.894Z   Backend  : ffmpeg
+[main] 2026-09-07T19:57:58.894Z   Captura  : MicrÃ³fono (Sound Blaster Play! 3) (dshow)
+[main] 2026-09-07T19:57:58.894Z   Playback : Altavoces (Sound Blaster Play! 3) (ffplay)
+[main] 2026-09-07T19:57:58.894Z   PTT Ser. : COM5 (rts)
+[main] 2026-09-07T19:57:58.894Z ============================================================
+[ptt] 2026-09-07T19:57:58.894Z Iniciando PTT serial: COM5 (rts)
+[audio-ffmpeg] 2026-09-07T19:57:58.945Z Captura: C:\Users\david\eqso-linux\artifacts\relay-daemon\node_modules\ffmpeg-static\ffmpeg.exe -hide_banner -loglevel error -f dshow -i audio=MicrÃ³fono (Sound Blaster Play! 3) -f s16le -ar 8000 -ac 1 pipe:1
+[main] 2026-09-07T19:57:58.959Z Conectando a asorapa.sytes.net:2172 como "0R-WINPC" en sala "CB"â€¦
+[control] 2026-09-07T19:57:58.986Z Control HTTP escuchando en http://127.0.0.1:8009
+[ptt] 2026-09-07T19:57:59.024Z PTT serial listo (COM5, rts)
+[eqso] 2026-09-07T19:57:59.079Z TCP conectado a asorapa.sytes.net:2172
+[eqso] 2026-09-07T19:57:59.179Z Handshake recibido â€” conexion establecida
+[main] 2026-09-07T19:57:59.179Z Conectado â€” enviando JOINâ€¦
+[eqso] 2026-09-07T19:57:59.180Z JOIN enviado: callsign="0R-WINPC" sala="CB"
+[eqso] 2026-09-07T19:57:59.180Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-07T19:57:59.180Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-07T19:57:59.243Z Sala: 0R-WINPC se ha unido
+[audio-ffmpeg] 2026-09-07T19:58:03.970Z [nivel] pico RMS=44 (-57.5 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:58:08.976Z [nivel] pico RMS=44 (-57.4 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:58:13.988Z [nivel] pico RMS=44 (-57.4 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:58:18.991Z [nivel] pico RMS=45 (-57.3 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:58:24.004Z [nivel] pico RMS=44 (-57.4 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:58:29.008Z [nivel] pico RMS=44 (-57.5 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:58:34.019Z [nivel] pico RMS=44 (-57.5 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:58:39.020Z [nivel] pico RMS=44 (-57.5 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:58:44.034Z [nivel] pico RMS=44 (-57.5 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:58:49.044Z [nivel] pico RMS=76 (-52.7 dBFS)  VOXumbral=200  gain=0.6
+[main] 2026-09-07T19:58:50.001Z Sala: PRUEBAS se ha unido
+[main] 2026-09-07T19:58:50.723Z VOX: PTT activado â€” inicio transmision (suppress was 1970-01-01T00:00:00.000Z)
+[audio-ffmpeg] 2026-09-07T19:58:54.058Z [nivel] pico RMS=2205 (-23.4 dBFS)  VOXumbral=200  gain=0.6
+[eqso] 2026-09-07T19:58:57.228Z PTT liberado [0x0d]
+[main] 2026-09-07T19:58:57.228Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:58:57.828Z)
+[audio-ffmpeg] 2026-09-07T19:58:59.080Z [nivel] pico RMS=82 (-52.1 dBFS)  VOXumbral=200  gain=0.6
+[main] 2026-09-07T19:59:01.730Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:58:57.828Z)
+[audio-ffmpeg] 2026-09-07T19:59:04.084Z [nivel] pico RMS=1142 (-29.2 dBFS)  VOXumbral=200  gain=0.6
+[eqso] 2026-09-07T19:59:05.748Z PTT liberado [0x0d]
+[main] 2026-09-07T19:59:05.748Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:59:06.348Z)
+[audio-ffmpeg] 2026-09-07T19:59:09.098Z [nivel] pico RMS=78 (-52.4 dBFS)  VOXumbral=200  gain=0.6
+[main] 2026-09-07T19:59:12.236Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:59:06.348Z)
+[audio-ffmpeg] 2026-09-07T19:59:14.102Z [nivel] pico RMS=618 (-34.5 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:59:19.117Z [nivel] pico RMS=926 (-31.0 dBFS)  VOXumbral=200  gain=0.6
+[eqso] 2026-09-07T19:59:22.734Z PTT liberado [0x0d]
+[main] 2026-09-07T19:59:22.734Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:59:23.334Z)
+[audio-ffmpeg] 2026-09-07T19:59:24.130Z [nivel] pico RMS=853 (-31.7 dBFS)  VOXumbral=200  gain=0.6
+[main] 2026-09-07T19:59:24.726Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:59:23.334Z)
+[audio-ffmpeg] 2026-09-07T19:59:29.134Z [nivel] pico RMS=570 (-35.2 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:59:34.138Z [nivel] pico RMS=790 (-32.4 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:59:39.140Z [nivel] pico RMS=1131 (-29.2 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:59:44.145Z [nivel] pico RMS=675 (-33.7 dBFS)  VOXumbral=200  gain=0.6
+[eqso] 2026-09-07T19:59:47.216Z PTT liberado [0x0d]
+[main] 2026-09-07T19:59:47.217Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:59:47.817Z)
+[main] 2026-09-07T19:59:48.732Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:59:47.817Z)
+[audio-ffmpeg] 2026-09-07T19:59:49.146Z [nivel] pico RMS=290 (-41.1 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T19:59:54.146Z [nivel] pico RMS=554 (-35.4 dBFS)  VOXumbral=200  gain=0.6
+[eqso] 2026-09-07T19:59:57.734Z PTT liberado [0x0d]
+[main] 2026-09-07T19:59:57.734Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T19:59:58.334Z)
+[audio-ffmpeg] 2026-09-07T19:59:59.153Z [nivel] pico RMS=514 (-36.1 dBFS)  VOXumbral=200  gain=0.6
+[main] 2026-09-07T19:59:59.722Z VOX: PTT activado â€” inicio transmision (suppress was 2026-09-07T19:59:58.334Z)
+[audio-ffmpeg] 2026-09-07T20:00:04.166Z [nivel] pico RMS=838 (-31.8 dBFS)  VOXumbral=200  gain=0.6
+[audio-ffmpeg] 2026-09-07T20:00:09.174Z [nivel] pico RMS=1992 (-24.3 dBFS)  VOXumbral=200  gain=0.6
+[eqso] 2026-09-07T20:00:10.721Z PTT liberado [0x0d]
+[main] 2026-09-07T20:00:10.721Z VOX: PTT liberado â€” fin transmision (suppress hasta 2026-09-07T20:00:11.321Z)
