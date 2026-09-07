@@ -93,6 +93,12 @@ la configuración del relay. Windows suele conservarlos, pero pueden cambiar al
 reinstalar el controlador, conectar otro dispositivo o restablecer las
 preferencias de sonido.
 
+Los nombres DirectShow también pueden mostrarse con distinta codificación según
+la versión, el idioma y la página de códigos de Windows. El instalador prueba la
+entrada antes de guardarla y el relay compara el nombre configurado con los
+dispositivos reales al arrancar. Variantes como `MicrÃ³fono` o `Micr├│fono` se
+resuelven automáticamente al nombre Unicode enumerado por FFmpeg.
+
 eQSO 1.13 es una aplicación antigua. Si no respeta la asignación por aplicación:
 
 1. Cerrar completamente eQSO 1.13.

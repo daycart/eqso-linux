@@ -139,6 +139,10 @@ export function loadConfig(): RelayConfig {
   if (process.env["RELAY_PORT"])     merged.port     = parseInt(process.env["RELAY_PORT"], 10);
   if (process.env["CONTROL_PORT"])   merged.control.port = parseInt(process.env["CONTROL_PORT"], 10);
 
-  console.log("[config] Configuracion activa:", JSON.stringify(merged, null, 2));
+  const safeForLog = {
+    ...merged,
+    password: merged.password ? "***" : "",
+  };
+  console.log("[config] Configuracion activa:", JSON.stringify(safeForLog, null, 2));
   return merged;
 }

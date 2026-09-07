@@ -24,6 +24,10 @@ import {
   GsmDecoder, GsmEncoder,
   GSM_FRAME_SAMPLES, FRAMES_PER_PACKET,
 } from "./gsm-codec.js";
+import {
+  enumerateDirectShowAudioDevices,
+  resolveDirectShowAudioDevice,
+} from "./windows-audio-device.js";
 
 declare const require: NodeRequire;
 
@@ -132,6 +136,16 @@ export class FfmpegAudio extends EventEmitter {
     this.playbackFormat = cfg.playbackFormat ?? defs.playback;
     this.ffmpegBin = resolveFfmpegBin();
     this.ffplayBin = resolveFfplayBin();
+    if (process.platform === "win32" && this.captureFormat === "dshow") {
+      const devices = enumerateDirectShowAudioDevices(this.ffmpegBin);
+      const resolved = resolveDirectShowAudioDevice(cfg.captureDevice, devices);
+      if (resolved !== cfg.captureDevice) {
+        log(`[audio] Nombre DirectShow corregido automaticamente: "${resolved}"`);
+        this.cfg = { ...cfg, captureDevice: resolved };
+      } else if (devices.length > 0 && !devices.includes(cfg.captureDevice)) {
+        log(`[audio] Aviso: la entrada configurada no coincide con ningun dispositivo DirectShow detectado`);
+      }
+    }
     log(`Backend FFmpeg: bin=${this.ffmpegBin} ffplay=${this.ffplayBin} captureFormat=${this.captureFormat} playbackFormat=${this.playbackFormat}`);
   }
 

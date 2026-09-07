@@ -70,24 +70,36 @@ function Read-InstallationMode {
 function Repair-NativeUtf8Text {
     param([string]$Text)
 
-    if ([string]::IsNullOrEmpty($Text) -or $Text -notmatch "[\u251C\u2502\u252C\uFFFD]") {
+    if ([string]::IsNullOrEmpty($Text)) {
         return $Text
     }
 
     $utf8 = New-Object System.Text.UTF8Encoding($false)
-    foreach ($codePage in @(437, 850)) {
-        try {
-            $encoding = [System.Text.Encoding]::GetEncoding($codePage)
-            $candidate = $utf8.GetString($encoding.GetBytes($Text))
-            if ($candidate -notmatch "[\u251C\u2502\u252C\uFFFD]") {
-                return $candidate
-            }
-        } catch {
-            # El code page puede no estar disponible en algunas instalaciones.
+    $current = $Text
+    for ($round = 0; $round -lt 3; $round++) {
+        if ($current -notmatch "[\u251C\u2502\u252C\uFFFDÃÂâ]") {
+            break
         }
+        $best = $current
+        $bestScore = ([regex]::Matches($current, "[\u251C\u2502\u252C\uFFFDÃÂâ]")).Count
+        foreach ($codePage in @(1252, 437, 850)) {
+            try {
+                $encoding = [System.Text.Encoding]::GetEncoding($codePage)
+                $candidate = $utf8.GetString($encoding.GetBytes($current))
+                $score = ([regex]::Matches($candidate, "[\u251C\u2502\u252C\uFFFDÃÂâ]")).Count
+                if ($candidate -notmatch "\uFFFD" -and $score -lt $bestScore) {
+                    $best = $candidate
+                    $bestScore = $score
+                }
+            } catch {
+                # El code page puede no estar disponible en algunas instalaciones.
+            }
+        }
+        if ($best -eq $current) { break }
+        $current = $best
     }
 
-    return $Text
+    return $current
 }
 
 function Invoke-InstallerTestProcess {
