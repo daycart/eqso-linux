@@ -12,7 +12,10 @@ recepción física desde una segunda radio.
 las respuestas especiales que necesita 1.13. Con el saludo correcto, dos
 clientes realizaron tres turnos cada uno sin pérdidas ni desconexiones; el relay
 Windows accionó el PTT en todos los turnos y una segunda radio recibió los seis
-tonos correctamente.
+tonos correctamente. El camino inverso también quedó validado con dos
+transmisiones desde radio: dos clientes 1.13 en modo solo escucha recibieron
+cada uno dos inicios, dos finales y 184 paquetes GSM, sin errores ni
+desconexiones.
 
 **How to apply:** Ejecutar primero en `PRUEBAS`, con indicativos exclusivos y el
 relay temporalmente en esa sala. Considerar aprobado solo si el informe lógico

@@ -1,0 +1,66 @@
+{
+  "server": "asorapa.sytes.net:2172",
+  "room": "PRUEBAS",
+  "startedAt": "2026-09-09T17:55:08.338Z",
+  "endedAt": "2026-09-09T17:57:08.350Z",
+  "elapsedSeconds": 120,
+  "settings": {
+    "callsigns": [
+      "LAB113-RX1",
+      "LAB113-RX2"
+    ],
+    "durationSeconds": 120,
+    "transmitEnabled": false,
+    "toneSeconds": 3,
+    "turnGapSeconds": 8
+  },
+  "passed": true,
+  "clients": [
+    {
+      "callsign": "LAB113-RX1",
+      "connects": 1,
+      "disconnects": 0,
+      "errors": [],
+      "joinsSeen": 4,
+      "leavesSeen": 1,
+      "pttStartsSeen": 2,
+      "pttReleasesSeen": 2,
+      "audioPacketsReceived": 184,
+      "audioPacketsSent": 0,
+      "transmissionsCompleted": 0,
+      "ownStartEchoes": 0,
+      "ownReleaseEchoes": 0,
+      "expectedAudioPackets": null,
+      "checks": {
+        "connectionStable": true,
+        "audioReceived": true,
+        "pttStartReceived": true,
+        "pttReleaseReceived": true
+      },
+      "passed": true
+    },
+    {
+      "callsign": "LAB113-RX2",
+      "connects": 1,
+      "disconnects": 0,
+      "errors": [],
+      "joinsSeen": 4,
+      "leavesSeen": 1,
+      "pttStartsSeen": 2,
+      "pttReleasesSeen": 2,
+      "audioPacketsReceived": 184,
+      "audioPacketsSent": 0,
+      "transmissionsCompleted": 0,
+      "ownStartEchoes": 0,
+      "ownReleaseEchoes": 0,
+      "expectedAudioPackets": null,
+      "checks": {
+        "connectionStable": true,
+        "audioReceived": true,
+        "pttStartReceived": true,
+        "pttReleaseReceived": true
+      },
+      "passed": true
+    }
+  ]
+}
