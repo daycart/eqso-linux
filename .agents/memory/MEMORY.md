@@ -10,3 +10,4 @@
 - [Protocolo PTT de eQSO v1.13](legacy-v113-ptt.md) — el servidor original confirma inicio y fin al propio emisor; omitir esos ecos bloquea la segunda transmisión.
 - [Publicación inmediata del instalador Windows](windows-installer-release.md) — raw.githubusercontent.com/main puede servir una versión antigua; validar y usar una URL fijada al commit.
 - [Nombres DirectShow en Windows](windows-directshow-device-names.md) — resolver nombres acentuados contra FFmpeg; PowerShell puede mostrar varias formas corruptas del mismo nombre Unicode.
+- [Banco 1.13 y recorrido RF](legacy-v113-lab.md) — clientes sintéticos con saludo 0x78 validan protocolo, GSM y recorrido completo hasta una segunda radio.
