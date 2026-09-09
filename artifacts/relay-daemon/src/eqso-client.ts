@@ -14,7 +14,8 @@
 import net from "net";
 import { EventEmitter } from "events";
 
-const HANDSHAKE_CLIENT = Buffer.from([0x0a, 0x82, 0x00, 0x00, 0x00]);
+const HANDSHAKE_RELAY = Buffer.from([0x0a, 0x82, 0x00, 0x00, 0x00]);
+const HANDSHAKE_LEGACY_V113 = Buffer.from([0x0a, 0x78, 0x00, 0x00, 0x00]);
 const AUDIO_PAYLOAD_SIZE = 198;
 const SILENCE_INTERVAL_MS = 150;
 const SOCKET_TIMEOUT_MS = 90_000;
@@ -159,6 +160,7 @@ export class EqsoClient extends EventEmitter {
   constructor(
     private readonly host: string,
     private readonly port: number,
+    private readonly protocolMode: "relay" | "legacy-v113" = "relay",
   ) {
     super();
   }
@@ -173,7 +175,7 @@ export class EqsoClient extends EventEmitter {
     sock.connect(this.port, this.host, () => {
       this.connected = true;
       log(`TCP conectado a ${this.host}:${this.port}`);
-      sock.write(HANDSHAKE_CLIENT);
+      sock.write(this.protocolMode === "legacy-v113" ? HANDSHAKE_LEGACY_V113 : HANDSHAKE_RELAY);
     });
 
     sock.on("data", (data: Buffer) => {

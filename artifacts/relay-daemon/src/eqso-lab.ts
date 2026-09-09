@@ -19,6 +19,7 @@ interface LabStats {
   pttReleasesSeen: number;
   audioPacketsReceived: number;
   audioPacketsSent: number;
+  transmissionsCompleted: number;
   ownStartEchoes: number;
   ownReleaseEchoes: number;
 }
@@ -77,11 +78,12 @@ function createPeer(callsign: string): LabPeer {
     callsign, connects: 0, disconnects: 0, errors: [], joinsSeen: 0,
     leavesSeen: 0, pttStartsSeen: 0, pttReleasesSeen: 0,
     audioPacketsReceived: 0, audioPacketsSent: 0,
+    transmissionsCompleted: 0,
     ownStartEchoes: 0, ownReleaseEchoes: 0,
   };
   const peer: LabPeer = {
     callsign,
-    client: new EqsoClient(host, port),
+    client: new EqsoClient(host, port, "legacy-v113"),
     joined: false,
     reconnectTimer: null,
     stats,
@@ -150,7 +152,10 @@ function runNextTurn(): void {
   const packetTimer = setInterval(() => {
     if (stopping || packetIndex >= tonePackets.length) {
       clearInterval(packetTimer);
-      if (!stopping) peer.client.endTx();
+      if (!stopping) {
+        peer.client.endTx();
+        peer.stats.transmissionsCompleted++;
+      }
       console.log(`[lab:${peer.callsign}] termina tono`);
       return;
     }
@@ -186,6 +191,23 @@ function stopLab(): void {
     peer.client.disconnect();
   }
   const endedAt = new Date();
+  const totalAudioPacketsSent = peers.reduce((sum, peer) => sum + peer.stats.audioPacketsSent, 0);
+  const clientResults = peers.map((peer) => {
+    const stats = peer.stats;
+    const expectedAudioPackets = totalAudioPacketsSent - stats.audioPacketsSent;
+    const checks = {
+      connectionStable: stats.connects === 1 && stats.disconnects === 0 && stats.errors.length === 0,
+      allAudioReceived: stats.audioPacketsReceived === expectedAudioPackets,
+      allOwnStartEchoesReceived: stats.ownStartEchoes === stats.transmissionsCompleted,
+      allOwnReleaseEchoesReceived: stats.ownReleaseEchoes === stats.transmissionsCompleted,
+    };
+    return {
+      ...stats,
+      expectedAudioPackets,
+      checks,
+      passed: Object.values(checks).every(Boolean),
+    };
+  });
   const report = {
     server: `${host}:${port}`,
     room,
@@ -193,7 +215,8 @@ function stopLab(): void {
     endedAt: endedAt.toISOString(),
     elapsedSeconds: Math.round((endedAt.getTime() - startedAt.getTime()) / 1000),
     settings: { callsigns, durationSeconds, toneSeconds, turnGapSeconds },
-    clients: peers.map((peer) => peer.stats),
+    passed: clientResults.every((client) => client.passed),
+    clients: clientResults,
   };
   writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`, "utf8");
   console.log(`[lab] informe guardado en ${reportPath}`);

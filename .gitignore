@@ -36,6 +36,7 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
+eqso-lab-report*.json
 
 # System Files
 .DS_Store

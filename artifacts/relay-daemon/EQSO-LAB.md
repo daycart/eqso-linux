@@ -1,9 +1,9 @@
 # Banco de pruebas eQSO 1.13
 
 Este ejecutor conecta varios clientes sintéticos al servidor eQSO sin usar
-micrófonos ni altavoces. Cada cliente mantiene el heartbeat del protocolo,
-entra con un indicativo distinto y transmite por turnos un tono GSM 06.10
-generado por FFmpeg.
+micrófonos ni altavoces. Cada cliente usa el saludo `0x78` del cliente Windows
+1.13, mantiene su heartbeat, entra con un indicativo distinto y transmite por
+turnos un tono GSM 06.10 generado por FFmpeg.
 
 ## Seguridad
 
@@ -39,6 +39,8 @@ Al finalizar se crea `eqso-lab-report.json`, o la ruta indicada en
 `EQSO_LAB_REPORT`. Para cada cliente registra conexiones, desconexiones,
 errores, audio enviado/recibido y los ecos de inicio y fin de PTT. Un cliente
 1.13 compatible debe recibir del servidor el eco de sus propios cambios de PTT.
+El campo `passed` solo es verdadero cuando no hay desconexiones ni errores, se
+recibe todo el audio esperado y cada transmisión obtiene ambos ecos propios.
 
 La primera prueba recomendada dura cinco minutos en la sala `PRUEBAS`. Después
 se puede ampliar a una hora y, finalmente, a 8–24 horas sin tonos frecuentes.
