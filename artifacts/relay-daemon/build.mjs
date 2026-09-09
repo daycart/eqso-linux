@@ -1,19 +1,30 @@
 import { build } from "esbuild";
 import { copyFileSync, mkdirSync } from "fs";
 
-await build({
-  entryPoints: ["src/main.ts"],
-  bundle: true,
-  platform: "node",
-  target: "node20",
-  format: "esm",
-  outfile: "dist/main.mjs",
-  sourcemap: true,
-  external: ["ffmpeg-static"],
-  banner: {
-    js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`,
-  },
-});
+await Promise.all([
+  build({
+    entryPoints: ["src/main.ts"],
+    bundle: true,
+    platform: "node",
+    target: "node20",
+    format: "esm",
+    outfile: "dist/main.mjs",
+    sourcemap: true,
+    external: ["ffmpeg-static"],
+    banner: {
+      js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`,
+    },
+  }),
+  build({
+    entryPoints: ["src/eqso-lab.ts"],
+    bundle: true,
+    platform: "node",
+    target: "node20",
+    format: "esm",
+    outfile: "dist/eqso-lab.mjs",
+    sourcemap: true,
+  }),
+]);
 
 // Copiar helpers Python junto al .mjs
 mkdirSync("dist", { recursive: true });
