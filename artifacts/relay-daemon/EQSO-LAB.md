@@ -33,6 +33,18 @@ pnpm run lab
 
 En PowerShell se usa `$env:NOMBRE="valor"` en vez de `export`.
 
+Para validar el camino radio → relay → servidor sin generar tonos desde el
+laboratorio, usar:
+
+```bash
+export EQSO_LAB_TRANSMIT=NO
+export EQSO_LAB_DURATION_SECONDS=120
+pnpm run lab
+```
+
+En este modo el informe exige recibir al menos un inicio de PTT, paquetes de
+audio y un final de PTT en cada cliente conectado.
+
 ## Informe
 
 Al finalizar se crea `eqso-lab-report.json`, o la ruta indicada en

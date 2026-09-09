@@ -41,6 +41,7 @@ const callsigns = (process.env.EQSO_LAB_CALLSIGNS ?? "LAB113-A,LAB113-B,LAB113-C
 const durationSeconds = integerEnv("EQSO_LAB_DURATION_SECONDS", 300, 20, 86_400);
 const toneSeconds = integerEnv("EQSO_LAB_TONE_SECONDS", 3, 1, 30);
 const turnGapSeconds = integerEnv("EQSO_LAB_TURN_GAP_SECONDS", 8, 2, 300);
+const transmitEnabled = process.env.EQSO_LAB_TRANSMIT !== "NO";
 const reportPath = process.env.EQSO_LAB_REPORT ?? "eqso-lab-report.json";
 
 if (process.env.EQSO_LAB_LIVE !== "YES") {
@@ -53,7 +54,7 @@ if (callsigns.some((name) => !/^[A-Za-z0-9_-]{2,20}$/.test(name))) {
   fail("Los indicativos solo pueden contener letras, números, guion y guion bajo (2-20 caracteres).");
 }
 
-const tonePackets = generateTonePackets(toneSeconds);
+const tonePackets = transmitEnabled ? generateTonePackets(toneSeconds) : [];
 const peers: LabPeer[] = callsigns.map(createPeer);
 const startedAt = new Date();
 let stopping = false;
@@ -61,13 +62,17 @@ let turnIndex = 0;
 let turnTimer: ReturnType<typeof setInterval> | null = null;
 
 console.log(`[lab] servidor=${host}:${port} sala=${room} clientes=${callsigns.join(",")}`);
-console.log(`[lab] duración=${durationSeconds}s tono=${toneSeconds}s informe=${reportPath}`);
+console.log(
+  `[lab] duración=${durationSeconds}s modo=${transmitEnabled ? `TX tono ${toneSeconds}s` : "solo escucha"} informe=${reportPath}`,
+);
 for (const peer of peers) connectPeer(peer);
 
-setTimeout(() => {
-  turnTimer = setInterval(runNextTurn, turnGapSeconds * 1000);
-  runNextTurn();
-}, 4_000);
+if (transmitEnabled) {
+  setTimeout(() => {
+    turnTimer = setInterval(runNextTurn, turnGapSeconds * 1000);
+    runNextTurn();
+  }, 4_000);
+}
 
 setTimeout(stopLab, durationSeconds * 1000);
 process.on("SIGINT", stopLab);
@@ -194,12 +199,20 @@ function stopLab(): void {
   const totalAudioPacketsSent = peers.reduce((sum, peer) => sum + peer.stats.audioPacketsSent, 0);
   const clientResults = peers.map((peer) => {
     const stats = peer.stats;
-    const expectedAudioPackets = totalAudioPacketsSent - stats.audioPacketsSent;
+    const expectedAudioPackets = transmitEnabled
+      ? totalAudioPacketsSent - stats.audioPacketsSent
+      : null;
     const checks = {
       connectionStable: stats.connects === 1 && stats.disconnects === 0 && stats.errors.length === 0,
-      allAudioReceived: stats.audioPacketsReceived === expectedAudioPackets,
-      allOwnStartEchoesReceived: stats.ownStartEchoes === stats.transmissionsCompleted,
-      allOwnReleaseEchoesReceived: stats.ownReleaseEchoes === stats.transmissionsCompleted,
+      audioReceived: transmitEnabled
+        ? stats.audioPacketsReceived === expectedAudioPackets
+        : stats.audioPacketsReceived > 0,
+      pttStartReceived: transmitEnabled
+        ? stats.ownStartEchoes === stats.transmissionsCompleted
+        : stats.pttStartsSeen > 0,
+      pttReleaseReceived: transmitEnabled
+        ? stats.ownReleaseEchoes === stats.transmissionsCompleted
+        : stats.pttReleasesSeen > 0,
     };
     return {
       ...stats,
@@ -214,7 +227,7 @@ function stopLab(): void {
     startedAt: startedAt.toISOString(),
     endedAt: endedAt.toISOString(),
     elapsedSeconds: Math.round((endedAt.getTime() - startedAt.getTime()) / 1000),
-    settings: { callsigns, durationSeconds, toneSeconds, turnGapSeconds },
+    settings: { callsigns, durationSeconds, transmitEnabled, toneSeconds, turnGapSeconds },
     passed: clientResults.every((client) => client.passed),
     clients: clientResults,
   };
