@@ -429,10 +429,27 @@ function handleJoin(
     return;
   }
   if (roomManager.isNameTaken(name, state.id)) {
-    safeWrite(state, buildErrorMessage(`Indicativo "${name}" ya en uso`));
-    logger.warn({ id: state.id, name }, "TCP client rejected: callsign already in use — destroying socket");
-    state.socket.destroy(); // destroy so the anonymous connection does not linger for 2 minutes
-    return;
+    if (isRelayCallsign && validRelayTokens.length > 0) {
+      // Una reconexión autenticada del mismo radioenlace sustituye a la sesión
+      // anterior. Esto evita que una conexión TCP medio abierta bloquee el
+      // indicativo hasta que el keepalive del kernel expire o un administrador
+      // lo expulse manualmente.
+      const staleClients = roomManager.getAllClients().filter(
+        (candidate) =>
+          candidate.id !== state.id &&
+          candidate.name.toLowerCase() === name.toLowerCase()
+      );
+      logger.warn(
+        { id: state.id, name, staleIds: staleClients.map((candidate) => candidate.id) },
+        "TCP authenticated relay reconnect replacing previous session"
+      );
+      for (const staleClient of staleClients) staleClient.close();
+    } else {
+      safeWrite(state, buildErrorMessage(`Indicativo "${name}" ya en uso`));
+      logger.warn({ id: state.id, name }, "TCP client rejected: callsign already in use — destroying socket");
+      state.socket.destroy(); // destroy so the anonymous connection does not linger for 2 minutes
+      return;
+    }
   }
 
   const client = roomManager.getClient(state.id);
@@ -595,7 +612,14 @@ export function startTcpServer(port: number): net.Server {
           safeWrite(state, data);
         }
       },
-      close: () => socket.destroy(),
+      // Limpiar el registro de sala de forma síncrona. socket.destroy() emite
+      // "close" más tarde; para entonces el guard de handleDisconnect evita
+      // repetir el trabajo. Esto permite que un reconnect autenticado reutilice
+      // el indicativo inmediatamente.
+      close: () => {
+        handleDisconnect(state);
+        socket.destroy();
+      },
     };
 
     roomManager.addClient(clientInfo);
