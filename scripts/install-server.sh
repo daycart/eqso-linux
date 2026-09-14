@@ -97,7 +97,7 @@ if [ -d "$INSTALL_DIR/.git" ]; then
   sudo -u "$SERVICE_USER" git pull origin main
 else
   info "Clonando repositorio en $INSTALL_DIR..."
-  git clone https://github.com/daycart/eqso-linux-client.git "$INSTALL_DIR"
+  git clone https://github.com/daycart/eqso-linux.git "$INSTALL_DIR"
   chown -R "$SERVICE_USER":"$SERVICE_USER" "$INSTALL_DIR"
 fi
 ok "Codigo listo"

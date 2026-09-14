@@ -42,7 +42,7 @@ jobs:
           # PORT es requerido por vite.config.ts (usado solo en modo dev)
           PORT: "8080"
           # BASE_PATH: debe coincidir con el nombre del repositorio en GitHub Pages
-          BASE_PATH: /eqso-linux-client/
+          BASE_PATH: /eqso-linux/
           # URL del servidor API WebSocket (opcional).
           # Configúrala como secreto VITE_API_WS_URL en tu repositorio GitHub:
           #   Settings → Secrets and variables → Actions → New repository secret

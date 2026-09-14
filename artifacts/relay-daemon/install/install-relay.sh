@@ -4,17 +4,17 @@
 #  Compatible con Ubuntu / Debian / Raspberry Pi OS
 #
 #  Instalación con un solo comando:
-#    bash <(curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/install/install-relay.sh)
+#    bash <(curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-relay.sh)
 #
 #  O clonando el repo primero:
-#    git clone https://github.com/daycart/eqso-linux-client
-#    bash eqso-linux-client/artifacts/relay-daemon/install/install-relay.sh
+#    git clone https://github.com/daycart/eqso-linux
+#    bash eqso-linux/artifacts/relay-daemon/install/install-relay.sh
 # ============================================================
 
 set -euo pipefail
 
-REPO_URL="https://github.com/daycart/eqso-linux-client"
-INSTALL_DIR="$HOME/eqso-linux-client"
+REPO_URL="https://github.com/daycart/eqso-linux"
+INSTALL_DIR="$HOME/eqso-linux"
 CONFIG_DIR="/etc/eqso-relay"
 CURRENT_USER="$(id -un)"
 

@@ -2,7 +2,7 @@
 
 **Versión:** 1.0  
 **Última actualización:** Abril 2026  
-**Repositorio:** `daycart/eqso-linux-client`
+**Repositorio:** `daycart/eqso-linux`
 
 ---
 

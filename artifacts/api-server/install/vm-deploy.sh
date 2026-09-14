@@ -147,7 +147,7 @@ done
 echo "[2/6] Actualizando repositorio desde GitHub…"
 if [[ ! -d "$INSTALL_DIR/.git" ]]; then
   echo "  Clonando repositorio…"
-  git clone https://github.com/daycart/eqso-linux-client.git "$INSTALL_DIR"
+  git clone https://github.com/daycart/eqso-linux.git "$INSTALL_DIR"
   chown -R eqso:eqso "$INSTALL_DIR"
 else
   sudo -u eqso git -C "$INSTALL_DIR" pull origin main

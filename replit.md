@@ -272,7 +272,7 @@ https://github.com/daycart/eqso-linux/raw/refs/heads/main/artifacts/relay-daemon
 ```
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/install/install-relay.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-relay.sh)
 ```
 
 O si ya tienes el repo clonado:
@@ -283,7 +283,7 @@ bash artifacts/relay-daemon/install/install-relay.sh
 El script:
 1. Instala `ffmpeg`, `git`, `curl` y `alsa-utils` vía apt si faltan (`aplay`/`arecord`)
 2. Instala `pnpm` y `Node.js LTS` en el home del usuario (sin tocar el sistema)
-3. Clona o actualiza el repositorio en `~/eqso-linux-client`
+3. Clona o actualiza el repositorio en `~/eqso-linux`
 4. Compila el relay daemon
 5. Detecta tarjetas de audio USB y puertos serie disponibles
 6. Pregunta callsign, sala, servidor, token y dispositivos
@@ -292,8 +292,8 @@ El script:
 
 **Instalación manual paso a paso** (si se prefiere):
 ```bash
-git clone https://github.com/daycart/eqso-linux-client
-cd eqso-linux-client
+git clone https://github.com/daycart/eqso-linux
+cd eqso-linux
 curl -fsSL https://get.pnpm.io/install.sh | sh -
 source ~/.bashrc
 pnpm env use --global lts
@@ -349,7 +349,7 @@ Sustituye `CB` por el nombre real de la sala. El servicio se llama
 Ejecuta estos pasos cuando quieras traer una versión nueva del repositorio:
 
 ```bash
-cd ~/eqso-linux-client
+cd ~/eqso-linux
 git pull
 pnpm install
 pnpm --filter @workspace/relay-daemon run build

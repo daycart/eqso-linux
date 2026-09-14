@@ -4,10 +4,10 @@
 #  Para operadores externos (ASORAPA, zonas de España, etc.)
 #
 #  Uso (como root o con sudo):
-#    curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/install/install-operator.sh | sudo bash
+#    curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-operator.sh | sudo bash
 #
 #  O descargando primero:
-#    wget https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/install/install-operator.sh
+#    wget https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-operator.sh
 #    sudo bash install-operator.sh
 #
 #  Requisitos hardware:
@@ -31,7 +31,7 @@ error()   { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 header()  { echo -e "\n${BOLD}${CYAN}$*${NC}\n"; }
 
 # ── Constantes ────────────────────────────────────────────────────────────────
-REPO_URL="https://github.com/daycart/eqso-linux-client.git"
+REPO_URL="https://github.com/daycart/eqso-linux.git"
 INSTALL_DIR="/opt/eqso-relay"
 CONFIG_DIR="/etc/eqso-relay"
 SERVICE_USER="eqso"

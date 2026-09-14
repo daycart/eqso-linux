@@ -16,7 +16,7 @@
 
 [Unit]
 Description=eQSO Radioenlace — sala %i
-Documentation=https://github.com/daycart/eqso-linux-client
+Documentation=https://github.com/daycart/eqso-linux
 After=network-online.target sound.target
 Wants=network-online.target
 StartLimitIntervalSec=120

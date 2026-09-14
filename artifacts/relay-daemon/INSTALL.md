@@ -43,7 +43,7 @@ Necesitas que el administrador te facilite:
 ### Opción A — Instalación directa (recomendada)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/install/install-operator.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-operator.sh | sudo bash
 ```
 
 El script te preguntará tu indicativo, el token y detectará automáticamente tu interfaz de audio.
@@ -51,7 +51,7 @@ El script te preguntará tu indicativo, el token y detectará automáticamente t
 ### Opción B — Descarga y ejecuta
 
 ```bash
-wget https://raw.githubusercontent.com/daycart/eqso-linux-client/main/artifacts/relay-daemon/install/install-operator.sh
+wget https://raw.githubusercontent.com/daycart/eqso-linux/main/artifacts/relay-daemon/install/install-operator.sh
 sudo bash install-operator.sh
 ```
 

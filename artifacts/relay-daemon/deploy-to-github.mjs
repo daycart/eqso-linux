@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const OWNER       = 'daycart';
-const REPO        = 'eqso-linux-client';
+const REPO        = 'eqso-linux';
 const FILE_PATH   = 'artifacts/relay-daemon/dist/main.mjs';
 const RAW_URL     = `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/${FILE_PATH}`;
 const API_URL     = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`;
