@@ -1,0 +1,55 @@
+sudo systemctl status eqso --no-pager -n 30
+curl -s http://127.0.0.1:8080/api/eqso/status
+tail -50 /opt/eqso-asorapa/deploy.log
+● eqso.service - eQSO ASORAPA Server
+     Loaded: loaded (/etc/systemd/system/eqso.service; enabled; preset: enabled)
+     Active: active (running) since Mon 2026-09-14 19:17:43 UTC; 58s ago
+   Main PID: 415497 (node)
+      Tasks: 13 (limit: 19094)
+     Memory: 50.9M (peak: 65.4M)
+        CPU: 6.099s
+     CGroup: /system.slice/eqso.service
+             ├─415497 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+             ├─415521 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             └─415523 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+
+sep 14 19:17:43 ubuntus systemd[1]: Started eqso.service - eQSO ASORAPA Server.
+sep 14 19:17:45 ubuntus node[415497]: {"level":30,"time":1789413464996,"pid":415497,"hostname":"ubuntus","publicDir":"/opt/eqso-asorapa/artifacts/api-s…atic files"}
+sep 14 19:17:45 ubuntus node[415497]: {"level":30,"time":1789413465024,"pid":415497,"hostname":"ubuntus","msg":"eQSO WebSocket bridge ready on /ws"}
+sep 14 19:17:45 ubuntus node[415497]: {"level":30,"time":1789413465025,"pid":415497,"hostname":"ubuntus","msg":"Relay WS notifier ready on /ws-relay"}
+sep 14 19:17:45 ubuntus node[415497]: {"level":30,"time":1789413465100,"pid":415497,"hostname":"ubuntus","port":8080,"msg":"HTTP + WebSocket server listening"}
+sep 14 19:17:45 ubuntus node[415497]: {"level":30,"time":1789413465104,"pid":415497,"hostname":"ubuntus","port":2171,"msg":"eQSO TCP server listening"}
+sep 14 19:17:45 ubuntus node[415497]: {"level":30,"time":1789413465105,"pid":415497,"hostname":"ubuntus","port":8008,"msg":"eQSO TCP server listening"}
+sep 14 19:17:45 ubuntus node[415497]: {"level":30,"time":1789413465294,"pid":415497,"hostname":"ubuntus","count":0,"msg":"RelayManager: loaded relay co…igurations"}
+sep 14 19:17:45 ubuntus node[415497]: {"level":30,"time":1789413465310,"pid":415497,"hostname":"ubuntus","count":0,"msg":"Moderation: bans loaded from DB"}
+sep 14 19:17:46 ubuntus node[415497]: {"level":30,"time":1789413466689,"pid":415497,"hostname":"ubuntus","id":"19bb79ad-f314-4be3-8f85-3c03771c3ecd","a…connection"}
+sep 14 19:17:46 ubuntus node[415497]: {"level":30,"time":1789413466691,"pid":415497,"hostname":"ubuntus","id":"19bb79ad-f314-4be3-8f85-3c03771c3ecd","…r handshake"}
+sep 14 19:17:46 ubuntus node[415497]: {"level":30,"time":1789413466736,"pid":415497,"hostname":"ubuntus","id":"19bb79ad-f314-4be3-8f85-3c03771c3ecd","…g room list"}
+sep 14 19:17:46 ubuntus node[415497]: {"level":30,"time":1789413466798,"pid":415497,"hostname":"ubuntus","id":"19bb79ad-f314-4be3-8f85-3c03771c3ecd","n…OIN parsed"}
+sep 14 19:17:46 ubuntus node[415497]: {"level":30,"time":1789413466803,"pid":415497,"hostname":"ubuntus","id":"19bb79ad-f314-4be3-8f85-3c03771c3ecd","n…elay token"}
+sep 14 19:17:46 ubuntus node[415497]: {"level":30,"time":1789413466816,"pid":415497,"hostname":"ubuntus","id":"19bb79ad-f314-4be3-8f85-3c03771c3ecd","name":"0R-WIN…
+sep 14 19:17:46 ubuntus node[415497]: {"level":30,"time":1789413466818,"pid":415497,"hostname":"ubuntus","id":"19bb79ad-f314-4be3-8f85-3c03771c3ecd","n…oined room"}
+sep 14 19:17:47 ubuntus node[415497]: {"level":30,"time":1789413467178,"pid":415497,"hostname":"ubuntus","id":"b6c432dc-c6ff-4e71-b602-6cf7037ea114","a…connection"}
+sep 14 19:17:47 ubuntus node[415497]: {"level":30,"time":1789413467180,"pid":415497,"hostname":"ubuntus","id":"b6c432dc-c6ff-4e71-b602-6cf7037ea114","…r handshake"}
+sep 14 19:17:47 ubuntus node[415497]: {"level":30,"time":1789413467201,"pid":415497,"hostname":"ubuntus","id":"b6c432dc-c6ff-4e71-b602-6cf7037ea114","…g room list"}
+sep 14 19:17:47 ubuntus node[415497]: {"level":30,"time":1789413467268,"pid":415497,"hostname":"ubuntus","id":"b6c432dc-c6ff-4e71-b602-6cf7037ea114","n…OIN parsed"}
+sep 14 19:17:47 ubuntus node[415497]: {"level":30,"time":1789413467269,"pid":415497,"hostname":"ubuntus","id":"b6c432dc-c6ff-4e71-b602-6cf7037ea114","n…elay token"}
+sep 14 19:17:47 ubuntus node[415497]: {"level":30,"time":1789413467270,"pid":415497,"hostname":"ubuntus","id":"b6c432dc-c6ff-4e71-b602-6cf7037ea114","name":"0R-POR…
+sep 14 19:17:47 ubuntus node[415497]: {"level":30,"time":1789413467272,"pid":415497,"hostname":"ubuntus","to":"0R-WINPC","joining":"0R-PORTATIL","msg":…f new join"}
+sep 14 19:17:47 ubuntus node[415497]: {"level":30,"time":1789413467276,"pid":415497,"hostname":"ubuntus","id":"b6c432dc-c6ff-4e71-b602-6cf7037ea114","n…oined room"}
+Hint: Some lines were ellipsized, use -l to show in full.
+{"status":"online","server":"eQSO Linux Server v1.0","tcpPort":2171,"totalClients":2,"rooms":["GENERAL","CB","ASORAPA","PRUEBAS"]}[19:11:09] === Deploy iniciado (commit: local) ===
+[19:11:09] [1/5] git pull origin main…
+[19:11:11] [2/5] pnpm install…
+[19:11:29] [3/5] Compilando API server…
+[19:11:36] [4/5] Compilando cliente web…
+[19:12:06]   Cliente sincronizado en /opt/eqso-asorapa/artifacts/api-server/dist/public
+[19:12:06] [5/5] Reiniciando eqso-api.service…
+[19:16:51] === Deploy iniciado (commit: local) ===
+[19:16:51] [1/5] git pull origin main…
+[19:16:52] [2/5] pnpm install…
+[19:17:07] [3/5] Compilando API server…
+[19:17:13] [4/5] Compilando cliente web…
+[19:17:43]   Cliente sincronizado en /opt/eqso-asorapa/artifacts/api-server/dist/public
+[19:17:43] [5/5] Reiniciando eqso.service…
+[19:17:46] === Deploy completado OK — eqso activo ===
