@@ -241,3 +241,17 @@ mtime_ms = 1788687328540
 storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/c040f3cd-66a3-4cbe-b888-8cb46a3bdf20/8ddca2c1-7eac-4dc5-981e-79e0055599d4"
 storage_version_token = "1788687344259443"
 content_type = "application/octet-stream"
+
+[[outputs]]
+id = "ag88hglhCyyXB440TyJ_8"
+uri = "file://artifacts/relay-daemon/install/eQSO-ASORAPA-Relay-Windows-v1.9.zip"
+type = "unspecified"
+title = "eQSO ASORAPA Relay Windows v1.9"
+description = "Actualización autocontenida para tu instalación Windows actual. Conserva CB.json, guarda una copia de seguridad, instala el relay compilado más reciente y reinicia la tarea eQSO Relay CB."
+logical_id = "a4ad7da9-5b67-4c43-8f8e-ef77e372815c"
+content_hash = "sha256:bd5ded16f066db2d8b39a04d7684f4e17fc4c9154fd6b8f4e3bc90734c33b984"
+size = 57374
+mtime_ms = 1789406458976
+storage_uri = "gcs://replit-rams-assets-kirk/rams/assets/repl:20f5b981-52d4-47e2-8164-579b03149638/a4ad7da9-5b67-4c43-8f8e-ef77e372815c/2ae50b9e-b17d-4224-8ac2-a00c3d61976b"
+storage_version_token = "1789406464098915"
+content_type = "application/octet-stream"

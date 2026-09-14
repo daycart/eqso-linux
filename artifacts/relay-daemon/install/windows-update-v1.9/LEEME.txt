@@ -1,0 +1,20 @@
+eQSO ASORAPA Relay para Windows - actualización v1.9
+====================================================
+
+Este paquete actualiza una instalación existente del relay Windows.
+
+1. Extrae TODO el ZIP en una carpeta.
+2. Haz doble clic en ACTUALIZAR-EQSO-WINDOWS.cmd.
+3. Acepta el permiso de administrador.
+4. Comprueba al final que el log muestre:
+     JOIN enviado: callsign="0R-WINPC" sala="CB"
+
+La actualización:
+- conserva C:\eqso-relay\CB.json;
+- guarda una copia de seguridad del programa anterior;
+- instala el relay compilado más reciente;
+- reinicia la tarea "eQSO Relay CB".
+
+Incluye los últimos cambios de VOX, audio DirectShow/FFplay, resolución de
+nombres de dispositivos Windows, PTT serie RTS/DTR, instancia única y
+compatibilidad del protocolo eQSO.
