@@ -1,0 +1,15 @@
+# Permite al usuario "eqso" reiniciar los servicios eQSO sin contraseña.
+# Instalar con:
+#   sudo cp /opt/eqso-asorapa/artifacts/api-server/install/sudoers-eqso /etc/sudoers.d/eqso
+#   sudo chmod 440 /etc/sudoers.d/eqso
+#   sudo visudo -c   # verificar sintaxis
+
+eqso ALL=(root) NOPASSWD: /bin/systemctl restart eqso-api, \
+                           /bin/systemctl restart eqso-api.service, \
+                           /bin/systemctl restart eqso.service, \
+                           /bin/systemctl is-active --quiet eqso-api, \
+                           /bin/systemctl is-active --quiet eqso-api.service, \
+                           /bin/systemctl is-active --quiet eqso.service, \
+                           /bin/journalctl -u eqso-api -n 30 --no-pager, \
+                           /bin/journalctl -u eqso-api.service -n 30 --no-pager, \
+                           /bin/journalctl -u eqso.service -n 30 --no-pager

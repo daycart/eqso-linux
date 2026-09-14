@@ -1,0 +1,44 @@
+name: Desplegar en VM (asorapa.sytes.net)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: "Motivo del deploy manual"
+        required: false
+        default: "deploy manual"
+
+concurrency:
+  group: deploy-vm
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Actualizar VM
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Conectar a la VM y ejecutar update.sh
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VM_SSH_HOST }}
+          username: ${{ secrets.VM_SSH_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          port: ${{ secrets.VM_SSH_PORT || 22 }}
+          timeout: 60s
+          command_timeout: 9m
+          script: |
+            export GITHUB_SHA="${{ github.sha }}"
+            export GITHUB_REF="${{ github.ref_name }}"
+            bash /opt/eqso-asorapa/artifacts/api-server/install/update.sh
+
+      - name: Resultado
+        if: success()
+        run: |
+          echo "✅ Deploy completado"
+          echo "   Commit : ${{ github.sha }}"
+          echo "   Rama   : ${{ github.ref_name }}"
+          echo "   Autor  : ${{ github.actor }}"

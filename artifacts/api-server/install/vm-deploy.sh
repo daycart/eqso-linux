@@ -26,6 +26,68 @@ CONFIG_DIR="/etc/eqso-api"
 SERVICE="eqso-api"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
+# ── Configurar SSH para GitHub Actions CI/CD ─────────────────────────────────
+if [[ "${1:-}" == "--setup-cicd" ]]; then
+  if [[ "$EUID" -ne 0 ]]; then
+    echo "ERROR: Ejecuta con sudo"
+    exit 1
+  fi
+  EQSO_HOME="$(getent passwd eqso | cut -d: -f6)"
+  SSH_DIR="$EQSO_HOME/.ssh"
+
+  echo "=== Configurando SSH para GitHub Actions ==="
+
+  mkdir -p "$SSH_DIR"
+  chmod 700 "$SSH_DIR"
+  chown eqso:eqso "$SSH_DIR"
+
+  KEY_FILE="$SSH_DIR/id_rsa_github_deploy"
+  if [[ ! -f "$KEY_FILE" ]]; then
+    sudo -u eqso ssh-keygen -t rsa -b 4096 -C "github-deploy@asorapa" -f "$KEY_FILE" -N ""
+    echo ""
+    echo "  Clave SSH generada: $KEY_FILE"
+  else
+    echo "  Clave SSH ya existe: $KEY_FILE"
+  fi
+
+  AUTH_KEYS="$SSH_DIR/authorized_keys"
+  PUB_KEY=$(cat "${KEY_FILE}.pub")
+  if ! grep -qF "$PUB_KEY" "$AUTH_KEYS" 2>/dev/null; then
+    echo "$PUB_KEY" >> "$AUTH_KEYS"
+    chmod 600 "$AUTH_KEYS"
+    chown eqso:eqso "$AUTH_KEYS"
+    echo "  Clave pública añadida a authorized_keys"
+  else
+    echo "  Clave pública ya estaba en authorized_keys"
+  fi
+
+  SUDOERS_SRC="$(dirname "$0")/sudoers-eqso"
+  SUDOERS_DST="/etc/sudoers.d/eqso"
+  if [[ -f "$SUDOERS_SRC" ]]; then
+    cp "$SUDOERS_SRC" "$SUDOERS_DST"
+    chmod 440 "$SUDOERS_DST"
+    echo "  Sudoers instalado: $SUDOERS_DST"
+  else
+    echo "  AVISO: No se encontró sudoers-eqso junto a este script"
+  fi
+
+  echo ""
+  echo "  Ahora añade estos secretos en GitHub:"
+  echo "  Settings → Secrets and variables → Actions → New repository secret"
+  echo ""
+  echo "    VM_SSH_HOST  →  asorapa.sytes.net"
+  echo "    VM_SSH_USER  →  eqso"
+  echo "    VM_SSH_PORT  →  22  (o el puerto SSH de tu router)"
+  echo "    VM_SSH_KEY   →  (contenido de la clave privada de abajo)"
+  echo ""
+  echo "─── CLAVE PRIVADA (copia todo el bloque) ────────────────────────────────"
+  cat "$KEY_FILE"
+  echo "─────────────────────────────────────────────────────────────────────────"
+  echo ""
+  echo "  Luego haz un push a main y comprueba la pestaña Actions en GitHub."
+  exit 0
+fi
+
 # ── Plantilla de env ──────────────────────────────────────────────────────────
 if [[ "${1:-}" == "--env" ]]; then
   cat <<'EOF'
