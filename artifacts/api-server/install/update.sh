@@ -12,7 +12,10 @@
 set -euo pipefail
 
 INSTALL_DIR="/opt/eqso-asorapa"
-SERVICE="eqso-api"
+# La VM de producción conserva el nombre histórico eqso.service.
+# El instalador completo puede crear eqso-api.service en una máquina nueva,
+# pero el actualizador CI/CD debe reiniciar la unidad que sirve asorapa.sytes.net.
+SERVICE="eqso"
 DEPLOY_LOG="$INSTALL_DIR/deploy.log"
 
 log() { echo "[$(date '+%H:%M:%S')] $*" | tee -a "$DEPLOY_LOG"; }
