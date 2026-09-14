@@ -11,3 +11,4 @@
 - [Publicación inmediata del instalador Windows](windows-installer-release.md) — raw.githubusercontent.com/main puede servir una versión antigua; validar y usar una URL fijada al commit.
 - [Nombres DirectShow en Windows](windows-directshow-device-names.md) — resolver nombres acentuados contra FFmpeg; PowerShell puede mostrar varias formas corruptas del mismo nombre Unicode.
 - [Banco 1.13 y recorrido RF](legacy-v113-lab.md) — clientes sintéticos con saludo 0x78 validan protocolo, GSM y recorrido completo hasta una segunda radio.
+- [Reconexión de radioenlaces](relay-session-takeover.md) — un relay 0R- autenticado debe sustituir su sesión TCP anterior para no quedar bloqueado por conexiones medio abiertas.
