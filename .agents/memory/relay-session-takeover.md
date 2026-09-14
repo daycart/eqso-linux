@@ -10,7 +10,8 @@ normales continúan rechazando nombres duplicados.
 **Why:** Una conexión TCP medio abierta podía permanecer registrada en el
 servidor después de que Windows detectara la desconexión. Los reintentos eran
 rechazados como “indicativo ya en uso” hasta que un administrador expulsaba
-manualmente la sesión antigua.
+manualmente la sesión antigua. El reemplazo autenticado quedó confirmado en el
+servidor público mediante una reconexión forzada, sin expulsión manual.
 
 **How to apply:** Mantener la sustitución limitada a radioenlaces autenticados y
 limpiar sincrónicamente el registro de sala al cerrar administrativamente una
