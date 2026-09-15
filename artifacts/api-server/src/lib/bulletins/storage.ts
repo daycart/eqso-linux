@@ -3,7 +3,9 @@ import path from "node:path";
 
 export const BULLETINS_DIR = path.resolve(process.cwd(), "data", "bulletins");
 const INDEX_FILE = path.join(BULLETINS_DIR, "index.json");
+const TRANSMISSIONS_FILE = path.join(BULLETINS_DIR, "transmissions.json");
 const MAX_HISTORY = 20;
+const MAX_TRANSMISSION_HISTORY = 50;
 
 export interface StoredBulletin {
   id: string;
@@ -21,8 +23,29 @@ export interface StoredBulletin {
   forecastDates: string[];
 }
 
+export type BulletinTransmissionStatus = "completed" | "failed" | "rejected";
+
+export interface BulletinTransmission {
+  id: string;
+  bulletinId: string;
+  bulletinGeneratedAt: string;
+  room: string;
+  requestedAt: string;
+  startedAt: string | null;
+  completedAt: string | null;
+  status: BulletinTransmissionStatus;
+  error: string | null;
+  packetCount: number;
+  durationMs: number;
+  requestedBy: string | null;
+}
+
 interface BulletinIndex {
   bulletins: StoredBulletin[];
+}
+
+interface TransmissionIndex {
+  transmissions: BulletinTransmission[];
 }
 
 let operation: Promise<unknown> = Promise.resolve();
@@ -48,11 +71,35 @@ async function readIndex(): Promise<BulletinIndex> {
   }
 }
 
+async function readTransmissionIndex(): Promise<TransmissionIndex> {
+  await ensureDirectory();
+  try {
+    const content = await readFile(TRANSMISSIONS_FILE, "utf8");
+    const parsed = JSON.parse(content) as TransmissionIndex;
+    if (!parsed || !Array.isArray(parsed.transmissions)) {
+      throw new Error("El índice de transmisiones no tiene un formato válido");
+    }
+    return parsed;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return { transmissions: [] };
+    }
+    throw error;
+  }
+}
+
 async function writeIndex(index: BulletinIndex): Promise<void> {
   await ensureDirectory();
   const temporary = `${INDEX_FILE}.${process.pid}.${Date.now()}.tmp`;
   await writeFile(temporary, `${JSON.stringify(index, null, 2)}\n`, "utf8");
   await rename(temporary, INDEX_FILE);
+}
+
+async function writeTransmissionIndex(index: TransmissionIndex): Promise<void> {
+  await ensureDirectory();
+  const temporary = `${TRANSMISSIONS_FILE}.${process.pid}.${Date.now()}.tmp`;
+  await writeFile(temporary, `${JSON.stringify(index, null, 2)}\n`, "utf8");
+  await rename(temporary, TRANSMISSIONS_FILE);
 }
 
 async function locked<T>(callback: () => Promise<T>): Promise<T> {
@@ -86,6 +133,37 @@ export async function saveBulletin(
     await writeIndex({ bulletins });
     return bulletins;
   });
+}
+
+export async function createBulletinTransmission(
+  transmission: BulletinTransmission,
+): Promise<BulletinTransmission> {
+  return locked(async () => {
+    const index = await readTransmissionIndex();
+    await writeTransmissionIndex({
+      transmissions: [transmission, ...index.transmissions].slice(0, MAX_TRANSMISSION_HISTORY),
+    });
+    return transmission;
+  });
+}
+
+export async function updateBulletinTransmission(
+  id: string,
+  update: Partial<BulletinTransmission>,
+): Promise<BulletinTransmission> {
+  return locked(async () => {
+    const index = await readTransmissionIndex();
+    const position = index.transmissions.findIndex((item) => item.id === id);
+    if (position < 0) throw new Error("Intento de transmisión no encontrado");
+    const transmission = { ...index.transmissions[position], ...update };
+    index.transmissions[position] = transmission;
+    await writeTransmissionIndex(index);
+    return transmission;
+  });
+}
+
+export async function listBulletinTransmissions(): Promise<BulletinTransmission[]> {
+  return locked(async () => (await readTransmissionIndex()).transmissions.slice(0, MAX_TRANSMISSION_HISTORY));
 }
 
 export function getAudioPath(bulletin: StoredBulletin): string {

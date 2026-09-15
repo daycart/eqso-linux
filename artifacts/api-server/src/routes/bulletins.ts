@@ -7,6 +7,11 @@ import {
   GetCurrentBulletinResponse,
   GetBulletinAudioParams,
   ListBulletinHistoryResponse,
+  ListBulletinTransmissionRoomsResponse,
+  ListBulletinTransmissionsResponse,
+  TransmitBulletinParams,
+  TransmitBulletinBody,
+  TransmitBulletinResponse,
 } from "@workspace/api-zod";
 import { requireAdmin } from "../lib/adminMiddleware";
 import { logger } from "../lib/logger";
@@ -20,7 +25,10 @@ import {
   listBulletins,
   saveBulletin,
   type StoredBulletin,
+  listBulletinTransmissions,
 } from "../lib/bulletins/storage";
+import { transmitBulletin } from "../lib/bulletins/transmission";
+import { roomManager } from "../eqso/room-manager";
 
 const router = Router();
 const IDENTITY = "eQSO Sierra Noroeste";
@@ -75,6 +83,19 @@ router.get("/bulletins/history", async (req, res): Promise<void> => {
   }
 });
 
+router.get("/bulletins/rooms", async (_req, res): Promise<void> => {
+  res.json(ListBulletinTransmissionRoomsResponse.parse({ rooms: roomManager.getRooms() }));
+});
+
+router.get("/bulletins/transmissions", async (_req, res): Promise<void> => {
+  try {
+    res.json(ListBulletinTransmissionsResponse.parse(await listBulletinTransmissions()));
+  } catch (error) {
+    logger.error({ err: error }, "No se pudo leer el historial de transmisiones");
+    res.status(500).json({ error: "No se pudo leer el historial de transmisiones" });
+  }
+});
+
 router.post("/bulletins/generate", async (req, res): Promise<void> => {
   const generatedAt = new Date().toISOString();
   try {
@@ -106,6 +127,37 @@ router.post("/bulletins/generate", async (req, res): Promise<void> => {
     res.status(502).json({
       error: error instanceof Error ? error.message : "No se pudo generar el boletín meteorológico",
     });
+  }
+});
+
+router.post("/bulletins/:id/transmit", async (req, res): Promise<void> => {
+  const params = TransmitBulletinParams.safeParse(req.params);
+  if (!params.success) {
+    res.status(400).json({ error: "Identificador de boletín inválido" });
+    return;
+  }
+  const body = TransmitBulletinBody.safeParse(req.body);
+  if (!body.success || body.data.confirmed !== true) {
+    res.status(400).json({ error: "La confirmación debe ser true" });
+    return;
+  }
+  const room = body.data.room;
+  if (!roomManager.getRooms().includes(room)) {
+    res.status(400).json({ error: "Sala no válida" });
+    return;
+  }
+  try {
+    const bulletin = (await listBulletins()).find((item) => item.id === params.data.id);
+    if (!bulletin) {
+      res.status(404).json({ error: "Boletín no encontrado" });
+      return;
+    }
+    const result = await transmitBulletin(bulletin, room, req.session?.callsign ?? null);
+    const payload = TransmitBulletinResponse.parse(result.record);
+    res.status(result.rejected ? 409 : result.record.status === "failed" ? 502 : 200).json(payload);
+  } catch (error) {
+    req.log.error({ err: error, bulletinId: params.data.id, room }, "No se pudo iniciar la transmisión del boletín");
+    res.status(502).json({ error: error instanceof Error ? error.message : "No se pudo transmitir el boletín" });
   }
 });
 

@@ -38,3 +38,41 @@ export interface BulletinStatus {
   /** @nullable */
   currentGeneratedAt: string | null;
 }
+
+export interface BulletinTransmissionRooms {
+  rooms: string[];
+}
+
+export interface BulletinTransmissionInput {
+  /** @minLength 1 */
+  room: string;
+  confirmed: true;
+}
+
+export type BulletinTransmissionStatus =
+  (typeof BulletinTransmissionStatus)[keyof typeof BulletinTransmissionStatus];
+
+export const BulletinTransmissionStatus = {
+  completed: "completed",
+  failed: "failed",
+  rejected: "rejected",
+} as const;
+
+export interface BulletinTransmission {
+  id: string;
+  bulletinId: string;
+  bulletinGeneratedAt: string;
+  room: string;
+  requestedAt: string;
+  /** @nullable */
+  startedAt: string | null;
+  /** @nullable */
+  completedAt: string | null;
+  status: BulletinTransmissionStatus;
+  /** @nullable */
+  error: string | null;
+  packetCount: number;
+  durationMs: number;
+  /** @nullable */
+  requestedBy: string | null;
+}

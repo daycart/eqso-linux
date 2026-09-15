@@ -72,6 +72,61 @@ export const ListBulletinHistoryResponse = zod.array(
 );
 
 /**
+ * @summary List rooms eligible for manual bulletin transmission
+ */
+export const ListBulletinTransmissionRoomsResponse = zod.object({
+  rooms: zod.array(zod.string()),
+});
+
+/**
+ * @summary List recent bulletin transmission attempts
+ */
+export const ListBulletinTransmissionsResponseItem = zod.object({
+  id: zod.string().uuid(),
+  bulletinId: zod.string().uuid(),
+  bulletinGeneratedAt: zod.coerce.date(),
+  room: zod.string(),
+  requestedAt: zod.coerce.date(),
+  startedAt: zod.coerce.date().nullable(),
+  completedAt: zod.coerce.date().nullable(),
+  status: zod.enum(["completed", "failed", "rejected"]),
+  error: zod.string().nullable(),
+  packetCount: zod.number(),
+  durationMs: zod.number(),
+  requestedBy: zod.string().nullable(),
+});
+export const ListBulletinTransmissionsResponse = zod.array(
+  ListBulletinTransmissionsResponseItem,
+);
+
+/**
+ * @summary Manually transmit an existing bulletin to one room
+ */
+export const TransmitBulletinParams = zod.object({
+  id: zod.coerce.string().uuid(),
+});
+
+export const TransmitBulletinBody = zod.object({
+  room: zod.string().min(1),
+  confirmed: zod.boolean(),
+});
+
+export const TransmitBulletinResponse = zod.object({
+  id: zod.string().uuid(),
+  bulletinId: zod.string().uuid(),
+  bulletinGeneratedAt: zod.coerce.date(),
+  room: zod.string(),
+  requestedAt: zod.coerce.date(),
+  startedAt: zod.coerce.date().nullable(),
+  completedAt: zod.coerce.date().nullable(),
+  status: zod.enum(["completed", "failed", "rejected"]),
+  error: zod.string().nullable(),
+  packetCount: zod.number(),
+  durationMs: zod.number(),
+  requestedBy: zod.string().nullable(),
+});
+
+/**
  * @summary Download generated bulletin audio
  */
 export const GetBulletinAudioParams = zod.object({

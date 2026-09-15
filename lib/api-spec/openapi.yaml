@@ -66,6 +66,65 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/WeatherBulletin"
+  /admin/bulletins/rooms:
+    get:
+      operationId: listBulletinTransmissionRooms
+      tags: [bulletins]
+      summary: List rooms eligible for manual bulletin transmission
+      responses:
+        "200":
+          description: Eligible eQSO rooms
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulletinTransmissionRooms"
+  /admin/bulletins/transmissions:
+    get:
+      operationId: listBulletinTransmissions
+      tags: [bulletins]
+      summary: List recent bulletin transmission attempts
+      responses:
+        "200":
+          description: Recent transmission history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BulletinTransmission"
+  /admin/bulletins/{id}/transmit:
+    post:
+      operationId: transmitBulletin
+      tags: [bulletins]
+      summary: Manually transmit an existing bulletin to one room
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulletinTransmissionInput"
+      responses:
+        "200":
+          description: Transmission completed or failed
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulletinTransmission"
+        "400":
+          description: Invalid bulletin, room, or confirmation
+        "404":
+          description: Bulletin not found
+        "409":
+          description: Room is already transmitting
+        "502":
+          description: Audio conversion or transmission failure
   /admin/bulletins/generate:
     post:
       operationId: generateBulletin
@@ -190,4 +249,72 @@ components:
         - hasCurrent
         - currentId
         - currentGeneratedAt
+    BulletinTransmissionRooms:
+      type: object
+      properties:
+        rooms:
+          type: array
+          items:
+            type: string
+      required:
+        - rooms
+    BulletinTransmissionInput:
+      type: object
+      properties:
+        room:
+          type: string
+          minLength: 1
+        confirmed:
+          type: boolean
+          const: true
+      required:
+        - room
+        - confirmed
+    BulletinTransmission:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        bulletinId:
+          type: string
+          format: uuid
+        bulletinGeneratedAt:
+          type: string
+          format: date-time
+        room:
+          type: string
+        requestedAt:
+          type: string
+          format: date-time
+        startedAt:
+          type: ["string", "null"]
+          format: date-time
+        completedAt:
+          type: ["string", "null"]
+          format: date-time
+        status:
+          type: string
+          enum: [completed, failed, rejected]
+        error:
+          type: ["string", "null"]
+        packetCount:
+          type: integer
+        durationMs:
+          type: integer
+        requestedBy:
+          type: ["string", "null"]
+      required:
+        - id
+        - bulletinId
+        - bulletinGeneratedAt
+        - room
+        - requestedAt
+        - startedAt
+        - completedAt
+        - status
+        - error
+        - packetCount
+        - durationMs
+        - requestedBy
 

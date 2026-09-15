@@ -7,5 +7,9 @@
  */
 
 export * from "./bulletinStatus";
+export * from "./bulletinTransmission";
+export * from "./bulletinTransmissionInput";
+export * from "./bulletinTransmissionRooms";
+export * from "./bulletinTransmissionStatus";
 export * from "./healthStatus";
 export * from "./weatherBulletin";

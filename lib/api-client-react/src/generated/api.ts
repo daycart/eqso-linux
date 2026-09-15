@@ -18,12 +18,15 @@ import type {
 
 import type {
   BulletinStatus,
+  BulletinTransmission,
+  BulletinTransmissionInput,
+  BulletinTransmissionRooms,
   HealthStatus,
   WeatherBulletin,
 } from "./api.schemas";
 
 import { customFetch } from "../custom-fetch";
-import type { ErrorType } from "../custom-fetch";
+import type { ErrorType, BodyType } from "../custom-fetch";
 
 type AwaitedInput<T> = PromiseLike<T> | T;
 
@@ -331,6 +334,252 @@ export function useListBulletinHistory<
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
+
+/**
+ * @summary List rooms eligible for manual bulletin transmission
+ */
+export const getListBulletinTransmissionRoomsUrl = () => {
+  return `/api/admin/bulletins/rooms`;
+};
+
+export const listBulletinTransmissionRooms = async (
+  options?: RequestInit,
+): Promise<BulletinTransmissionRooms> => {
+  return customFetch<BulletinTransmissionRooms>(
+    getListBulletinTransmissionRoomsUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export const getListBulletinTransmissionRoomsQueryKey = () => {
+  return [`/api/admin/bulletins/rooms`] as const;
+};
+
+export const getListBulletinTransmissionRoomsQueryOptions = <
+  TData = Awaited<ReturnType<typeof listBulletinTransmissionRooms>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listBulletinTransmissionRooms>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getListBulletinTransmissionRoomsQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof listBulletinTransmissionRooms>>
+  > = ({ signal }) =>
+    listBulletinTransmissionRooms({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listBulletinTransmissionRooms>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ListBulletinTransmissionRoomsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listBulletinTransmissionRooms>>
+>;
+export type ListBulletinTransmissionRoomsQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List rooms eligible for manual bulletin transmission
+ */
+
+export function useListBulletinTransmissionRooms<
+  TData = Awaited<ReturnType<typeof listBulletinTransmissionRooms>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listBulletinTransmissionRooms>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getListBulletinTransmissionRoomsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary List recent bulletin transmission attempts
+ */
+export const getListBulletinTransmissionsUrl = () => {
+  return `/api/admin/bulletins/transmissions`;
+};
+
+export const listBulletinTransmissions = async (
+  options?: RequestInit,
+): Promise<BulletinTransmission[]> => {
+  return customFetch<BulletinTransmission[]>(
+    getListBulletinTransmissionsUrl(),
+    {
+      ...options,
+      method: "GET",
+    },
+  );
+};
+
+export const getListBulletinTransmissionsQueryKey = () => {
+  return [`/api/admin/bulletins/transmissions`] as const;
+};
+
+export const getListBulletinTransmissionsQueryOptions = <
+  TData = Awaited<ReturnType<typeof listBulletinTransmissions>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listBulletinTransmissions>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getListBulletinTransmissionsQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof listBulletinTransmissions>>
+  > = ({ signal }) => listBulletinTransmissions({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listBulletinTransmissions>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ListBulletinTransmissionsQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listBulletinTransmissions>>
+>;
+export type ListBulletinTransmissionsQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List recent bulletin transmission attempts
+ */
+
+export function useListBulletinTransmissions<
+  TData = Awaited<ReturnType<typeof listBulletinTransmissions>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listBulletinTransmissions>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getListBulletinTransmissionsQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Manually transmit an existing bulletin to one room
+ */
+export const getTransmitBulletinUrl = (id: string) => {
+  return `/api/admin/bulletins/${id}/transmit`;
+};
+
+export const transmitBulletin = async (
+  id: string,
+  bulletinTransmissionInput: BulletinTransmissionInput,
+  options?: RequestInit,
+): Promise<BulletinTransmission> => {
+  return customFetch<BulletinTransmission>(getTransmitBulletinUrl(id), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(bulletinTransmissionInput),
+  });
+};
+
+export const getTransmitBulletinMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof transmitBulletin>>,
+    TError,
+    { id: string; data: BodyType<BulletinTransmissionInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof transmitBulletin>>,
+  TError,
+  { id: string; data: BodyType<BulletinTransmissionInput> },
+  TContext
+> => {
+  const mutationKey = ["transmitBulletin"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof transmitBulletin>>,
+    { id: string; data: BodyType<BulletinTransmissionInput> }
+  > = (props) => {
+    const { id, data } = props ?? {};
+
+    return transmitBulletin(id, data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type TransmitBulletinMutationResult = NonNullable<
+  Awaited<ReturnType<typeof transmitBulletin>>
+>;
+export type TransmitBulletinMutationBody = BodyType<BulletinTransmissionInput>;
+export type TransmitBulletinMutationError = ErrorType<void>;
+
+/**
+ * @summary Manually transmit an existing bulletin to one room
+ */
+export const useTransmitBulletin = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof transmitBulletin>>,
+    TError,
+    { id: string; data: BodyType<BulletinTransmissionInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof transmitBulletin>>,
+  TError,
+  { id: string; data: BodyType<BulletinTransmissionInput> },
+  TContext
+> => {
+  return useMutation(getTransmitBulletinMutationOptions(options));
+};
 
 /**
  * @summary Generate a weather bulletin manually
