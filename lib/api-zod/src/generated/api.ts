@@ -14,3 +14,66 @@ import * as zod from "zod";
 export const HealthCheckResponse = zod.object({
   status: zod.string(),
 });
+
+/**
+ * @summary Get weather bulletin status
+ */
+export const GetBulletinStatusResponse = zod.object({
+  identity: zod.string(),
+  geographicFocus: zod.string(),
+  sourceUrl: zod.string().url(),
+  historyCount: zod.number(),
+  hasCurrent: zod.boolean(),
+  currentId: zod.string().nullable(),
+  currentGeneratedAt: zod.string().nullable(),
+});
+
+/**
+ * @summary Get the current weather bulletin
+ */
+export const GetCurrentBulletinResponse = zod.object({
+  id: zod.string().uuid(),
+  identity: zod.string(),
+  geographicFocus: zod.string(),
+  municipality: zod.string(),
+  forecastText: zod.string(),
+  sourceUrl: zod.string().url(),
+  sourceAttribution: zod.string(),
+  sourcePublishedAt: zod.string().nullable(),
+  sourceRetrievedAt: zod.coerce.date(),
+  generatedAt: zod.coerce.date(),
+  audioFileName: zod.string(),
+  audioMimeType: zod.string(),
+  audioUrl: zod.string(),
+  forecastDates: zod.array(zod.coerce.date()),
+});
+
+/**
+ * @summary List generated weather bulletins
+ */
+export const ListBulletinHistoryResponseItem = zod.object({
+  id: zod.string().uuid(),
+  identity: zod.string(),
+  geographicFocus: zod.string(),
+  municipality: zod.string(),
+  forecastText: zod.string(),
+  sourceUrl: zod.string().url(),
+  sourceAttribution: zod.string(),
+  sourcePublishedAt: zod.string().nullable(),
+  sourceRetrievedAt: zod.coerce.date(),
+  generatedAt: zod.coerce.date(),
+  audioFileName: zod.string(),
+  audioMimeType: zod.string(),
+  audioUrl: zod.string(),
+  forecastDates: zod.array(zod.coerce.date()),
+});
+export const ListBulletinHistoryResponse = zod.array(
+  ListBulletinHistoryResponseItem,
+);
+
+/**
+ * @summary Download generated bulletin audio
+ */
+export const GetBulletinAudioParams = zod.object({
+  id: zod.coerce.string().uuid(),
+});

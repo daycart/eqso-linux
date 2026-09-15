@@ -5,15 +5,22 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type {
+  MutationFunction,
   QueryFunction,
   QueryKey,
+  UseMutationOptions,
+  UseMutationResult,
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
 
-import type { HealthStatus } from "./api.schemas";
+import type {
+  BulletinStatus,
+  HealthStatus,
+  WeatherBulletin,
+} from "./api.schemas";
 
 import { customFetch } from "../custom-fetch";
 import type { ErrorType } from "../custom-fetch";
@@ -92,6 +99,399 @@ export function useHealthCheck<
   request?: SecondParameter<typeof customFetch>;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getHealthCheckQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Get weather bulletin status
+ */
+export const getGetBulletinStatusUrl = () => {
+  return `/api/admin/bulletins/status`;
+};
+
+export const getBulletinStatus = async (
+  options?: RequestInit,
+): Promise<BulletinStatus> => {
+  return customFetch<BulletinStatus>(getGetBulletinStatusUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetBulletinStatusQueryKey = () => {
+  return [`/api/admin/bulletins/status`] as const;
+};
+
+export const getGetBulletinStatusQueryOptions = <
+  TData = Awaited<ReturnType<typeof getBulletinStatus>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getBulletinStatus>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetBulletinStatusQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getBulletinStatus>>
+  > = ({ signal }) => getBulletinStatus({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getBulletinStatus>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetBulletinStatusQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getBulletinStatus>>
+>;
+export type GetBulletinStatusQueryError = ErrorType<unknown>;
+
+/**
+ * @summary Get weather bulletin status
+ */
+
+export function useGetBulletinStatus<
+  TData = Awaited<ReturnType<typeof getBulletinStatus>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getBulletinStatus>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetBulletinStatusQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Get the current weather bulletin
+ */
+export const getGetCurrentBulletinUrl = () => {
+  return `/api/admin/bulletins/current`;
+};
+
+export const getCurrentBulletin = async (
+  options?: RequestInit,
+): Promise<WeatherBulletin> => {
+  return customFetch<WeatherBulletin>(getGetCurrentBulletinUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetCurrentBulletinQueryKey = () => {
+  return [`/api/admin/bulletins/current`] as const;
+};
+
+export const getGetCurrentBulletinQueryOptions = <
+  TData = Awaited<ReturnType<typeof getCurrentBulletin>>,
+  TError = ErrorType<void>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getCurrentBulletin>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetCurrentBulletinQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getCurrentBulletin>>
+  > = ({ signal }) => getCurrentBulletin({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getCurrentBulletin>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetCurrentBulletinQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getCurrentBulletin>>
+>;
+export type GetCurrentBulletinQueryError = ErrorType<void>;
+
+/**
+ * @summary Get the current weather bulletin
+ */
+
+export function useGetCurrentBulletin<
+  TData = Awaited<ReturnType<typeof getCurrentBulletin>>,
+  TError = ErrorType<void>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getCurrentBulletin>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetCurrentBulletinQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary List generated weather bulletins
+ */
+export const getListBulletinHistoryUrl = () => {
+  return `/api/admin/bulletins/history`;
+};
+
+export const listBulletinHistory = async (
+  options?: RequestInit,
+): Promise<WeatherBulletin[]> => {
+  return customFetch<WeatherBulletin[]>(getListBulletinHistoryUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getListBulletinHistoryQueryKey = () => {
+  return [`/api/admin/bulletins/history`] as const;
+};
+
+export const getListBulletinHistoryQueryOptions = <
+  TData = Awaited<ReturnType<typeof listBulletinHistory>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listBulletinHistory>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getListBulletinHistoryQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof listBulletinHistory>>
+  > = ({ signal }) => listBulletinHistory({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listBulletinHistory>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ListBulletinHistoryQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listBulletinHistory>>
+>;
+export type ListBulletinHistoryQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List generated weather bulletins
+ */
+
+export function useListBulletinHistory<
+  TData = Awaited<ReturnType<typeof listBulletinHistory>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listBulletinHistory>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getListBulletinHistoryQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Generate a weather bulletin manually
+ */
+export const getGenerateBulletinUrl = () => {
+  return `/api/admin/bulletins/generate`;
+};
+
+export const generateBulletin = async (
+  options?: RequestInit,
+): Promise<WeatherBulletin> => {
+  return customFetch<WeatherBulletin>(getGenerateBulletinUrl(), {
+    ...options,
+    method: "POST",
+  });
+};
+
+export const getGenerateBulletinMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof generateBulletin>>,
+    TError,
+    void,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof generateBulletin>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationKey = ["generateBulletin"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof generateBulletin>>,
+    void
+  > = () => {
+    return generateBulletin(requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type GenerateBulletinMutationResult = NonNullable<
+  Awaited<ReturnType<typeof generateBulletin>>
+>;
+
+export type GenerateBulletinMutationError = ErrorType<void>;
+
+/**
+ * @summary Generate a weather bulletin manually
+ */
+export const useGenerateBulletin = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof generateBulletin>>,
+    TError,
+    void,
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof generateBulletin>>,
+  TError,
+  void,
+  TContext
+> => {
+  return useMutation(getGenerateBulletinMutationOptions(options));
+};
+
+/**
+ * @summary Download generated bulletin audio
+ */
+export const getGetBulletinAudioUrl = (id: string) => {
+  return `/api/admin/bulletins/${id}/audio`;
+};
+
+export const getBulletinAudio = async (
+  id: string,
+  options?: RequestInit,
+): Promise<Blob> => {
+  return customFetch<Blob>(getGetBulletinAudioUrl(id), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetBulletinAudioQueryKey = (id: string) => {
+  return [`/api/admin/bulletins/${id}/audio`] as const;
+};
+
+export const getGetBulletinAudioQueryOptions = <
+  TData = Awaited<ReturnType<typeof getBulletinAudio>>,
+  TError = ErrorType<void>,
+>(
+  id: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getBulletinAudio>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetBulletinAudioQueryKey(id);
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getBulletinAudio>>
+  > = ({ signal }) => getBulletinAudio(id, { signal, ...requestOptions });
+
+  return {
+    queryKey,
+    queryFn,
+    enabled: !!id,
+    ...queryOptions,
+  } as UseQueryOptions<
+    Awaited<ReturnType<typeof getBulletinAudio>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetBulletinAudioQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getBulletinAudio>>
+>;
+export type GetBulletinAudioQueryError = ErrorType<void>;
+
+/**
+ * @summary Download generated bulletin audio
+ */
+
+export function useGetBulletinAudio<
+  TData = Awaited<ReturnType<typeof getBulletinAudio>>,
+  TError = ErrorType<void>,
+>(
+  id: string,
+  options?: {
+    query?: UseQueryOptions<
+      Awaited<ReturnType<typeof getBulletinAudio>>,
+      TError,
+      TData
+    >;
+    request?: SecondParameter<typeof customFetch>;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetBulletinAudioQueryOptions(id, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;

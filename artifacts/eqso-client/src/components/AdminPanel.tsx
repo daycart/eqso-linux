@@ -4,6 +4,8 @@ import { ServersPanel } from "./ServersPanel";
 import { ServerMonitor } from "./ServerMonitor";
 import { RelaysPanel } from "./RelaysPanel";
 
+import { BulletinPanel } from "./BulletinPanel";
+
 interface AdminUser {
   id: number;
   callsign: string;
@@ -46,7 +48,7 @@ function authHeaders(token: string) {
 }
 
 export function AdminPanel({ token, onClose }: AdminPanelProps) {
-  const [activeSection, setActiveSection] = useState<"usuarios" | "servidores" | "radioenlaces" | "monitor" | "inactividad">("usuarios");
+  const [activeSection, setActiveSection] = useState<"usuarios" | "servidores" | "radioenlaces" | "monitor" | "inactividad" | "boletines">("usuarios");
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -379,8 +381,8 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
       </div>
 
       {/* Section tabs */}
-      <div className="flex gap-1 px-6 pt-4 border-b border-gray-800 pb-0">
-        {(["usuarios", "servidores", "radioenlaces", "monitor", "inactividad"] as const).map((sec) => (
+      <div className="flex gap-1 px-6 pt-4 border-b border-gray-800 pb-0 overflow-x-auto">
+        {(["usuarios", "servidores", "radioenlaces", "monitor", "inactividad", "boletines"] as const).map((sec) => (
           <button
             key={sec}
             onClick={() => {
@@ -405,7 +407,8 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
             ) : sec === "servidores" ? "Servidores"
               : sec === "radioenlaces" ? "Radioenlaces"
               : sec === "monitor" ? "Monitor"
-              : "Inactividad"}
+              : sec === "inactividad" ? "Inactividad"
+              : "Boletines"}
           </button>
         ))}
       </div>
@@ -591,6 +594,11 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
             </>
           )}
         </div>
+      )}
+
+      {/* Boletines section */}
+      {activeSection === "boletines" && (
+        <BulletinPanel token={token} />
       )}
 
       {/* Users section — filter tabs + list */}

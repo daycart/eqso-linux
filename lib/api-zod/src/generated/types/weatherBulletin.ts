@@ -5,9 +5,6 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
-export interface HealthStatus {
-  status: string;
-}
 
 export interface WeatherBulletin {
   id: string;
@@ -19,22 +16,10 @@ export interface WeatherBulletin {
   sourceAttribution: string;
   /** @nullable */
   sourcePublishedAt: string | null;
-  sourceRetrievedAt: string;
-  generatedAt: string;
+  sourceRetrievedAt: Date;
+  generatedAt: Date;
   audioFileName: string;
   audioMimeType: string;
   audioUrl: string;
-  forecastDates: string[];
-}
-
-export interface BulletinStatus {
-  identity: string;
-  geographicFocus: string;
-  sourceUrl: string;
-  historyCount: number;
-  hasCurrent: boolean;
-  /** @nullable */
-  currentId: string | null;
-  /** @nullable */
-  currentGeneratedAt: string | null;
+  forecastDates: Date[];
 }

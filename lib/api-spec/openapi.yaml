@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: bulletins
+    description: Weather bulletin operations for administrators
 paths:
   /healthz:
     get:
@@ -24,6 +26,82 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /admin/bulletins/status:
+    get:
+      operationId: getBulletinStatus
+      tags: [bulletins]
+      summary: Get weather bulletin status
+      responses:
+        "200":
+          description: Current bulletin generation status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulletinStatus"
+  /admin/bulletins/current:
+    get:
+      operationId: getCurrentBulletin
+      tags: [bulletins]
+      summary: Get the current weather bulletin
+      responses:
+        "200":
+          description: Current bulletin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WeatherBulletin"
+        "404":
+          description: No bulletin has been generated
+  /admin/bulletins/history:
+    get:
+      operationId: listBulletinHistory
+      tags: [bulletins]
+      summary: List generated weather bulletins
+      responses:
+        "200":
+          description: Generated bulletin history
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/WeatherBulletin"
+  /admin/bulletins/generate:
+    post:
+      operationId: generateBulletin
+      tags: [bulletins]
+      summary: Generate a weather bulletin manually
+      responses:
+        "201":
+          description: Generated weather bulletin
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WeatherBulletin"
+        "502":
+          description: AEMET or audio integration failure
+  /admin/bulletins/{id}/audio:
+    get:
+      operationId: getBulletinAudio
+      tags: [bulletins]
+      summary: Download generated bulletin audio
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Bulletin audio in WAV format
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: Audio or bulletin not found
 components:
   schemas:
     HealthStatus:
@@ -33,4 +111,83 @@ components:
           type: string
       required:
         - status
+    WeatherBulletin:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        identity:
+          type: string
+        geographicFocus:
+          type: string
+        municipality:
+          type: string
+        forecastText:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+        sourceAttribution:
+          type: string
+        sourcePublishedAt:
+          type: ["string", "null"]
+        sourceRetrievedAt:
+          type: string
+          format: date-time
+        generatedAt:
+          type: string
+          format: date-time
+        audioFileName:
+          type: string
+        audioMimeType:
+          type: string
+        audioUrl:
+          type: string
+        forecastDates:
+          type: array
+          items:
+            type: string
+            format: date
+      required:
+        - id
+        - identity
+        - geographicFocus
+        - municipality
+        - forecastText
+        - sourceUrl
+        - sourceAttribution
+        - sourcePublishedAt
+        - sourceRetrievedAt
+        - generatedAt
+        - audioFileName
+        - audioMimeType
+        - audioUrl
+        - forecastDates
+    BulletinStatus:
+      type: object
+      properties:
+        identity:
+          type: string
+        geographicFocus:
+          type: string
+        sourceUrl:
+          type: string
+          format: uri
+        historyCount:
+          type: integer
+        hasCurrent:
+          type: boolean
+        currentId:
+          type: ["string", "null"]
+        currentGeneratedAt:
+          type: ["string", "null"]
+      required:
+        - identity
+        - geographicFocus
+        - sourceUrl
+        - historyCount
+        - hasCurrent
+        - currentId
+        - currentGeneratedAt
 
