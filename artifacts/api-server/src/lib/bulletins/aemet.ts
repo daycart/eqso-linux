@@ -170,7 +170,26 @@ function weatherSentence(day: AemetDay): string {
     parts.push(`probabilidad de precipitación del ${day.precipitation} por ciento`);
   }
   if (day.windDirection && day.windSpeed != null) {
-    parts.push(`viento de ${day.windDirection} a ${day.windSpeed} kilómetros por hora`);
+    const windDirections: Record<string, string> = {
+      N: "norte",
+      NE: "noreste",
+      E: "este",
+      SE: "sureste",
+      S: "sur",
+      SO: "suroeste",
+      O: "oeste",
+      NO: "noroeste",
+      C: "calma",
+      VRB: "dirección variable",
+    };
+    const direction = windDirections[day.windDirection.toUpperCase()] ?? day.windDirection;
+    const windDescription =
+      direction === "calma"
+        ? `viento en calma, a ${day.windSpeed} kilómetros por hora`
+        : direction === "dirección variable"
+          ? `viento de dirección variable, a ${day.windSpeed} kilómetros por hora`
+          : `viento de componente ${direction}, a ${day.windSpeed} kilómetros por hora`;
+    parts.push(windDescription);
   }
   return parts.join(", ");
 }

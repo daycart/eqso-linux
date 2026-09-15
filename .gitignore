@@ -37,6 +37,7 @@ yarn-error.log
 testem.log
 /typings
 eqso-lab-report*.json
+artifacts/api-server/data/bulletins/
 
 # System Files
 .DS_Store
