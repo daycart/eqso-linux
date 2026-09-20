@@ -144,13 +144,17 @@ function releasePtt(
   roomManager.broadcastToRoom(client.room, rel, state.id);
 
   if (trigger === "legacy-voice-timeout") {
-    // v1.13 is still internally transmitting when its closing command is
-    // missing. A synthetic self-release desynchronizes it; leaving the socket
-    // open leaves its UI blue and mixes later room audio into the stale TX.
-    // Release the shared room first, then force only this client to reconnect
-    // with a clean protocol state.
+    // Match the original server's split release timing. Sending 0x08 and the
+    // owner/update packet in the same tick can leave v1.13 desynchronized.
+    safeWrite(state, Buffer.from([0x08]));
     setTimeout(() => {
-      if (!state.socket.destroyed) state.socket.destroy();
+      safeWrite(
+        state,
+        Buffer.concat([
+          Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]),
+          rel,
+        ])
+      );
     }, 100);
   } else {
     safeWrite(state, Buffer.from([0x08]));
