@@ -97,7 +97,9 @@ export default function HomePage() {
 
   useEffect(() => {
     pttChunkRef.current = (data: ArrayBuffer) => {
-      eqso.sendAudio(data);
+      if (pttPressedRef.current) {
+        eqso.sendAudio(data);
+      }
     };
   }, [eqso]);
 

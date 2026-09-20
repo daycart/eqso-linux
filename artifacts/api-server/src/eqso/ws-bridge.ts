@@ -166,6 +166,8 @@ function handleLocalMode(
 
   // Accumulate Uint8 PCM samples from browser until we have 960 (one GSM packet)
   let localPcmAccum = new Uint8Array(0);
+  let localPttReleaseTimer: ReturnType<typeof setTimeout> | null = null;
+  const LOCAL_PTT_TAIL_MS = 300;
 
   return {
     onMessage: (msg, rawBin) => {
@@ -283,6 +285,10 @@ function handleLocalMode(
         case "ptt_start": {
           const client = roomManager.getClient(id);
           if (client?.room && client.name) {
+            if (localPttReleaseTimer) {
+              clearTimeout(localPttReleaseTimer);
+              localPttReleaseTimer = null;
+            }
             if (moderationManager.isMuted(client.name)) {
               sendJson(ws, { type: "ptt_denied", reason: "Silenciado por el administrador" });
               break;
@@ -310,8 +316,23 @@ function handleLocalMode(
               { id, name: client.name, room: client.room },
               "WS PTT end received"
             );
-            roomManager.broadcastToRoom(client.room, buildPttReleased(client.name), id);
-            roomManager.unlockRoom(client.room, id);
+            if (localPttReleaseTimer) clearTimeout(localPttReleaseTimer);
+            localPttReleaseTimer = setTimeout(() => {
+              localPttReleaseTimer = null;
+              const current = roomManager.getClient(id);
+              if (!current?.room || !current.name) return;
+              roomManager.broadcastToRoom(
+                current.room,
+                buildPttReleased(current.name),
+                id
+              );
+              roomManager.unlockRoom(current.room, id);
+              localPcmAccum = new Uint8Array(0);
+              logger.info(
+                { id, name: current.name, room: current.room },
+                "WS PTT release sent after encoder tail"
+              );
+            }, LOCAL_PTT_TAIL_MS);
             sendJson(ws, { type: "ptt_released" });
           }
           break;
@@ -325,6 +346,7 @@ function handleLocalMode(
 
     onClose: () => {
       clearInterval(pingTimer);
+      if (localPttReleaseTimer) clearTimeout(localPttReleaseTimer);
       localPcmAccum = new Uint8Array(0);
       localDecoder.stop();
       localEncoder.stop();
