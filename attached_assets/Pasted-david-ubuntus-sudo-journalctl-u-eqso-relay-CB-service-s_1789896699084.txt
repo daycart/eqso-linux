@@ -1,0 +1,232 @@
+david@ubuntus:~$ sudo journalctl -u 'eqso-relay@CB.service' --since "2026-09-20 09:21:50" --until "2026-09-20 09:22:37" --no-pager -o cat
+[audio] 2026-09-20T09:21:50.445Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:21:50.465Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834:
+[audio] 2026-09-20T09:21:50.467Z [arecord] audio open error: No such file or directory
+[audio] 2026-09-20T09:21:50.471Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:21:52.476Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:21:52.497Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card)
+[audio] 2026-09-20T09:21:52.500Z [arecord] Cannot get card index for 1
+arecord: main:834: audio open error: No such file or directory
+[audio] 2026-09-20T09:21:52.503Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:21:54.505Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:21:54.523Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834:
+[audio] 2026-09-20T09:21:54.524Z [arecord] audio open error: No such file or directory
+[audio] 2026-09-20T09:21:54.529Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:21:56.529Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:21:56.549Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card)
+[audio] 2026-09-20T09:21:56.552Z [arecord] Cannot get card index for 1
+arecord: main:834: audio open error: No such file or directory
+[audio] 2026-09-20T09:21:56.555Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:21:58.557Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:21:58.575Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card)
+[audio] 2026-09-20T09:21:58.576Z [arecord] Cannot get card index for 1
+[audio] 2026-09-20T09:21:58.578Z [arecord] arecord: main:834:
+[audio] 2026-09-20T09:21:58.579Z [arecord] audio open error: No such file or directory
+[audio] 2026-09-20T09:21:58.583Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:22:00.587Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:00.608Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834:
+[audio] 2026-09-20T09:22:00.610Z [arecord] audio open error: No such file or directory
+[audio] 2026-09-20T09:22:00.613Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:22:02.614Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:02.638Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834: audio open error: No such file or directory
+[audio] 2026-09-20T09:22:02.641Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:22:04.644Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:04.661Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834:
+[audio] 2026-09-20T09:22:04.663Z [arecord] audio open error: No such file or directory
+[audio] 2026-09-20T09:22:04.665Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:22:06.686Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:06.708Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card)
+[audio] 2026-09-20T09:22:06.711Z [arecord] Cannot get card index for 1
+arecord: main:834: audio open error: No such file or directory
+[audio] 2026-09-20T09:22:06.715Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:22:08.756Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:08.774Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834:
+[audio] 2026-09-20T09:22:08.776Z [arecord] audio open error: No such file or directory
+[audio] 2026-09-20T09:22:08.778Z [arecord] Terminado (code 1)
+[main] 2026-09-20T09:22:09.644Z Sala: 0R-PRUEBAS se ha unido
+[audio] 2026-09-20T09:22:10.779Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:10.803Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card)
+[audio] 2026-09-20T09:22:10.806Z [arecord] Cannot get card index for 1
+arecord: main:834: audio open error: No such file or directory
+[audio] 2026-09-20T09:22:10.810Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:22:12.811Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:12.834Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834: audio open error: No such file or directory
+[audio] 2026-09-20T09:22:12.838Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:22:14.839Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:14.861Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card)
+[audio] 2026-09-20T09:22:14.863Z [arecord] Cannot get card index for 1
+[audio] 2026-09-20T09:22:14.865Z [arecord] arecord: main:834:
+[audio] 2026-09-20T09:22:14.869Z [arecord] audio open error: No such file or directory
+[audio] 2026-09-20T09:22:14.871Z [arecord] Terminado (code 1)
+[audio] 2026-09-20T09:22:16.871Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:16.896Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834: audio open error: No such file or directory
+[audio] 2026-09-20T09:22:16.899Z [arecord] Terminado (code 1)
+[main] 2026-09-20T09:22:17.011Z TX: 0R-PRUEBAS transmitiendo
+[main] 2026-09-20T09:22:17.012Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-09-20T09:22:23.012Z (6000ms)
+[audio] 2026-09-20T09:22:17.031Z [playGsm] pkt#1 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-20T09:22:17.032Z [audio] pkt#1 len=198b → playGsm OK (pttActive=false rxActive=true)
+[audio] 2026-09-20T09:22:17.050Z [playPcm] chunk#1 → jitterBuf=960 playerStarting=false
+[audio] 2026-09-20T09:22:17.251Z [playGsm] pkt#2 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-20T09:22:17.252Z [audio] pkt#2 len=198b → playGsm OK (pttActive=false rxActive=true)
+[audio] 2026-09-20T09:22:17.265Z [playPcm] chunk#2 → jitterBuf=1920 playerStarting=false
+[audio] 2026-09-20T09:22:17.457Z [playGsm] pkt#3 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-20T09:22:17.458Z [audio] pkt#3 len=198b → playGsm OK (pttActive=false rxActive=true)
+[audio] 2026-09-20T09:22:17.466Z [playPcm] chunk#3 → jitterBuf=2880 playerStarting=false
+[audio] 2026-09-20T09:22:17.470Z [playPcm] chunk#4 → jitterBuf=3840 playerStarting=false
+[audio] 2026-09-20T09:22:17.673Z [playPcm] chunk#5 → jitterBuf=4800 playerStarting=false
+[audio] 2026-09-20T09:22:17.677Z aplay -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --buffer-size=16384 --period-size=512
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+Error: write EPIPE
+    at afterWriteDispatched (node:internal/stream_base_commons:161:15)
+    at writeGeneric (node:internal/stream_base_commons:152:3)
+    at Socket._writeGeneric (node:net:958:11)
+    at Socket._write (node:net:970:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+    at AlsaAudio.doOpenPlayer (/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:433:21)
+    at AlsaAudio.openPlayer (/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:387:10)
+    at AlsaAudio.startPlayer (/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:360:12)
+Emitted 'error' event on Socket instance at:
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  errno: -32,
+  code: 'EPIPE',
+  syscall: 'write'
+}
+Node.js v20.20.2
+eqso-relay@CB.service: Main process exited, code=exited, status=1/FAILURE
+eqso-relay@CB.service: Failed with result 'exit-code'.
+eqso-relay@CB.service: Consumed 4.953s CPU time.
+eqso-relay@CB.service: Scheduled restart job, restart counter is at 19.
+Starting eqso-relay@CB.service - eQSO Radioenlace — sala CB...
+ALSA setup: no se encontró tarjeta USB, probando tarjeta 1
+ALSA setup: configurando tarjeta 1 (chip=UNKNOWN)
+  WARN: no se pudo desactivar el sidetone
+ALSA setup: completado (chip detectado: UNKNOWN)
+Started eqso-relay@CB.service - eQSO Radioenlace — sala CB.
+[config] Cargado: /etc/eqso-relay/CB.json
+[config] Configuracion activa: {
+  "callsign": "0R-IN70WN",
+  "room": "CB",
+  "password": "asorapa-cb-2026",
+  "message": "Radio Enlace",
+  "server": "127.0.0.1",
+  "port": 2171,
+  "reconnectMinMs": 500,
+  "reconnectMaxMs": 60000,
+  "audio": {
+    "captureDevice": "plughw:1,0",
+    "playbackDevice": "plughw:1,0",
+    "vox": true,
+    "voxThresholdRms": 800,
+    "voxHangMs": 1500,
+    "txGateRms": 0,
+    "inputGain": 0.12,
+    "outputGain": 1,
+    "postRxSuppressMs": 6000,
+    "postTxSuppressMs": 1000,
+    "voxDebounceChunks": 2
+  },
+  "control": {
+    "enabled": true,
+    "port": 8009,
+    "host": "127.0.0.1"
+  },
+  "ptt": {
+    "device": "/dev/eqso-ptt",
+    "method": "rts",
+    "inverted": false
+  }
+}
+[main] 2026-09-20T09:22:26.900Z ============================================================
+[main] 2026-09-20T09:22:26.901Z eQSO Relay Daemon arrancado
+[main] 2026-09-20T09:22:26.901Z   Callsign : 0R-IN70WN
+[main] 2026-09-20T09:22:26.901Z   Sala     : CB
+[main] 2026-09-20T09:22:26.901Z   Servidor : 127.0.0.1:2171
+[main] 2026-09-20T09:22:26.901Z   VOX      : ON (umbral=800 hang=1500ms)
+[main] 2026-09-20T09:22:26.901Z   Backend  : alsa
+[main] 2026-09-20T09:22:26.902Z   Captura  : plughw:1,0
+[main] 2026-09-20T09:22:26.902Z   Playback : plughw:1,0
+[main] 2026-09-20T09:22:26.902Z   PTT Ser. : /dev/eqso-ptt (rts)
+[main] 2026-09-20T09:22:26.903Z ============================================================
+[ptt] 2026-09-20T09:22:26.904Z Iniciando PTT serial: /dev/eqso-ptt (rts)
+[audio] 2026-09-20T09:22:26.953Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[main] 2026-09-20T09:22:26.975Z Conectando a 127.0.0.1:2171 como "0R-IN70WN" en sala "CB"…
+[control] 2026-09-20T09:22:27.021Z Control HTTP escuchando en http://127.0.0.1:8009
+[audio] 2026-09-20T09:22:27.049Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834: audio open error: No such file or directory
+[eqso] 2026-09-20T09:22:27.059Z TCP conectado a 127.0.0.1:2171
+[audio] 2026-09-20T09:22:27.066Z [arecord] Terminado (code 1)
+[eqso] 2026-09-20T09:22:27.077Z Handshake recibido — conexion establecida
+[main] 2026-09-20T09:22:27.078Z Conectado — enviando JOIN…
+[eqso] 2026-09-20T09:22:27.093Z JOIN enviado: callsign="0R-IN70WN" sala="CB"
+[eqso] 2026-09-20T09:22:27.094Z Salas disponibles: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-20T09:22:27.094Z Salas: GENERAL, CB, ASORAPA, PRUEBAS
+[main] 2026-09-20T09:22:27.102Z Sala: 0R-PORTATIL se ha unido
+[main] 2026-09-20T09:22:27.103Z Sala: PRUEBAS_CB se ha unido
+[main] 2026-09-20T09:22:27.110Z Sala: 0R-PRUEBAS se ha unido
+[main] 2026-09-20T09:22:27.110Z Sala: 0R-IN70WN se ha unido
+[ptt] 2026-09-20T09:22:27.175Z [ptt-helper] error abriendo /dev/eqso-ptt: [Errno 2] No such file or directory: '/dev/eqso-ptt'
+[ptt] 2026-09-20T09:22:27.232Z PTT serial: proceso terminado (code 1)
+[audio] 2026-09-20T09:22:29.091Z arecord -D plughw:1,0 -f S16_LE -r 8000 -c 1 -q --period-size=160 --buffer-size=8000
+[audio] 2026-09-20T09:22:29.110Z [arecord] ALSA lib confmisc.c:165:(snd_config_get_card) Cannot get card index for 1
+arecord: main:834:
+[audio] 2026-09-20T09:22:29.112Z [arecord] audio open error: No such file or directory
+[audio] 2026-09-20T09:22:29.115Z [arecord] Terminado (code 1)
+[main] 2026-09-20T09:22:30.212Z TX: 0R-PRUEBAS transmitiendo
+[main] 2026-09-20T09:22:30.212Z [rxInhibit] ptt_started: VOX inhibido hasta 2026-09-20T09:22:36.212Z (6000ms)
+[audio] 2026-09-20T09:22:30.364Z [playGsm] pkt#1 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-20T09:22:30.365Z [audio] pkt#1 len=198b → playGsm OK (pttActive=false rxActive=true)
+[audio] 2026-09-20T09:22:30.368Z [playGsm] pkt#2 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-20T09:22:30.368Z [audio] pkt#2 len=198b → playGsm OK (pttActive=false rxActive=true)
+[audio] 2026-09-20T09:22:30.394Z [playPcm] chunk#1 → jitterBuf=960 playerStarting=false
+[audio] 2026-09-20T09:22:30.399Z [playPcm] chunk#2 → jitterBuf=1920 playerStarting=false
+[audio] 2026-09-20T09:22:30.560Z [playGsm] pkt#3 len=198 decoder_ready=true player=null playerStarting=false
+[main] 2026-09-20T09:22:30.561Z [audio] pkt#3 len=198b → playGsm OK (pttActive=false rxActive=true)
+[audio] 2026-09-20T09:22:30.570Z [playPcm] chunk#3 → jitterBuf=2880 playerStarting=false
+[audio] 2026-09-20T09:22:30.773Z [playPcm] chunk#4 → jitterBuf=3840 playerStarting=false
+[audio] 2026-09-20T09:22:30.782Z [playPcm] chunk#5 → jitterBuf=4800 playerStarting=false
+[audio] 2026-09-20T09:22:30.787Z aplay -D plughw:1,0 -f S16_LE -r 48000 -c 1 -q --buffer-size=16384 --period-size=512
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+Error: write EPIPE
+    at afterWriteDispatched (node:internal/stream_base_commons:161:15)
+    at writeGeneric (node:internal/stream_base_commons:152:3)
+    at Socket._writeGeneric (node:net:958:11)
+    at Socket._write (node:net:970:8)
+    at writeOrBuffer (node:internal/streams/writable:572:12)
+    at _write (node:internal/streams/writable:501:10)
+    at Writable.write (node:internal/streams/writable:510:10)
+    at AlsaAudio.doOpenPlayer (/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:433:21)
+    at AlsaAudio.openPlayer (/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:387:10)
+    at AlsaAudio.startPlayer (/opt/eqso-asorapa/artifacts/relay-daemon/src/alsa-audio.ts:360:12)
+Emitted 'error' event on Socket instance at:
+    at emitErrorNT (node:internal/streams/destroy:169:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:128:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  errno: -32,
+  code: 'EPIPE',
+  syscall: 'write'
+}
+Node.js v20.20.2
+eqso-relay@CB.service: Main process exited, code=exited, status=1/FAILURE
+eqso-relay@CB.service: Failed with result 'exit-code'.
+eqso-relay@CB.service: Consumed 3.847s CPU time.
+eqso-relay@CB.service: Scheduled restart job, restart counter is at 20.
+eqso-relay@CB.service: Start request repeated too quickly.
+eqso-relay@CB.service: Failed with result 'exit-code'.
+Failed to start eqso-relay@CB.service - eQSO Radioenlace — sala CB.
+eqso-relay@CB.service: Consumed 3.847s CPU time.
