@@ -1,0 +1,185 @@
+ bash /opt/eqso-asorapa/artifacts/api-server/install/update.sh
+[11:24:15] === Deploy iniciado (commit: local) ===
+[11:24:15] [1/5] git pull origin main…
+remote: Enumerating objects: 181, done.
+remote: Counting objects: 100% (181/181), done.
+remote: Compressing objects: 100% (80/80), done.
+remote: Total 144 (delta 75), reused 132 (delta 63), pack-reused 0 (from 0)
+Receiving objects: 100% (144/144), 170.38 KiB | 918.00 KiB/s, done.
+Resolving deltas: 100% (75/75), completed with 23 local objects.
+From https://github.com/daycart/eqso-linux
+   41883ca..579d855  main       -> origin/main
+HEAD is now at 579d855 Release legacy radio PTT on opcode 03
+[11:24:17] [2/5] pnpm install…
+Progress: resolved 1, reused 0, downloaded 1, added 1, done
+
+. preinstall$ node scripts/preinstall.mjs
+. preinstall: Done
+Done in 22.8s using pnpm v10.33.0
+[11:24:41] [3/5] Compilando API server…
+  dist/pino-pretty.mjs.map           203.9kb
+  dist/thread-stream-worker.mjs.map   12.0kb
+david@ubuntus:~$ cd /opt/eqso-asorapa
+git rev-parse --short HEAD
+grep -n "LEGACY_V113_RELEASE_PTT" artifacts/api-server/src/eqso/tcp-server.ts
+579d855
+31:const LEGACY_V113_RELEASE_PTT = 0x03;
+224:    case LEGACY_V113_RELEASE_PTT:
+david@ubuntus:/opt/eqso-asorapa$ bash /opt/eqso-asorapa/artifacts/api-server/install/update.sh
+[11:35:55] === Deploy iniciado (commit: local) ===
+[11:35:55] [1/5] git pull origin main…
+remote: Enumerating objects: 23, done.
+remote: Counting objects: 100% (23/23), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 15 (delta 6), reused 15 (delta 6), pack-reused 0 (from 0)
+Unpacking objects: 100% (15/15), 22.32 KiB | 300.00 KiB/s, done.
+From https://github.com/daycart/eqso-linux
+david@ubuntus:/opt/eqso-asorapa$ cd /opt/eqso-asorapa
+
+PID=$(systemctl show eqso -p MainPID --value)
+
+echo "PID=$PID"
+
+ps -p "$PID" -o lstart=,args=
+
+stat -c 'DIST=%y %s bytes' artifacts/api-server/dist/index.mjs
+
+grep -a -n 'LEGACY_V113_RELEASE_PTT\|radio-configured eQSO' \
+david@ubuntus:/opt/eqso-asorapa$ echo "=== SERVICIO ==="
+sudo systemctl status eqso.service --no-pager -l
+
+echo "=== PUERTOS ==="
+sudo ss -ltnp | grep -E ':2171|:8008|:8080'
+
+echo "=== ÚLTIMOS ERRORES ==="
+sudo journalctl -u eqso.service -n 100 --no-pager
+=== SERVICIO ===
+● eqso.service - eQSO ASORAPA Server
+     Loaded: loaded (/etc/systemd/system/eqso.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-09-20 11:56:31 UTC; 9min ago
+   Main PID: 21323 (node)
+      Tasks: 20 (limit: 19094)
+     Memory: 87.2M (peak: 88.5M)
+        CPU: 20.385s
+     CGroup: /system.slice/eqso.service
+             ├─21323 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+             ├─21349 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             ├─21739 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             ├─21817 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             └─21818 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 pipe:1
+
+sep 20 12:02:40 ubuntus node[21323]: {"level":30,"time":1789905760531,"pid":21323,"hostname":"ubuntus","req":{"id":1,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":53,"msg":"request completed"}
+sep 20 12:02:40 ubuntus node[21323]: {"level":30,"time":1789905760661,"pid":21323,"hostname":"ubuntus","req":{"id":3,"method":"GET","url":"/assets/index-CbOwSweK.css"},"res":{"statusCode":200},"responseTime":16,"msg":"request completed"}
+sep 20 12:02:40 ubuntus node[21323]: {"level":30,"time":1789905760669,"pid":21323,"hostname":"ubuntus","req":{"id":2,"method":"GET","url":"/assets/index-CRmdtfLs.js"},"res":{"statusCode":200},"responseTime":39,"msg":"request completed"}
+sep 20 12:02:41 ubuntus node[21323]: {"level":30,"time":1789905761967,"pid":21323,"hostname":"ubuntus","req":{"id":4,"method":"GET","url":"/api/servers"},"res":{"statusCode":304},"responseTime":105,"msg":"request completed"}
+sep 20 12:02:41 ubuntus node[21323]: {"level":30,"time":1789905761981,"pid":21323,"hostname":"ubuntus","req":{"id":5,"method":"GET","url":"/favicon.svg"},"res":{"statusCode":200},"responseTime":32,"msg":"request completed"}
+sep 20 12:02:46 ubuntus node[21323]: {"level":30,"time":1789905766539,"pid":21323,"hostname":"ubuntus","req":{"id":6,"method":"POST","url":"/api/auth/login"},"res":{"statusCode":200},"responseTime":412,"msg":"request completed"}
+sep 20 12:02:50 ubuntus node[21323]: {"level":30,"time":1789905770658,"pid":21323,"hostname":"ubuntus","id":"396a7b5f-fa3c-4d0b-bbc8-39173239483c","msg":"New WS eQSO client"}
+sep 20 12:02:50 ubuntus node[21323]: {"level":30,"time":1789905770755,"pid":21323,"hostname":"ubuntus","id":"396a7b5f-fa3c-4d0b-bbc8-39173239483c","msg":"WS client selecting local server"}
+sep 20 12:02:51 ubuntus node[21323]: {"level":30,"time":1789905771544,"pid":21323,"hostname":"ubuntus","id":"396a7b5f-fa3c-4d0b-bbc8-39173239483c","name":"PRUEBAS_CB","room":"CB","msg":"WS local client joined room"}
+sep 20 12:02:54 ubuntus node[21323]: {"level":30,"time":1789905774397,"pid":21323,"hostname":"ubuntus","req":{"id":7,"method":"GET","url":"/mic-worklet.js"},"res":{"statusCode":200},"responseTime":17,"msg":"request completed"}
+=== PUERTOS ===
+LISTEN 0      511          0.0.0.0:2171       0.0.0.0:*    users:(("node",pid=21323,fd=19))                                            
+LISTEN 0      511          0.0.0.0:8008       0.0.0.0:*    users:(("node",pid=21323,fd=20))                                            
+LISTEN 0      511                *:8080             *:*    users:(("node",pid=21323,fd=18))                                            
+=== ÚLTIMOS ERRORES ===
+sep 20 11:41:07 ubuntus node[19089]: {"level":30,"time":1789904467950,"pid":19089,"hostname":"ubuntus","id":"549c475a-bed3-4e71-9c38-252fcb7491ad","name":"0R-PRUEBAS","room":"CB","memberCount":2,"msg":"TCP client joined room"}
+sep 20 11:41:23 ubuntus node[19089]: {"level":30,"time":1789904483375,"pid":19089,"hostname":"ubuntus","id":"549c475a-bed3-4e71-9c38-252fcb7491ad","name":"0R-PRUEBAS","room":"CB","msg":"TCP eQSO client left room"}
+sep 20 11:41:23 ubuntus node[19089]: {"level":30,"time":1789904483375,"pid":19089,"hostname":"ubuntus","id":"549c475a-bed3-4e71-9c38-252fcb7491ad","msg":"TCP eQSO client disconnected"}
+sep 20 11:42:13 ubuntus node[19089]: {"level":30,"time":1789904533890,"pid":19089,"hostname":"ubuntus","id":"c8fee50c-45af-497f-a959-2c8af01dce00","msg":"New WS eQSO client"}
+sep 20 11:42:13 ubuntus node[19089]: {"level":30,"time":1789904533990,"pid":19089,"hostname":"ubuntus","id":"c8fee50c-45af-497f-a959-2c8af01dce00","msg":"WS client selecting local server"}
+sep 20 11:42:17 ubuntus node[19089]: {"level":30,"time":1789904537248,"pid":19089,"hostname":"ubuntus","id":"c8fee50c-45af-497f-a959-2c8af01dce00","msg":"WS client disconnected"}
+sep 20 11:42:24 ubuntus node[19089]: {"level":30,"time":1789904544581,"pid":19089,"hostname":"ubuntus","id":"70556c26-19f0-47dc-98ae-2a3440235075","msg":"New WS eQSO client"}
+sep 20 11:42:24 ubuntus node[19089]: {"level":30,"time":1789904544675,"pid":19089,"hostname":"ubuntus","id":"70556c26-19f0-47dc-98ae-2a3440235075","msg":"WS client selecting local server"}
+sep 20 11:42:26 ubuntus node[19089]: {"level":30,"time":1789904546754,"pid":19089,"hostname":"ubuntus","id":"70556c26-19f0-47dc-98ae-2a3440235075","msg":"WS client disconnected"}
+sep 20 11:42:29 ubuntus node[19089]: {"level":30,"time":1789904549859,"pid":19089,"hostname":"ubuntus","req":{"id":2,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":9,"msg":"request completed"}
+sep 20 11:42:30 ubuntus node[19089]: {"level":30,"time":1789904550033,"pid":19089,"hostname":"ubuntus","req":{"id":4,"method":"GET","url":"/assets/index-CbOwSweK.css"},"res":{"statusCode":200},"responseTime":21,"msg":"request completed"}
+sep 20 11:42:30 ubuntus node[19089]: {"level":30,"time":1789904550044,"pid":19089,"hostname":"ubuntus","req":{"id":3,"method":"GET","url":"/assets/index-CRmdtfLs.js"},"res":{"statusCode":200},"responseTime":40,"msg":"request completed"}
+sep 20 11:42:31 ubuntus node[19089]: {"level":30,"time":1789904551024,"pid":19089,"hostname":"ubuntus","req":{"id":5,"method":"GET","url":"/api/servers"},"res":{"statusCode":200},"responseTime":105,"msg":"request completed"}
+sep 20 11:42:31 ubuntus node[19089]: {"level":30,"time":1789904551105,"pid":19089,"hostname":"ubuntus","req":{"id":6,"method":"GET","url":"/favicon.svg"},"res":{"statusCode":200},"responseTime":7,"msg":"request completed"}
+sep 20 11:42:33 ubuntus node[19089]: {"level":30,"time":1789904553327,"pid":19089,"hostname":"ubuntus","req":{"id":7,"method":"POST","url":"/api/auth/login"},"res":{"statusCode":200},"responseTime":419,"msg":"request completed"}
+sep 20 11:42:36 ubuntus node[19089]: {"level":30,"time":1789904556779,"pid":19089,"hostname":"ubuntus","id":"1f6cdd02-102d-407f-bf25-1a2393d83fb6","msg":"New WS eQSO client"}
+sep 20 11:42:36 ubuntus node[19089]: {"level":30,"time":1789904556849,"pid":19089,"hostname":"ubuntus","id":"1f6cdd02-102d-407f-bf25-1a2393d83fb6","msg":"WS client selecting local server"}
+sep 20 11:42:38 ubuntus node[19089]: {"level":30,"time":1789904558202,"pid":19089,"hostname":"ubuntus","id":"1f6cdd02-102d-407f-bf25-1a2393d83fb6","name":"PRUEBAS_CB","room":"CB","msg":"WS local client joined room"}
+sep 20 11:42:57 ubuntus node[19089]: {"level":30,"time":1789904577188,"pid":19089,"hostname":"ubuntus","req":{"id":8,"method":"GET","url":"/mic-worklet.js"},"res":{"statusCode":200},"responseTime":7,"msg":"request completed"}
+sep 20 11:43:22 ubuntus node[19089]: {"level":30,"time":1789904602588,"pid":19089,"hostname":"ubuntus","id":"db92fdb5-b5a1-4e8b-8124-1587910cb38c","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+sep 20 11:43:22 ubuntus node[19089]: {"level":30,"time":1789904602589,"pid":19089,"hostname":"ubuntus","id":"db92fdb5-b5a1-4e8b-8124-1587910cb38c","addr":"192.168.1.33","msg":"eQSO TCP client registered — waiting for handshake"}
+sep 20 11:43:22 ubuntus node[19089]: {"level":30,"time":1789904602688,"pid":19089,"hostname":"ubuntus","id":"db92fdb5-b5a1-4e8b-8124-1587910cb38c","hex":"0a78000000","legacyV113":true,"msg":"eQSO TCP handshake complete — sending room list"}
+sep 20 11:43:23 ubuntus node[19089]: {"level":30,"time":1789904603112,"pid":19089,"hostname":"ubuntus","id":"db92fdb5-b5a1-4e8b-8124-1587910cb38c","name":"0R-PRUEBAS","room":"CB","bufLen":85,"msg":"eQSO TCP JOIN parsed"}
+sep 20 11:43:23 ubuntus node[19089]: {"level":30,"time":1789904603112,"pid":19089,"hostname":"ubuntus","id":"db92fdb5-b5a1-4e8b-8124-1587910cb38c","name":"0R-PRUEBAS","msg":"TCP relay authenticated with relay token"}
+sep 20 11:43:23 ubuntus node[19089]: {"level":30,"time":1789904603115,"pid":19089,"hostname":"ubuntus","id":"db92fdb5-b5a1-4e8b-8124-1587910cb38c","name":"0R-PRUEBAS","room":"CB","memberCount":3,"members":["0R-PORTATIL","PRUEBAS_CB","0R-PRUEBAS"],"hex":"1603000000000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200000000000a505255454241535f43421743423237206c696e6b2076696120696e7465726e65742e00000000000a30522d505255454241533656414c44454d4f52494c4c4f20284d4144524944204e4f524f4553544529205b43414e414c20343020464d2032372c3135354d687a5d00","msg":"eQSO TCP sending user list to joining client"}
+sep 20 11:43:23 ubuntus node[19089]: {"level":30,"time":1789904603116,"pid":19089,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+sep 20 11:43:23 ubuntus node[19089]: {"level":30,"time":1789904603116,"pid":19089,"hostname":"ubuntus","to":"PRUEBAS_CB","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+sep 20 11:43:23 ubuntus node[19089]: {"level":30,"time":1789904603117,"pid":19089,"hostname":"ubuntus","id":"db92fdb5-b5a1-4e8b-8124-1587910cb38c","name":"0R-PRUEBAS","room":"CB","memberCount":3,"msg":"TCP client joined room"}
+sep 20 11:44:23 ubuntus node[19089]: {"level":30,"time":1789904663892,"pid":19089,"hostname":"ubuntus","id":"db92fdb5-b5a1-4e8b-8124-1587910cb38c","name":"0R-PRUEBAS","room":"CB","msg":"TCP eQSO client left room"}
+sep 20 11:44:23 ubuntus node[19089]: {"level":30,"time":1789904663893,"pid":19089,"hostname":"ubuntus","id":"db92fdb5-b5a1-4e8b-8124-1587910cb38c","msg":"TCP eQSO client disconnected"}
+sep 20 11:44:32 ubuntus node[19089]: {"level":30,"time":1789904672325,"pid":19089,"hostname":"ubuntus","id":"ba4fd2d2-c8d1-4d0e-b061-1ae247d1d316","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+sep 20 11:44:32 ubuntus node[19089]: {"level":30,"time":1789904672327,"pid":19089,"hostname":"ubuntus","id":"ba4fd2d2-c8d1-4d0e-b061-1ae247d1d316","addr":"192.168.1.33","msg":"eQSO TCP client registered — waiting for handshake"}
+sep 20 11:44:32 ubuntus node[19089]: {"level":30,"time":1789904672526,"pid":19089,"hostname":"ubuntus","id":"ba4fd2d2-c8d1-4d0e-b061-1ae247d1d316","hex":"0a78000000","legacyV113":true,"msg":"eQSO TCP handshake complete — sending room list"}
+sep 20 11:44:32 ubuntus node[19089]: {"level":30,"time":1789904672941,"pid":19089,"hostname":"ubuntus","id":"ba4fd2d2-c8d1-4d0e-b061-1ae247d1d316","name":"0R-PRUEBAS","room":"CB","bufLen":85,"msg":"eQSO TCP JOIN parsed"}
+sep 20 11:44:32 ubuntus node[19089]: {"level":30,"time":1789904672941,"pid":19089,"hostname":"ubuntus","id":"ba4fd2d2-c8d1-4d0e-b061-1ae247d1d316","name":"0R-PRUEBAS","msg":"TCP relay authenticated with relay token"}
+sep 20 11:44:32 ubuntus node[19089]: {"level":30,"time":1789904672942,"pid":19089,"hostname":"ubuntus","id":"ba4fd2d2-c8d1-4d0e-b061-1ae247d1d316","name":"0R-PRUEBAS","room":"CB","memberCount":3,"members":["0R-PORTATIL","PRUEBAS_CB","0R-PRUEBAS"],"hex":"1603000000000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200000000000a505255454241535f43421743423237206c696e6b2076696120696e7465726e65742e00000000000a30522d505255454241533656414c44454d4f52494c4c4f20284d4144524944204e4f524f4553544529205b43414e414c20343020464d2032372c3135354d687a5d00","msg":"eQSO TCP sending user list to joining client"}
+sep 20 11:44:32 ubuntus node[19089]: {"level":30,"time":1789904672942,"pid":19089,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+sep 20 11:44:32 ubuntus node[19089]: {"level":30,"time":1789904672943,"pid":19089,"hostname":"ubuntus","to":"PRUEBAS_CB","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+sep 20 11:44:32 ubuntus node[19089]: {"level":30,"time":1789904672944,"pid":19089,"hostname":"ubuntus","id":"ba4fd2d2-c8d1-4d0e-b061-1ae247d1d316","name":"0R-PRUEBAS","room":"CB","memberCount":3,"msg":"TCP client joined room"}
+sep 20 11:44:49 ubuntus node[19089]: {"level":30,"time":1789904689521,"pid":19089,"hostname":"ubuntus","req":{"id":9,"method":"GET","url":"/favicon.svg"},"res":{"statusCode":304},"responseTime":5,"msg":"request completed"}
+sep 20 11:44:49 ubuntus node[19089]: {"level":30,"time":1789904689646,"pid":19089,"hostname":"ubuntus","req":{"id":10,"method":"GET","url":"/favicon.svg"},"res":{"statusCode":304},"responseTime":4,"msg":"request completed"}
+sep 20 11:44:49 ubuntus node[19089]: {"level":30,"time":1789904689722,"pid":19089,"hostname":"ubuntus","req":{"id":11,"method":"GET","url":"/favicon.svg"},"res":{"statusCode":304},"responseTime":4,"msg":"request completed"}
+sep 20 11:46:36 ubuntus node[19089]: {"level":30,"time":1789904796368,"pid":19089,"hostname":"ubuntus","id":"ba4fd2d2-c8d1-4d0e-b061-1ae247d1d316","name":"0R-PRUEBAS","room":"CB","msg":"TCP eQSO client left room"}
+sep 20 11:46:36 ubuntus node[19089]: {"level":30,"time":1789904796368,"pid":19089,"hostname":"ubuntus","id":"ba4fd2d2-c8d1-4d0e-b061-1ae247d1d316","msg":"TCP eQSO client disconnected"}
+sep 20 11:56:31 ubuntus systemd[1]: Stopping eqso.service - eQSO ASORAPA Server...
+sep 20 11:56:31 ubuntus systemd[1]: eqso.service: Deactivated successfully.
+sep 20 11:56:31 ubuntus systemd[1]: Stopped eqso.service - eQSO ASORAPA Server.
+sep 20 11:56:31 ubuntus systemd[1]: eqso.service: Consumed 36.023s CPU time, 90.6M memory peak, 0B memory swap peak.
+sep 20 11:56:31 ubuntus systemd[1]: Started eqso.service - eQSO ASORAPA Server.
+sep 20 11:56:33 ubuntus node[21323]: {"level":30,"time":1789905393731,"pid":21323,"hostname":"ubuntus","publicDir":"/opt/eqso-asorapa/artifacts/api-server/dist/public","msg":"Serving React client from static files"}
+sep 20 11:56:33 ubuntus node[21323]: {"level":30,"time":1789905393746,"pid":21323,"hostname":"ubuntus","msg":"eQSO WebSocket bridge ready on /ws"}
+sep 20 11:56:33 ubuntus node[21323]: {"level":30,"time":1789905393747,"pid":21323,"hostname":"ubuntus","msg":"Relay WS notifier ready on /ws-relay"}
+sep 20 11:56:33 ubuntus node[21323]: {"level":30,"time":1789905393865,"pid":21323,"hostname":"ubuntus","port":8080,"msg":"HTTP + WebSocket server listening"}
+sep 20 11:56:33 ubuntus node[21323]: {"level":30,"time":1789905393867,"pid":21323,"hostname":"ubuntus","port":2171,"msg":"eQSO TCP server listening"}
+sep 20 11:56:33 ubuntus node[21323]: {"level":30,"time":1789905393868,"pid":21323,"hostname":"ubuntus","port":8008,"msg":"eQSO TCP server listening"}
+sep 20 11:56:33 ubuntus node[21323]: {"level":30,"time":1789905393982,"pid":21323,"hostname":"ubuntus","count":0,"msg":"Moderation: bans loaded from DB"}
+sep 20 11:56:33 ubuntus node[21323]: {"level":30,"time":1789905393997,"pid":21323,"hostname":"ubuntus","count":0,"msg":"RelayManager: loaded relay configurations"}
+sep 20 11:56:35 ubuntus node[21323]: {"level":30,"time":1789905395961,"pid":21323,"hostname":"ubuntus","id":"62e2c256-d0af-49df-8e42-cab722f09aa4","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+sep 20 11:56:35 ubuntus node[21323]: {"level":30,"time":1789905395962,"pid":21323,"hostname":"ubuntus","id":"62e2c256-d0af-49df-8e42-cab722f09aa4","addr":"192.168.1.33","msg":"eQSO TCP client registered — waiting for handshake"}
+sep 20 11:56:35 ubuntus node[21323]: {"level":30,"time":1789905395994,"pid":21323,"hostname":"ubuntus","id":"62e2c256-d0af-49df-8e42-cab722f09aa4","hex":"0a82000000","legacyV113":false,"msg":"eQSO TCP handshake complete — sending room list"}
+sep 20 11:56:36 ubuntus node[21323]: {"level":30,"time":1789905396086,"pid":21323,"hostname":"ubuntus","id":"62e2c256-d0af-49df-8e42-cab722f09aa4","name":"0R-PORTATIL","room":"CB","bufLen":47,"msg":"eQSO TCP JOIN parsed"}
+sep 20 11:56:36 ubuntus node[21323]: {"level":30,"time":1789905396090,"pid":21323,"hostname":"ubuntus","id":"62e2c256-d0af-49df-8e42-cab722f09aa4","name":"0R-PORTATIL","msg":"TCP relay authenticated with relay token"}
+sep 20 11:56:36 ubuntus node[21323]: {"level":30,"time":1789905396093,"pid":21323,"hostname":"ubuntus","id":"62e2c256-d0af-49df-8e42-cab722f09aa4","name":"0R-PORTATIL","room":"CB","memberCount":1,"members":["0R-PORTATIL"],"hex":"1601000000000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200","msg":"eQSO TCP sending user list to joining client"}
+sep 20 11:56:36 ubuntus node[21323]: {"level":30,"time":1789905396094,"pid":21323,"hostname":"ubuntus","id":"62e2c256-d0af-49df-8e42-cab722f09aa4","name":"0R-PORTATIL","room":"CB","memberCount":1,"msg":"TCP client joined room"}
+sep 20 11:59:18 ubuntus node[21323]: {"level":30,"time":1789905558901,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+sep 20 11:59:18 ubuntus node[21323]: {"level":30,"time":1789905558902,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","addr":"192.168.1.33","msg":"eQSO TCP client registered — waiting for handshake"}
+sep 20 11:59:19 ubuntus node[21323]: {"level":30,"time":1789905559105,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","hex":"0a78000000","legacyV113":true,"msg":"eQSO TCP handshake complete — sending room list"}
+sep 20 11:59:19 ubuntus node[21323]: {"level":30,"time":1789905559522,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","name":"0R-PRUEBAS","room":"CB","bufLen":85,"msg":"eQSO TCP JOIN parsed"}
+sep 20 11:59:19 ubuntus node[21323]: {"level":30,"time":1789905559523,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","name":"0R-PRUEBAS","msg":"TCP relay authenticated with relay token"}
+sep 20 11:59:19 ubuntus node[21323]: {"level":30,"time":1789905559524,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","name":"0R-PRUEBAS","room":"CB","memberCount":2,"members":["0R-PORTATIL","0R-PRUEBAS"],"hex":"1602000000000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200000000000a30522d505255454241533656414c44454d4f52494c4c4f20284d4144524944204e4f524f4553544529205b43414e414c20343020464d2032372c3135354d687a5d00","msg":"eQSO TCP sending user list to joining client"}
+sep 20 11:59:19 ubuntus node[21323]: {"level":30,"time":1789905559525,"pid":21323,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+sep 20 11:59:19 ubuntus node[21323]: {"level":30,"time":1789905559526,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","name":"0R-PRUEBAS","room":"CB","memberCount":2,"msg":"TCP client joined room"}
+sep 20 11:59:26 ubuntus node[21323]: {"level":30,"time":1789905566378,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","name":"0R-PRUEBAS","room":"CB","legacyV113":true,"acquiredRoomLock":true,"msg":"eQSO PTT start command received"}
+sep 20 11:59:51 ubuntus node[21323]: {"level":30,"time":1789905591981,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","name":"0R-PRUEBAS","room":"CB","trigger":"standard-0x0d","legacyV113":true,"ownsRoomLock":true,"msg":"eQSO PTT release command received"}
+sep 20 12:00:22 ubuntus node[21323]: {"level":30,"time":1789905622743,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","name":"0R-PRUEBAS","room":"CB","trigger":"standard-0x0d","legacyV113":true,"ownsRoomLock":false,"msg":"eQSO PTT release command received"}
+sep 20 12:00:40 ubuntus node[21323]: {"level":30,"time":1789905640891,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","name":"0R-PRUEBAS","room":"CB","trigger":"legacy-radio-0x03","legacyV113":true,"ownsRoomLock":false,"msg":"eQSO PTT release command received"}
+sep 20 12:00:40 ubuntus node[21323]: {"level":30,"time":1789905640896,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","name":"0R-PRUEBAS","room":"CB","msg":"TCP eQSO client left room"}
+sep 20 12:00:40 ubuntus node[21323]: {"level":30,"time":1789905640897,"pid":21323,"hostname":"ubuntus","id":"bac80e19-b04a-4877-af55-460718ddda08","msg":"TCP eQSO client disconnected"}
+sep 20 12:01:53 ubuntus node[21323]: {"level":30,"time":1789905713836,"pid":21323,"hostname":"ubuntus","id":"33fdadce-c58d-4138-955d-d0cadaac4a79","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+sep 20 12:01:53 ubuntus node[21323]: {"level":30,"time":1789905713837,"pid":21323,"hostname":"ubuntus","id":"33fdadce-c58d-4138-955d-d0cadaac4a79","addr":"192.168.1.33","msg":"eQSO TCP client registered — waiting for handshake"}
+sep 20 12:01:54 ubuntus node[21323]: {"level":30,"time":1789905714040,"pid":21323,"hostname":"ubuntus","id":"33fdadce-c58d-4138-955d-d0cadaac4a79","hex":"0a78000000","legacyV113":true,"msg":"eQSO TCP handshake complete — sending room list"}
+sep 20 12:01:54 ubuntus node[21323]: {"level":30,"time":1789905714460,"pid":21323,"hostname":"ubuntus","id":"33fdadce-c58d-4138-955d-d0cadaac4a79","name":"0R-PRUEBAS","room":"CB","bufLen":85,"msg":"eQSO TCP JOIN parsed"}
+sep 20 12:01:54 ubuntus node[21323]: {"level":30,"time":1789905714460,"pid":21323,"hostname":"ubuntus","id":"33fdadce-c58d-4138-955d-d0cadaac4a79","name":"0R-PRUEBAS","msg":"TCP relay authenticated with relay token"}
+sep 20 12:01:54 ubuntus node[21323]: {"level":30,"time":1789905714462,"pid":21323,"hostname":"ubuntus","id":"33fdadce-c58d-4138-955d-d0cadaac4a79","name":"0R-PRUEBAS","room":"CB","memberCount":2,"members":["0R-PORTATIL","0R-PRUEBAS"],"hex":"1602000000000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200000000000a30522d505255454241533656414c44454d4f52494c4c4f20284d4144524944204e4f524f4553544529205b43414e414c20343020464d2032372c3135354d687a5d00","msg":"eQSO TCP sending user list to joining client"}
+sep 20 12:01:54 ubuntus node[21323]: {"level":30,"time":1789905714463,"pid":21323,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+sep 20 12:01:54 ubuntus node[21323]: {"level":30,"time":1789905714463,"pid":21323,"hostname":"ubuntus","id":"33fdadce-c58d-4138-955d-d0cadaac4a79","name":"0R-PRUEBAS","room":"CB","memberCount":2,"msg":"TCP client joined room"}
+sep 20 12:02:13 ubuntus node[21323]: {"level":30,"time":1789905733189,"pid":21323,"hostname":"ubuntus","id":"33fdadce-c58d-4138-955d-d0cadaac4a79","name":"0R-PRUEBAS","room":"CB","legacyV113":true,"acquiredRoomLock":true,"msg":"eQSO PTT start command received"}
+sep 20 12:02:34 ubuntus node[21323]: {"level":30,"time":1789905754133,"pid":21323,"hostname":"ubuntus","id":"8d271df7-68e5-4d83-818d-f14204e73560","msg":"New WS eQSO client"}
+sep 20 12:02:34 ubuntus node[21323]: {"level":30,"time":1789905754228,"pid":21323,"hostname":"ubuntus","id":"8d271df7-68e5-4d83-818d-f14204e73560","msg":"WS client selecting local server"}
+sep 20 12:02:37 ubuntus node[21323]: {"level":30,"time":1789905757134,"pid":21323,"hostname":"ubuntus","id":"8d271df7-68e5-4d83-818d-f14204e73560","msg":"WS client disconnected"}
+sep 20 12:02:40 ubuntus node[21323]: {"level":30,"time":1789905760531,"pid":21323,"hostname":"ubuntus","req":{"id":1,"method":"GET","url":"/"},"res":{"statusCode":200},"responseTime":53,"msg":"request completed"}
+sep 20 12:02:40 ubuntus node[21323]: {"level":30,"time":1789905760661,"pid":21323,"hostname":"ubuntus","req":{"id":3,"method":"GET","url":"/assets/index-CbOwSweK.css"},"res":{"statusCode":200},"responseTime":16,"msg":"request completed"}
+sep 20 12:02:40 ubuntus node[21323]: {"level":30,"time":1789905760669,"pid":21323,"hostname":"ubuntus","req":{"id":2,"method":"GET","url":"/assets/index-CRmdtfLs.js"},"res":{"statusCode":200},"responseTime":39,"msg":"request completed"}
+sep 20 12:02:41 ubuntus node[21323]: {"level":30,"time":1789905761967,"pid":21323,"hostname":"ubuntus","req":{"id":4,"method":"GET","url":"/api/servers"},"res":{"statusCode":304},"responseTime":105,"msg":"request completed"}
+sep 20 12:02:41 ubuntus node[21323]: {"level":30,"time":1789905761981,"pid":21323,"hostname":"ubuntus","req":{"id":5,"method":"GET","url":"/favicon.svg"},"res":{"statusCode":200},"responseTime":32,"msg":"request completed"}
+sep 20 12:02:46 ubuntus node[21323]: {"level":30,"time":1789905766539,"pid":21323,"hostname":"ubuntus","req":{"id":6,"method":"POST","url":"/api/auth/login"},"res":{"statusCode":200},"responseTime":412,"msg":"request completed"}
+sep 20 12:02:50 ubuntus node[21323]: {"level":30,"time":1789905770658,"pid":21323,"hostname":"ubuntus","id":"396a7b5f-fa3c-4d0b-bbc8-39173239483c","msg":"New WS eQSO client"}
+sep 20 12:02:50 ubuntus node[21323]: {"level":30,"time":1789905770755,"pid":21323,"hostname":"ubuntus","id":"396a7b5f-fa3c-4d0b-bbc8-39173239483c","msg":"WS client selecting local server"}
+sep 20 12:02:51 ubuntus node[21323]: {"level":30,"time":1789905771544,"pid":21323,"hostname":"ubuntus","id":"396a7b5f-fa3c-4d0b-bbc8-39173239483c","name":"PRUEBAS_CB","room":"CB","msg":"WS local client joined room"}
+sep 20 12:02:54 ubuntus node[21323]: {"level":30,"time":1789905774397,"pid":21323,"hostname":"ubuntus","req":{"id":7,"method":"GET","url":"/mic-worklet.js"},"res":{"statusCode":200},"responseTime":17,"msg":"request completed"}
