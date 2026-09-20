@@ -103,13 +103,34 @@ function safeWriteLegacyVoice(state: TcpClientState, data: Buffer): void {
   }
 }
 
-function releasePtt(state: TcpClientState): void {
+function releasePtt(
+  state: TcpClientState,
+  trigger: "standard-0x0d" | "legacy-radio-0x03"
+): void {
   const client = roomManager.getClient(state.id);
-  if (!client?.room) return;
+  if (!client?.room) {
+    logger.warn(
+      { id: state.id, trigger, legacyV113: state.legacyV113 },
+      "eQSO PTT release ignored — client is not in a room"
+    );
+    return;
+  }
 
   // v1.13 may repeat its release command. The original server emits the
   // release sequence only once per active TX.
-  if (!roomManager.isLockedBy(client.room, state.id)) return;
+  const ownsRoomLock = roomManager.isLockedBy(client.room, state.id);
+  logger.info(
+    {
+      id: state.id,
+      name: client.name,
+      room: client.room,
+      trigger,
+      legacyV113: state.legacyV113,
+      ownsRoomLock,
+    },
+    "eQSO PTT release command received"
+  );
+  if (!ownsRoomLock) return;
 
   const rel = buildPttReleased(client.name);
   roomManager.broadcastToRoom(client.room, rel, state.id);
@@ -170,8 +191,18 @@ function processSingleByte(state: TcpClientState, byte: number): void {
         // cada paquete GSM), lo que hacía que los clientes eQSO externos
         // (Windows ASORAPA) los recibieran como ráfagas y desconectaran.
         const wasAlreadyOurs = roomManager.isLockedBy(client.room, state.id);
-        roomManager.tryLockRoom(client.room, state.id);
+        const acquiredRoomLock = roomManager.tryLockRoom(client.room, state.id);
         if (!wasAlreadyOurs) {
+          logger.info(
+            {
+              id: state.id,
+              name: client.name,
+              room: client.room,
+              legacyV113: state.legacyV113,
+              acquiredRoomLock,
+            },
+            "eQSO PTT start command received"
+          );
           const started = buildPttStarted(client.name);
           if (state.legacyV113) {
             // Defer the self-ack until complete GSM blocks have arrived.
@@ -218,7 +249,7 @@ function processSingleByte(state: TcpClientState, byte: number): void {
       break;
 
     case EQSO_COMMANDS.RELEASE_PTT:
-      releasePtt(state);
+      releasePtt(state, "standard-0x0d");
       break;
 
     case LEGACY_V113_RELEASE_PTT:
@@ -227,7 +258,7 @@ function processSingleByte(state: TcpClientState, byte: number): void {
       // Only honor it for an authenticated legacy session that currently owns
       // the room lock, so modern clients and framed command payloads are
       // unaffected.
-      if (state.legacyV113) releasePtt(state);
+      if (state.legacyV113) releasePtt(state, "legacy-radio-0x03");
       break;
 
     case EQSO_COMMANDS.HANDSHAKE:
