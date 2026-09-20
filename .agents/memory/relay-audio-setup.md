@@ -1,6 +1,6 @@
 ---
 name: Relay daemon audio setup — portátil Ubuntu con Sound Blaster Play! 3
-description: Lecciones de puesta en marcha del relay daemon con tarjeta USB y radio CB en Ubuntu
+description: Lecciones de audio, PTT y detección de squelch para radioenlaces eQSO en Linux y Windows
 ---
 
 ## Conexión física (Sound Blaster Play! 3)
@@ -59,3 +59,11 @@ Para radio → eQSO, `inputGain=0.12` deja la voz alrededor de −18 dB RMS y ev
 **Why:** Con `inputGain=0.5`, los paquetes GSM llegaban a 0 dBFS y sonaban como ruido recortado en v1.13. Tras bajar a 0.12 la voz se volvió inteligible; el filtro suave fue preferido frente a una reducción más agresiva.
 
 **How to apply:** Mantener el filtrado antes de codificar a GSM, sólo en el sentido radio → eQSO. No aplicar esa ganancia ni ese filtro al audio eQSO → radio.
+
+## eQSO v1.13 en Windows: usar CTS para el squelch
+
+En la instalación Windows validada, la configuración estable usa `RTS` para accionar el PTT y `CTS` como “Sonido de comunicación”. No usar `VOX` de audio si el cable serie proporciona la señal CTS: con VOX, eQSO puede quedar azul y no enviar nunca la liberación aunque deje de enviar audio.
+
+**Why:** La misma instalación fallaba incluso contra el servidor original con VOX, pero funcionó correctamente al seleccionar CTS. El radio, el cable serie y la ruta de audio ya funcionaban desde Linux, por lo que no era un fallo del protocolo del servidor.
+
+**How to apply:** Mantener desactivado “Escuchar este dispositivo” en Windows, silenciar la monitorización del micrófono en la salida y configurar eQSO con COM correcto, PTT por RTS y detección de squelch por CTS.
