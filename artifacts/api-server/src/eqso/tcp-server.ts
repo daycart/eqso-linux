@@ -28,6 +28,7 @@ const SERVER_VERSION = "eQSO Linux Server v1.0";
 const LEGACY_AUDIO_PACE_MS = 120;
 const LEGACY_KEEPALIVE_MS = 2_500;
 const DEFAULT_KEEPALIVE_MS = 8_000;
+const LEGACY_V113_RELEASE_PTT = 0x03;
 
 // One FFmpeg GSM decoder per TCP client (keyed by client UUID)
 const tcpDecoders = new Map<string, FfmpegGsmDecoder>();
@@ -100,6 +101,39 @@ function safeWriteLegacyVoice(state: TcpClientState, data: Buffer): void {
   } catch (err) {
     logger.warn({ err, id: state.id }, "TCP legacy voice write error");
   }
+}
+
+function releasePtt(state: TcpClientState): void {
+  const client = roomManager.getClient(state.id);
+  if (!client?.room) return;
+
+  // v1.13 may repeat its release command. The original server emits the
+  // release sequence only once per active TX.
+  if (!roomManager.isLockedBy(client.room, state.id)) return;
+
+  const rel = buildPttReleased(client.name);
+  roomManager.broadcastToRoom(client.room, rel, state.id);
+  safeWrite(state, Buffer.from([0x08]));
+
+  if (state.legacyV113) {
+    // v1.13 needs the original server's clear-owner marker and its own
+    // PTT-released update. Do not send these to 0x82 relay/gateway clients:
+    // some Windows gateways interpret [0x06, 0x00] as removal from room.
+    safeWrite(
+      state,
+      Buffer.concat([
+        Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]),
+        rel,
+      ])
+    );
+  }
+
+  state.legacyVoiceBlocksInTx = 0;
+  roomManager.unlockRoom(client.room, state.id);
+  // Drena inmediatamente los paquetes GSM que quedaron en el pace queue.
+  // Sin esto, los últimos 3-5 paquetes GSM del relay CB se entregan al
+  // navegador 360-600ms tarde.
+  state.flushPaceQueue?.();
 }
 
 function buildLegacyPttOwnerPayload(name: string): Buffer {
@@ -184,34 +218,16 @@ function processSingleByte(state: TcpClientState, byte: number): void {
       break;
 
     case EQSO_COMMANDS.RELEASE_PTT:
-      if (client?.room) {
-        // v1.13 repeats 0x0d several times for one button release. The original
-        // server emits the release sequence only once per active TX.
-        if (!roomManager.isLockedBy(client.room, state.id)) break;
-        const rel = buildPttReleased(client.name);
-        roomManager.broadcastToRoom(client.room, rel, state.id);
-        safeWrite(state, Buffer.from([0x08]));
-        if (state.legacyV113) {
-          // v1.13 needs the original server's clear-owner marker and its own
-          // PTT-released update. Do not send these to 0x82 relay/gateway clients:
-          // some Windows gateways interpret [0x06, 0x00] as removal from room.
-          safeWrite(
-            state,
-            Buffer.concat([
-              Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]),
-              rel,
-            ])
-          );
-        }
-        state.legacyVoiceBlocksInTx = 0;
-        roomManager.unlockRoom(client.room, state.id);
-        // Drena inmediatamente los paquetes GSM que quedaron en el pace queue.
-        // Sin esto, los últimos 3-5 paquetes GSM del relay CB se entregan al
-        // navegador 360-600ms tarde → suena como eco/cola de la voz.
-        // Con flush: los paquetes llegan juntos (<1 tick de Node.js) y el
-        // Web Audio del navegador los encola en nextPlayTimeRef sin solapamiento.
-        state.flushPaceQueue?.();
-      }
+      releasePtt(state);
+      break;
+
+    case LEGACY_V113_RELEASE_PTT:
+      // A radio-configured eQSO v1.13 ends an RF-triggered VOX transmission
+      // with standalone 0x03 rather than the 0x0d used by its manual PTT path.
+      // Only honor it for an authenticated legacy session that currently owns
+      // the room lock, so modern clients and framed command payloads are
+      // unaffected.
+      if (state.legacyV113) releasePtt(state);
       break;
 
     case EQSO_COMMANDS.HANDSHAKE:
