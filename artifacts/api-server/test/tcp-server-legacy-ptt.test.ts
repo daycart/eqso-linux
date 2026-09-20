@@ -169,7 +169,7 @@ test("legacy v1.13 manual PTT still releases with 0x0d", async () => {
   await closeClient(observer.socket);
 });
 
-test("legacy v1.13 releases PTT when its closing command never arrives", async () => {
+test("legacy v1.13 stays connected when its closing command never arrives", async () => {
   const observer = await connectClient("OBSERVER-TIMEOUT", MODERN_HANDSHAKE);
   const sender = await connectClient("LEGACY-TIMEOUT", LEGACY_HANDSHAKE);
   observer.received.length = 0;
@@ -182,18 +182,11 @@ test("legacy v1.13 releases PTT when its closing command never arrives", async (
   );
 
   observer.received.length = 0;
-  await waitFor(
-    () => !roomManager.isLockedBy(ROOM, senderId),
-    "legacy voice timeout to release PTT",
-    4_000,
-  );
-  await waitFor(
-    () => hasPacket(observer.received, buildPttReleased("LEGACY-TIMEOUT")),
-    "observer to receive timeout PTT release",
-  );
-  await waitFor(
-    () => hasPacket(sender.received, buildPttReleased("LEGACY-TIMEOUT")),
-    "legacy sender to receive the delayed timeout release",
+  await new Promise((resolve) => setTimeout(resolve, 3_200));
+  assert.equal(roomManager.isLockedBy(ROOM, senderId), true);
+  assert.equal(
+    hasPacket(observer.received, buildPttReleased("LEGACY-TIMEOUT")),
+    false,
   );
   assert.equal(sender.socket.destroyed, false);
 

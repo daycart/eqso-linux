@@ -27,7 +27,7 @@ import {
 const SERVER_VERSION = "eQSO Linux Server v1.0";
 const LEGACY_AUDIO_PACE_MS = 120;
 const LEGACY_KEEPALIVE_MS = 2_500;
-const LEGACY_V113_RELEASE_TIMEOUT_MS = 3_000;
+const LEGACY_V113_RELEASE_DIAGNOSTIC_MS = 3_000;
 const DEFAULT_KEEPALIVE_MS = 8_000;
 const LEGACY_V113_RELEASE_PTT = 0x03;
 
@@ -49,7 +49,7 @@ interface TcpClientState {
    *  The original server acknowledges PTT after block 2, never between the
    *  one-byte VOICE opcode and its 198-byte payload. */
   legacyVoiceBlocksInTx: number;
-  /** Failsafe for radio/VOX sessions where v1.13 never sends 0x0d or 0x03. */
+  /** Diagnostic timer for radio/VOX sessions where v1.13 never sends 0x0d/0x03. */
   legacyReleaseTimer?: ReturnType<typeof setTimeout>;
   disconnected: boolean; // guard against double-disconnect (error + close both fire)
   /** Drena inmediatamente los paquetes GSM pendientes en el pace queue.
@@ -108,7 +108,7 @@ function safeWriteLegacyVoice(state: TcpClientState, data: Buffer): void {
 
 function releasePtt(
   state: TcpClientState,
-  trigger: "standard-0x0d" | "legacy-radio-0x03" | "legacy-voice-timeout"
+  trigger: "standard-0x0d" | "legacy-radio-0x03"
 ): void {
   if (state.legacyReleaseTimer) {
     clearTimeout(state.legacyReleaseTimer);
@@ -142,25 +142,9 @@ function releasePtt(
 
   const rel = buildPttReleased(client.name);
   roomManager.broadcastToRoom(client.room, rel, state.id);
+  safeWrite(state, Buffer.from([0x08]));
 
-  if (trigger === "legacy-voice-timeout") {
-    // Match the original server's split release timing. Sending 0x08 and the
-    // owner/update packet in the same tick can leave v1.13 desynchronized.
-    safeWrite(state, Buffer.from([0x08]));
-    setTimeout(() => {
-      safeWrite(
-        state,
-        Buffer.concat([
-          Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]),
-          rel,
-        ])
-      );
-    }, 100);
-  } else {
-    safeWrite(state, Buffer.from([0x08]));
-  }
-
-  if (state.legacyV113 && trigger !== "legacy-voice-timeout") {
+  if (state.legacyV113) {
     // v1.13 needs the original server's clear-owner marker and its own
     // PTT-released update. Do not send these to 0x82 relay/gateway clients:
     // some Windows gateways interpret [0x06, 0x00] as removal from room.
@@ -418,8 +402,19 @@ function processMultiByte(state: TcpClientState, byte: number): void {
             }
             state.legacyReleaseTimer = setTimeout(() => {
               state.legacyReleaseTimer = undefined;
-              releasePtt(state, "legacy-voice-timeout");
-            }, LEGACY_V113_RELEASE_TIMEOUT_MS);
+              const current = roomManager.getClient(state.id);
+              logger.warn(
+                {
+                  id: state.id,
+                  name: current?.name,
+                  room: current?.room,
+                  readMultiByte: state.readMultiByte,
+                  multiByteCmd: state.multiByteCmd,
+                  pendingBytes: state.buf.length,
+                },
+                "Legacy v1.13 stopped sending voice without a PTT release"
+              );
+            }, LEGACY_V113_RELEASE_DIAGNOSTIC_MS);
           }
 
           if (
