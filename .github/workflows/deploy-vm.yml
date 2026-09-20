@@ -15,10 +15,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  validate:
+    name: Validar protocolo eQSO
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "10.26.1"
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Comprobar liberación PTT de eQSO 1.13
+        run: pnpm --filter @workspace/api-server run test
+
+      - name: Comprobar tipos del servidor
+        run: pnpm --filter @workspace/api-server run typecheck
+
   deploy:
     name: Actualizar VM
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    needs: validate
 
     steps:
       - name: Conectar a la VM y ejecutar update.sh
