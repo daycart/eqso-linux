@@ -637,6 +637,19 @@ export function startTcpServer(port: number): net.Server {
 
     const legacyOutboundQueue: Array<{ data: Buffer; voice: boolean }> = [];
     let legacyOutboundTimer: ReturnType<typeof setTimeout> | null = null;
+    let legacyVoicePacketsWritten = 0;
+
+    const legacyPttAction = (data: Buffer): "start" | "release" | null => {
+      if (
+        data.length >= 6 &&
+        data[0] === EQSO_COMMANDS.USER_UPDATE &&
+        data[1] === 0x01
+      ) {
+        if (data[5] === 0x02) return "start";
+        if (data[5] === 0x03) return "release";
+      }
+      return null;
+    };
 
     const processLegacyOutboundQueue = () => {
       if (state.disconnected) {
@@ -648,12 +661,27 @@ export function startTcpServer(port: number): net.Server {
       while (legacyOutboundQueue.length > 0) {
         const item = legacyOutboundQueue.shift()!;
         if (item.voice) {
+          legacyVoicePacketsWritten += 1;
           safeWriteLegacyVoice(state, item.data);
           legacyOutboundTimer = setTimeout(() => {
             legacyOutboundTimer = null;
             processLegacyOutboundQueue();
           }, LEGACY_AUDIO_PACE_MS);
           return;
+        }
+        const pttAction = legacyPttAction(item.data);
+        if (pttAction) {
+          logger.info(
+            {
+              id: state.id,
+              name: roomManager.getClient(state.id)?.name,
+              action: pttAction,
+              queuedItemsAfterWrite: legacyOutboundQueue.length,
+              queuedVoiceAfterWrite: legacyOutboundQueue.filter((queued) => queued.voice).length,
+              voicePacketsWritten: legacyVoicePacketsWritten,
+            },
+            "Legacy v1.13 outbound PTT update written"
+          );
         }
         safeWrite(state, item.data);
       }
@@ -663,6 +691,20 @@ export function startTcpServer(port: number): net.Server {
 
     const queueLegacyOutbound = (data: Buffer, voice: boolean) => {
       legacyOutboundQueue.push({ data: Buffer.from(data), voice });
+      const pttAction = legacyPttAction(data);
+      if (pttAction) {
+        logger.info(
+          {
+            id: state.id,
+            name: roomManager.getClient(state.id)?.name,
+            action: pttAction,
+            queuedItems: legacyOutboundQueue.length,
+            queuedVoice: legacyOutboundQueue.filter((queued) => queued.voice).length,
+            voicePacketsWritten: legacyVoicePacketsWritten,
+          },
+          "Legacy v1.13 outbound PTT update queued"
+        );
+      }
       if (!legacyOutboundTimer) processLegacyOutboundQueue();
     };
 
@@ -802,6 +844,19 @@ export function startTcpServer(port: number): net.Server {
 
     socket.on("close", () => {
       clearInterval(keepaliveInterval);
+      if (state.legacyV113) {
+        logger.warn(
+          {
+            id,
+            name: roomManager.getClient(id)?.name,
+            queuedItems: legacyOutboundQueue.length,
+            queuedVoice: legacyOutboundQueue.filter((queued) => queued.voice).length,
+            voicePacketsWritten: legacyVoicePacketsWritten,
+            outboundTimerActive: legacyOutboundTimer !== null,
+          },
+          "Legacy v1.13 socket closed with outbound queue state"
+        );
+      }
       handleDisconnect(state);
     });
 

@@ -289,6 +289,10 @@ function handleLocalMode(
             }
             const locked = roomManager.tryLockRoom(client.room, id);
             if (locked) {
+              logger.info(
+                { id, name: client.name, room: client.room },
+                "WS PTT start granted"
+              );
               roomManager.broadcastToRoom(client.room, buildPttStarted(client.name), id);
               inactivityManager.recordActivity(client.room);
               sendJson(ws, { type: "ptt_granted" });
@@ -302,6 +306,10 @@ function handleLocalMode(
         case "ptt_end": {
           const client = roomManager.getClient(id);
           if (client?.room && client.name) {
+            logger.info(
+              { id, name: client.name, room: client.room },
+              "WS PTT end received"
+            );
             roomManager.broadcastToRoom(client.room, buildPttReleased(client.name), id);
             roomManager.unlockRoom(client.room, id);
             sendJson(ws, { type: "ptt_released" });
