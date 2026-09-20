@@ -248,10 +248,24 @@ export function RoomPanel({
           <div className="flex flex-col items-center gap-6">
             <div className="relative">
               <button
-                onMouseDown={onPttStart}
-                onMouseUp={onPttEnd}
-                onTouchStart={(e) => { e.preventDefault(); onPttStart(); }}
-                onTouchEnd={(e) => { e.preventDefault(); onPttEnd(); }}
+                onPointerDown={(event) => {
+                  event.preventDefault();
+                  event.currentTarget.setPointerCapture(event.pointerId);
+                  onPttStart();
+                }}
+                onPointerUp={(event) => {
+                  event.preventDefault();
+                  if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+                    event.currentTarget.releasePointerCapture(event.pointerId);
+                  }
+                  onPttEnd();
+                }}
+                onPointerCancel={(event) => {
+                  if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+                    event.currentTarget.releasePointerCapture(event.pointerId);
+                  }
+                  onPttEnd();
+                }}
                 disabled={channelBusy && !pttActive}
                 className={`w-40 h-40 rounded-full flex flex-col items-center justify-center gap-2 transition-all duration-150 select-none touch-none
                   ${pttActive && pttGranted

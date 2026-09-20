@@ -33,6 +33,7 @@ export default function HomePage() {
   const [statusMessage, setStatusMessage] = useState("CB27 link via internet. ");
   const [password, setPassword] = useState("");
   const [pttActive, setPttActive] = useState(false);
+  const pttPressedRef = useRef(false);
   const pttChunkRef = useRef<(data: ArrayBuffer) => void>(() => {});
 
   const handleAuth = (session: AuthSession) => {
@@ -49,6 +50,7 @@ export default function HomePage() {
     setShowRelayPanel(false);
     eqso.disconnect();
     audio.stopRecording();
+    pttPressedRef.current = false;
     setPttActive(false);
   };
 
@@ -59,6 +61,7 @@ export default function HomePage() {
   const handleDisconnect = () => {
     eqso.disconnect();
     audio.stopRecording();
+    pttPressedRef.current = false;
     setPttActive(false);
   };
 
@@ -69,7 +72,8 @@ export default function HomePage() {
   };
 
   const pttStart = useCallback(async () => {
-    if (pttActive || !eqso.currentRoom) return;
+    if (pttPressedRef.current || !eqso.currentRoom) return;
+    pttPressedRef.current = true;
     audio.muteRx(true);
     eqso.pttStart();
     setPttActive(true);
@@ -79,16 +83,17 @@ export default function HomePage() {
     await audio.startRecording((chunk) => {
       pttChunkRef.current(chunk);
     }, mode);
-  }, [pttActive, eqso, audio, serial]);
+  }, [eqso, audio, serial]);
 
   const pttEnd = useCallback(() => {
-    if (!pttActive) return;
+    if (!pttPressedRef.current) return;
+    pttPressedRef.current = false;
     audio.stopRecording();
     eqso.pttEnd();
     setPttActive(false);
     audio.muteRx(false);
     serial.keyUp();
-  }, [pttActive, audio, eqso, serial]);
+  }, [audio, eqso, serial]);
 
   useEffect(() => {
     pttChunkRef.current = (data: ArrayBuffer) => {
@@ -112,9 +117,11 @@ export default function HomePage() {
     };
     window.addEventListener("keydown", onKey);
     window.addEventListener("keyup", onKeyUp);
+    window.addEventListener("blur", pttEnd);
     return () => {
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener("blur", pttEnd);
     };
   }, [pttStart, pttEnd, showAdmin]);
 
