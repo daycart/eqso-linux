@@ -1,0 +1,42 @@
+ systemctl status 'eqso-relay@CB.service' --no-pager
+systemctl status eqso.service --no-pager
+○ eqso-relay@CB.service - eQSO Radioenlace — sala CB
+     Loaded: loaded (/etc/systemd/system/eqso-relay@.service; disabled; preset: enabled)
+     Active: inactive (dead)
+       Docs: https://github.com/daycart/eqso-linux-client
+
+Sep 20 09:22:31 ubuntus eqso-relay-CB[5133]: }
+Sep 20 09:22:31 ubuntus eqso-relay-CB[5133]: Node.js v20.20.2
+Sep 20 09:22:31 ubuntus systemd[1]: eqso-relay@CB.service: Main process exited, code=exited, status=1/FAILURE
+Sep 20 09:22:31 ubuntus systemd[1]: eqso-relay@CB.service: Failed with result 'exit-code'.
+Sep 20 09:22:31 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 3.847s CPU time.
+Sep 20 09:22:36 ubuntus systemd[1]: eqso-relay@CB.service: Scheduled restart job, restart counter is at 20.
+Sep 20 09:22:36 ubuntus systemd[1]: eqso-relay@CB.service: Start request repeated too quickly.
+Sep 20 09:22:36 ubuntus systemd[1]: eqso-relay@CB.service: Failed with result 'exit-code'.
+Sep 20 09:22:36 ubuntus systemd[1]: Failed to start eqso-relay@CB.service - eQSO Radioenlace — sala CB.
+Sep 20 09:22:36 ubuntus systemd[1]: eqso-relay@CB.service: Consumed 3.847s CPU time.
+● eqso.service - eQSO ASORAPA Server
+     Loaded: loaded (/etc/systemd/system/eqso.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2026-09-20 08:47:43 UTC; 48min ago
+   Main PID: 1120 (node)
+      Tasks: 20 (limit: 19094)
+     Memory: 94.6M (peak: 106.2M)
+        CPU: 1min 26.347s
+     CGroup: /system.slice/eqso.service
+             ├─1120 /usr/bin/node --enable-source-maps artifacts/api-server/dist/index.mjs
+             ├─1232 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             ├─1865 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+             ├─1866 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f s16le -ar 8000 -ac 1 -i pipe:0 -f gsm -ar 8000 pipe:1
+             └─5865 ffmpeg -hide_banner -loglevel quiet -probesize 32 -analyzeduration 0 -f gsm -ar 8000 -i pipe:0 -f s16le -ar 8000 -avioflags direct pipe:1
+
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521041,"pid":1120,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521042,"pid":1120,"hostname":"ubuntus","to":"PRUEBAS_CB","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521043,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","room":"CB","memberCount":3,"msg":"TCP client joined room"}
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521043,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","hex":"0a78000000","legacyV113":true,"msg":"eQSO TCP handshake comple… sending room list"}
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521453,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","room":"CB","bufLen":85,"msg":"eQSO TCP JOIN parsed"}
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521454,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","msg":"TCP relay authenticated with relay token"}
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521455,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","room":"CB","memberCount":3,"members":["0R-PORTATIL","PRUEBAS_CB","0R…
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521455,"pid":1120,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521455,"pid":1120,"hostname":"ubuntus","to":"PRUEBAS_CB","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+Sep 20 09:28:41 ubuntus node[1120]: {"level":30,"time":1789896521456,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","room":"CB","memberCount":3,"msg":"TCP client joined room"}
+Hint: Some lines were ellipsized, use -l to show in full
