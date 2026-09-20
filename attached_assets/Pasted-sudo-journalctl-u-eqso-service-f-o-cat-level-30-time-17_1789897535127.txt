@@ -1,0 +1,23 @@
+sudo journalctl -u eqso.service -f -o cat
+{"level":30,"time":1789897344305,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","msg":"TCP eQSO client disconnected"}
+{"level":30,"time":1789897387117,"pid":1120,"hostname":"ubuntus","id":"c350bd2a-ea77-4145-9d55-72c70742c3c6","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+{"level":30,"time":1789897387119,"pid":1120,"hostname":"ubuntus","id":"c350bd2a-ea77-4145-9d55-72c70742c3c6","addr":"192.168.1.33","msg":"eQSO TCP client registered — waiting for handshake"}
+{"level":30,"time":1789897387173,"pid":1120,"hostname":"ubuntus","id":"c350bd2a-ea77-4145-9d55-72c70742c3c6","hex":"0a78000000","legacyV113":true,"msg":"eQSO TCP handshake complete — sending room list"}
+{"level":30,"time":1789897387543,"pid":1120,"hostname":"ubuntus","id":"c350bd2a-ea77-4145-9d55-72c70742c3c6","name":"0R-PRUEBAS","room":"CB","bufLen":85,"msg":"eQSO TCP JOIN parsed"}
+{"level":30,"time":1789897387545,"pid":1120,"hostname":"ubuntus","id":"c350bd2a-ea77-4145-9d55-72c70742c3c6","name":"0R-PRUEBAS","msg":"TCP relay authenticated with relay token"}
+{"level":30,"time":1789897387545,"pid":1120,"hostname":"ubuntus","id":"c350bd2a-ea77-4145-9d55-72c70742c3c6","name":"0R-PRUEBAS","room":"CB","memberCount":3,"members":["0R-PORTATIL","PRUEBAS_CB","0R-PRUEBAS"],"hex":"1603000000000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200000000000a505255454241535f43421743423237206c696e6b2076696120696e7465726e65742e00000000000a30522d505255454241533656414c44454d4f52494c4c4f20284d4144524944204e4f524f4553544529205b43414e414c20343020464d2032372c3135354d687a5d00","msg":"eQSO TCP sending user list to joining client"}
+{"level":30,"time":1789897387546,"pid":1120,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+{"level":30,"time":1789897387546,"pid":1120,"hostname":"ubuntus","to":"PRUEBAS_CB","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+{"level":30,"time":1789897387546,"pid":1120,"hostname":"ubuntus","id":"c350bd2a-ea77-4145-9d55-72c70742c3c6","name":"0R-PRUEBAS","room":"CB","memberCount":3,"msg":"TCP client joined room"}
+{"level":30,"time":1789897445538,"pid":1120,"hostname":"ubuntus","id":"c350bd2a-ea77-4145-9d55-72c70742c3c6","name":"0R-PRUEBAS","room":"CB","msg":"TCP eQSO client left room"}
+{"level":30,"time":1789897445538,"pid":1120,"hostname":"ubuntus","id":"c350bd2a-ea77-4145-9d55-72c70742c3c6","msg":"TCP eQSO client disconnected"}
+{"level":30,"time":1789897471724,"pid":1120,"hostname":"ubuntus","id":"f79edc91-3805-451b-8f26-56f694bfa5f0","addr":"192.168.1.33","msg":"New TCP eQSO connection"}
+{"level":30,"time":1789897471725,"pid":1120,"hostname":"ubuntus","id":"f79edc91-3805-451b-8f26-56f694bfa5f0","addr":"192.168.1.33","msg":"eQSO TCP client registered — waiting for handshake"}
+{"level":30,"time":1789897471780,"pid":1120,"hostname":"ubuntus","id":"f79edc91-3805-451b-8f26-56f694bfa5f0","hex":"0a78000000","legacyV113":true,"msg":"eQSO TCP handshake complete — sending room list"}
+{"level":30,"time":1789897472144,"pid":1120,"hostname":"ubuntus","id":"f79edc91-3805-451b-8f26-56f694bfa5f0","name":"0R-PRUEBAS","room":"CB","bufLen":85,"msg":"eQSO TCP JOIN parsed"}
+{"level":30,"time":1789897472148,"pid":1120,"hostname":"ubuntus","id":"f79edc91-3805-451b-8f26-56f694bfa5f0","name":"0R-PRUEBAS","msg":"TCP relay authenticated with relay token"}
+{"level":30,"time":1789897472148,"pid":1120,"hostname":"ubuntus","id":"f79edc91-3805-451b-8f26-56f694bfa5f0","name":"0R-PRUEBAS","room":"CB","memberCount":3,"members":["0R-PORTATIL","PRUEBAS_CB","0R-PRUEBAS"],"hex":"1603000000000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200000000000a505255454241535f43421743423237206c696e6b2076696120696e7465726e65742e00000000000a30522d505255454241533656414c44454d4f52494c4c4f20284d4144524944204e4f524f4553544529205b43414e414c20343020464d2032372c3135354d687a5d00","msg":"eQSO TCP sending user list to joining client"}
+{"level":30,"time":1789897472149,"pid":1120,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+{"level":30,"time":1789897472149,"pid":1120,"hostname":"ubuntus","to":"PRUEBAS_CB","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+{"level":30,"time":1789897472149,"pid":1120,"hostname":"ubuntus","id":"f79edc91-3805-451b-8f26-56f694bfa5f0","name":"0R-PRUEBAS","room":"CB","memberCount":3,"msg":"TCP client joined room"}
+^C

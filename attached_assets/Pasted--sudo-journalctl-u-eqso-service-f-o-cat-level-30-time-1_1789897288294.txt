@@ -1,0 +1,11 @@
+ sudo journalctl -u eqso.service -f -o cat
+{"level":30,"time":1789896521041,"pid":1120,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+{"level":30,"time":1789896521042,"pid":1120,"hostname":"ubuntus","to":"PRUEBAS_CB","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+{"level":30,"time":1789896521043,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","room":"CB","memberCount":3,"msg":"TCP client joined room"}
+{"level":30,"time":1789896521043,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","hex":"0a78000000","legacyV113":true,"msg":"eQSO TCP handshake complete — sending room list"}
+{"level":30,"time":1789896521453,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","room":"CB","bufLen":85,"msg":"eQSO TCP JOIN parsed"}
+{"level":30,"time":1789896521454,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","msg":"TCP relay authenticated with relay token"}
+{"level":30,"time":1789896521455,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","room":"CB","memberCount":3,"members":["0R-PORTATIL","PRUEBAS_CB","0R-PRUEBAS"],"hex":"1603000000000000000b30522d504f52544154494c0f526164696f20456e6c61636520434200000000000a505255454241535f43421743423237206c696e6b2076696120696e7465726e65742e00000000000a30522d505255454241533656414c44454d4f52494c4c4f20284d4144524944204e4f524f4553544529205b43414e414c20343020464d2032372c3135354d687a5d00","msg":"eQSO TCP sending user list to joining client"}
+{"level":30,"time":1789896521455,"pid":1120,"hostname":"ubuntus","to":"0R-PORTATIL","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+{"level":30,"time":1789896521455,"pid":1120,"hostname":"ubuntus","to":"PRUEBAS_CB","joining":"0R-PRUEBAS","msg":"eQSO TCP notifying existing member of new join"}
+{"level":30,"time":1789896521456,"pid":1120,"hostname":"ubuntus","id":"6d281b17-ac2a-413c-aca9-0fff8f32bcdb","name":"0R-PRUEBAS","room":"CB","memberCount":3,"msg":"TCP client joined room"}
