@@ -169,6 +169,33 @@ test("legacy v1.13 manual PTT still releases with 0x0d", async () => {
   await closeClient(observer.socket);
 });
 
+test("legacy v1.13 releases PTT when its closing command never arrives", async () => {
+  const observer = await connectClient("OBSERVER-TIMEOUT", MODERN_HANDSHAKE);
+  const sender = await connectClient("LEGACY-TIMEOUT", LEGACY_HANDSHAKE);
+  observer.received.length = 0;
+
+  sender.socket.write(VOICE_BLOCK);
+  const senderId = clientId("LEGACY-TIMEOUT");
+  await waitFor(
+    () => roomManager.isLockedBy(ROOM, senderId),
+    "legacy sender without trailer to own PTT",
+  );
+
+  observer.received.length = 0;
+  await waitFor(
+    () => !roomManager.isLockedBy(ROOM, senderId),
+    "legacy voice timeout to release PTT",
+    4_000,
+  );
+  await waitFor(
+    () => hasPacket(observer.received, buildPttReleased("LEGACY-TIMEOUT")),
+    "observer to receive timeout PTT release",
+  );
+
+  await closeClient(sender.socket);
+  await closeClient(observer.socket);
+});
+
 test("modern 0x82 client cannot release PTT with standalone 0x03", async () => {
   const observer = await connectClient("OBSERVER-82", MODERN_HANDSHAKE);
   const sender = await connectClient("MODERN-82", MODERN_HANDSHAKE);

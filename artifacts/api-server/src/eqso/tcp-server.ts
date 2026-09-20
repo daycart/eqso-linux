@@ -27,6 +27,7 @@ import {
 const SERVER_VERSION = "eQSO Linux Server v1.0";
 const LEGACY_AUDIO_PACE_MS = 120;
 const LEGACY_KEEPALIVE_MS = 2_500;
+const LEGACY_V113_RELEASE_TIMEOUT_MS = 3_000;
 const DEFAULT_KEEPALIVE_MS = 8_000;
 const LEGACY_V113_RELEASE_PTT = 0x03;
 
@@ -48,6 +49,8 @@ interface TcpClientState {
    *  The original server acknowledges PTT after block 2, never between the
    *  one-byte VOICE opcode and its 198-byte payload. */
   legacyVoiceBlocksInTx: number;
+  /** Failsafe for radio/VOX sessions where v1.13 never sends 0x0d or 0x03. */
+  legacyReleaseTimer?: ReturnType<typeof setTimeout>;
   disconnected: boolean; // guard against double-disconnect (error + close both fire)
   /** Drena inmediatamente los paquetes GSM pendientes en el pace queue.
    *  Llamado desde processSingleByte cuando el cliente envía RELEASE_PTT (0x0d),
@@ -105,8 +108,13 @@ function safeWriteLegacyVoice(state: TcpClientState, data: Buffer): void {
 
 function releasePtt(
   state: TcpClientState,
-  trigger: "standard-0x0d" | "legacy-radio-0x03"
+  trigger: "standard-0x0d" | "legacy-radio-0x03" | "legacy-voice-timeout"
 ): void {
+  if (state.legacyReleaseTimer) {
+    clearTimeout(state.legacyReleaseTimer);
+    state.legacyReleaseTimer = undefined;
+  }
+
   const client = roomManager.getClient(state.id);
   if (!client?.room) {
     logger.warn(
@@ -387,6 +395,19 @@ function processMultiByte(state: TcpClientState, byte: number): void {
 
           if (
             state.legacyV113 &&
+            roomManager.isLockedBy(client.room, state.id)
+          ) {
+            if (state.legacyReleaseTimer) {
+              clearTimeout(state.legacyReleaseTimer);
+            }
+            state.legacyReleaseTimer = setTimeout(() => {
+              state.legacyReleaseTimer = undefined;
+              releasePtt(state, "legacy-voice-timeout");
+            }, LEGACY_V113_RELEASE_TIMEOUT_MS);
+          }
+
+          if (
+            state.legacyV113 &&
             roomManager.isLockedBy(client.room, state.id) &&
             state.legacyVoiceBlocksInTx < 2
           ) {
@@ -551,6 +572,10 @@ function handleData(state: TcpClientState, data: Buffer): void {
 function handleDisconnect(state: TcpClientState): void {
   if (state.disconnected) return; // guard: error event is always followed by close event
   state.disconnected = true;
+  if (state.legacyReleaseTimer) {
+    clearTimeout(state.legacyReleaseTimer);
+    state.legacyReleaseTimer = undefined;
+  }
   state.stopLegacyAudioQueue?.();
 
   const decoder = tcpDecoders.get(state.id);
