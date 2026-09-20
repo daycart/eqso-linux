@@ -191,6 +191,17 @@ test("legacy v1.13 releases PTT when its closing command never arrives", async (
     () => hasPacket(observer.received, buildPttReleased("LEGACY-TIMEOUT")),
     "observer to receive timeout PTT release",
   );
+  assert.equal(
+    hasPacket(sender.received, buildPttReleased("LEGACY-TIMEOUT")),
+    false,
+    "timeout must not send a synthetic self-release to active v1.13",
+  );
+
+  sender.socket.write(Buffer.from([EQSO_COMMANDS.RELEASE_PTT]));
+  await waitFor(
+    () => hasPacket(sender.received, buildPttReleased("LEGACY-TIMEOUT")),
+    "legacy sender to receive its release only after closing the TX",
+  );
 
   await closeClient(sender.socket);
   await closeClient(observer.socket);

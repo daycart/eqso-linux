@@ -51,6 +51,10 @@ interface TcpClientState {
   legacyVoiceBlocksInTx: number;
   /** Failsafe for radio/VOX sessions where v1.13 never sends 0x0d or 0x03. */
   legacyReleaseTimer?: ReturnType<typeof setTimeout>;
+  /** The room was unlocked after voice inactivity, but v1.13 has not yet sent
+   *  its own closing command. Avoid sending it a synthetic release while it
+   *  still considers the VOX transmission active. */
+  legacyTimeoutPending: boolean;
   disconnected: boolean; // guard against double-disconnect (error + close both fire)
   /** Drena inmediatamente los paquetes GSM pendientes en el pace queue.
    *  Llamado desde processSingleByte cuando el cliente envía RELEASE_PTT (0x0d),
@@ -138,13 +142,41 @@ function releasePtt(
     },
     "eQSO PTT release command received"
   );
-  if (!ownsRoomLock) return;
+  if (!ownsRoomLock) {
+    if (
+      state.legacyV113 &&
+      state.legacyTimeoutPending &&
+      trigger !== "legacy-voice-timeout"
+    ) {
+      const rel = buildPttReleased(client.name);
+      safeWrite(state, Buffer.from([0x08]));
+      safeWrite(
+        state,
+        Buffer.concat([
+          Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]),
+          rel,
+        ])
+      );
+      state.legacyTimeoutPending = false;
+      state.legacyVoiceBlocksInTx = 0;
+      state.flushPaceQueue?.();
+    }
+    return;
+  }
 
   const rel = buildPttReleased(client.name);
   roomManager.broadcastToRoom(client.room, rel, state.id);
-  safeWrite(state, Buffer.from([0x08]));
 
-  if (state.legacyV113) {
+  if (trigger === "legacy-voice-timeout") {
+    // Releasing the room is safe, but sending the normal self-release sequence
+    // here makes v1.13 disconnect because it still considers its VOX session
+    // active. Wait for the client's eventual 0x0d/0x03 before acknowledging it.
+    state.legacyTimeoutPending = true;
+  } else {
+    safeWrite(state, Buffer.from([0x08]));
+  }
+
+  if (state.legacyV113 && trigger !== "legacy-voice-timeout") {
     // v1.13 needs the original server's clear-owner marker and its own
     // PTT-released update. Do not send these to 0x82 relay/gateway clients:
     // some Windows gateways interpret [0x06, 0x00] as removal from room.
@@ -155,6 +187,7 @@ function releasePtt(
         rel,
       ])
     );
+    state.legacyTimeoutPending = false;
   }
 
   state.legacyVoiceBlocksInTx = 0;
@@ -216,7 +249,9 @@ function processSingleByte(state: TcpClientState, byte: number): void {
             // Defer the self-ack until complete GSM blocks have arrived.
             // Replying here interrupts v1.13 between its split VOICE opcode
             // and payload, causing it to transmit only GSM silence.
-            state.legacyVoiceBlocksInTx = 0;
+            if (!state.legacyTimeoutPending) {
+              state.legacyVoiceBlocksInTx = 0;
+            }
           }
           roomManager.broadcastToRoom(client.room, started, state.id);
         }
@@ -408,6 +443,7 @@ function processMultiByte(state: TcpClientState, byte: number): void {
 
           if (
             state.legacyV113 &&
+            !state.legacyTimeoutPending &&
             roomManager.isLockedBy(client.room, state.id) &&
             state.legacyVoiceBlocksInTx < 2
           ) {
@@ -615,6 +651,7 @@ export function startTcpServer(port: number): net.Server {
       handshakeDone: false,
       legacyV113: false,
       legacyVoiceBlocksInTx: 0,
+      legacyTimeoutPending: false,
       disconnected: false,
     };
 
