@@ -28,6 +28,8 @@ const SERVER_VERSION = "eQSO Linux Server v1.0";
 const LEGACY_AUDIO_PACE_MS = 120;
 const LEGACY_KEEPALIVE_MS = 2_500;
 const LEGACY_V113_RELEASE_DIAGNOSTIC_MS = 3_000;
+const LEGACY_V113_RX_SILENCE_TAIL_PACKETS = 9;
+const LEGACY_V113_RX_RELEASE_GAP_MS = 180;
 const DEFAULT_KEEPALIVE_MS = 8_000;
 const LEGACY_V113_RELEASE_PTT = 0x03;
 
@@ -635,7 +637,11 @@ export function startTcpServer(port: number): net.Server {
       return;
     }
 
-    const legacyOutboundQueue: Array<{ data: Buffer; voice: boolean }> = [];
+    const legacyOutboundQueue: Array<{
+      data: Buffer;
+      voice: boolean;
+      delayAfterMs: number;
+    }> = [];
     let legacyOutboundTimer: ReturnType<typeof setTimeout> | null = null;
     let legacyVoicePacketsWritten = 0;
 
@@ -684,13 +690,28 @@ export function startTcpServer(port: number): net.Server {
           );
         }
         safeWrite(state, item.data);
+        if (item.delayAfterMs > 0) {
+          legacyOutboundTimer = setTimeout(() => {
+            legacyOutboundTimer = null;
+            processLegacyOutboundQueue();
+          }, item.delayAfterMs);
+          return;
+        }
       }
 
       legacyOutboundTimer = null;
     };
 
-    const queueLegacyOutbound = (data: Buffer, voice: boolean) => {
-      legacyOutboundQueue.push({ data: Buffer.from(data), voice });
+    const queueLegacyOutbound = (
+      data: Buffer,
+      voice: boolean,
+      delayAfterMs = 0
+    ) => {
+      legacyOutboundQueue.push({
+        data: Buffer.from(data),
+        voice,
+        delayAfterMs,
+      });
       const pttAction = legacyPttAction(data);
       if (pttAction) {
         logger.info(
@@ -732,7 +753,33 @@ export function startTcpServer(port: number): net.Server {
           const voice =
             data.length === AUDIO_PAYLOAD_SIZE + 1 &&
             data[0] === EQSO_COMMANDS.VOICE;
-          queueLegacyOutbound(data, voice);
+          if (legacyPttAction(data) === "release") {
+            // The original server closes a transmission received by v1.13 with
+            // a finite tail: nine 0x02 silence bytes at roughly one audio-frame
+            // interval, then 0x08 0x06 0x00, then the released USER_UPDATE.
+            // This is receiver-side framing only. A v1.13 client releasing its
+            // own TX follows releasePtt() and must not receive this synthetic
+            // sequence.
+            for (let i = 0; i < LEGACY_V113_RX_SILENCE_TAIL_PACKETS; i++) {
+              queueLegacyOutbound(
+                Buffer.from([EQSO_COMMANDS.IGNORE]),
+                false,
+                LEGACY_AUDIO_PACE_MS
+              );
+            }
+            queueLegacyOutbound(
+              Buffer.from([
+                EQSO_COMMANDS.PTT_RELEASE_1,
+                EQSO_COMMANDS.PTT_RELEASE_2,
+                0x00,
+              ]),
+              false,
+              LEGACY_V113_RX_RELEASE_GAP_MS
+            );
+            queueLegacyOutbound(data, false);
+          } else {
+            queueLegacyOutbound(data, voice);
+          }
         } else {
           safeWrite(state, data);
         }

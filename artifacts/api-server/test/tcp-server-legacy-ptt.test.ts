@@ -223,3 +223,36 @@ test("modern 0x82 client cannot release PTT with standalone 0x03", async () => {
   await closeClient(sender.socket);
   await closeClient(observer.socket);
 });
+
+test("legacy v1.13 receiver gets the original finite silence and release tail", async () => {
+  const receiver = await connectClient("LEGACY-RX-TAIL", LEGACY_HANDSHAKE);
+  const sender = await connectClient("MODERN-RX-TAIL", MODERN_HANDSHAKE);
+  receiver.received.length = 0;
+
+  sender.socket.write(VOICE_BLOCK);
+  const senderId = clientId("MODERN-RX-TAIL");
+  await waitFor(
+    () => roomManager.isLockedBy(ROOM, senderId),
+    "modern sender to own PTT for legacy receiver",
+  );
+
+  sender.socket.write(STANDARD_RELEASE);
+  const expectedTail = Buffer.concat([
+    Buffer.alloc(9, EQSO_COMMANDS.IGNORE),
+    Buffer.from([
+      EQSO_COMMANDS.PTT_RELEASE_1,
+      EQSO_COMMANDS.PTT_RELEASE_2,
+      0x00,
+    ]),
+    buildPttReleased("MODERN-RX-TAIL"),
+  ]);
+  await waitFor(
+    () => hasPacket(receiver.received, expectedTail),
+    "legacy receiver to get finite silence and release tail",
+    3_000,
+  );
+  assert.equal(receiver.socket.destroyed, false);
+
+  await closeClient(sender.socket);
+  await closeClient(receiver.socket);
+});
