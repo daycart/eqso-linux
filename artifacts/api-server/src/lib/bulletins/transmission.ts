@@ -13,6 +13,9 @@ import { logger } from "../logger";
 
 const PACKET_INTERVAL_MS = 120;
 const REMOTE_CHUNK_SAMPLES = 960;
+// Leave headroom for the relay sound card and radio microphone input. Piper's
+// WAV output can otherwise drive the GSM encoder and the RF modulation too hard.
+const RADIO_VOICE_FILTER = "highpass=f=250,lowpass=f=3000,volume=0.5,alimiter=limit=0.9";
 export const BULLETIN_CALLSIGN = "INFO-SIERRA";
 
 export interface TransmissionResult {
@@ -39,7 +42,7 @@ function runFfmpeg(args: string[], label: string): Promise<Buffer> {
 
 async function convertWavToGsm(filePath: string): Promise<Buffer[]> {
   const raw = await runFfmpeg([
-    "-i", filePath, "-ar", "8000", "-ac", "1", "-f", "gsm", "pipe:1",
+    "-i", filePath, "-af", RADIO_VOICE_FILTER, "-ar", "8000", "-ac", "1", "-f", "gsm", "pipe:1",
   ], "GSM");
   const packets: Buffer[] = [];
   for (let offset = 0; offset < raw.length; offset += AUDIO_PAYLOAD_SIZE) {
@@ -54,7 +57,7 @@ async function convertWavToGsm(filePath: string): Promise<Buffer[]> {
 
 async function convertWavToWsAudio(filePath: string): Promise<Buffer[]> {
   const raw = await runFfmpeg([
-    "-i", filePath, "-ar", "8000", "-ac", "1", "-f", "s16le", "pipe:1",
+    "-i", filePath, "-af", RADIO_VOICE_FILTER, "-ar", "8000", "-ac", "1", "-f", "s16le", "pipe:1",
   ], "PCM");
   const bytesPerChunk = REMOTE_CHUNK_SAMPLES * 2;
   const packets: Buffer[] = [];
