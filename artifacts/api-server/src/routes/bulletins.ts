@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
-import { textToSpeech } from "@workspace/integrations-openai-ai-server/audio";
 import {
   GetBulletinStatusResponse,
   GetCurrentBulletinResponse,
@@ -28,6 +27,7 @@ import {
   listBulletinTransmissions,
 } from "../lib/bulletins/storage";
 import { transmitBulletin } from "../lib/bulletins/transmission";
+import { synthesizeBulletinSpeech } from "../lib/bulletins/speech";
 import { roomManager } from "../eqso/room-manager";
 
 const router = Router();
@@ -101,9 +101,9 @@ router.post("/bulletins/generate", async (req, res): Promise<void> => {
   try {
     const forecast = await fetchAemetForecast();
     const forecastText = buildForecastText(forecast, generatedAt);
-    // gpt-audio chat completions are used for batch synthesis; failures are
-    // deliberately allowed to abort before anything is written to the index.
-    const audio = await textToSpeech(forecastText, "alloy", "wav");
+    // Production VMs use local Piper when installed. Replit keeps using its
+    // OpenAI integration. Synthesis must finish before the bulletin is stored.
+    const audio = await synthesizeBulletinSpeech(forecastText);
     const id = randomUUID();
     const bulletin: StoredBulletin = {
       id,

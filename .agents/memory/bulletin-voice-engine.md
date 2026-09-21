@@ -3,8 +3,8 @@ name: Motor de voz para boletines
 description: Decisión sobre la voz de los boletines meteorológicos y la prueba futura de Piper.
 ---
 
-Durante la fase de prueba, generar las locuciones con OpenAI mediante Replit AI Integrations. Antes de habilitar emisiones periódicas o desatendidas, comparar el mismo boletín con Piper ejecutado localmente en la VM.
+Piper está instalado en la VM y la voz `es_ES-sharvard-medium` genera WAV correctamente. En producción, usar Piper local; en Replit, conservar OpenAI mediante Replit AI Integrations.
 
-**Why:** OpenAI permite validar rápidamente claridad, pronunciación y duración, mientras que Piper podría eliminar el coste por locución y reducir la dependencia de servicios externos.
+**Why:** La integración OpenAI de Replit no está disponible desde la VM de Asorapa. Piper elimina esa dependencia y permite generar los boletines directamente en el servidor que conecta con la radio.
 
-**How to apply:** Mantener OpenAI en la fase 1. Más adelante, evaluar una voz española de Piper escuchando el resultado también por RF; si la inteligibilidad es suficiente, usar Piper como motor principal y conservar OpenAI como alternativa.
+**How to apply:** La selección automática usa Piper cuando encuentra su Python y el modelo local; si no están presentes, usa OpenAI. No ocultar fallos de ejecución de Piper con un cambio silencioso de motor. La prueba RF sigue siendo necesaria para validar inteligibilidad y nivel de audio.
