@@ -15,7 +15,7 @@ const PACKET_INTERVAL_MS = 120;
 const REMOTE_CHUNK_SAMPLES = 960;
 // Leave headroom for the relay sound card and radio microphone input. Piper's
 // WAV output can otherwise drive the GSM encoder and the RF modulation too hard.
-const RADIO_VOICE_FILTER = "highpass=f=250,lowpass=f=3000,volume=0.5,alimiter=limit=0.9";
+const RADIO_VOICE_FILTER = "highpass=f=250,lowpass=f=3000,volume=0.35,alimiter=limit=0.8";
 export const BULLETIN_CALLSIGN = "INFO-SIERRA";
 
 export interface TransmissionResult {

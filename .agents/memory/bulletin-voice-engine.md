@@ -8,3 +8,5 @@ Piper está instalado en la VM y la voz `es_ES-sharvard-medium` genera WAV corre
 **Why:** La integración OpenAI de Replit no está disponible desde la VM de Asorapa. Piper elimina esa dependencia y permite generar los boletines directamente en el servidor que conecta con la radio.
 
 **How to apply:** La selección automática usa Piper cuando encuentra su Python y el modelo local; si no están presentes, usa OpenAI. No ocultar fallos de ejecución de Piper con un cambio silencioso de motor. La prueba RF sigue siendo necesaria para validar inteligibilidad y nivel de audio.
+
+La prueba RF confirmó que el WAV de Piper a nivel original saturaba la modulación. Reducir y limitar el audio antes de GSM mejoró claramente la escucha; mantener margen de nivel antes del codificador y ajustar después la ganancia del relay si aún hay saturación.
