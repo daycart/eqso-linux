@@ -3,6 +3,7 @@ import { getApiBase } from "./LoginPanel";
 import { ServersPanel } from "./ServersPanel";
 import { ServerMonitor } from "./ServerMonitor";
 import { RelaysPanel } from "./RelaysPanel";
+import { RelayTokensPanel } from "./RelayTokensPanel";
 
 import { BulletinPanel } from "./BulletinPanel";
 
@@ -48,7 +49,7 @@ function authHeaders(token: string) {
 }
 
 export function AdminPanel({ token, onClose }: AdminPanelProps) {
-  const [activeSection, setActiveSection] = useState<"usuarios" | "servidores" | "radioenlaces" | "monitor" | "inactividad" | "boletines">("usuarios");
+  const [activeSection, setActiveSection] = useState<"usuarios" | "tokens" | "servidores" | "radioenlaces" | "monitor" | "inactividad" | "boletines">("usuarios");
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -382,7 +383,7 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
 
       {/* Section tabs */}
       <div className="flex gap-1 px-6 pt-4 border-b border-gray-800 pb-0 overflow-x-auto">
-        {(["usuarios", "servidores", "radioenlaces", "monitor", "inactividad", "boletines"] as const).map((sec) => (
+        {(["usuarios", "tokens", "servidores", "radioenlaces", "monitor", "inactividad", "boletines"] as const).map((sec) => (
           <button
             key={sec}
             onClick={() => {
@@ -404,7 +405,8 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
                   </span>
                 )}
               </>
-            ) : sec === "servidores" ? "Servidores"
+            ) : sec === "tokens" ? "Tokens de radioenlace"
+              : sec === "servidores" ? "Servidores"
               : sec === "radioenlaces" ? "Radioenlaces"
               : sec === "monitor" ? "Monitor"
               : sec === "inactividad" ? "Inactividad"
@@ -414,6 +416,12 @@ export function AdminPanel({ token, onClose }: AdminPanelProps) {
       </div>
 
       {/* Servidores section */}
+      {activeSection === "tokens" && (
+        <div className="flex-1 overflow-y-auto p-6">
+          <RelayTokensPanel token={token} />
+        </div>
+      )}
+
       {activeSection === "servidores" && (
         <div className="flex-1 overflow-y-auto p-6">
           <ServersPanel token={token} />

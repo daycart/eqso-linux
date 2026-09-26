@@ -21,3 +21,8 @@ desconexiones.
 relay temporalmente en esa sala. Considerar aprobado solo si el informe lógico
 pasa y una persona confirma PTT y recepción RF; después restaurar el relay a
 `CB`.
+
+En pruebas sintéticas con `node:net`, consumir los datos recibidos aunque no se
+compruebe su contenido: un socket cliente pausado puede no emitir `close` tras
+la desconexión del servidor y dejar una prueba de revocación esperando
+indefinidamente.

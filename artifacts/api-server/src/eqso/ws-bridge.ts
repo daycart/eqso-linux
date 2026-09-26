@@ -17,6 +17,7 @@ import {
 } from "./protocol";
 import { EqsoProxy, ProxyEvent } from "./eqso-proxy";
 import { validateSession } from "../lib/auth";
+import { createWebRelayCredential } from "../lib/relay-tokens";
 import { moderationManager } from "./moderation-manager";
 import {
   FfmpegGsmEncoder,
@@ -230,6 +231,13 @@ function handleLocalMode(
             const prefix = "0R-";
             const withPrefix = name.startsWith(prefix) ? name : `${prefix}${name}`;
             name = withPrefix.slice(0, 13); // "0R-" (3) + 10 chars max
+          }
+          // A free-form browser name must never bypass the TCP relay-token
+          // rules by joining the local WS room as a radioenlace.
+          if (name.startsWith("0R-") && !isRelay) {
+            sendJson(ws, { type: "error", message: "Inicia sesión como radioenlace para usar un indicativo 0R-" });
+            ws.close();
+            return;
           }
 
           const serverPassword = process.env.EQSO_PASSWORD ?? "";
@@ -610,10 +618,10 @@ function handleRemoteMode(
           remoteConnInfo.remoteMembers = []; // reset list when joining a new room
           rmAddMember(resolvedName, message);    // add self to member list
           roomManager.updateRemoteConn(id, { name: resolvedName, room });
-          // For relay_operator web clients: inject the server's own relay token
-          // so they can join without knowing the token (they're already authenticated by session)
+          // The authenticated web operator never receives a stored relay secret.
+          // Its TCP proxy uses a single-use credential bound to this callsign.
           const joinPassword = (isRelay && !password)
-            ? (process.env.RELAY_TOKENS ?? "").split(",")[0]?.trim() ?? ""
+            ? createWebRelayCredential(resolvedName)
             : password;
           logger.info({ id, name: resolvedName, room, host, port, isRelay }, "Remote proxy: join requested");
           proxy.sendJoin(resolvedName, room, message, joinPassword);

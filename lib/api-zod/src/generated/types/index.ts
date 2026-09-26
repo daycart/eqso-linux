@@ -12,4 +12,8 @@ export * from "./bulletinTransmissionInput";
 export * from "./bulletinTransmissionRooms";
 export * from "./bulletinTransmissionStatus";
 export * from "./healthStatus";
+export * from "./relayTokenCreated";
+export * from "./relayTokenInfo";
+export * from "./relayTokenInput";
+export * from "./relayTokenRevoked";
 export * from "./weatherBulletin";

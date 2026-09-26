@@ -314,10 +314,8 @@ export class EqsoProxy extends EventEmitter {
       return;
     }
     const pkt = buildJoinPacket(name, room, message, password);
-    logger.info(
-      { name, room, hex: pkt.toString("hex") },
-      "eQSO proxy: sending join packet"
-    );
+    // JOIN includes the credential; never log packet bytes or password.
+    logger.info({ name, room }, "eQSO proxy: sending join packet");
     this.socketWrite(pkt);
   }
 

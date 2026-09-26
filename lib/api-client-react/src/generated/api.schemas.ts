@@ -5,6 +5,48 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export interface RelayTokenInfo {
+  id: number;
+  callsign: string;
+  label: string;
+  legacyDisabled: boolean;
+  createdAt: string;
+  /** @nullable */
+  lastUsedAt: string | null;
+  /** @nullable */
+  revokedAt: string | null;
+}
+
+export interface RelayTokenCreated {
+  id: number;
+  callsign: string;
+  label: string;
+  token: string;
+  legacyDisabled: boolean;
+  createdAt: string;
+  /** @nullable */
+  lastUsedAt: string | null;
+  /** @nullable */
+  revokedAt: string | null;
+}
+
+export interface RelayTokenInput {
+  /**
+   * @minLength 4
+   * @maxLength 30
+   */
+  callsign: string;
+  /**
+   * @minLength 1
+   * @maxLength 100
+   */
+  label: string;
+}
+
+export interface RelayTokenRevoked {
+  ok: boolean;
+}
+
 export interface HealthStatus {
   status: string;
 }

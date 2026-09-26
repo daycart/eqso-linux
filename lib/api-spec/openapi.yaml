@@ -12,6 +12,8 @@ tags:
     description: Health operations
   - name: bulletins
     description: Weather bulletin operations for administrators
+  - name: relay-tokens
+    description: Administrator-managed relay credentials
 paths:
   /healthz:
     get:
@@ -26,6 +28,59 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /admin/relay-tokens:
+    get:
+      operationId: listRelayTokens
+      tags: [relay-tokens]
+      summary: List relay tokens without secrets
+      responses:
+        "200":
+          description: Token metadata
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RelayTokenInfo"
+    post:
+      operationId: createRelayToken
+      tags: [relay-tokens]
+      summary: Create a token shown only once
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RelayTokenInput"
+      responses:
+        "201":
+          description: New token, shown once
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RelayTokenCreated"
+        "400":
+          description: Invalid input
+  /admin/relay-tokens/{id}/revoke:
+    post:
+      operationId: revokeRelayToken
+      tags: [relay-tokens]
+      summary: Revoke a token and disconnect its current sessions
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Revoked
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RelayTokenRevoked"
+        "404":
+          description: Already revoked or missing
   /admin/bulletins/status:
     get:
       operationId: getBulletinStatus
@@ -163,6 +218,40 @@ paths:
           description: Audio or bulletin not found
 components:
   schemas:
+    RelayTokenInfo:
+      type: object
+      required: [id, callsign, label, legacyDisabled, createdAt, lastUsedAt, revokedAt]
+      properties:
+        id: { type: integer }
+        callsign: { type: string }
+        label: { type: string }
+        legacyDisabled: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        lastUsedAt: { type: ["string", "null"], format: date-time }
+        revokedAt: { type: ["string", "null"], format: date-time }
+    RelayTokenCreated:
+      type: object
+      required: [id, callsign, label, token, legacyDisabled, createdAt, lastUsedAt, revokedAt]
+      properties:
+        id: { type: integer }
+        callsign: { type: string }
+        label: { type: string }
+        token: { type: string }
+        legacyDisabled: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        lastUsedAt: { type: ["string", "null"], format: date-time }
+        revokedAt: { type: ["string", "null"], format: date-time }
+    RelayTokenInput:
+      type: object
+      required: [callsign, label]
+      properties:
+        callsign: { type: string, minLength: 4, maxLength: 30 }
+        label: { type: string, minLength: 1, maxLength: 100 }
+    RelayTokenRevoked:
+      type: object
+      required: [ok]
+      properties:
+        ok: { type: boolean }
     HealthStatus:
       type: object
       properties:

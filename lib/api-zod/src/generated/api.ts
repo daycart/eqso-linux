@@ -16,6 +16,47 @@ export const HealthCheckResponse = zod.object({
 });
 
 /**
+ * @summary List relay tokens without secrets
+ */
+export const ListRelayTokensResponseItem = zod.object({
+  id: zod.number(),
+  callsign: zod.string(),
+  label: zod.string(),
+  legacyDisabled: zod.boolean(),
+  createdAt: zod.coerce.date(),
+  lastUsedAt: zod.coerce.date().nullable(),
+  revokedAt: zod.coerce.date().nullable(),
+});
+export const ListRelayTokensResponse = zod.array(ListRelayTokensResponseItem);
+
+/**
+ * @summary Create a token shown only once
+ */
+export const createRelayTokenBodyCallsignMin = 4;
+export const createRelayTokenBodyCallsignMax = 30;
+
+export const createRelayTokenBodyLabelMax = 100;
+
+export const CreateRelayTokenBody = zod.object({
+  callsign: zod
+    .string()
+    .min(createRelayTokenBodyCallsignMin)
+    .max(createRelayTokenBodyCallsignMax),
+  label: zod.string().min(1).max(createRelayTokenBodyLabelMax),
+});
+
+/**
+ * @summary Revoke a token and disconnect its current sessions
+ */
+export const RevokeRelayTokenParams = zod.object({
+  id: zod.coerce.number(),
+});
+
+export const RevokeRelayTokenResponse = zod.object({
+  ok: zod.boolean(),
+});
+
+/**
  * @summary Get weather bulletin status
  */
 export const GetBulletinStatusResponse = zod.object({

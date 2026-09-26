@@ -22,6 +22,10 @@ import type {
   BulletinTransmissionInput,
   BulletinTransmissionRooms,
   HealthStatus,
+  RelayTokenCreated,
+  RelayTokenInfo,
+  RelayTokenInput,
+  RelayTokenRevoked,
   WeatherBulletin,
 } from "./api.schemas";
 
@@ -109,6 +113,251 @@ export function useHealthCheck<
 
   return { ...query, queryKey: queryOptions.queryKey };
 }
+
+/**
+ * @summary List relay tokens without secrets
+ */
+export const getListRelayTokensUrl = () => {
+  return `/api/admin/relay-tokens`;
+};
+
+export const listRelayTokens = async (
+  options?: RequestInit,
+): Promise<RelayTokenInfo[]> => {
+  return customFetch<RelayTokenInfo[]>(getListRelayTokensUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getListRelayTokensQueryKey = () => {
+  return [`/api/admin/relay-tokens`] as const;
+};
+
+export const getListRelayTokensQueryOptions = <
+  TData = Awaited<ReturnType<typeof listRelayTokens>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listRelayTokens>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getListRelayTokensQueryKey();
+
+  const queryFn: QueryFunction<Awaited<ReturnType<typeof listRelayTokens>>> = ({
+    signal,
+  }) => listRelayTokens({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof listRelayTokens>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ListRelayTokensQueryResult = NonNullable<
+  Awaited<ReturnType<typeof listRelayTokens>>
+>;
+export type ListRelayTokensQueryError = ErrorType<unknown>;
+
+/**
+ * @summary List relay tokens without secrets
+ */
+
+export function useListRelayTokens<
+  TData = Awaited<ReturnType<typeof listRelayTokens>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof listRelayTokens>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getListRelayTokensQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+/**
+ * @summary Create a token shown only once
+ */
+export const getCreateRelayTokenUrl = () => {
+  return `/api/admin/relay-tokens`;
+};
+
+export const createRelayToken = async (
+  relayTokenInput: RelayTokenInput,
+  options?: RequestInit,
+): Promise<RelayTokenCreated> => {
+  return customFetch<RelayTokenCreated>(getCreateRelayTokenUrl(), {
+    ...options,
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(relayTokenInput),
+  });
+};
+
+export const getCreateRelayTokenMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createRelayToken>>,
+    TError,
+    { data: BodyType<RelayTokenInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof createRelayToken>>,
+  TError,
+  { data: BodyType<RelayTokenInput> },
+  TContext
+> => {
+  const mutationKey = ["createRelayToken"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof createRelayToken>>,
+    { data: BodyType<RelayTokenInput> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return createRelayToken(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type CreateRelayTokenMutationResult = NonNullable<
+  Awaited<ReturnType<typeof createRelayToken>>
+>;
+export type CreateRelayTokenMutationBody = BodyType<RelayTokenInput>;
+export type CreateRelayTokenMutationError = ErrorType<void>;
+
+/**
+ * @summary Create a token shown only once
+ */
+export const useCreateRelayToken = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof createRelayToken>>,
+    TError,
+    { data: BodyType<RelayTokenInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof createRelayToken>>,
+  TError,
+  { data: BodyType<RelayTokenInput> },
+  TContext
+> => {
+  return useMutation(getCreateRelayTokenMutationOptions(options));
+};
+
+/**
+ * @summary Revoke a token and disconnect its current sessions
+ */
+export const getRevokeRelayTokenUrl = (id: number) => {
+  return `/api/admin/relay-tokens/${id}/revoke`;
+};
+
+export const revokeRelayToken = async (
+  id: number,
+  options?: RequestInit,
+): Promise<RelayTokenRevoked> => {
+  return customFetch<RelayTokenRevoked>(getRevokeRelayTokenUrl(id), {
+    ...options,
+    method: "POST",
+  });
+};
+
+export const getRevokeRelayTokenMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof revokeRelayToken>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof revokeRelayToken>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  const mutationKey = ["revokeRelayToken"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof revokeRelayToken>>,
+    { id: number }
+  > = (props) => {
+    const { id } = props ?? {};
+
+    return revokeRelayToken(id, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type RevokeRelayTokenMutationResult = NonNullable<
+  Awaited<ReturnType<typeof revokeRelayToken>>
+>;
+
+export type RevokeRelayTokenMutationError = ErrorType<void>;
+
+/**
+ * @summary Revoke a token and disconnect its current sessions
+ */
+export const useRevokeRelayToken = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof revokeRelayToken>>,
+    TError,
+    { id: number },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof revokeRelayToken>>,
+  TError,
+  { id: number },
+  TContext
+> => {
+  return useMutation(getRevokeRelayTokenMutationOptions(options));
+};
 
 /**
  * @summary Get weather bulletin status

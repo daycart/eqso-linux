@@ -5,6 +5,7 @@ import authRouter from "./auth";
 import adminRouter from "./admin";
 import { publicServersRouter, adminServersRouter } from "./servers";
 import { adminRelaysRouter } from "./relays";
+import { relayTokensRouter } from "./relay-tokens";
 import { relayOperatorRouter } from "./relay-operator";
 import bulletinsRouter from "./bulletins";
 
@@ -16,6 +17,7 @@ router.use("/auth", authRouter);
 router.use("/admin", adminRouter);
 router.use("/admin", adminServersRouter);
 router.use("/admin", adminRelaysRouter);
+router.use("/admin", relayTokensRouter);
 router.use("/relay-operator", relayOperatorRouter);
 router.use("/admin", bulletinsRouter);
 router.use(publicServersRouter);

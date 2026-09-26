@@ -1,20 +1,11 @@
 ---
-name: Relay operator token injection
-description: relay_operator web clients must have RELAY_TOKENS injected server-side when joining via EqsoProxy; they're already auth'd by session and can't know the token.
+name: Relay operator web authentication
+description: Authenticated web operators must connect through the proxy without exposing a reusable relay credential.
 ---
 
 ## Rule
-When a relay_operator (isRelay=true) joins via EqsoProxy (remote mode) with an empty password, inject `RELAY_TOKENS.split(',')[0]` as the join password.
+When an authenticated relay operator joins via the server's TCP proxy without an explicit password, provide a short-lived, single-use credential bound to that indicativo. Do not inject a shared `RELAY_TOKENS` value.
 
-**Why:** The TCP server requires a relay token for callsigns starting with `0R-`. Web clients are authenticated by session (JWT), not by relay token. They shouldn't need to know the token — the server validates them at login.
+**Why:** The TCP server requires a credential for indicativos `0R-`. Operators already authenticate with a web session, but inserting the shared token would allow a revoked or migrated indicativo to bypass its individual token. Sending reusable secrets through the proxy also risks exposure in logs.
 
-**How to apply:** In `artifacts/api-server/src/eqso/ws-bridge.ts`, handleRemoteMode join case:
-
-```typescript
-const joinPassword = (isRelay && !password)
-  ? (process.env.RELAY_TOKENS ?? '').split(',')[0]?.trim() ?? ''
-  : password;
-proxy.sendJoin(resolvedName, room, message, joinPassword);
-```
-
-This only applies when the user provides no password. Explicit passwords are always respected (e.g. connecting to a third-party server with its own token).
+**How to apply:** The server issues the proxy credential only after verifying the operator's session; TCP consumes it once for the same indicativo. Keep explicit passwords working for third-party servers. Never log raw JOIN packets, which contain the password.

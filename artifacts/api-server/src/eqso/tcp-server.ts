@@ -6,6 +6,7 @@ import { FfmpegGsmDecoder } from "./ffmpeg-gsm";
 import { inactivityManager } from "./inactivity-manager";
 import { moderationManager } from "./moderation-manager";
 import { relayTelemetryStore } from "./relay-telemetry-store";
+import { authenticateRelay, isRelayTokenRevoking } from "../lib/relay-tokens";
 import {
   EQSO_COMMANDS,
   AUDIO_PAYLOAD_SIZE,
@@ -35,6 +36,12 @@ const LEGACY_V113_RELEASE_PTT = 0x03;
 
 // One FFmpeg GSM decoder per TCP client (keyed by client UUID)
 const tcpDecoders = new Map<string, FfmpegGsmDecoder>();
+const managedRelaySockets = new Map<number, Set<net.Socket>>();
+
+export function disconnectManagedRelayToken(tokenId: number): void {
+  for (const socket of managedRelaySockets.get(tokenId) ?? []) socket.destroy();
+  managedRelaySockets.delete(tokenId);
+}
 
 interface TcpClientState {
   id: string;
@@ -54,6 +61,7 @@ interface TcpClientState {
   /** Diagnostic timer for radio/VOX sessions where v1.13 never sends 0x0d/0x03. */
   legacyReleaseTimer?: ReturnType<typeof setTimeout>;
   disconnected: boolean; // guard against double-disconnect (error + close both fire)
+  authenticatedTokenId?: number;
   /** Drena inmediatamente los paquetes GSM pendientes en el pace queue.
    *  Llamado desde processSingleByte cuando el cliente envía RELEASE_PTT (0x0d),
    *  así los últimos frames llegan al navegador sin el retardo de 120ms/paquete. */
@@ -345,7 +353,7 @@ function processMultiByte(state: TcpClientState, byte: number): void {
           { id: state.id, name: parsed.name, room: parsed.room, bufLen: state.buf.length },
           "eQSO TCP JOIN parsed"
         );
-        handleJoin(state, parsed.name, parsed.room, parsed.message, parsed.password);
+        void handleJoin(state, parsed.name, parsed.room, parsed.message, parsed.password);
         state.readMultiByte = false;
         state.multiByteCmd = 0;
         state.buf = Buffer.alloc(0);
@@ -455,13 +463,14 @@ function processMultiByte(state: TcpClientState, byte: number): void {
   }
 }
 
-function handleJoin(
+async function handleJoin(
   state: TcpClientState,
   name: string,
   room: string,
   message: string,
   password: string
-): void {
+): Promise<void> {
+  name = name.trim().toUpperCase();
   const existing = roomManager.getClient(state.id);
   const oldRoom = existing?.room ?? "";
 
@@ -474,19 +483,48 @@ function handleJoin(
   }
 
   const isRelayCallsign = name.startsWith("0R-");
-  const relayTokensRaw = process.env.RELAY_TOKENS ?? "";
-  const validRelayTokens = relayTokensRaw
-    ? relayTokensRaw.split(",").map((t) => t.trim()).filter(Boolean)
-    : [];
-
-  if (isRelayCallsign && validRelayTokens.length > 0) {
-    if (!validRelayTokens.includes(password)) {
-      safeWrite(state, buildErrorMessage("Acceso denegado: token de radioenlace invalido"));
-      logger.warn({ id: state.id, name }, "TCP relay rejected: invalid relay token");
+  let authenticatedRelay = false;
+  if (isRelayCallsign) {
+    try {
+      const result = await authenticateRelay(name.toUpperCase(), password);
+      if (state.socket.destroyed) return;
+      if (!result.allowed) {
+        safeWrite(state, buildErrorMessage("Acceso denegado: token de radioenlace invalido"));
+        logger.warn({ id: state.id, name }, "TCP relay rejected: invalid relay token");
+        state.socket.destroy();
+        return;
+      }
+      authenticatedRelay = result.tokenRequired;
+      if (result.tokenId != null && isRelayTokenRevoking(result.tokenId)) {
+        safeWrite(state, buildErrorMessage("Acceso denegado: token revocado"));
+        state.socket.destroy();
+        return;
+      }
+      if (state.authenticatedTokenId != null && state.authenticatedTokenId !== result.tokenId) {
+        const previous = managedRelaySockets.get(state.authenticatedTokenId);
+        previous?.delete(state.socket);
+        if (previous?.size === 0) managedRelaySockets.delete(state.authenticatedTokenId);
+        state.authenticatedTokenId = undefined;
+      }
+      if (result.tokenId != null) {
+        state.authenticatedTokenId = result.tokenId;
+        const sockets = managedRelaySockets.get(result.tokenId) ?? new Set<net.Socket>();
+        sockets.add(state.socket);
+        managedRelaySockets.set(result.tokenId, sockets);
+        state.socket.once("close", () => {
+          sockets.delete(state.socket);
+          if (sockets.size === 0 && managedRelaySockets.get(result.tokenId!) === sockets) {
+            managedRelaySockets.delete(result.tokenId!);
+          }
+        });
+      }
+      if (authenticatedRelay) logger.info({ id: state.id, name }, "TCP relay authenticated with relay token");
+    } catch (err) {
+      logger.error({ err, id: state.id, name }, "TCP relay authentication unavailable");
+      safeWrite(state, buildErrorMessage("Acceso denegado: autenticacion no disponible"));
       state.socket.destroy();
       return;
     }
-    logger.info({ id: state.id, name }, "TCP relay authenticated with relay token");
   } else {
     const serverPassword = process.env.EQSO_PASSWORD ?? "";
     if (serverPassword && password !== serverPassword) {
@@ -510,7 +548,7 @@ function handleJoin(
     return;
   }
   if (roomManager.isNameTaken(name, state.id)) {
-    if (isRelayCallsign && validRelayTokens.length > 0) {
+    if (isRelayCallsign && authenticatedRelay) {
       // Una reconexión autenticada del mismo radioenlace sustituye a la sesión
       // anterior. Esto evita que una conexión TCP medio abierta bloquee el
       // indicativo hasta que el keepalive del kernel expire o un administrador
