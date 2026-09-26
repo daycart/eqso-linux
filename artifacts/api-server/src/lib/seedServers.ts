@@ -4,6 +4,8 @@
  */
 import { db, serversTable } from "@workspace/db";
 
+// Never put passwords in seed data: tracked source remains in Git history.
+// Existing rows stay untouched; configure fresh installations via admin.
 const DEFAULT_SERVERS = [
   {
     label:       "Servidor Local",
@@ -22,7 +24,7 @@ const DEFAULT_SERVERS = [
     mode:        "remote",
     host:        "193.152.83.229",
     port:        8008,
-    defaultPassword: "Asorapa2024.",
+    defaultPassword: null,
     rooms:       "CB,ASORAPA,PRUEBAS",
     isActive:    true,
     sortOrder:   1,
