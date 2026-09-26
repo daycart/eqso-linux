@@ -2,7 +2,7 @@
 - [WebSocket dual-server fix](ws-dual-server.md) — dos WebSocketServer con { server, path } en el mismo httpServer interfieren; usar noServer:true + upgrade router manual.
 - [Operador web de radioenlace](relay-operator-token.md) — el proxy web debe usar credenciales efímeras de un solo uso, nunca inyectar el token compartido.
 - [Transición de tokens de radioenlace](relay-token-transition.md) — eQSO 1.13 conserva la clave compartida hasta el primer acceso con token individual por indicativo.
-- [VM deploy build order](vm-deploy-build-order.md) — en la VM siempre compilar el cliente React ANTES que el servidor; build.mjs solo copia, no recompila.
+- [Despliegue en VM](vm-deploy-build-order.md) — push a main no despliega: el usuario ejecuta update.sh en la VM sin SSH; al compilar a mano, cliente antes que servidor.
 - [isAdmin dual-role logic](isadmin-dual-role.md) — relay_operator+isAdmin: ve ambos paneles (no confinado, con botón volver). relay_operator puro: panel relay confinado sin navegación. role=admin: solo admin panel.
 - [GSM encoder crash: -avioflags direct](gsm-encoder-avioflags.md) — el muxer GSM de ffmpeg (output) no soporta -avioflags direct → exit 1 silencioso; NO usarlo en el encoder.
 - [Selección de FFmpeg por plataforma](ffmpeg-static-libgsm.md) — Windows/DirectShow prioriza ffmpeg-static; Linux/alsa conserva el FFmpeg del sistema con libgsm.
