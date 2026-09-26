@@ -94,8 +94,9 @@ export function RelayTokensPanel({ token }: { token: string }) {
           introdúcelo en el campo de contraseña del cliente.
         </p>
         <p className="text-xs text-amber-300 mt-2">
-          El token compartido anterior seguirá funcionando para cada indicativo hasta que se conecte
-          por primera vez con un token nuevo. Desde entonces, ese indicativo solo aceptará tokens propios.
+          Si están configuradas, la clave compartida anterior y la contraseña general del servidor
+          seguirán funcionando para cada indicativo hasta su primera conexión con un token propio.
+          Desde entonces, ese indicativo solo aceptará tokens propios.
           No revoques el último token activo sin preparar uno de sustitución.
         </p>
       </div>

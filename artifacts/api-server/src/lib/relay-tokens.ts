@@ -75,7 +75,8 @@ export async function authenticateRelay(callsign: string, password: string): Pro
       .returning({ id: relayTokensTable.id });
     if (!stillActive || revokingTokenIds.has(match.id)) return { allowed: false, tokenRequired: true };
     // The first successful managed JOIN switches only this callsign away from
-    // shared credentials. Keep the migration marker even after revocation.
+    // shared credentials and the general server password. Keep the migration
+    // marker even after revocation.
     await db.update(relayTokensTable).set({ legacyDisabled: true })
       .where(eq(relayTokensTable.callsign, callsign));
     if (revokingTokenIds.has(match.id)) return { allowed: false, tokenRequired: true };
@@ -87,12 +88,20 @@ export async function authenticateRelay(callsign: string, password: string): Pro
   if (!migrated && legacyConfigured && legacyMatches(password)) {
     return { allowed: true, tokenRequired: true };
   }
+  // eQSO 1.13 installations that already use the general server password
+  // keep working even after an individual token is created. Only a successful
+  // JOIN with that individual token migrates this callsign.
+  const serverPassword = process.env.EQSO_PASSWORD ?? "";
+  if (!migrated && serverPassword &&
+      timingSafeEqual(Buffer.from(digest(password), "hex"), Buffer.from(digest(serverPassword), "hex"))) {
+    return { allowed: true, tokenRequired: true };
+  }
   if (legacyConfigured || rows.length > 0) {
     return { allowed: false, tokenRequired: true };
   }
-  // Preserve the original EQSO_PASSWORD behavior until a relay token exists.
-  const serverPassword = process.env.EQSO_PASSWORD ?? "";
-  return { allowed: !serverPassword || password === serverPassword, tokenRequired: false };
+  // Preserve the original no-password behavior when no relay credential or
+  // general server password is configured.
+  return { allowed: !serverPassword, tokenRequired: false };
 }
 
 export async function createRelayToken(callsign: string, label: string) {

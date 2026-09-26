@@ -518,7 +518,7 @@ async function handleJoin(
           }
         });
       }
-      if (authenticatedRelay) logger.info({ id: state.id, name }, "TCP relay authenticated with relay token");
+      if (authenticatedRelay) logger.info({ id: state.id, name }, "TCP relay authenticated");
     } catch (err) {
       logger.error({ err, id: state.id, name }, "TCP relay authentication unavailable");
       safeWrite(state, buildErrorMessage("Acceso denegado: autenticacion no disponible"));
