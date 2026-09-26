@@ -94,7 +94,9 @@ export function RelayTokensPanel({ token }: { token: string }) {
           introdúcelo en el campo de contraseña del cliente.
         </p>
         <p className="text-xs text-amber-300 mt-2">
-          Si están configuradas, la clave compartida anterior y la contraseña general del servidor
+          Para los radioenlaces 1.13 autorizados, la contraseña de «Servidor Local»
+          seguirá funcionando hasta su primera conexión con un token propio.
+          Si están configuradas, la clave compartida anterior y la contraseña general del servicio también
           seguirán funcionando para cada indicativo hasta su primera conexión con un token propio.
           Desde entonces, ese indicativo solo aceptará tokens propios.
           No revoques el último token activo sin preparar uno de sustitución.

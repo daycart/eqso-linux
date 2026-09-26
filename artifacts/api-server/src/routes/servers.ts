@@ -18,7 +18,9 @@ publicServersRouter.get("/servers", async (_req, res) => {
       .from(serversTable)
       .where(eq(serversTable.isActive, true))
       .orderBy(asc(serversTable.sortOrder), asc(serversTable.id));
-    res.json(rows.map(toClient));
+    // The public server directory must not disclose connection passwords.
+    res.setHeader("Cache-Control", "no-store");
+    res.json(rows.map((row) => toClient(row, false)));
   } catch {
     res.status(500).json({ error: "Error interno" });
   }
@@ -35,7 +37,8 @@ adminServersRouter.get("/servers", async (_req, res) => {
       .select()
       .from(serversTable)
       .orderBy(asc(serversTable.sortOrder), asc(serversTable.id));
-    res.json(rows.map(toClient));
+    res.setHeader("Cache-Control", "no-store");
+    res.json(rows.map((row) => toClient(row, true)));
   } catch {
     res.status(500).json({ error: "Error interno" });
   }
@@ -57,7 +60,7 @@ adminServersRouter.post("/servers", async (req, res) => {
       isActive:        isActive !== false,
       sortOrder:       sortOrder ? Number(sortOrder) : 0,
     }).returning();
-    return res.status(201).json(toClient(row));
+    return res.status(201).json(toClient(row, true));
   } catch {
     return res.status(500).json({ error: "Error interno" });
   }
@@ -85,7 +88,7 @@ adminServersRouter.put("/servers/:id", async (req, res) => {
       .where(eq(serversTable.id, id))
       .returning();
     if (!row) return res.status(404).json({ error: "Servidor no encontrado" });
-    return res.json(toClient(row));
+    return res.json(toClient(row, true));
   } catch {
     return res.status(500).json({ error: "Error interno" });
   }
@@ -109,7 +112,7 @@ function normalizeRooms(rooms: unknown): string {
   return "";
 }
 
-function toClient(row: typeof serversTable.$inferSelect) {
+function toClient(row: typeof serversTable.$inferSelect, includePassword: boolean) {
   return {
     id:              String(row.id),
     label:           row.label,
@@ -117,7 +120,7 @@ function toClient(row: typeof serversTable.$inferSelect) {
     mode:            row.mode as "local" | "remote",
     host:            row.host ?? undefined,
     port:            row.port ?? undefined,
-    defaultPassword: row.defaultPassword ?? undefined,
+    ...(includePassword ? { defaultPassword: row.defaultPassword ?? undefined } : {}),
     defaultRooms:    row.rooms ? row.rooms.split(",").filter(Boolean) : [],
     isActive:        row.isActive,
     sortOrder:       row.sortOrder,

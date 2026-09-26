@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { randomBytes } from "node:crypto";
 import net from "node:net";
 import { once } from "node:events";
-import { db, pool, relayTokensTable } from "@workspace/db";
-import { eq } from "drizzle-orm";
+import { db, pool, relayTokensTable, serversTable } from "@workspace/db";
+import { and, eq, isNull } from "drizzle-orm";
 import { startTcpServer } from "../src/eqso/tcp-server";
 import { roomManager } from "../src/eqso/room-manager";
 import {
@@ -20,8 +20,11 @@ test("1.13 password migration and revocation are isolated per callsign", async (
   const callsign = `0R-T${randomBytes(4).toString("hex").toUpperCase()}`;
   const other = `0R-X${randomBytes(4).toString("hex").toUpperCase()}`;
   const serverOnlyCallsign = `0R-S${randomBytes(4).toString("hex").toUpperCase()}`;
+  const localPassword = "test-local-server-password";
   const originalLegacy = process.env.RELAY_TOKENS;
   const originalServer = process.env.EQSO_PASSWORD;
+  let localServerId: number | undefined;
+  let localTokenId: number | undefined;
   process.env.RELAY_TOKENS = "test-legacy-shared";
   process.env.EQSO_PASSWORD = "test-server-password";
   try {
@@ -85,6 +88,7 @@ test("1.13 password migration and revocation are isolated per callsign", async (
     };
     let socket: net.Socket | undefined;
     let legacySocket: net.Socket | undefined;
+    let localSocket: net.Socket | undefined;
     try {
       legacySocket = await connect(serverOnlyCallsign, "test-server-password");
       const legacyClosed = once(legacySocket, "close");
@@ -103,12 +107,47 @@ test("1.13 password migration and revocation are isolated per callsign", async (
       disconnectManagedRelayToken(second.row.id);
       await closed;
       assert.equal(roomManager.getAllClients().some((client) => client.name === callsign), false);
+
+      // The named local server's password is accepted only for the five
+      // allowlisted 1.13 callsigns and only before their first managed JOIN.
+      delete process.env.EQSO_PASSWORD;
+      const [fixture] = await db.update(serversTable).set({ defaultPassword: localPassword })
+        .where(and(
+          eq(serversTable.label, "Servidor Local"),
+          eq(serversTable.mode, "local"),
+          isNull(serversTable.defaultPassword),
+        )).returning({ id: serversTable.id });
+      assert.ok(fixture, "development Servidor Local must have no configured password");
+      localServerId = fixture.id;
+      for (const allowed of ["0R-JN12LG", "0R-IN5200", "0R-IN53SI", "0R-JN11BK", "0R-IN70WN"]) {
+        assert.equal((await authenticateRelay(allowed, localPassword)).allowed, true, allowed);
+      }
+      assert.equal((await authenticateRelay("0R-UNLISTED", localPassword)).allowed, false);
+      const localToken = await createRelayToken("0R-JN12LG", "Prueba de contraseña local");
+      localTokenId = localToken.row.id;
+      localSocket = await connect("0R-JN12LG", localPassword);
+      const localClosed = once(localSocket, "close");
+      localSocket.destroy();
+      await localClosed;
+      assert.equal((await authenticateRelay("0R-JN12LG", localPassword)).allowed, true);
+      assert.equal((await authenticateRelay("0R-JN12LG", localToken.token)).allowed, true);
+      assert.equal((await authenticateRelay("0R-JN12LG", localPassword)).allowed, false);
+      await revokeRelayToken(localToken.row.id);
+      assert.equal((await authenticateRelay("0R-JN12LG", localPassword)).allowed, false);
     } finally {
       socket?.destroy();
       legacySocket?.destroy();
+      localSocket?.destroy();
       await new Promise<void>((resolve, reject) => server.close((error) => error ? reject(error) : resolve()));
     }
   } finally {
+    if (localServerId !== undefined) {
+      await db.update(serversTable).set({ defaultPassword: null })
+        .where(and(eq(serversTable.id, localServerId), eq(serversTable.defaultPassword, localPassword)));
+    }
+    if (localTokenId !== undefined) {
+      await db.delete(relayTokensTable).where(eq(relayTokensTable.id, localTokenId));
+    }
     await db.delete(relayTokensTable).where(eq(relayTokensTable.callsign, callsign));
     await db.delete(relayTokensTable).where(eq(relayTokensTable.callsign, serverOnlyCallsign));
     if (originalLegacy === undefined) delete process.env.RELAY_TOKENS;

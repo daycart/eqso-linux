@@ -1,7 +1,7 @@
 - [Relay audio setup](relay-audio-setup.md) — SB Play! 3 tiene dos jacks separados; Chrome Web Serial bloquea PTT serial; valores VOX validados para radio CB.
 - [WebSocket dual-server fix](ws-dual-server.md) — dos WebSocketServer con { server, path } en el mismo httpServer interfieren; usar noServer:true + upgrade router manual.
 - [Operador web de radioenlace](relay-operator-token.md) — el proxy web debe usar credenciales efímeras de un solo uso, nunca inyectar el token compartido.
-- [Transición de tokens de radioenlace](relay-token-transition.md) — eQSO 1.13 conserva clave compartida o contraseña general hasta primer acceso con token individual por indicativo.
+- [Transición de tokens de radioenlace](relay-token-transition.md) — eQSO 1.13: excepción temporal por indicativo para clave de Servidor Local; migración al primer token propio.
 - [Despliegue en VM](vm-deploy-build-order.md) — push a main no despliega: el usuario ejecuta update.sh en la VM sin SSH; al compilar a mano, cliente antes que servidor.
 - [isAdmin dual-role logic](isadmin-dual-role.md) — relay_operator+isAdmin: ve ambos paneles (no confinado, con botón volver). relay_operator puro: panel relay confinado sin navegación. role=admin: solo admin panel.
 - [GSM encoder crash: -avioflags direct](gsm-encoder-avioflags.md) — el muxer GSM de ffmpeg (output) no soporta -avioflags direct → exit 1 silencioso; NO usarlo en el encoder.

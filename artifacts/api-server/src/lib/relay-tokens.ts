@@ -1,6 +1,6 @@
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
-import { and, eq, isNull } from "drizzle-orm";
-import { db, pool, relayTokensTable } from "@workspace/db";
+import { and, eq, ilike, isNotNull, isNull } from "drizzle-orm";
+import { db, pool, relayTokensTable, serversTable } from "@workspace/db";
 
 // Idempotent, additive migration; never push the entire schema against the VM.
 let tableReady: Promise<void> | undefined;
@@ -26,6 +26,43 @@ export function ensureRelayTokensTable(): Promise<void> {
 }
 
 const digest = (value: string) => createHash("sha256").update(value).digest("hex");
+const passwordMatches = (candidate: string, expected: string) =>
+  timingSafeEqual(Buffer.from(digest(candidate), "hex"), Buffer.from(digest(expected), "hex"));
+
+// Temporary compatibility for the five named eQSO 1.13 relays. This is not a
+// general server-password fallback: every other 0R- still follows its normal
+// relay-token policy. Remove entries as their clients migrate.
+const LOCAL_PASSWORD_RELAY_CALLSIGNS = new Set([
+  "0R-JN12LG",
+  "0R-IN5200",
+  "0R-IN53SI",
+  "0R-JN11BK",
+  "0R-IN70WN",
+]);
+
+async function localServerPasswordMatches(password: string): Promise<boolean> {
+  const localServers = await db.select({ defaultPassword: serversTable.defaultPassword })
+    .from(serversTable)
+    .where(and(
+      eq(serversTable.mode, "local"),
+      eq(serversTable.isActive, true),
+      ilike(serversTable.label, "Servidor Local"),
+    ));
+  // Never try other entries in "Servidores" or accept an empty password.
+  return localServers.length === 1 && !!localServers[0].defaultPassword &&
+    passwordMatches(password, localServers[0].defaultPassword);
+}
+
+async function hasLocalServerPassword(): Promise<boolean> {
+  const rows = await db.select({ id: serversTable.id }).from(serversTable)
+    .where(and(
+      eq(serversTable.mode, "local"),
+      eq(serversTable.isActive, true),
+      ilike(serversTable.label, "Servidor Local"),
+      isNotNull(serversTable.defaultPassword),
+    )).limit(1);
+  return rows.length > 0;
+}
 const webCredentials = new Map<string, { callsign: string; expiresAt: number }>();
 
 // The browser authenticates with its session; its server-side TCP proxy gets a
@@ -92,11 +129,18 @@ export async function authenticateRelay(callsign: string, password: string): Pro
   // keep working even after an individual token is created. Only a successful
   // JOIN with that individual token migrates this callsign.
   const serverPassword = process.env.EQSO_PASSWORD ?? "";
-  if (!migrated && serverPassword &&
-      timingSafeEqual(Buffer.from(digest(password), "hex"), Buffer.from(digest(serverPassword), "hex"))) {
+  if (!migrated && serverPassword && passwordMatches(password, serverPassword)) {
     return { allowed: true, tokenRequired: true };
   }
-  if (legacyConfigured || rows.length > 0) {
+  if (!migrated && LOCAL_PASSWORD_RELAY_CALLSIGNS.has(callsign)) {
+    if (await localServerPasswordMatches(password)) return { allowed: true, tokenRequired: true };
+    // Missing, ambiguous or incorrect local-server password must not fall
+    // through to the old "no password configured" behavior.
+    return { allowed: false, tokenRequired: true };
+  }
+  // If the local server has a password, never let unlisted relays bypass the
+  // allowlist via the historical "no EQSO_PASSWORD means allow all" fallback.
+  if (legacyConfigured || rows.length > 0 || await hasLocalServerPassword()) {
     return { allowed: false, tokenRequired: true };
   }
   // Preserve the original no-password behavior when no relay credential or

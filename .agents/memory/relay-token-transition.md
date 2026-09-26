@@ -8,3 +8,17 @@ Mantener válidos tanto el token compartido anterior (si existe) como la contras
 **Why:** El cliente eQSO 1.13 solo dispone de un campo de contraseña y varios equipos físicos comparten la contraseña general del servidor, sin usar el token compartido de radioenlaces. Los equipos no se pueden actualizar simultáneamente; cortar cualquiera de las dos credenciales anteriores al crear un token dejaría equipos desconectados.
 
 **How to apply:** Al rotar credenciales, crear primero el token nuevo, configurarlo en el cliente y confirmar la primera conexión antes de retirar la contraseña anterior. Reutilizar el valor ya configurado del servidor: nunca pedir al usuario que pegue la clave en el chat ni duplicarla en código. La revocación debe desconectar las sesiones que usan el token revocado; el operador web usa autenticación de sesión independiente.
+
+Los eQSO 1.13 heredados del grupo indicado por el usuario usan la contraseña
+guardada en la entrada local de «Servidores», no `EQSO_PASSWORD`. La compatibilidad
+temporal solo debe habilitarse para los indicativos concretos autorizados;
+aceptar todas las contraseñas de «Servidores» ampliaría el acceso indebidamente.
+
+**Why:** Antes de esta excepción, el directorio público de servidores entregaba
+contraseñas. Ocultarlas ahora evita nuevas consultas públicas, pero no garantiza
+que una clave que estuvo expuesta siga siendo secreta.
+
+**How to apply:** No confundir la entrada «Servidor Local» con otras entradas
+remotas. Confirmar en la VM que la entrada existe, está activa y tiene contraseña
+configurada; si no, la excepción debe fallar cerrada. Al terminar la transición,
+retirar la excepción y cambiar la clave anterior.
