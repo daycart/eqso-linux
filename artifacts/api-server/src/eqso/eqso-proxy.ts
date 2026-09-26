@@ -273,7 +273,7 @@ export class EqsoProxy extends EventEmitter {
 
     sock.on("data", (data: Buffer) => {
       logger.info(
-        { bytes: data.length, hex: data.toString("hex") },
+        { bytes: data.length },
         "eQSO proxy: received TCP data"
       );
       this.parser.feed(data);
@@ -291,7 +291,7 @@ export class EqsoProxy extends EventEmitter {
       this.connected = false;
       this.stopSilenceFrames();
       this.emit("event", { type: "error", data: (err as Error).message } as ProxyEvent);
-      logger.warn({ err, host: this.host }, "eQSO proxy TCP error");
+      logger.warn({ host: this.host }, "eQSO proxy TCP error");
     });
 
     sock.setTimeout(90_000);
@@ -349,8 +349,8 @@ export class EqsoProxy extends EventEmitter {
     if (this.socket && !this.socket.destroyed && this.connected) {
       try {
         this.socket.write(data);
-      } catch (err) {
-        logger.warn({ err }, "eQSO proxy: socket write error");
+      } catch {
+        logger.warn("eQSO proxy: socket write error");
       }
     } else {
       logger.debug(
@@ -377,7 +377,8 @@ export class EqsoProxy extends EventEmitter {
         if (pkt.length >= 2) {
           const textLen = pkt[1];
           const text = pkt.slice(2, 2 + textLen).toString("ascii");
-          logger.info({ text }, "eQSO proxy: server text message");
+          // Remote error text may echo credentials. Only log its length.
+          logger.info({ textLen }, "eQSO proxy: server text message");
           this.emit("event", { type: "server_info", data: text } as ProxyEvent);
         }
         break;
@@ -393,7 +394,7 @@ export class EqsoProxy extends EventEmitter {
       case 0x0a:
         if (!this.handshakeDone) {
           this.handshakeDone = true;
-          logger.info({ hex: pkt.toString("hex") }, "eQSO proxy: handshake from server");
+          logger.info({ bytes: pkt.length }, "eQSO proxy: handshake from server");
           this.emit("event", { type: "connected" } as ProxyEvent);
           // Start sending 0x02 silence heartbeats now that handshake is done
           this.startSilenceFrames();
@@ -419,7 +420,7 @@ export class EqsoProxy extends EventEmitter {
           rooms.push(pkt.slice(off, off + len).toString("ascii"));
           off += len;
         }
-        logger.info({ rooms }, "eQSO proxy: room list received");
+          logger.info({ roomCount: rooms.length }, "eQSO proxy: room list received");
         this.emit("event", { type: "room_list", data: rooms } as ProxyEvent);
         break;
       }
@@ -446,7 +447,7 @@ export class EqsoProxy extends EventEmitter {
   private handleUserUpdate(pkt: Buffer): void {
     if (pkt.length < 5) return;
     const count = pkt[1];
-    logger.info({ count, hex: pkt.toString("hex") }, "eQSO proxy: user update packet");
+    logger.info({ count, bytes: pkt.length }, "eQSO proxy: user update packet");
 
     if (count === 0) return;
 
@@ -470,24 +471,24 @@ export class EqsoProxy extends EventEmitter {
           const msg = off + msgLen <= pkt.length
             ? pkt.slice(off, off + msgLen).toString("ascii")
             : "";
-          logger.info({ name, msg, action }, "eQSO proxy: user joined");
+          logger.info({ action, nameLen, msgLen }, "eQSO proxy: user joined");
           this.emit("event", { type: "user_joined", data: { name, message: msg } } as ProxyEvent);
           break;
         }
         case 0x01:
-          logger.info({ name }, "eQSO proxy: user left");
+          logger.info({ nameLen }, "eQSO proxy: user left");
           this.emit("event", { type: "user_left", data: { name } } as ProxyEvent);
           break;
         case 0x02:
-          logger.info({ name }, "eQSO proxy: PTT started");
+          logger.info({ nameLen }, "eQSO proxy: PTT started");
           this.emit("event", { type: "ptt_started", data: { name } } as ProxyEvent);
           break;
         case 0x03:
-          logger.info({ name }, "eQSO proxy: PTT released");
+          logger.info({ nameLen }, "eQSO proxy: PTT released");
           this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
           break;
         default:
-          logger.debug({ action, name }, "eQSO proxy: unknown user action");
+          logger.debug({ action, nameLen }, "eQSO proxy: unknown user action");
           break;
       }
       return;
@@ -514,24 +515,24 @@ export class EqsoProxy extends EventEmitter {
             ? pkt.slice(off, off + msgLen).toString("ascii") : "";
           off += msgLen;
           if (off < pkt.length) off++; // terminator
-          logger.info({ name, msg }, "eQSO proxy: user joined (multi)");
+          logger.info({ nameLen, msgLen }, "eQSO proxy: user joined (multi)");
           this.emit("event", { type: "user_joined", data: { name, message: msg } } as ProxyEvent);
           break;
         }
         case 0x01:
-          logger.info({ name }, "eQSO proxy: user left (multi)");
+          logger.info({ nameLen }, "eQSO proxy: user left (multi)");
           this.emit("event", { type: "user_left", data: { name } } as ProxyEvent);
           break;
         case 0x02:
-          logger.info({ name }, "eQSO proxy: PTT started (multi)");
+          logger.info({ nameLen }, "eQSO proxy: PTT started (multi)");
           this.emit("event", { type: "ptt_started", data: { name } } as ProxyEvent);
           break;
         case 0x03:
-          logger.info({ name }, "eQSO proxy: PTT released (multi)");
+          logger.info({ nameLen }, "eQSO proxy: PTT released (multi)");
           this.emit("event", { type: "ptt_released", data: { name } } as ProxyEvent);
           break;
         default:
-          logger.debug({ action, name }, "eQSO proxy: unknown action (multi)");
+          logger.debug({ action, nameLen }, "eQSO proxy: unknown action (multi)");
           break;
       }
     }

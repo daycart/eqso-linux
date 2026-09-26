@@ -94,8 +94,8 @@ function safeWrite(state: TcpClientState, data: Buffer): void {
     if (!state.socket.destroyed) {
       state.socket.write(data);
     }
-  } catch (err) {
-    logger.warn({ err, id: state.id }, "TCP write error");
+  } catch {
+    logger.warn({ id: state.id }, "TCP write error");
   }
 }
 
@@ -111,8 +111,8 @@ function safeWriteLegacyVoice(state: TcpClientState, data: Buffer): void {
         state.socket.write(data.subarray(1));
       }
     });
-  } catch (err) {
-    logger.warn({ err, id: state.id }, "TCP legacy voice write error");
+  } catch {
+    logger.warn({ id: state.id }, "TCP legacy voice write error");
   }
 }
 
@@ -323,12 +323,12 @@ function processMultiByte(state: TcpClientState, byte: number): void {
           safeWrite(state, HANDSHAKE_SERVER);
           state.handshakeDone = true;
           logger.info(
-            { id: state.id, hex: state.buf.toString("hex"), legacyV113: state.legacyV113 },
+            { id: state.id, bytes: state.buf.length, legacyV113: state.legacyV113 },
             "eQSO TCP handshake complete — sending room list"
           );
           sendRoomList(state);
         } else {
-          logger.warn({ id: state.id, hex: state.buf.toString("hex") }, "eQSO TCP bad handshake bytes");
+          logger.warn({ id: state.id, bytes: state.buf.length }, "eQSO TCP bad handshake bytes");
         }
         state.readMultiByte = false;
         state.multiByteCmd = 0;
@@ -350,7 +350,7 @@ function processMultiByte(state: TcpClientState, byte: number): void {
       const parsed = tryParseJoin(state.buf);
       if (parsed) {
         logger.info(
-          { id: state.id, name: parsed.name, room: parsed.room, bufLen: state.buf.length },
+          { id: state.id, name: parsed.name, room: parsed.room, bufLen: state.buf.length, legacyV113: state.legacyV113 },
           "eQSO TCP JOIN parsed"
         );
         void handleJoin(state, parsed.name, parsed.room, parsed.message, parsed.password);
@@ -490,7 +490,7 @@ async function handleJoin(
       if (state.socket.destroyed) return;
       if (!result.allowed) {
         safeWrite(state, buildErrorMessage("Acceso denegado: token de radioenlace invalido"));
-        logger.warn({ id: state.id, name }, "TCP relay rejected: invalid relay token");
+        logger.warn({ id: state.id, name, room, legacyV113: state.legacyV113 }, "TCP relay rejected: invalid relay token");
         state.socket.destroy();
         return;
       }
@@ -519,8 +519,11 @@ async function handleJoin(
         });
       }
       if (authenticatedRelay) logger.info({ id: state.id, name }, "TCP relay authenticated");
-    } catch (err) {
-      logger.error({ err, id: state.id, name }, "TCP relay authentication unavailable");
+    } catch {
+      // Database/transport errors can carry query parameters. Do not log
+      // error messages or stacks while processing a credential-bearing JOIN.
+      logger.error({ id: state.id, name, room, legacyV113: state.legacyV113 },
+        "TCP relay authentication unavailable");
       safeWrite(state, buildErrorMessage("Acceso denegado: autenticacion no disponible"));
       state.socket.destroy();
       return;
@@ -593,7 +596,7 @@ async function handleJoin(
     members.map((m) => ({ name: m.name, message: m.message }))
   );
   logger.info(
-    { id: state.id, name, room, memberCount: members.length, members: members.map(m => m.name), hex: memberList.toString("hex") },
+    { id: state.id, name, room, memberCount: members.length, members: members.map(m => m.name), bytes: memberList.length },
     "eQSO TCP sending user list to joining client"
   );
   safeWrite(state, memberList);
@@ -945,9 +948,9 @@ export function startTcpServer(port: number): net.Server {
       handleDisconnect(state);
     });
 
-    socket.on("error", (err) => {
+    socket.on("error", () => {
       clearInterval(keepaliveInterval);
-      logger.warn({ err, id }, "TCP socket error");
+      logger.warn({ id }, "TCP socket error");
       handleDisconnect(state);
     });
   });

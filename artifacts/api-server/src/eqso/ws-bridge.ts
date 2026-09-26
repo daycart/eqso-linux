@@ -737,8 +737,9 @@ export function startWsBridge(): WebSocketServer {
         }
 
         handler.onMessage(msg, null);
-      } catch (err) {
-        logger.warn({ err, id }, "WS message error");
+      } catch {
+        // JSON parse errors can quote the incoming payload, including tokens.
+        logger.warn({ id }, "WS message error");
       }
     });
 
@@ -749,8 +750,8 @@ export function startWsBridge(): WebSocketServer {
       logger.info({ id }, "WS client disconnected");
     });
 
-    ws.on("error", (err) => {
-      logger.warn({ err, id }, "WS error");
+    ws.on("error", () => {
+      logger.warn({ id }, "WS error");
     });
   });
 
