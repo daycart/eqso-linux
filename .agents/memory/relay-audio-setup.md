@@ -60,10 +60,10 @@ Para radio → eQSO, `inputGain=0.12` deja la voz alrededor de −18 dB RMS y ev
 
 **How to apply:** Mantener el filtrado antes de codificar a GSM, sólo en el sentido radio → eQSO. No aplicar esa ganancia ni ese filtro al audio eQSO → radio.
 
-## eQSO v1.13 en Windows: distinguir squelch CTS de protocolo del servidor
+## eQSO v1.13 en Windows: separar CTS del fallo VOX con el servidor propio
 
-En una prueba anterior, `RTS` para PTT y `CTS` como “Sonido de comunicación” fue estable; con `VOX` de audio, eQSO podía quedar azul sin liberar. El usuario informó después que el mismo cliente 1.13 con la misma configuración funciona contra el servidor original, pero contra el servidor propio CTS no inicia transmisión y VOX puede dejar la sala bloqueada. No atribuir el fallo actual al cable CTS sin comparar ambas sesiones.
+En la comparación aclarada por el usuario, el mismo cliente 1.13 funciona y libera PTT en `VOX` contra el servidor original, pero `CTS` no inicia transmisión tampoco allí. Contra el servidor propio, `CTS` tampoco inicia y `VOX` transmite pero puede dejar la sala azul y ocupada. Una referencia anterior que atribuía el éxito al modo CTS no aplica a esta instalación.
 
-**Why:** La observación posterior contradice la explicación anterior basada exclusivamente en configuración de Windows. El servidor debe recibir y responder correctamente las señales del cliente, y en VOX puede ocurrir que 1.13 no envíe el comando de liberación aun al cesar audio.
+**Why:** Que CTS falle en ambos servidores lo separa del defecto VOX específico del servidor propio. En el episodio registrado contra el servidor propio, 1.13 dejó de enviar voz con el parser desocupado y no hubo liberación espontánea; el `0x03` apareció sólo al cerrar manualmente el cliente.
 
-**How to apply:** Mantener desactivado “Escuchar este dispositivo” y evitar la monitorización de micrófono, pero diagnosticar primero en la VM si hay inicio, fin y aviso de voz detenida sin liberación para el cliente legacy; no forzar liberación por temporizador sin captura comparativa, pues antes causó desconexiones.
+**How to apply:** Usar VOX para probar esta instalación. Comparar de forma segura el tráfico de control servidor→cliente durante una transmisión VOX con el servidor original y el propio, sin volcar contraseñas ni paquetes crudos. No forzar liberación por temporizador sin entender la diferencia: antes provocó desconexiones.
