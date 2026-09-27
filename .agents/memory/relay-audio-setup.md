@@ -60,10 +60,10 @@ Para radio → eQSO, `inputGain=0.12` deja la voz alrededor de −18 dB RMS y ev
 
 **How to apply:** Mantener el filtrado antes de codificar a GSM, sólo en el sentido radio → eQSO. No aplicar esa ganancia ni ese filtro al audio eQSO → radio.
 
-## eQSO v1.13 en Windows: usar CTS para el squelch
+## eQSO v1.13 en Windows: distinguir squelch CTS de protocolo del servidor
 
-En la instalación Windows validada, la configuración estable usa `RTS` para accionar el PTT y `CTS` como “Sonido de comunicación”. No usar `VOX` de audio si el cable serie proporciona la señal CTS: con VOX, eQSO puede quedar azul y no enviar nunca la liberación aunque deje de enviar audio.
+En una prueba anterior, `RTS` para PTT y `CTS` como “Sonido de comunicación” fue estable; con `VOX` de audio, eQSO podía quedar azul sin liberar. El usuario informó después que el mismo cliente 1.13 con la misma configuración funciona contra el servidor original, pero contra el servidor propio CTS no inicia transmisión y VOX puede dejar la sala bloqueada. No atribuir el fallo actual al cable CTS sin comparar ambas sesiones.
 
-**Why:** La misma instalación fallaba incluso contra el servidor original con VOX, pero funcionó correctamente al seleccionar CTS. El radio, el cable serie y la ruta de audio ya funcionaban desde Linux, por lo que no era un fallo del protocolo del servidor.
+**Why:** La observación posterior contradice la explicación anterior basada exclusivamente en configuración de Windows. El servidor debe recibir y responder correctamente las señales del cliente, y en VOX puede ocurrir que 1.13 no envíe el comando de liberación aun al cesar audio.
 
-**How to apply:** Mantener desactivado “Escuchar este dispositivo” en Windows, silenciar la monitorización del micrófono en la salida y configurar eQSO con COM correcto, PTT por RTS y detección de squelch por CTS.
+**How to apply:** Mantener desactivado “Escuchar este dispositivo” y evitar la monitorización de micrófono, pero diagnosticar primero en la VM si hay inicio, fin y aviso de voz detenida sin liberación para el cliente legacy; no forzar liberación por temporizador sin captura comparativa, pues antes causó desconexiones.
