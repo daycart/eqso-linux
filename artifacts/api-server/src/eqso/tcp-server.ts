@@ -64,7 +64,10 @@ interface TcpClientState {
   legacyVoiceBlocksInTx: number;
   /** Diagnostic timer, or opt-in PRUEBAS-only VOX release timer. */
   legacyReleaseTimer?: ReturnType<typeof setTimeout>;
-  legacyTrialTailTimer?: ReturnType<typeof setTimeout>;
+  /** Trial responses share the paced receiver queue, never overtaking its tail. */
+  queueLegacyTrialRelease?: (released: Buffer) => void;
+  queueLegacyTrialAck?: (ack: Buffer) => void;
+  cancelLegacyTrialRelease?: () => void;
   disconnected: boolean; // guard against double-disconnect (error + close both fire)
   authenticatedTokenId?: number;
   /** Drena inmediatamente los paquetes GSM pendientes en el pace queue.
@@ -129,10 +132,7 @@ function releasePtt(
     clearTimeout(state.legacyReleaseTimer);
     state.legacyReleaseTimer = undefined;
   }
-  if (state.legacyTrialTailTimer) {
-    clearTimeout(state.legacyTrialTailTimer);
-    state.legacyTrialTailTimer = undefined;
-  }
+  state.cancelLegacyTrialRelease?.();
 
   const client = roomManager.getClient(state.id);
   if (!client?.room) {
@@ -161,26 +161,15 @@ function releasePtt(
 
   const rel = buildPttReleased(client.name);
   roomManager.broadcastToRoom(client.room, rel, state.id);
-  safeWrite(state, Buffer.from([0x08]));
 
-  if (state.legacyV113) {
-    if (trigger === "trial-vox-idle") {
-      // The original server separates these three responses. Keep this
-      // experiment confined to PRUEBAS; cancel the tail if a new TX begins.
-      const trialRoom = client.room;
-      state.legacyTrialTailTimer = setTimeout(() => {
-        state.legacyTrialTailTimer = undefined;
-        if (state.disconnected || state.socket.destroyed ||
-          roomManager.getClient(state.id)?.room !== trialRoom) return;
-        safeWrite(state, Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]));
-        state.legacyTrialTailTimer = setTimeout(() => {
-          state.legacyTrialTailTimer = undefined;
-          if (!state.disconnected && !state.socket.destroyed &&
-            roomManager.getClient(state.id)?.room === trialRoom) safeWrite(state, rel);
-        }, LEGACY_V113_VOX_TRIAL_UPDATE_GAP_MS);
-      }, LEGACY_V113_VOX_TRIAL_OWNER_GAP_MS);
-    } else {
-      // Do not change the existing explicit-release path or 0x82 gateways.
+  if (state.legacyV113 && trigger === "trial-vox-idle") {
+    // Keep the original response gaps, but never insert a self-release
+    // between the receive-tail bytes already queued for this socket.
+    state.queueLegacyTrialRelease?.(rel);
+  } else {
+    // Do not change the existing explicit-release path or 0x82 gateways.
+    safeWrite(state, Buffer.from([0x08]));
+    if (state.legacyV113) {
       safeWrite(
         state,
         Buffer.concat([
@@ -225,10 +214,7 @@ function processSingleByte(state: TcpClientState, byte: number): void {
   switch (byte) {
     case EQSO_COMMANDS.VOICE:
       if (client?.room && !moderationManager.isMuted(client.name)) {
-        if (state.legacyTrialTailTimer) {
-          clearTimeout(state.legacyTrialTailTimer);
-          state.legacyTrialTailTimer = undefined;
-        }
+        state.cancelLegacyTrialRelease?.();
         // Solo emitir ptt_started en el PRIMER paquete de cada sesión TX.
         // tryLockRoom devuelve true tanto si acaba de bloquear como si ya estaba
         // bloqueado por este cliente, así que usamos isLockedBy para detectar
@@ -478,17 +464,26 @@ function processMultiByte(state: TcpClientState, byte: number): void {
             state.legacyVoiceBlocksInTx += 1;
             if (state.legacyVoiceBlocksInTx === 1) {
               // The original server sends only the 0x06 opcode after block 1.
-              safeWrite(state, Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2]));
+              const ack = Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2]);
+              if (process.env.EQSO_V113_VOX_TRIAL === "1" &&
+                client.room === LEGACY_V113_VOX_TRIAL_ROOM) {
+                state.queueLegacyTrialAck?.(ack);
+              } else {
+                safeWrite(state, ack);
+              }
             } else {
               // After block 2 it completes the owner packet and appends the
               // self PTT update in the same write.
-              safeWrite(
-                state,
-                Buffer.concat([
-                  buildLegacyPttOwnerPayload(client.name),
-                  buildPttStarted(client.name),
-                ])
-              );
+              const ack = Buffer.concat([
+                buildLegacyPttOwnerPayload(client.name),
+                buildPttStarted(client.name),
+              ]);
+              if (process.env.EQSO_V113_VOX_TRIAL === "1" &&
+                client.room === LEGACY_V113_VOX_TRIAL_ROOM) {
+                state.queueLegacyTrialAck?.(ack);
+              } else {
+                safeWrite(state, ack);
+              }
             }
           }
         }
@@ -625,6 +620,7 @@ async function handleJoin(
   }
 
   const oldMembers = oldRoom ? roomManager.getRoomMembers(oldRoom) : [];
+  if (oldRoom && oldRoom !== room) state.cancelLegacyTrialRelease?.();
   roomManager.joinRoom(state.id, room);
 
   if (oldRoom && oldRoom !== room) {
@@ -672,10 +668,6 @@ function handleDisconnect(state: TcpClientState): void {
   if (state.legacyReleaseTimer) {
     clearTimeout(state.legacyReleaseTimer);
     state.legacyReleaseTimer = undefined;
-  }
-  if (state.legacyTrialTailTimer) {
-    clearTimeout(state.legacyTrialTailTimer);
-    state.legacyTrialTailTimer = undefined;
   }
   state.stopLegacyAudioQueue?.();
 
@@ -729,6 +721,7 @@ export function startTcpServer(port: number): net.Server {
       data: Buffer;
       voice: boolean;
       delayAfterMs: number;
+      trialRelease?: boolean;
     }> = [];
     let legacyOutboundTimer: ReturnType<typeof setTimeout> | null = null;
     let legacyVoicePacketsWritten = 0;
@@ -793,12 +786,14 @@ export function startTcpServer(port: number): net.Server {
     const queueLegacyOutbound = (
       data: Buffer,
       voice: boolean,
-      delayAfterMs = 0
+      delayAfterMs = 0,
+      trialRelease = false
     ) => {
       legacyOutboundQueue.push({
         data: Buffer.from(data),
         voice,
         delayAfterMs,
+        trialRelease,
       });
       const pttAction = legacyPttAction(data);
       if (pttAction) {
@@ -815,6 +810,28 @@ export function startTcpServer(port: number): net.Server {
         );
       }
       if (!legacyOutboundTimer) processLegacyOutboundQueue();
+    };
+
+    state.cancelLegacyTrialRelease = () => {
+      for (let i = legacyOutboundQueue.length - 1; i >= 0; i--) {
+        if (legacyOutboundQueue[i].trialRelease) legacyOutboundQueue.splice(i, 1);
+      }
+    };
+    state.queueLegacyTrialAck = (ack) => queueLegacyOutbound(ack, false);
+    state.queueLegacyTrialRelease = (released) => {
+      queueLegacyOutbound(
+        Buffer.from([EQSO_COMMANDS.PTT_RELEASE_1]),
+        false,
+        LEGACY_V113_VOX_TRIAL_OWNER_GAP_MS,
+        true
+      );
+      queueLegacyOutbound(
+        Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]),
+        false,
+        LEGACY_V113_VOX_TRIAL_UPDATE_GAP_MS,
+        true
+      );
+      queueLegacyOutbound(released, false, 0, true);
     };
 
     state.stopLegacyAudioQueue = () => {

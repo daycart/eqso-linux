@@ -59,5 +59,76 @@ en `PRUEBAS`, transmite unos segundos por VOX y deja de hablar sin pulsar
 «soltar PTT» ni desconectar. Espera al menos 5 s; si se libera, repite una
 segunda transmisión VOX sin reconectar. Si vuelve a azul, reinicia el PTT
 o se desconecta, detén la variante y conserva sólo el resumen de la captura.
-Las pruebas automáticas verifican la secuencia y dos ciclos sintéticos; el
-comportamiento del cliente 1.13 real sigue pendiente de este ensayo.
+Las pruebas automáticas verifican la secuencia y dos ciclos sintéticos. En
+un primer ensayo con el cliente 1.13 real en la VM de pruebas, el usuario
+confirmó que el PTT se liberó correctamente en dos transmisiones VOX
+separadas por cinco segundos. Es un resultado positivo limitado a ese
+ensayo; aún no justifica activar la variante por defecto o en otras salas.
+
+En un ensayo posterior, al transmitir desde el cliente web hacia el 1.13
+receptor, el audio llegó a la radio, pero 1.13 inició una transmisión propia
+unos 0,4–0,5 s después de recibir el cierre del PTT web. La liberación VOX
+experimental cerró ese nuevo PTT tras la inactividad y unos 0,4 s después
+se produjo un error de socket y se desconectó el cliente. Ocurrió varias
+veces. El servidor registró cero paquetes de voz pendientes en la cola al
+cerrarse el socket; la causa de la nueva transmisión y del error TCP sigue
+sin confirmarse. Desactivar la variante antes de más ensayos; no extenderla
+fuera de `PRUEBAS` ni confundir este fallo de recepción con los dos ciclos
+correctos de transmisión VOX.
+
+Una repetición con la variable experimental eliminada y el servicio reiniciado
+confirmó que el problema RX→TX también existe sin la variante: al terminar
+la emisión web, `0R-PRUEBAS` volvió a enviar voz y dejó ocupada la sala,
+esta vez sin liberación automática ni desconexión inmediata. Por tanto, la
+variante agravó el síntoma con la desconexión, pero no originó el nuevo PTT.
+El usuario aclaró que el indicador de PTT del programa 1.13 sí se soltó:
+era el cliente web el que seguía mostrando a `0R-PRUEBAS` como emisor.
+Al desconectar 1.13, desapareció de la web. El registro confirmó que, tras
+el nuevo inicio de voz, 1.13 dejó
+de enviarla sin mandar liberación (`readMultiByte=false`, sin bytes pendientes).
+El primer comando de fin fue `0x03` varios minutos después, al desconectar.
+La web reflejaba correctamente el bloqueo que aún mantenía el servidor;
+no era sólo un indicador visual desactualizado.
+
+En una prueba posterior con la variante experimental desactivada, el usuario
+puso temporalmente a cero el nivel de la entrada de audio usada por 1.13:
+después de una emisión web, el cliente web ya no quedó bloqueado. Esto
+implica a la captura de audio de 1.13 en el nuevo TX posterior a la recepción,
+pero no identifica todavía la fuente del sonido (retorno de la radio,
+acoplamiento acústico u otra entrada), ni explica por sí solo por qué 1.13
+deja de enviar voz sin mandar el comando de liberación. No modificar aún el
+protocolo ni activar la liberación experimental por este resultado aislado.
+El usuario indica que la fuente seleccionada en 1.13 figura como «Micrófono»
+y está conectada por cable a la radio, no es un micrófono ambiental. Queda
+por determinar si la señal procede de la salida de la radio durante TX, de
+un retorno eléctrico en el cable/interfaz o de otra causa.
+Con el nivel de entrada restaurado, el usuario observó dos picos pequeños en
+el medidor de «Micrófono»: uno al pulsar el PTT web y otro al soltarlo. El
+segundo coincide temporalmente con el nuevo inicio de voz observado tras el
+cierre web del ensayo anterior, pero en esta repetición la sala se liberó.
+Por tanto, esos picos por sí solos no demuestran que activen el VOX ni
+explican el bloqueo intermitente. No ajustar la sensibilidad ni el protocolo
+basándose sólo en esta observación.
+
+## Siguiente ensayo sin filtrar audio RF
+
+Sin la variante, el temporizador de inactividad sólo avisa y **no desbloquea**
+el PTT: radio → web puede dejar 1.13 en azul y la web ocupada. Esto no es un
+modo operativo aceptable. El usuario descartó una propuesta de suprimir la
+voz que comience al terminar la recepción web porque podría perder una
+respuesta inmediata desde la radio portátil.
+
+La siguiente revisión del ensayo `EQSO_V113_VOX_TRIAL=1` conserva todas las
+tramas de voz y la liberación por inactividad para 1.13 en `PRUEBAS`, pero
+encola tanto las confirmaciones de inicio propias como la secuencia de
+liberación propia detrás del audio y del cierre de recepción ya pendientes
+para ese socket. La cola mantiene las separaciones de 60 y 250 ms de la
+liberación experimental. Las pruebas sintéticas cubren dos TX propios y
+web → RF con recepción todavía en cola, pero **no prueban que el cliente
+Windows ya no se desconecte**; hace falta otro ensayo físico en la VM.
+Mantener la variable apagada fuera de esa prueba y quitarla/reiniciar para
+revertir. No ejecutar `update.sh` en la VM de ensayos: reemplazaría esta
+rama por `origin/main`.
+Antes de cambiar la secuencia de cierre, distinguir si 1.13 recibe señal en
+su entrada de audio tras la recepción (retorno/VOX) o si inicia el PTT aun
+con la captura de micrófono silenciada.

@@ -247,6 +247,58 @@ test("opt-in PRUEBAS VOX trial releases two TX cycles with separated responses",
   }
 });
 
+test("trial self-release waits behind a pending web receive tail without dropping RF voice", async () => {
+  const previous = process.env.EQSO_V113_VOX_TRIAL;
+  process.env.EQSO_V113_VOX_TRIAL = "1";
+  let receiver: Awaited<ReturnType<typeof connectClient>> | undefined;
+  let web: Awaited<ReturnType<typeof connectClient>> | undefined;
+  try {
+    receiver = await connectClient("LEGACY-RX-TRIAL", LEGACY_HANDSHAKE, TRIAL_ROOM);
+    web = await connectClient("WEB-RX-TRIAL", MODERN_HANDSHAKE, TRIAL_ROOM);
+    receiver.received.length = 0;
+    web.socket.write(Buffer.concat(Array(15).fill(VOICE_BLOCK)));
+    await waitFor(
+      () => roomManager.isLockedBy(TRIAL_ROOM, clientId("WEB-RX-TRIAL")),
+      "web client to start receiving",
+    );
+    web.socket.write(STANDARD_RELEASE);
+    await waitFor(
+      () => !roomManager.isLockedBy(TRIAL_ROOM, clientId("WEB-RX-TRIAL")),
+      "web PTT to end",
+    );
+
+    const id = clientId("LEGACY-RX-TRIAL");
+    receiver.socket.write(Buffer.concat([VOICE_BLOCK, VOICE_BLOCK]));
+    await waitFor(
+      () => roomManager.isLockedBy(TRIAL_ROOM, id),
+      "RF voice to acquire PTT even with a pending receive tail",
+    );
+    const remoteReleased = buildPttReleased("WEB-RX-TRIAL");
+    const selfReleased = buildPttReleased("LEGACY-RX-TRIAL");
+    await waitFor(
+      () => hasPacket(receiver!.received, selfReleased),
+      "receiver tail followed by its own complete release sequence",
+      6_000,
+    );
+    const output = Buffer.concat(receiver.received);
+    const remoteEnd = output.indexOf(remoteReleased) + remoteReleased.length;
+    const selfStart = output.indexOf(buildPttStarted("LEGACY-RX-TRIAL"));
+    const selfEnd = output.indexOf(selfReleased);
+    assert.ok(remoteEnd >= remoteReleased.length);
+    assert.ok(selfStart >= remoteEnd, "self PTT ack must wait for receiver tail");
+    assert.ok(selfEnd > selfStart, "self release must follow self start");
+    assert.equal(roomManager.isLockedBy(TRIAL_ROOM, id), false);
+    assert.equal(receiver.socket.destroyed, false);
+    assert.equal(hasPacket(web.received, buildPttStarted("LEGACY-RX-TRIAL")), true);
+    assert.equal(hasPacket(web.received, selfReleased), true);
+  } finally {
+    if (receiver) await closeClient(receiver.socket);
+    if (web) await closeClient(web.socket);
+    if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
+    else process.env.EQSO_V113_VOX_TRIAL = previous;
+  }
+});
+
 test("explicit release cancels the pending PRUEBAS VOX trial", async () => {
   const previous = process.env.EQSO_V113_VOX_TRIAL;
   process.env.EQSO_V113_VOX_TRIAL = "1";
