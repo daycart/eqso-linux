@@ -11,6 +11,7 @@ import { roomManager } from "../src/eqso/room-manager";
 import { startTcpServer } from "../src/eqso/tcp-server";
 
 const ROOM = "PTT-REGRESSION";
+const TRIAL_ROOM = "PRUEBAS";
 const LEGACY_HANDSHAKE = Buffer.from([0x0a, 0x78, 0x00, 0x00, 0x00]);
 const MODERN_HANDSHAKE = Buffer.from([0x0a, 0x82, 0x00, 0x00, 0x00]);
 const RADIO_VOX_RELEASE = Buffer.from([0x03]);
@@ -24,8 +25,8 @@ let server: net.Server;
 let port: number;
 const sockets = new Set<net.Socket>();
 
-function buildJoin(name: string): Buffer {
-  const fields = [name, ROOM, "test", ""].map((value) =>
+function buildJoin(name: string, room = ROOM): Buffer {
+  const fields = [name, room, "test", ""].map((value) =>
     Buffer.from(value, "ascii"),
   );
   return Buffer.concat([
@@ -51,6 +52,7 @@ async function waitFor(
 async function connectClient(
   name: string,
   handshake: Buffer,
+  room = ROOM,
 ): Promise<{ socket: net.Socket; received: Buffer[] }> {
   const socket = net.createConnection({ host: "127.0.0.1", port });
   sockets.add(socket);
@@ -63,13 +65,13 @@ async function connectClient(
     socket.once("error", reject);
   });
 
-  socket.write(Buffer.concat([handshake, buildJoin(name)]));
+  socket.write(Buffer.concat([handshake, buildJoin(name, room)]));
   await waitFor(
     () =>
       roomManager
         .getAllClients()
-        .some((client) => client.name === name && client.room === ROOM),
-    `${name} to join ${ROOM}`,
+        .some((client) => client.name === name && client.room === room),
+    `${name} to join ${room}`,
   );
   return { socket, received };
 }
@@ -192,6 +194,103 @@ test("legacy v1.13 stays connected when its closing command never arrives", asyn
 
   await closeClient(sender.socket);
   await closeClient(observer.socket);
+});
+
+test("opt-in PRUEBAS VOX trial releases two TX cycles with separated responses", async () => {
+  const previous = process.env.EQSO_V113_VOX_TRIAL;
+  process.env.EQSO_V113_VOX_TRIAL = "1";
+  let sender: Awaited<ReturnType<typeof connectClient>> | undefined;
+  try {
+    sender = await connectClient("LEGACY-TRIAL", LEGACY_HANDSHAKE, TRIAL_ROOM);
+    const id = clientId("LEGACY-TRIAL");
+    const clear = Buffer.from([0x08]);
+    const ownerClear = Buffer.from([0x06, 0x00]);
+    const update = buildPttReleased("LEGACY-TRIAL");
+
+    for (let cycle = 0; cycle < 2; cycle++) {
+      sender.received.length = 0;
+      sender.socket.write(Buffer.concat([VOICE_BLOCK, VOICE_BLOCK]));
+      await waitFor(
+        () => roomManager.isLockedBy(TRIAL_ROOM, id),
+        `trial cycle ${cycle + 1} to acquire PTT`,
+      );
+      await waitFor(
+        () => hasPacket(sender!.received, buildPttStarted("LEGACY-TRIAL")),
+        `trial cycle ${cycle + 1} start acknowledgement`,
+      );
+      sender.received.length = 0;
+      if (cycle === 0) {
+        await new Promise((resolve) => setTimeout(resolve, 650));
+        sender.socket.write(VOICE_BLOCK);
+        await new Promise((resolve) => setTimeout(resolve, 750));
+        assert.equal(roomManager.isLockedBy(TRIAL_ROOM, id), true);
+      }
+      await waitFor(
+        () => !roomManager.isLockedBy(TRIAL_ROOM, id),
+        `trial cycle ${cycle + 1} automatic PTT release`,
+        2_200,
+      );
+      await waitFor(
+        () => hasPacket(sender!.received, update),
+        `trial cycle ${cycle + 1} released update`,
+      );
+      const marker = sender.received.findIndex((part) => part.equals(clear));
+      const owner = sender.received.findIndex((part) => part.equals(ownerClear));
+      const released = sender.received.findIndex((part) => part.equals(update));
+      assert.ok(marker >= 0 && owner > marker && released > owner);
+      assert.equal(sender.socket.destroyed, false);
+    }
+  } finally {
+    if (sender) await closeClient(sender.socket);
+    if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
+    else process.env.EQSO_V113_VOX_TRIAL = previous;
+  }
+});
+
+test("explicit release cancels the pending PRUEBAS VOX trial", async () => {
+  const previous = process.env.EQSO_V113_VOX_TRIAL;
+  process.env.EQSO_V113_VOX_TRIAL = "1";
+  let sender: Awaited<ReturnType<typeof connectClient>> | undefined;
+  try {
+    sender = await connectClient("LEGACY-TRIAL-MANUAL", LEGACY_HANDSHAKE, TRIAL_ROOM);
+    sender.socket.write(VOICE_BLOCK);
+    const id = clientId("LEGACY-TRIAL-MANUAL");
+    await waitFor(() => roomManager.isLockedBy(TRIAL_ROOM, id), "manual trial PTT");
+    sender.received.length = 0;
+    sender.socket.write(STANDARD_RELEASE);
+    await waitFor(() => !roomManager.isLockedBy(TRIAL_ROOM, id), "manual trial release");
+    const response = Buffer.from([0x08, 0x06, 0x00]);
+    await waitFor(
+      () => hasPacket(sender!.received, response),
+      "manual trial release response",
+    );
+    await new Promise((resolve) => setTimeout(resolve, 1_500));
+    const received = Buffer.concat(sender.received);
+    assert.equal(received.indexOf(response), received.lastIndexOf(response));
+    assert.equal(sender.socket.destroyed, false);
+  } finally {
+    if (sender) await closeClient(sender.socket);
+    if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
+    else process.env.EQSO_V113_VOX_TRIAL = previous;
+  }
+});
+
+test("VOX trial flag cannot release legacy PTT outside PRUEBAS", async () => {
+  const previous = process.env.EQSO_V113_VOX_TRIAL;
+  process.env.EQSO_V113_VOX_TRIAL = "1";
+  let sender: Awaited<ReturnType<typeof connectClient>> | undefined;
+  try {
+    sender = await connectClient("LEGACY-OTHER-ROOM", LEGACY_HANDSHAKE);
+    sender.socket.write(VOICE_BLOCK);
+    const id = clientId("LEGACY-OTHER-ROOM");
+    await waitFor(() => roomManager.isLockedBy(ROOM, id), "other room PTT");
+    await new Promise((resolve) => setTimeout(resolve, 1_650));
+    assert.equal(roomManager.isLockedBy(ROOM, id), true);
+  } finally {
+    if (sender) await closeClient(sender.socket);
+    if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
+    else process.env.EQSO_V113_VOX_TRIAL = previous;
+  }
 });
 
 test("modern 0x82 client cannot release PTT with standalone 0x03", async () => {

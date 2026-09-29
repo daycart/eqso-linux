@@ -36,3 +36,28 @@ la sesión bloqueada ambos salieron separados solo 2 ms tras llegar tres bloques
 de voz juntos. Es una hipótesis de temporización, **no una causa confirmada**.
 No sustituir esta comparación por un timeout de desbloqueo: intentos anteriores
 hicieron que 1.13 se desconectara.
+
+## Ensayo aislado de liberación VOX
+
+Las capturas completas posteriores muestran que el servidor original libera
+el PTT aproximadamente 1,3 s después del último bloque GSM sin recibir
+`0x0d`/`0x03`. Envía `0x08`, después `0x06 0x00` unos 60 ms más tarde y la
+actualización de usuario liberado unos 250 ms después. El servidor local sólo
+liberó tras el `0x0d` del botón (y el cliente volvió a transmitir) o el `0x03`
+del cierre manual.
+
+Existe una variante **experimental, apagada por defecto**:
+`EQSO_V113_VOX_TRIAL=1` al arrancar **una instancia separada de pruebas**.
+Sólo actúa en conexiones TCP v1.13 de la sala `PRUEBAS`; el resto de salas,
+clientes modernos y liberaciones explícitas mantienen el comportamiento
+anterior. No activar en la instancia habitual ni añadir la variable a un
+entorno compartido de producción. Eliminar la variable y reiniciar la
+instancia de pruebas para desactivarla.
+
+Prueba con el cliente Windows: inicia la captura antes de conectar, conecta
+en `PRUEBAS`, transmite unos segundos por VOX y deja de hablar sin pulsar
+«soltar PTT» ni desconectar. Espera al menos 5 s; si se libera, repite una
+segunda transmisión VOX sin reconectar. Si vuelve a azul, reinicia el PTT
+o se desconecta, detén la variante y conserva sólo el resumen de la captura.
+Las pruebas automáticas verifican la secuencia y dos ciclos sintéticos; el
+comportamiento del cliente 1.13 real sigue pendiente de este ensayo.

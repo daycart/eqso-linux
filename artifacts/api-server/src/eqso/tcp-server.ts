@@ -29,6 +29,10 @@ const SERVER_VERSION = "eQSO Linux Server v1.0";
 const LEGACY_AUDIO_PACE_MS = 120;
 const LEGACY_KEEPALIVE_MS = 2_500;
 const LEGACY_V113_RELEASE_DIAGNOSTIC_MS = 3_000;
+const LEGACY_V113_VOX_TRIAL_IDLE_MS = 1_300;
+const LEGACY_V113_VOX_TRIAL_OWNER_GAP_MS = 60;
+const LEGACY_V113_VOX_TRIAL_UPDATE_GAP_MS = 250;
+const LEGACY_V113_VOX_TRIAL_ROOM = "PRUEBAS";
 const LEGACY_V113_RX_SILENCE_TAIL_PACKETS = 9;
 const LEGACY_V113_RX_RELEASE_GAP_MS = 180;
 const DEFAULT_KEEPALIVE_MS = 8_000;
@@ -58,8 +62,9 @@ interface TcpClientState {
    *  The original server acknowledges PTT after block 2, never between the
    *  one-byte VOICE opcode and its 198-byte payload. */
   legacyVoiceBlocksInTx: number;
-  /** Diagnostic timer for radio/VOX sessions where v1.13 never sends 0x0d/0x03. */
+  /** Diagnostic timer, or opt-in PRUEBAS-only VOX release timer. */
   legacyReleaseTimer?: ReturnType<typeof setTimeout>;
+  legacyTrialTailTimer?: ReturnType<typeof setTimeout>;
   disconnected: boolean; // guard against double-disconnect (error + close both fire)
   authenticatedTokenId?: number;
   /** Drena inmediatamente los paquetes GSM pendientes en el pace queue.
@@ -118,11 +123,15 @@ function safeWriteLegacyVoice(state: TcpClientState, data: Buffer): void {
 
 function releasePtt(
   state: TcpClientState,
-  trigger: "standard-0x0d" | "legacy-radio-0x03"
+  trigger: "standard-0x0d" | "legacy-radio-0x03" | "trial-vox-idle"
 ): void {
   if (state.legacyReleaseTimer) {
     clearTimeout(state.legacyReleaseTimer);
     state.legacyReleaseTimer = undefined;
+  }
+  if (state.legacyTrialTailTimer) {
+    clearTimeout(state.legacyTrialTailTimer);
+    state.legacyTrialTailTimer = undefined;
   }
 
   const client = roomManager.getClient(state.id);
@@ -155,16 +164,31 @@ function releasePtt(
   safeWrite(state, Buffer.from([0x08]));
 
   if (state.legacyV113) {
-    // v1.13 needs the original server's clear-owner marker and its own
-    // PTT-released update. Do not send these to 0x82 relay/gateway clients:
-    // some Windows gateways interpret [0x06, 0x00] as removal from room.
-    safeWrite(
-      state,
-      Buffer.concat([
-        Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]),
-        rel,
-      ])
-    );
+    if (trigger === "trial-vox-idle") {
+      // The original server separates these three responses. Keep this
+      // experiment confined to PRUEBAS; cancel the tail if a new TX begins.
+      const trialRoom = client.room;
+      state.legacyTrialTailTimer = setTimeout(() => {
+        state.legacyTrialTailTimer = undefined;
+        if (state.disconnected || state.socket.destroyed ||
+          roomManager.getClient(state.id)?.room !== trialRoom) return;
+        safeWrite(state, Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]));
+        state.legacyTrialTailTimer = setTimeout(() => {
+          state.legacyTrialTailTimer = undefined;
+          if (!state.disconnected && !state.socket.destroyed &&
+            roomManager.getClient(state.id)?.room === trialRoom) safeWrite(state, rel);
+        }, LEGACY_V113_VOX_TRIAL_UPDATE_GAP_MS);
+      }, LEGACY_V113_VOX_TRIAL_OWNER_GAP_MS);
+    } else {
+      // Do not change the existing explicit-release path or 0x82 gateways.
+      safeWrite(
+        state,
+        Buffer.concat([
+          Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2, 0x00]),
+          rel,
+        ])
+      );
+    }
   }
 
   state.legacyVoiceBlocksInTx = 0;
@@ -201,6 +225,10 @@ function processSingleByte(state: TcpClientState, byte: number): void {
   switch (byte) {
     case EQSO_COMMANDS.VOICE:
       if (client?.room && !moderationManager.isMuted(client.name)) {
+        if (state.legacyTrialTailTimer) {
+          clearTimeout(state.legacyTrialTailTimer);
+          state.legacyTrialTailTimer = undefined;
+        }
         // Solo emitir ptt_started en el PRIMER paquete de cada sesión TX.
         // tryLockRoom devuelve true tanto si acaba de bloquear como si ya estaba
         // bloqueado por este cliente, así que usamos isLockedBy para detectar
@@ -410,9 +438,24 @@ function processMultiByte(state: TcpClientState, byte: number): void {
             if (state.legacyReleaseTimer) {
               clearTimeout(state.legacyReleaseTimer);
             }
+            const trialEnabled =
+              process.env.EQSO_V113_VOX_TRIAL === "1" &&
+              client.room === LEGACY_V113_VOX_TRIAL_ROOM;
             state.legacyReleaseTimer = setTimeout(() => {
               state.legacyReleaseTimer = undefined;
               const current = roomManager.getClient(state.id);
+              if (
+                trialEnabled &&
+                !state.disconnected &&
+                !state.readMultiByte &&
+                current?.room === LEGACY_V113_VOX_TRIAL_ROOM &&
+                roomManager.isLockedBy(current.room, state.id)
+              ) {
+                logger.info({ id: state.id, room: current.room }, "Trial v1.13 VOX idle release");
+                releasePtt(state, "trial-vox-idle");
+                return;
+              }
+              if (state.disconnected || !roomManager.isLockedBy(client.room, state.id)) return;
               logger.warn(
                 {
                   id: state.id,
@@ -424,7 +467,7 @@ function processMultiByte(state: TcpClientState, byte: number): void {
                 },
                 "Legacy v1.13 stopped sending voice without a PTT release"
               );
-            }, LEGACY_V113_RELEASE_DIAGNOSTIC_MS);
+            }, trialEnabled ? LEGACY_V113_VOX_TRIAL_IDLE_MS : LEGACY_V113_RELEASE_DIAGNOSTIC_MS);
           }
 
           if (
@@ -629,6 +672,10 @@ function handleDisconnect(state: TcpClientState): void {
   if (state.legacyReleaseTimer) {
     clearTimeout(state.legacyReleaseTimer);
     state.legacyReleaseTimer = undefined;
+  }
+  if (state.legacyTrialTailTimer) {
+    clearTimeout(state.legacyTrialTailTimer);
+    state.legacyTrialTailTimer = undefined;
   }
   state.stopLegacyAudioQueue?.();
 
