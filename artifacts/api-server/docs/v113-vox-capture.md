@@ -137,3 +137,38 @@ VM de ensayos: reemplazaría esta rama por `origin/main`.
 
 Para registrar varias sesiones y decidir si ampliar a otra sala, usar la
 [lista de validación de eQSO 1.13](./v113-validation-checklist.md).
+
+## Diagnóstico de ruido RF seguido de desconexión
+
+La revisión de diagnóstico conserva el mismo ensayo en `PRUEBAS` y `CB`.
+No cambia tiempos, bytes de protocolo, PTT ni audio; **no corrige todavía
+la desconexión**.
+
+El registro de la VM mostró un nuevo TX de 1.13 después del cierre de una
+recepción web, seguido de liberación por inactividad y error TCP. El nombre
+del radioenlace no identifica su sala: en ese episodio `0R-PRUEBAS` estaba
+en `CB`.
+
+La nueva instrumentación registra:
+
+- `voiceBlocksInTx`: todos los bloques GSM completos del TX, no el contador
+  limitado a los dos bloques de confirmación (`selfAckBlocks`).
+- Las dos confirmaciones propias en `Legacy v1.13 self PTT ack queued`.
+- `origin` en actualizaciones de PTT: `self-trial` o `room-broadcast`.
+- `errorCode`, `errorMessage` y `errorSyscall`, junto con la cola y el parser,
+  en `TCP socket error`, **antes de limpiar la conexión**.
+- En el cierre, `queueStateAfterCleanup` indica si ya se hizo la limpieza.
+  Si es `true`, una cola vacía no acredita que estuviera vacía al fallar.
+- Nombre y sala conservados en el cierre, incluso después de retirar al
+  cliente de la lista de conexiones.
+
+No se registran audio, paquetes crudos, contraseñas ni tokens. Tras reproducir
+una sola emisión breve, obtener los eventos relevantes en la VM:
+
+```bash
+sudo journalctl -u eqso.service --since "3 minutes ago" --no-pager -o cat |
+grep -E 'eQSO PTT start command received|eQSO PTT release command received|Trial v1.13 VOX idle release|Legacy v1.13 self PTT ack queued|Legacy v1.13 outbound PTT update|Legacy v1.13 socket closed|TCP socket error|TCP write error|TCP legacy voice write error|TCP eQSO client disconnected'
+```
+
+Mantener supervisión y detener la prueba si la radio queda en TX. No pedir
+ni compartir `.env`, credenciales o PCAPs.

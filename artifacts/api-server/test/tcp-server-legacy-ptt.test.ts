@@ -9,6 +9,7 @@ import {
 } from "../src/eqso/protocol";
 import { roomManager } from "../src/eqso/room-manager";
 import { startTcpServer } from "../src/eqso/tcp-server";
+import { logger } from "../src/lib/logger";
 
 const ROOM = "PTT-REGRESSION";
 const TRIAL_ROOM = "PRUEBAS";
@@ -408,6 +409,74 @@ test("CB keeps diagnostic-only behavior with the trial disabled", async () => {
     assert.equal(sender.socket.destroyed, false);
   } finally {
     if (sender) await closeClient(sender.socket);
+    if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
+    else process.env.EQSO_V113_VOX_TRIAL = previous;
+  }
+});
+
+test("TCP diagnostics retain full TX count and queue state before error cleanup", async () => {
+  const previous = process.env.EQSO_V113_VOX_TRIAL;
+  process.env.EQSO_V113_VOX_TRIAL = "1";
+  const originalWarn = logger.warn;
+  const warnings: Array<{ fields: Record<string, unknown>; message: unknown }> = [];
+  logger.warn = function (this: typeof logger, fields: unknown, ...args: unknown[]) {
+    if (fields !== null && typeof fields === "object") {
+      warnings.push({ fields: fields as Record<string, unknown>, message: args[0] });
+    }
+    return Reflect.apply(originalWarn, this, [fields, ...args]);
+  } as typeof logger.warn;
+  let sender: Awaited<ReturnType<typeof connectClient>> | undefined;
+  let accepted: net.Socket | undefined;
+  const onConnection = (socket: net.Socket) => { accepted = socket; };
+  server.once("connection", onConnection);
+  try {
+    sender = await connectClient("LEGACY-DIAG", LEGACY_HANDSHAKE, "CB");
+    sender.socket.write(Buffer.concat([VOICE_BLOCK, VOICE_BLOCK, VOICE_BLOCK]));
+    await waitFor(
+      () => hasPacket(sender!.received, buildPttReleased("LEGACY-DIAG")),
+      "diagnostic sender completes its own release",
+      3_000,
+    );
+    assert.ok(accepted);
+    // Leave a receiver tail pending, then simulate the error event without
+    // depending on OS-specific TCP reset behavior.
+    roomManager.broadcastToRoom("CB", buildPttReleased("DIAG-REMOTE"));
+    accepted.emit("error", Object.assign(new Error("Simulated diagnostic reset"), {
+      code: "ECONNRESET",
+      syscall: "read",
+    }));
+    const error = warnings.find((entry) => entry.message === "TCP socket error");
+    assert.ok(error);
+    assert.equal(error.fields.errorCode, "ECONNRESET");
+    assert.equal(error.fields.errorMessage, "Simulated diagnostic reset");
+    assert.equal(error.fields.errorSyscall, "read");
+    assert.equal(error.fields.name, "LEGACY-DIAG");
+    assert.equal(error.fields.room, "CB");
+    assert.equal(error.fields.voiceBlocksInTx, 3);
+    assert.equal(error.fields.lastReleaseVoiceBlocks, 3);
+    assert.equal(error.fields.lastReleaseTrigger, "trial-vox-idle");
+    assert.equal(error.fields.lastPttOrigin, "self-trial");
+    assert.equal(error.fields.queueStateAfterCleanup, false);
+    assert.ok(Number(error.fields.queuedItems) > 0);
+    assert.equal(error.fields.outboundTimerActive, true);
+    accepted.destroy();
+    await waitFor(
+      () => warnings.some((entry) =>
+        entry.message === "Legacy v1.13 socket closed with outbound queue state"),
+      "diagnostic close snapshot",
+    );
+    const closed = warnings.find((entry) =>
+      entry.message === "Legacy v1.13 socket closed with outbound queue state");
+    assert.ok(closed);
+    assert.equal(closed.fields.queueStateAfterCleanup, true);
+    assert.equal(closed.fields.queuedItems, 0);
+    assert.equal(closed.fields.name, "LEGACY-DIAG");
+    assert.equal(closed.fields.room, "CB");
+  } finally {
+    server.removeListener("connection", onConnection);
+    if (accepted) accepted.destroy();
+    if (sender) await closeClient(sender.socket);
+    logger.warn = originalWarn;
     if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
     else process.env.EQSO_V113_VOX_TRIAL = previous;
   }

@@ -62,7 +62,17 @@ interface TcpClientState {
    *  The original server acknowledges PTT after block 2, never between the
    *  one-byte VOICE opcode and its 198-byte payload. */
   legacyVoiceBlocksInTx: number;
-  /** Diagnostic timer, or opt-in PRUEBAS-only VOX release timer. */
+  /** Uncapped diagnostic count; never used to acknowledge or release PTT. */
+  legacyDiagnosticVoiceBlocks: number;
+  legacyDiagnosticTxStartedAt?: number;
+  legacyDiagnosticLastVoiceAt?: number;
+  legacyDiagnosticLastRoom?: string;
+  legacyDiagnosticLastRelease?: {
+    trigger: string;
+    voiceBlocks: number;
+    at: number;
+  };
+  /** Diagnostic timer, or opt-in PRUEBAS/CB VOX release timer. */
   legacyReleaseTimer?: ReturnType<typeof setTimeout>;
   /** Trial responses share the paced receiver queue, never overtaking its tail. */
   queueLegacyTrialRelease?: (released: Buffer) => void;
@@ -97,13 +107,25 @@ function sendRoomMembers(state: TcpClientState): void {
   safeWrite(state, pkt);
 }
 
+function tcpErrorDetails(err: unknown) {
+  if (err instanceof Error) {
+    const error = err as NodeJS.ErrnoException;
+    return {
+      errorCode: error.code,
+      errorMessage: error.message,
+      errorSyscall: error.syscall,
+    };
+  }
+  return { errorMessage: String(err) };
+}
+
 function safeWrite(state: TcpClientState, data: Buffer): void {
   try {
     if (!state.socket.destroyed) {
       state.socket.write(data);
     }
-  } catch {
-    logger.warn({ id: state.id }, "TCP write error");
+  } catch (err) {
+    logger.warn({ id: state.id, ...tcpErrorDetails(err) }, "TCP write error");
   }
 }
 
@@ -119,8 +141,8 @@ function safeWriteLegacyVoice(state: TcpClientState, data: Buffer): void {
         state.socket.write(data.subarray(1));
       }
     });
-  } catch {
-    logger.warn({ id: state.id }, "TCP legacy voice write error");
+  } catch (err) {
+    logger.warn({ id: state.id, ...tcpErrorDetails(err) }, "TCP legacy voice write error");
   }
 }
 
@@ -154,10 +176,29 @@ function releasePtt(
       trigger,
       legacyV113: state.legacyV113,
       ownsRoomLock,
+      ...(state.legacyV113 ? {
+        voiceBlocksInTx: state.legacyDiagnosticVoiceBlocks,
+        selfAckBlocks: state.legacyVoiceBlocksInTx,
+        txElapsedMs: state.legacyDiagnosticTxStartedAt === undefined
+          ? undefined : Date.now() - state.legacyDiagnosticTxStartedAt,
+        voiceIdleMs: state.legacyDiagnosticLastVoiceAt === undefined
+          ? undefined : Date.now() - state.legacyDiagnosticLastVoiceAt,
+        readMultiByte: state.readMultiByte,
+        multiByteCmd: state.multiByteCmd,
+        bufferedBytes: state.buf.length,
+      } : {}),
     },
     "eQSO PTT release command received"
   );
   if (!ownsRoomLock) return;
+
+  if (state.legacyV113) {
+    state.legacyDiagnosticLastRelease = {
+      trigger,
+      voiceBlocks: state.legacyDiagnosticVoiceBlocks,
+      at: Date.now(),
+    };
+  }
 
   const rel = buildPttReleased(client.name);
   roomManager.broadcastToRoom(client.room, rel, state.id);
@@ -241,6 +282,9 @@ function processSingleByte(state: TcpClientState, byte: number): void {
             // Replying here interrupts v1.13 between its split VOICE opcode
             // and payload, causing it to transmit only GSM silence.
             state.legacyVoiceBlocksInTx = 0;
+            state.legacyDiagnosticVoiceBlocks = 0;
+            state.legacyDiagnosticTxStartedAt = Date.now();
+            state.legacyDiagnosticLastVoiceAt = undefined;
           }
           roomManager.broadcastToRoom(client.room, started, state.id);
         }
@@ -421,6 +465,8 @@ function processMultiByte(state: TcpClientState, byte: number): void {
             state.legacyV113 &&
             roomManager.isLockedBy(client.room, state.id)
           ) {
+            state.legacyDiagnosticVoiceBlocks += 1;
+            state.legacyDiagnosticLastVoiceAt = Date.now();
             if (state.legacyReleaseTimer) {
               clearTimeout(state.legacyReleaseTimer);
             }
@@ -680,6 +726,8 @@ function handleDisconnect(state: TcpClientState): void {
 
   const client = roomManager.getClient(state.id);
   if (client?.room) {
+    // removeClient clears clientInfo.room; keep its value for a later close log.
+    state.legacyDiagnosticLastRoom = client.room;
     const leftPkt = buildUserLeft(client.name);
     roomManager.broadcastToRoom(client.room, leftPkt, state.id);
     logger.info({ id: state.id, name: client.name, room: client.room }, "TCP eQSO client left room");
@@ -709,6 +757,7 @@ export function startTcpServer(port: number): net.Server {
       handshakeDone: false,
       legacyV113: false,
       legacyVoiceBlocksInTx: 0,
+      legacyDiagnosticVoiceBlocks: 0,
       disconnected: false,
     };
 
@@ -726,6 +775,11 @@ export function startTcpServer(port: number): net.Server {
     }> = [];
     let legacyOutboundTimer: ReturnType<typeof setTimeout> | null = null;
     let legacyVoicePacketsWritten = 0;
+    let lastLegacyPttWrite: {
+      action: "start" | "release";
+      origin: "self-trial" | "room-broadcast";
+      at: number;
+    } | undefined;
 
     const legacyPttAction = (data: Buffer): "start" | "release" | null => {
       if (
@@ -759,11 +813,18 @@ export function startTcpServer(port: number): net.Server {
         }
         const pttAction = legacyPttAction(item.data);
         if (pttAction) {
+          lastLegacyPttWrite = {
+            action: pttAction,
+            origin: item.trialRelease ? "self-trial" : "room-broadcast",
+            at: Date.now(),
+          };
           logger.info(
             {
               id: state.id,
               name: roomManager.getClient(state.id)?.name,
+              room: roomManager.getClient(state.id)?.room,
               action: pttAction,
+              origin: lastLegacyPttWrite.origin,
               queuedItemsAfterWrite: legacyOutboundQueue.length,
               queuedVoiceAfterWrite: legacyOutboundQueue.filter((queued) => queued.voice).length,
               voicePacketsWritten: legacyVoicePacketsWritten,
@@ -802,6 +863,7 @@ export function startTcpServer(port: number): net.Server {
           {
             id: state.id,
             name: roomManager.getClient(state.id)?.name,
+            room: roomManager.getClient(state.id)?.room,
             action: pttAction,
             queuedItems: legacyOutboundQueue.length,
             queuedVoice: legacyOutboundQueue.filter((queued) => queued.voice).length,
@@ -818,7 +880,21 @@ export function startTcpServer(port: number): net.Server {
         if (legacyOutboundQueue[i].trialRelease) legacyOutboundQueue.splice(i, 1);
       }
     };
-    state.queueLegacyTrialAck = (ack) => queueLegacyOutbound(ack, false);
+    state.queueLegacyTrialAck = (ack) => {
+      logger.info(
+        {
+          id: state.id,
+          name: roomManager.getClient(state.id)?.name,
+          room: roomManager.getClient(state.id)?.room,
+          ackBlock: state.legacyVoiceBlocksInTx,
+          voiceBlocksInTx: state.legacyDiagnosticVoiceBlocks,
+          queuedItems: legacyOutboundQueue.length,
+          queuedVoice: legacyOutboundQueue.filter((item) => item.voice).length,
+        },
+        "Legacy v1.13 self PTT ack queued"
+      );
+      queueLegacyOutbound(ack, false);
+    };
     state.queueLegacyTrialRelease = (released) => {
       queueLegacyOutbound(
         Buffer.from([EQSO_COMMANDS.PTT_RELEASE_1]),
@@ -995,17 +1071,47 @@ export function startTcpServer(port: number): net.Server {
       handleData(state, data);
     });
 
-    socket.on("close", () => {
+    const socketDiagnosticContext = () => ({
+      id,
+      // Preserve identity even though room cleanup clears clientInfo.room.
+      name: clientInfo.name,
+      room: clientInfo.room || state.legacyDiagnosticLastRoom || "",
+      legacyV113: state.legacyV113,
+      ownsRoomLock: roomManager.isLockedBy(clientInfo.room, id),
+      voiceBlocksInTx: state.legacyDiagnosticVoiceBlocks,
+      selfAckBlocks: state.legacyVoiceBlocksInTx,
+      lastVoiceAgoMs: state.legacyDiagnosticLastVoiceAt === undefined
+        ? undefined : Date.now() - state.legacyDiagnosticLastVoiceAt,
+      lastReleaseTrigger: state.legacyDiagnosticLastRelease?.trigger,
+      lastReleaseVoiceBlocks: state.legacyDiagnosticLastRelease?.voiceBlocks,
+      lastReleaseAgoMs: state.legacyDiagnosticLastRelease === undefined
+        ? undefined : Date.now() - state.legacyDiagnosticLastRelease.at,
+      lastPttAction: lastLegacyPttWrite?.action,
+      lastPttOrigin: lastLegacyPttWrite?.origin,
+      lastPttWriteAgoMs: lastLegacyPttWrite === undefined
+        ? undefined : Date.now() - lastLegacyPttWrite.at,
+      readMultiByte: state.readMultiByte,
+      multiByteCmd: state.multiByteCmd,
+      bufferedBytes: state.buf.length,
+      queuedItems: legacyOutboundQueue.length,
+      queuedVoice: legacyOutboundQueue.filter((item) => item.voice).length,
+      voicePacketsWritten: legacyVoicePacketsWritten,
+      outboundTimerActive: legacyOutboundTimer !== null,
+      // handleDisconnect clears the queue on error, before close is emitted.
+      queueStateAfterCleanup: state.disconnected,
+      socketWritableLength: socket.writableLength,
+      socketBytesRead: socket.bytesRead,
+      socketBytesWritten: socket.bytesWritten,
+      socketDestroyed: socket.destroyed,
+    });
+
+    socket.on("close", (hadError) => {
       clearInterval(keepaliveInterval);
       if (state.legacyV113) {
         logger.warn(
           {
-            id,
-            name: roomManager.getClient(id)?.name,
-            queuedItems: legacyOutboundQueue.length,
-            queuedVoice: legacyOutboundQueue.filter((queued) => queued.voice).length,
-            voicePacketsWritten: legacyVoicePacketsWritten,
-            outboundTimerActive: legacyOutboundTimer !== null,
+            ...socketDiagnosticContext(),
+            hadError,
           },
           "Legacy v1.13 socket closed with outbound queue state"
         );
@@ -1013,9 +1119,13 @@ export function startTcpServer(port: number): net.Server {
       handleDisconnect(state);
     });
 
-    socket.on("error", () => {
+    socket.on("error", (err) => {
       clearInterval(keepaliveInterval);
-      logger.warn({ id }, "TCP socket error");
+      // Snapshot before handleDisconnect destroys the useful queue/room context.
+      logger.warn(
+        { ...socketDiagnosticContext(), ...tcpErrorDetails(err) },
+        "TCP socket error"
+      );
       handleDisconnect(state);
     });
   });
