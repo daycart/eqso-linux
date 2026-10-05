@@ -300,6 +300,94 @@ test("trial self-release waits behind a pending web receive tail without droppin
   }
 });
 
+for (const room of [TRIAL_ROOM, "CB"]) {
+  test(`${room} single-block trial TX completes its owner ack after RX tail before release`, async () => {
+    const previous = process.env.EQSO_V113_VOX_TRIAL;
+    process.env.EQSO_V113_VOX_TRIAL = "1";
+    let sender: Awaited<ReturnType<typeof connectClient>> | undefined;
+    let observer: Awaited<ReturnType<typeof connectClient>> | undefined;
+    const name = `SHORT-${room}`;
+    const remoteName = `REMOTE-${room}`;
+    const owner = Buffer.concat([
+      Buffer.from([0x06, Buffer.byteLength(name)]),
+      Buffer.from(name, "ascii"),
+      buildPttStarted(name),
+    ]);
+    const released = buildPttReleased(name);
+    try {
+      sender = await connectClient(name, LEGACY_HANDSHAKE, room);
+      observer = await connectClient(remoteName, MODERN_HANDSHAKE, room);
+      sender.received.length = 0;
+      observer.socket.write(Buffer.concat(Array(15).fill(VOICE_BLOCK)));
+      await waitFor(
+        () => roomManager.isLockedBy(room, clientId(remoteName)),
+        "remote TX to acquire the room",
+      );
+      observer.socket.write(STANDARD_RELEASE);
+      await waitFor(
+        () => !roomManager.isLockedBy(room, clientId(remoteName)),
+        "remote TX ends with a receiver tail still queued",
+      );
+      observer.received.length = 0;
+      // Reproduce a brief RF return: exactly one complete GSM block.
+      sender.socket.write(VOICE_BLOCK);
+      await waitFor(
+        () => roomManager.isLockedBy(room, clientId(name)),
+        "single-block RF TX acquires the room",
+      );
+      await waitFor(
+        () => hasPacket(sender!.received, released),
+        "single-block automatic release follows complete self ack",
+        6_000,
+      );
+      const output = Buffer.concat(sender.received);
+      const remoteRelease = buildPttReleased(remoteName);
+      const remoteEnd = output.indexOf(remoteRelease);
+      const ownerStart = output.indexOf(owner);
+      const selfEnd = output.indexOf(released);
+      assert.ok(remoteEnd >= 0);
+      assert.ok(ownerStart >= remoteEnd + remoteRelease.length,
+        "complete self-owner response must stay behind the receiver tail");
+      assert.ok(selfEnd > ownerStart + owner.length,
+        "finish owner/start before sending the self release");
+      assert.equal(output.indexOf(owner, ownerStart + owner.length), -1,
+        "the owner response must not be duplicated");
+      assert.equal(roomManager.isLockedBy(room, clientId(name)), false);
+      await waitFor(
+        () => hasPacket(observer!.received, released),
+        "modern observer receives the single-block release",
+      );
+      const forwarded = Buffer.concat(observer.received);
+      const voiceIndex = forwarded.indexOf(VOICE_BLOCK);
+      assert.ok(voiceIndex >= 0, "preserve the one real RF voice block");
+      assert.equal(forwarded.indexOf(VOICE_BLOCK, voiceIndex + VOICE_BLOCK.length), -1,
+        "do not synthesize a second voice block to finish the ack");
+      assert.equal(sender.socket.destroyed, false);
+
+      // A normal TX must still work on the same connection after the short TX.
+      sender.received.length = 0;
+      sender.socket.write(Buffer.concat([VOICE_BLOCK, VOICE_BLOCK]));
+      await waitFor(
+        () => hasPacket(sender!.received, released),
+        "second TX on the same connection releases normally",
+        3_000,
+      );
+      const second = Buffer.concat(sender.received);
+      const secondOwner = second.indexOf(owner);
+      assert.ok(secondOwner >= 0);
+      assert.equal(second.indexOf(owner, secondOwner + owner.length), -1);
+      assert.equal(sender.socket.destroyed, false);
+      assert.equal(observer.socket.destroyed, false);
+      assert.equal(roomManager.isLockedBy(room, clientId(name)), false);
+    } finally {
+      if (sender) await closeClient(sender.socket);
+      if (observer) await closeClient(observer.socket);
+      if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
+      else process.env.EQSO_V113_VOX_TRIAL = previous;
+    }
+  });
+}
+
 test("explicit release cancels the pending PRUEBAS VOX trial", async () => {
   const previous = process.env.EQSO_V113_VOX_TRIAL;
   process.env.EQSO_V113_VOX_TRIAL = "1";

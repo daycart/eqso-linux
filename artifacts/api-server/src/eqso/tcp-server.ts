@@ -58,9 +58,9 @@ interface TcpClientState {
    *  It requires the original server's PTT owner and self-update responses in
    *  order to transmit again after releasing PTT. */
   legacyV113: boolean;
-  /** Number of complete GSM blocks received in the current v1.13 TX.
-   *  The original server acknowledges PTT after block 2, never between the
-   *  one-byte VOICE opcode and its 198-byte payload. */
+  /** Self-ack stage: 0=not started, 1=0x06 queued, 2=owner/start completed.
+   *  Normally advanced by the first two complete GSM blocks. The opt-in
+   *  idle release may complete stage 2 for a single-block TX without audio. */
   legacyVoiceBlocksInTx: number;
   /** Uncapped diagnostic count; never used to acknowledge or release PTT. */
   legacyDiagnosticVoiceBlocks: number;
@@ -204,6 +204,25 @@ function releasePtt(
   roomManager.broadcastToRoom(client.room, rel, state.id);
 
   if (state.legacyV113 && trigger === "trial-vox-idle") {
+    if (state.legacyVoiceBlocksInTx === 1) {
+      // Block 1 queued only the 0x06 owner opcode. If block 2 never arrives,
+      // finish that same response before any release bytes; do not invent
+      // a GSM frame or send a second 0x06. Keep it behind the receive tail.
+      state.legacyVoiceBlocksInTx = 2;
+      state.queueLegacyTrialAck?.(Buffer.concat([
+        buildLegacyPttOwnerPayload(client.name),
+        buildPttStarted(client.name),
+      ]));
+      logger.info(
+        {
+          id: state.id,
+          name: client.name,
+          room: client.room,
+          voiceBlocksInTx: state.legacyDiagnosticVoiceBlocks,
+        },
+        "Legacy v1.13 single-block TX ack completed before release"
+      );
+    }
     // Keep the original response gaps, but never insert a self-release
     // between the receive-tail bytes already queued for this socket.
     state.queueLegacyTrialRelease?.(rel);

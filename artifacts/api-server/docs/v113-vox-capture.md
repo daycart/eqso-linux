@@ -140,9 +140,10 @@ Para registrar varias sesiones y decidir si ampliar a otra sala, usar la
 
 ## Diagnóstico de ruido RF seguido de desconexión
 
-La revisión de diagnóstico conserva el mismo ensayo en `PRUEBAS` y `CB`.
-No cambia tiempos, bytes de protocolo, PTT ni audio; **no corrige todavía
-la desconexión**.
+La instrumentación de diagnóstico conserva el mismo ensayo en `PRUEBAS` y
+`CB`. Por sí sola no cambia tiempos, bytes de protocolo, PTT ni audio;
+**no corrige la desconexión**. El parche experimental posterior para TX
+de un solo bloque se describe al final de esta guía.
 
 El registro de la VM mostró un nuevo TX de 1.13 después del cierre de una
 recepción web, seguido de liberación por inactividad y error TCP. El nombre
@@ -152,7 +153,9 @@ en `CB`.
 La nueva instrumentación registra:
 
 - `voiceBlocksInTx`: todos los bloques GSM completos del TX, no el contador
-  limitado a los dos bloques de confirmación (`selfAckBlocks`).
+  de etapa de confirmación (`selfAckBlocks`: 0, 1 o 2). La etapa 2 puede
+  completarse al cerrar un TX de un único bloque; no equivale a recibir
+  dos bloques de audio.
 - Las dos confirmaciones propias en `Legacy v1.13 self PTT ack queued`.
 - `origin` en actualizaciones de PTT: `self-trial` o `room-broadcast`.
 - `errorCode`, `errorMessage` y `errorSyscall`, junto con la cola y el parser,
@@ -172,3 +175,38 @@ grep -E 'eQSO PTT start command received|eQSO PTT release command received|Trial
 
 Mantener supervisión y detener la prueba si la radio queda en TX. No pedir
 ni compartir `.env`, credenciales o PCAPs.
+
+## Parche experimental: completar la confirmación de un TX de un solo bloque
+
+El diagnóstico físico mostró un TX de retorno con un único bloque GSM,
+una sola confirmación propia y `ECONNRESET` después de la liberación por
+inactividad. La cola y el parser estaban vacíos antes de la limpieza.
+Esto identifica una confirmación incompleta como causa candidata, pero
+**no demuestra todavía que sea la causa del reset de Windows**.
+
+Tras el primer bloque se encola `06`; normalmente, el segundo completa
+`<nameLen><name>` y la actualización de TX iniciado. Si termina el TX sin
+segundo bloque, el parche encola esos mismos bytes pendientes antes de
+la liberación. No repite `06`, añade bloques GSM, descarta voz, cambia
+el temporizador de 1,3 s ni las separaciones de 60 y 250 ms. Todo sigue
+ordenado detrás del audio y cierre de recepción pendientes.
+
+Sólo cambia el cierre `trial-vox-idle` de 1.13 en el ensayo opt-in de
+`PRUEBAS` y `CB`. El cierre explícito, clientes modernos y demás salas
+mantienen su comportamiento. El ruido físico de la radio no se elimina.
+
+Las pruebas sintéticas comprueban, en ambas salas, una recepción seguida de
+TX de un bloque, la confirmación completa antes de liberar, la entrega de
+ese único bloque sin inventar otro y un segundo TX normal en la misma
+conexión. **No sustituyen la validación del cliente 1.13 real.**
+
+En la VM, probar una emisión web corta y el retorno observado, comprobar
+liberación física del PTT y conexión estable, y después una respuesta real
+desde la portátil. Conservar el diagnóstico anterior y añadir al filtro:
+
+```text
+Legacy v1.13 single-block TX ack completed before release
+```
+
+Si sigue fallando, detener la prueba y recoger el código TCP y la secuencia
+de confirmaciones; no extender a otras salas ni introducir filtros de voz.
