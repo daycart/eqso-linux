@@ -48,7 +48,7 @@ del cierre manual.
 
 Existe una variante **experimental, apagada por defecto**:
 `EQSO_V113_VOX_TRIAL=1` al arrancar **una instancia separada de pruebas**.
-Sólo actúa en conexiones TCP v1.13 de la sala `PRUEBAS`; el resto de salas,
+Sólo actúa en conexiones TCP v1.13 de las salas `PRUEBAS` y `CB`; el resto de salas,
 clientes modernos y liberaciones explícitas mantienen el comportamiento
 anterior. No activar en la instancia habitual ni añadir la variable a un
 entorno compartido de producción. Eliminar la variable y reiniciar la
@@ -110,7 +110,7 @@ Por tanto, esos picos por sí solos no demuestran que activen el VOX ni
 explican el bloqueo intermitente. No ajustar la sensibilidad ni el protocolo
 basándose sólo en esta observación.
 
-## Siguiente ensayo sin filtrar audio RF
+## Ensayo de control ordenado sin filtrar audio RF
 
 Sin la variante, el temporizador de inactividad sólo avisa y **no desbloquea**
 el PTT: radio → web puede dejar 1.13 en azul y la web ocupada. Esto no es un
@@ -118,17 +118,22 @@ modo operativo aceptable. El usuario descartó una propuesta de suprimir la
 voz que comience al terminar la recepción web porque podría perder una
 respuesta inmediata desde la radio portátil.
 
-La siguiente revisión del ensayo `EQSO_V113_VOX_TRIAL=1` conserva todas las
-tramas de voz y la liberación por inactividad para 1.13 en `PRUEBAS`, pero
+La revisión del ensayo `EQSO_V113_VOX_TRIAL=1` conserva todas las
+tramas de voz y la liberación por inactividad para 1.13 en `PRUEBAS` y `CB`, pero
 encola tanto las confirmaciones de inicio propias como la secuencia de
 liberación propia detrás del audio y del cierre de recepción ya pendientes
 para ese socket. La cola mantiene las separaciones de 60 y 250 ms de la
 liberación experimental. Las pruebas sintéticas cubren dos TX propios y
-web → RF con recepción todavía en cola, pero **no prueban que el cliente
-Windows ya no se desconecte**; hace falta otro ensayo físico en la VM.
-Mantener la variable apagada fuera de esa prueba y quitarla/reiniciar para
-revertir. No ejecutar `update.sh` en la VM de ensayos: reemplazaría esta
-rama por `origin/main`.
-Antes de cambiar la secuencia de cierre, distinguir si 1.13 recibe señal en
-su entrada de audio tras la recepción (retorno/VOX) o si inicia el PTT aun
-con la captura de micrófono silenciada.
+web → RF con recepción todavía en cola. En la VM de ensayos, con la revisión
+ordenada compilada y el indicador experimental activado, el usuario confirmó
+que «va perfecto en todos los sentidos» tras probar radio → web y web →
+radio en `PRUEBAS`. El alcance se amplió a `CB` a petición del usuario para
+un piloto; esa sala todavía requiere validación física. Es una validación
+física positiva de la configuración de `PRUEBAS`, no una prueba
+de fiabilidad prolongada ni autorización para activarla por defecto en otras
+salas. Si reaparece un bloqueo o una desconexión, quitar la variable y
+reiniciar el servicio para revertir el ensayo. No ejecutar `update.sh` en la
+VM de ensayos: reemplazaría esta rama por `origin/main`.
+
+Para registrar varias sesiones y decidir si ampliar a otra sala, usar la
+[lista de validación de eQSO 1.13](./v113-validation-checklist.md).

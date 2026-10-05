@@ -327,7 +327,93 @@ test("explicit release cancels the pending PRUEBAS VOX trial", async () => {
   }
 });
 
-test("VOX trial flag cannot release legacy PTT outside PRUEBAS", async () => {
+test("CB VOX trial orders web receive tail before two RF TX cycles without dropping voice", async () => {
+  const previous = process.env.EQSO_V113_VOX_TRIAL;
+  process.env.EQSO_V113_VOX_TRIAL = "1";
+  let sender: Awaited<ReturnType<typeof connectClient>> | undefined;
+  let web: Awaited<ReturnType<typeof connectClient>> | undefined;
+  try {
+    sender = await connectClient("LEGACY-CB-TRIAL", LEGACY_HANDSHAKE, "CB");
+    web = await connectClient("WEB-CB-TRIAL", MODERN_HANDSHAKE, "CB");
+    sender.received.length = 0;
+    web.socket.write(Buffer.concat(Array(15).fill(VOICE_BLOCK)));
+    await waitFor(
+      () => roomManager.isLockedBy("CB", clientId("WEB-CB-TRIAL")),
+      "CB web PTT to start",
+    );
+    web.socket.write(STANDARD_RELEASE);
+    await waitFor(
+      () => !roomManager.isLockedBy("CB", clientId("WEB-CB-TRIAL")),
+      "CB web PTT to end",
+    );
+    const id = clientId("LEGACY-CB-TRIAL");
+    const selfStart = buildPttStarted("LEGACY-CB-TRIAL");
+    const selfReleased = buildPttReleased("LEGACY-CB-TRIAL");
+    const remoteReleased = buildPttReleased("WEB-CB-TRIAL");
+    for (let cycle = 0; cycle < 2; cycle++) {
+      web.received.length = 0;
+      sender.socket.write(Buffer.concat([VOICE_BLOCK, VOICE_BLOCK]));
+      await waitFor(
+        () => roomManager.isLockedBy("CB", id),
+        `CB RF cycle ${cycle + 1} to acquire PTT`,
+      );
+      await waitFor(
+        () => hasPacket(sender!.received, selfReleased),
+        `CB RF cycle ${cycle + 1} complete automatic release`,
+        6_000,
+      );
+      const output = Buffer.concat(sender.received);
+      const start = output.indexOf(selfStart);
+      assert.ok(start >= 0);
+      assert.ok(output.indexOf(selfReleased) > start);
+      if (cycle === 0) {
+        const remoteEnd = output.indexOf(remoteReleased);
+        assert.ok(remoteEnd >= 0);
+        assert.ok(start >= remoteEnd + remoteReleased.length);
+      }
+      assert.equal(roomManager.isLockedBy("CB", id), false);
+      await waitFor(
+        () => hasPacket(web!.received, selfReleased),
+        "CB web client receives RF release",
+      );
+      const rfOutput = Buffer.concat(web.received);
+      const voiceStart = rfOutput.indexOf(VOICE_BLOCK);
+      assert.ok(voiceStart >= 0, "RF voice must reach the CB web client");
+      assert.ok(rfOutput.subarray(voiceStart, voiceStart + VOICE_BLOCK.length * 2)
+        .equals(Buffer.concat([VOICE_BLOCK, VOICE_BLOCK])), "both RF blocks must be preserved");
+      assert.equal(sender.socket.destroyed, false);
+      assert.equal(web.socket.destroyed, false);
+      sender.received.length = 0;
+    }
+  } finally {
+    if (sender) await closeClient(sender.socket);
+    if (web) await closeClient(web.socket);
+    if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
+    else process.env.EQSO_V113_VOX_TRIAL = previous;
+  }
+});
+
+test("CB keeps diagnostic-only behavior with the trial disabled", async () => {
+  const previous = process.env.EQSO_V113_VOX_TRIAL;
+  delete process.env.EQSO_V113_VOX_TRIAL;
+  let sender: Awaited<ReturnType<typeof connectClient>> | undefined;
+  try {
+    sender = await connectClient("LEGACY-CB-NO-TRIAL", LEGACY_HANDSHAKE, "CB");
+    sender.socket.write(VOICE_BLOCK);
+    const id = clientId("LEGACY-CB-NO-TRIAL");
+    await waitFor(() => roomManager.isLockedBy("CB", id), "CB diagnostic PTT");
+    await new Promise((resolve) => setTimeout(resolve, 3_200));
+    assert.equal(roomManager.isLockedBy("CB", id), true);
+    assert.equal(hasPacket(sender.received, buildPttReleased("LEGACY-CB-NO-TRIAL")), false);
+    assert.equal(sender.socket.destroyed, false);
+  } finally {
+    if (sender) await closeClient(sender.socket);
+    if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
+    else process.env.EQSO_V113_VOX_TRIAL = previous;
+  }
+});
+
+test("VOX trial flag cannot release legacy PTT outside PRUEBAS and CB", async () => {
   const previous = process.env.EQSO_V113_VOX_TRIAL;
   process.env.EQSO_V113_VOX_TRIAL = "1";
   let sender: Awaited<ReturnType<typeof connectClient>> | undefined;

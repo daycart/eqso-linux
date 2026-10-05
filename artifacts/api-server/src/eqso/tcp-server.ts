@@ -32,7 +32,7 @@ const LEGACY_V113_RELEASE_DIAGNOSTIC_MS = 3_000;
 const LEGACY_V113_VOX_TRIAL_IDLE_MS = 1_300;
 const LEGACY_V113_VOX_TRIAL_OWNER_GAP_MS = 60;
 const LEGACY_V113_VOX_TRIAL_UPDATE_GAP_MS = 250;
-const LEGACY_V113_VOX_TRIAL_ROOM = "PRUEBAS";
+const LEGACY_V113_VOX_TRIAL_ROOMS = new Set(["PRUEBAS", "CB"]);
 const LEGACY_V113_RX_SILENCE_TAIL_PACKETS = 9;
 const LEGACY_V113_RX_RELEASE_GAP_MS = 180;
 const DEFAULT_KEEPALIVE_MS = 8_000;
@@ -426,7 +426,7 @@ function processMultiByte(state: TcpClientState, byte: number): void {
             }
             const trialEnabled =
               process.env.EQSO_V113_VOX_TRIAL === "1" &&
-              client.room === LEGACY_V113_VOX_TRIAL_ROOM;
+              LEGACY_V113_VOX_TRIAL_ROOMS.has(client.room);
             state.legacyReleaseTimer = setTimeout(() => {
               state.legacyReleaseTimer = undefined;
               const current = roomManager.getClient(state.id);
@@ -434,7 +434,8 @@ function processMultiByte(state: TcpClientState, byte: number): void {
                 trialEnabled &&
                 !state.disconnected &&
                 !state.readMultiByte &&
-                current?.room === LEGACY_V113_VOX_TRIAL_ROOM &&
+                current != null &&
+                LEGACY_V113_VOX_TRIAL_ROOMS.has(current.room) &&
                 roomManager.isLockedBy(current.room, state.id)
               ) {
                 logger.info({ id: state.id, room: current.room }, "Trial v1.13 VOX idle release");
@@ -466,7 +467,7 @@ function processMultiByte(state: TcpClientState, byte: number): void {
               // The original server sends only the 0x06 opcode after block 1.
               const ack = Buffer.from([EQSO_COMMANDS.PTT_RELEASE_2]);
               if (process.env.EQSO_V113_VOX_TRIAL === "1" &&
-                client.room === LEGACY_V113_VOX_TRIAL_ROOM) {
+                LEGACY_V113_VOX_TRIAL_ROOMS.has(client.room)) {
                 state.queueLegacyTrialAck?.(ack);
               } else {
                 safeWrite(state, ack);
@@ -479,7 +480,7 @@ function processMultiByte(state: TcpClientState, byte: number): void {
                 buildPttStarted(client.name),
               ]);
               if (process.env.EQSO_V113_VOX_TRIAL === "1" &&
-                client.room === LEGACY_V113_VOX_TRIAL_ROOM) {
+                LEGACY_V113_VOX_TRIAL_ROOMS.has(client.room)) {
                 state.queueLegacyTrialAck?.(ack);
               } else {
                 safeWrite(state, ack);
