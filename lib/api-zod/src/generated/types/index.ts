@@ -6,6 +6,10 @@
  * OpenAPI spec version: 0.1.0
  */
 
+export * from "./bulletinScheduleEvent";
+export * from "./bulletinScheduleEventStatus";
+export * from "./bulletinScheduleInput";
+export * from "./bulletinScheduleStatus";
 export * from "./bulletinStatus";
 export * from "./bulletinTransmission";
 export * from "./bulletinTransmissionInput";

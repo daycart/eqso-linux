@@ -15,6 +15,37 @@ tags:
   - name: relay-tokens
     description: Administrator-managed relay credentials
 paths:
+  /admin/bulletins/schedule:
+    get:
+      operationId: getBulletinSchedule
+      tags: [bulletins]
+      responses:
+        "200":
+          description: Configuration and scheduler status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulletinScheduleStatus"
+    put:
+      operationId: updateBulletinSchedule
+      tags: [bulletins]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BulletinScheduleInput"
+      responses:
+        "200":
+          description: Saved configuration and scheduler status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BulletinScheduleStatus"
+        "400":
+          description: Invalid configuration or missing RF confirmation
+        "503":
+          description: Scheduler unavailable
   /healthz:
     get:
       operationId: healthCheck
@@ -218,6 +249,43 @@ paths:
           description: Audio or bulletin not found
 components:
   schemas:
+    BulletinScheduleInput:
+      type: object
+      additionalProperties: false
+      required: [generationEnabled, transmissionEnabled, generationIntervalMinutes, transmissionIntervalMinutes, maxAgeMinutes, room]
+      properties:
+        generationEnabled: { type: boolean }
+        transmissionEnabled: { type: boolean }
+        generationIntervalMinutes: { type: integer, minimum: 15, maximum: 10080 }
+        transmissionIntervalMinutes: { type: integer, minimum: 5, maximum: 10080 }
+        maxAgeMinutes: { type: integer, minimum: 15, maximum: 10080 }
+        room: { type: string, maxLength: 100 }
+        confirmed: { type: boolean }
+    BulletinScheduleEvent:
+      type: object
+      required: [at, status, message]
+      properties:
+        at: { type: string, format: date-time }
+        status: { type: string, enum: [completed, failed, skipped] }
+        message: { type: string }
+    BulletinScheduleStatus:
+      type: object
+      required: [config, nextGenerationAt, nextTransmissionAt, generationRunning, transmissionRunning, lastGeneration, lastTransmission]
+      properties:
+        config:
+          $ref: "#/components/schemas/BulletinScheduleInput"
+        nextGenerationAt: { type: [string, "null"], format: date-time }
+        nextTransmissionAt: { type: [string, "null"], format: date-time }
+        generationRunning: { type: boolean }
+        transmissionRunning: { type: boolean }
+        lastGeneration:
+          anyOf:
+            - $ref: "#/components/schemas/BulletinScheduleEvent"
+            - type: "null"
+        lastTransmission:
+          anyOf:
+            - $ref: "#/components/schemas/BulletinScheduleEvent"
+            - type: "null"
     RelayTokenInfo:
       type: object
       required: [id, callsign, label, legacyDisabled, createdAt, lastUsedAt, revokedAt]

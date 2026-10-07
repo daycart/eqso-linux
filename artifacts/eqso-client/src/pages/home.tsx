@@ -266,8 +266,8 @@ interface AppHeaderProps {
 
 function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, onRelayPanel, onPTTConfig }: AppHeaderProps) {
   return (
-    <header className="border-b border-gray-800 px-6 py-3 flex items-center gap-3">
-      <div className="flex items-center gap-2">
+    <header className="border-b border-gray-800 px-4 sm:px-6 py-3 flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-2 min-w-0">
         <div className="w-8 h-8 rounded-full bg-green-600 flex items-center justify-center">
           <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
@@ -277,7 +277,7 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
         <span className="text-xs text-gray-500 font-mono">CB27 / Radio Link</span>
       </div>
 
-      <div className="ml-auto flex items-center gap-3">
+      <div className="ml-auto flex flex-wrap items-center gap-3 min-w-0 max-w-full">
         {/* Connection status */}
         {eqsoStatus === "connected" && (
           <span className="flex items-center gap-1.5 text-xs text-green-400">
@@ -322,7 +322,7 @@ function AppHeader({ auth, eqsoStatus, pttConfig, portOpen, onLogout, onAdmin, o
 
         {/* Authenticated user info */}
         {auth && (
-          <div className="flex items-center gap-2 border-l border-gray-800 pl-3">
+          <div className="flex flex-wrap items-center gap-2 border-l border-gray-800 pl-3 min-w-0 max-w-full">
             <span className="flex items-center gap-1.5 text-xs text-gray-400">
               <span className="font-mono text-green-400 font-medium">{auth.callsign}</span>
               {auth.isRelay && (

@@ -7,6 +7,140 @@
  */
 import * as zod from "zod";
 
+export const getBulletinScheduleResponseConfigGenerationIntervalMinutesMin = 15;
+export const getBulletinScheduleResponseConfigGenerationIntervalMinutesMax = 10080;
+
+export const getBulletinScheduleResponseConfigTransmissionIntervalMinutesMin = 5;
+export const getBulletinScheduleResponseConfigTransmissionIntervalMinutesMax = 10080;
+
+export const getBulletinScheduleResponseConfigMaxAgeMinutesMin = 15;
+export const getBulletinScheduleResponseConfigMaxAgeMinutesMax = 10080;
+
+export const getBulletinScheduleResponseConfigRoomMax = 100;
+
+export const GetBulletinScheduleResponse = zod.object({
+  config: zod.object({
+    generationEnabled: zod.boolean(),
+    transmissionEnabled: zod.boolean(),
+    generationIntervalMinutes: zod
+      .number()
+      .min(getBulletinScheduleResponseConfigGenerationIntervalMinutesMin)
+      .max(getBulletinScheduleResponseConfigGenerationIntervalMinutesMax),
+    transmissionIntervalMinutes: zod
+      .number()
+      .min(getBulletinScheduleResponseConfigTransmissionIntervalMinutesMin)
+      .max(getBulletinScheduleResponseConfigTransmissionIntervalMinutesMax),
+    maxAgeMinutes: zod
+      .number()
+      .min(getBulletinScheduleResponseConfigMaxAgeMinutesMin)
+      .max(getBulletinScheduleResponseConfigMaxAgeMinutesMax),
+    room: zod.string().max(getBulletinScheduleResponseConfigRoomMax),
+    confirmed: zod.boolean().optional(),
+  }),
+  nextGenerationAt: zod.coerce.date().nullable(),
+  nextTransmissionAt: zod.coerce.date().nullable(),
+  generationRunning: zod.boolean(),
+  transmissionRunning: zod.boolean(),
+  lastGeneration: zod.union([
+    zod.object({
+      at: zod.coerce.date(),
+      status: zod.enum(["completed", "failed", "skipped"]),
+      message: zod.string(),
+    }),
+    zod.null(),
+  ]),
+  lastTransmission: zod.union([
+    zod.object({
+      at: zod.coerce.date(),
+      status: zod.enum(["completed", "failed", "skipped"]),
+      message: zod.string(),
+    }),
+    zod.null(),
+  ]),
+});
+
+export const updateBulletinScheduleBodyGenerationIntervalMinutesMin = 15;
+export const updateBulletinScheduleBodyGenerationIntervalMinutesMax = 10080;
+
+export const updateBulletinScheduleBodyTransmissionIntervalMinutesMin = 5;
+export const updateBulletinScheduleBodyTransmissionIntervalMinutesMax = 10080;
+
+export const updateBulletinScheduleBodyMaxAgeMinutesMin = 15;
+export const updateBulletinScheduleBodyMaxAgeMinutesMax = 10080;
+
+export const updateBulletinScheduleBodyRoomMax = 100;
+
+export const UpdateBulletinScheduleBody = zod.object({
+  generationEnabled: zod.boolean(),
+  transmissionEnabled: zod.boolean(),
+  generationIntervalMinutes: zod
+    .number()
+    .min(updateBulletinScheduleBodyGenerationIntervalMinutesMin)
+    .max(updateBulletinScheduleBodyGenerationIntervalMinutesMax),
+  transmissionIntervalMinutes: zod
+    .number()
+    .min(updateBulletinScheduleBodyTransmissionIntervalMinutesMin)
+    .max(updateBulletinScheduleBodyTransmissionIntervalMinutesMax),
+  maxAgeMinutes: zod
+    .number()
+    .min(updateBulletinScheduleBodyMaxAgeMinutesMin)
+    .max(updateBulletinScheduleBodyMaxAgeMinutesMax),
+  room: zod.string().max(updateBulletinScheduleBodyRoomMax),
+  confirmed: zod.boolean().optional(),
+});
+
+export const updateBulletinScheduleResponseConfigGenerationIntervalMinutesMin = 15;
+export const updateBulletinScheduleResponseConfigGenerationIntervalMinutesMax = 10080;
+
+export const updateBulletinScheduleResponseConfigTransmissionIntervalMinutesMin = 5;
+export const updateBulletinScheduleResponseConfigTransmissionIntervalMinutesMax = 10080;
+
+export const updateBulletinScheduleResponseConfigMaxAgeMinutesMin = 15;
+export const updateBulletinScheduleResponseConfigMaxAgeMinutesMax = 10080;
+
+export const updateBulletinScheduleResponseConfigRoomMax = 100;
+
+export const UpdateBulletinScheduleResponse = zod.object({
+  config: zod.object({
+    generationEnabled: zod.boolean(),
+    transmissionEnabled: zod.boolean(),
+    generationIntervalMinutes: zod
+      .number()
+      .min(updateBulletinScheduleResponseConfigGenerationIntervalMinutesMin)
+      .max(updateBulletinScheduleResponseConfigGenerationIntervalMinutesMax),
+    transmissionIntervalMinutes: zod
+      .number()
+      .min(updateBulletinScheduleResponseConfigTransmissionIntervalMinutesMin)
+      .max(updateBulletinScheduleResponseConfigTransmissionIntervalMinutesMax),
+    maxAgeMinutes: zod
+      .number()
+      .min(updateBulletinScheduleResponseConfigMaxAgeMinutesMin)
+      .max(updateBulletinScheduleResponseConfigMaxAgeMinutesMax),
+    room: zod.string().max(updateBulletinScheduleResponseConfigRoomMax),
+    confirmed: zod.boolean().optional(),
+  }),
+  nextGenerationAt: zod.coerce.date().nullable(),
+  nextTransmissionAt: zod.coerce.date().nullable(),
+  generationRunning: zod.boolean(),
+  transmissionRunning: zod.boolean(),
+  lastGeneration: zod.union([
+    zod.object({
+      at: zod.coerce.date(),
+      status: zod.enum(["completed", "failed", "skipped"]),
+      message: zod.string(),
+    }),
+    zod.null(),
+  ]),
+  lastTransmission: zod.union([
+    zod.object({
+      at: zod.coerce.date(),
+      status: zod.enum(["completed", "failed", "skipped"]),
+      message: zod.string(),
+    }),
+    zod.null(),
+  ]),
+});
+
 /**
  * Returns server health status
  * @summary Health check

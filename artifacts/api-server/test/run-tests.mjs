@@ -9,12 +9,14 @@ import { spawn } from "node:child_process";
 const testDir = dirname(fileURLToPath(import.meta.url));
 const tempDir = await mkdtemp(join(testDir, ".tmp-"));
 const outputFile = join(tempDir, "tcp-server-legacy-ptt.test.mjs");
+const schedulerOutputFile = join(tempDir, "bulletin-scheduler.test.mjs");
 globalThis.require = createRequire(import.meta.url);
 
 try {
   await build({
     entryPoints: [
       new URL("./tcp-server-legacy-ptt.test.ts", import.meta.url).pathname,
+      new URL("./bulletin-scheduler.test.ts", import.meta.url).pathname,
     ],
     outdir: tempDir,
     outExtension: { ".js": ".mjs" },
@@ -33,7 +35,7 @@ globalThis.require = __createRequire(import.meta.url);`,
   const exitCode = await new Promise((resolve, reject) => {
     const child = spawn(
       process.execPath,
-      ["--enable-source-maps", "--test", outputFile],
+      ["--enable-source-maps", "--test", outputFile, schedulerOutputFile],
       { stdio: "inherit" },
     );
     child.once("error", reject);

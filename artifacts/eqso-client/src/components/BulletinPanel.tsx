@@ -27,6 +27,8 @@ import {
   AlertDialogCancel,
 } from "./ui/alert-dialog";
 
+import { BulletinSchedulePanel } from "./BulletinSchedulePanel";
+
 function formatDateTime(iso: string | null) {
   if (!iso) return "—";
   return new Date(iso).toLocaleString("es-ES", {
@@ -248,15 +250,17 @@ export function BulletinPanel({ token }: { token: string }) {
         </AlertDialogContent>
       </AlertDialog>
 
+      <BulletinSchedulePanel token={token} />
+
       {/* Banner */}
       <div className="bg-yellow-950/40 border border-yellow-800/80 rounded-xl p-4 flex items-start gap-4">
         <svg className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <div>
-          <h3 className="text-yellow-400 font-medium text-sm">Fase 2: Transmisión manual operativa</h3>
+          <h3 className="text-yellow-400 font-medium text-sm">Transmisión manual y programación automática</h3>
           <p className="text-yellow-500/80 text-xs mt-1 max-w-3xl leading-relaxed">
-            Este módulo genera boletines meteorológicos y permite su transmisión a eQSO. La generación y la emisión son procesos estrictamente manuales. Es obligatorio escuchar el audio generado por completo antes de que el sistema habilite la confirmación de transmisión. No existe programación desatendida.
+            Puede crear y transmitir boletines manualmente o configurar su programación automática arriba. La transmisión manual requiere escuchar antes el audio completo. La automática requiere activar y confirmar expresamente las emisiones RF; no exige escuchar individualmente cada boletín. Compruebe primero la calidad del audio y la sala de destino antes de habilitarla.
           </p>
         </div>
       </div>

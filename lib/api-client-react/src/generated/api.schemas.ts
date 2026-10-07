@@ -5,6 +5,56 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export interface BulletinScheduleInput {
+  generationEnabled: boolean;
+  transmissionEnabled: boolean;
+  /**
+   * @minimum 15
+   * @maximum 10080
+   */
+  generationIntervalMinutes: number;
+  /**
+   * @minimum 5
+   * @maximum 10080
+   */
+  transmissionIntervalMinutes: number;
+  /**
+   * @minimum 15
+   * @maximum 10080
+   */
+  maxAgeMinutes: number;
+  /** @maxLength 100 */
+  room: string;
+  confirmed?: boolean;
+}
+
+export type BulletinScheduleEventStatus =
+  (typeof BulletinScheduleEventStatus)[keyof typeof BulletinScheduleEventStatus];
+
+export const BulletinScheduleEventStatus = {
+  completed: "completed",
+  failed: "failed",
+  skipped: "skipped",
+} as const;
+
+export interface BulletinScheduleEvent {
+  at: string;
+  status: BulletinScheduleEventStatus;
+  message: string;
+}
+
+export interface BulletinScheduleStatus {
+  config: BulletinScheduleInput;
+  /** @nullable */
+  nextGenerationAt: string | null;
+  /** @nullable */
+  nextTransmissionAt: string | null;
+  generationRunning: boolean;
+  transmissionRunning: boolean;
+  lastGeneration: BulletinScheduleEvent | null;
+  lastTransmission: BulletinScheduleEvent | null;
+}
+
 export interface RelayTokenInfo {
   id: number;
   callsign: string;

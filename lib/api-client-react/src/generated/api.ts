@@ -17,6 +17,8 @@ import type {
 } from "@tanstack/react-query";
 
 import type {
+  BulletinScheduleInput,
+  BulletinScheduleStatus,
   BulletinStatus,
   BulletinTransmission,
   BulletinTransmissionInput,
@@ -37,6 +39,155 @@ type AwaitedInput<T> = PromiseLike<T> | T;
 type Awaited<O> = O extends AwaitedInput<infer T> ? T : never;
 
 type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
+
+export const getGetBulletinScheduleUrl = () => {
+  return `/api/admin/bulletins/schedule`;
+};
+
+export const getBulletinSchedule = async (
+  options?: RequestInit,
+): Promise<BulletinScheduleStatus> => {
+  return customFetch<BulletinScheduleStatus>(getGetBulletinScheduleUrl(), {
+    ...options,
+    method: "GET",
+  });
+};
+
+export const getGetBulletinScheduleQueryKey = () => {
+  return [`/api/admin/bulletins/schedule`] as const;
+};
+
+export const getGetBulletinScheduleQueryOptions = <
+  TData = Awaited<ReturnType<typeof getBulletinSchedule>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getBulletinSchedule>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}) => {
+  const { query: queryOptions, request: requestOptions } = options ?? {};
+
+  const queryKey = queryOptions?.queryKey ?? getGetBulletinScheduleQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof getBulletinSchedule>>
+  > = ({ signal }) => getBulletinSchedule({ signal, ...requestOptions });
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof getBulletinSchedule>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type GetBulletinScheduleQueryResult = NonNullable<
+  Awaited<ReturnType<typeof getBulletinSchedule>>
+>;
+export type GetBulletinScheduleQueryError = ErrorType<unknown>;
+
+export function useGetBulletinSchedule<
+  TData = Awaited<ReturnType<typeof getBulletinSchedule>>,
+  TError = ErrorType<unknown>,
+>(options?: {
+  query?: UseQueryOptions<
+    Awaited<ReturnType<typeof getBulletinSchedule>>,
+    TError,
+    TData
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getGetBulletinScheduleQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  return { ...query, queryKey: queryOptions.queryKey };
+}
+
+export const getUpdateBulletinScheduleUrl = () => {
+  return `/api/admin/bulletins/schedule`;
+};
+
+export const updateBulletinSchedule = async (
+  bulletinScheduleInput: BulletinScheduleInput,
+  options?: RequestInit,
+): Promise<BulletinScheduleStatus> => {
+  return customFetch<BulletinScheduleStatus>(getUpdateBulletinScheduleUrl(), {
+    ...options,
+    method: "PUT",
+    headers: { "Content-Type": "application/json", ...options?.headers },
+    body: JSON.stringify(bulletinScheduleInput),
+  });
+};
+
+export const getUpdateBulletinScheduleMutationOptions = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateBulletinSchedule>>,
+    TError,
+    { data: BodyType<BulletinScheduleInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof updateBulletinSchedule>>,
+  TError,
+  { data: BodyType<BulletinScheduleInput> },
+  TContext
+> => {
+  const mutationKey = ["updateBulletinSchedule"];
+  const { mutation: mutationOptions, request: requestOptions } = options
+    ? options.mutation &&
+      "mutationKey" in options.mutation &&
+      options.mutation.mutationKey
+      ? options
+      : { ...options, mutation: { ...options.mutation, mutationKey } }
+    : { mutation: { mutationKey }, request: undefined };
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof updateBulletinSchedule>>,
+    { data: BodyType<BulletinScheduleInput> }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return updateBulletinSchedule(data, requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type UpdateBulletinScheduleMutationResult = NonNullable<
+  Awaited<ReturnType<typeof updateBulletinSchedule>>
+>;
+export type UpdateBulletinScheduleMutationBody =
+  BodyType<BulletinScheduleInput>;
+export type UpdateBulletinScheduleMutationError = ErrorType<void>;
+
+export const useUpdateBulletinSchedule = <
+  TError = ErrorType<void>,
+  TContext = unknown,
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof updateBulletinSchedule>>,
+    TError,
+    { data: BodyType<BulletinScheduleInput> },
+    TContext
+  >;
+  request?: SecondParameter<typeof customFetch>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof updateBulletinSchedule>>,
+  TError,
+  { data: BodyType<BulletinScheduleInput> },
+  TContext
+> => {
+  return useMutation(getUpdateBulletinScheduleMutationOptions(options));
+};
 
 /**
  * Returns server health status

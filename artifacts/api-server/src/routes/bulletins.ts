@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { randomUUID } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import {
   GetBulletinStatusResponse,
@@ -11,23 +10,23 @@ import {
   TransmitBulletinParams,
   TransmitBulletinBody,
   TransmitBulletinResponse,
+  GetBulletinScheduleResponse,
+  UpdateBulletinScheduleBody,
 } from "@workspace/api-zod";
 import { requireAdmin } from "../lib/adminMiddleware";
 import { logger } from "../lib/logger";
 import {
   AEMET_SOURCE_URL,
-  buildForecastText,
-  fetchAemetForecast,
 } from "../lib/bulletins/aemet";
 import {
   getAudioPath,
   listBulletins,
-  saveBulletin,
   type StoredBulletin,
   listBulletinTransmissions,
 } from "../lib/bulletins/storage";
 import { transmitBulletin } from "../lib/bulletins/transmission";
-import { synthesizeBulletinSpeech } from "../lib/bulletins/speech";
+import { generateBulletin } from "../lib/bulletins/generation";
+import { bulletinScheduler, requireSchedulerReady } from "../lib/bulletins/scheduler";
 import { roomManager } from "../eqso/room-manager";
 
 const router = Router();
@@ -39,6 +38,36 @@ function toResponse(bulletin: StoredBulletin): StoredBulletin & { audioUrl: stri
 }
 
 router.use(requireAdmin);
+
+router.get("/bulletins/schedule", (_req, res) => {
+  try {
+    requireSchedulerReady();
+    res.json(GetBulletinScheduleResponse.parse(bulletinScheduler.status()));
+  } catch (error) {
+    res.status(503).json({ error: error instanceof Error ? error.message : "Programador no disponible" });
+  }
+});
+
+router.put("/bulletins/schedule", async (req, res) => {
+  const input = UpdateBulletinScheduleBody.safeParse(req.body);
+  if (!input.success) {
+    res.status(400).json({ error: "Configuración inválida: revise intervalos, sala y opciones" });
+    return;
+  }
+  if (input.data.transmissionEnabled && (!input.data.confirmed || !roomManager.getRooms().includes(input.data.room))) {
+    res.status(400).json({ error: "Seleccione una sala válida y confirme las emisiones RF automáticas" });
+    return;
+  }
+  try {
+    requireSchedulerReady();
+    const result = await bulletinScheduler.configure(input.data);
+    logger.info({ config: result.config, requestedBy: req.session?.callsign }, "Programación de boletines guardada");
+    res.json(GetBulletinScheduleResponse.parse(result));
+  } catch (error) {
+    req.log.error({ err: error }, "No se pudo guardar la programación");
+    res.status(503).json({ error: error instanceof Error ? error.message : "No se pudo guardar" });
+  }
+});
 
 router.get("/bulletins/status", async (req, res): Promise<void> => {
   try {
@@ -97,30 +126,8 @@ router.get("/bulletins/transmissions", async (_req, res): Promise<void> => {
 });
 
 router.post("/bulletins/generate", async (req, res): Promise<void> => {
-  const generatedAt = new Date().toISOString();
   try {
-    const forecast = await fetchAemetForecast();
-    const forecastText = buildForecastText(forecast, generatedAt);
-    // Production VMs use local Piper when installed. Replit keeps using its
-    // OpenAI integration. Synthesis must finish before the bulletin is stored.
-    const audio = await synthesizeBulletinSpeech(forecastText);
-    const id = randomUUID();
-    const bulletin: StoredBulletin = {
-      id,
-      identity: IDENTITY,
-      geographicFocus: GEOGRAPHIC_FOCUS,
-      municipality: forecast.municipality,
-      forecastText,
-      sourceUrl: AEMET_SOURCE_URL,
-      sourceAttribution: forecast.sourceAttribution,
-      sourcePublishedAt: forecast.sourcePublishedAt,
-      sourceRetrievedAt: forecast.sourceRetrievedAt,
-      generatedAt,
-      audioFileName: `${id}.wav`,
-      audioMimeType: "audio/wav",
-      forecastDates: forecast.days.map((day) => day.date),
-    };
-    await saveBulletin(bulletin, audio);
+    const bulletin = await generateBulletin();
     res.status(201).json(GetCurrentBulletinResponse.parse(toResponse(bulletin)));
   } catch (error) {
     req.log.error({ err: error }, "No se pudo generar el boletín meteorológico");
