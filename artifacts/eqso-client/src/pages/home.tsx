@@ -106,6 +106,10 @@ export default function HomePage() {
   useEffect(() => {
     if (showAdmin) return;
     const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      // Space must operate the focused control, not transmit behind a dialog.
+      if (target?.closest('input, textarea, select, [contenteditable="true"], [role="dialog"]') ||
+          (target?.closest("button") && !target.closest("[data-ptt]"))) return;
       if (e.code === "Space" && !e.repeat) {
         e.preventDefault();
         pttStart();
@@ -113,7 +117,10 @@ export default function HomePage() {
     };
     const onKeyUp = (e: KeyboardEvent) => {
       if (e.code === "Space") {
-        e.preventDefault();
+        const target = e.target as HTMLElement | null;
+        const interactive = target?.closest('input, textarea, select, [contenteditable="true"], [role="dialog"]') ||
+          (target?.closest("button") && !target.closest("[data-ptt]"));
+        if (!interactive) e.preventDefault();
         pttEnd();
       }
     };
@@ -185,7 +192,7 @@ export default function HomePage() {
   const isSecureContext = window.isSecureContext;
 
   return (
-    <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col">
+    <div className={`min-h-screen bg-gray-950 text-gray-100 flex flex-col ${isInRoom ? "eqso-connected-app" : ""}`}>
       <AppHeader
         auth={auth}
         eqsoStatus={eqso.status}
@@ -239,6 +246,7 @@ export default function HomePage() {
             isRemote={eqso.selectedServer.mode === "remote"}
             onRoomChange={(room) => {
               if (room === eqso.currentRoom) return;
+              pttEnd();
               setSelectedRoom(room);
               eqso.join(eqso.currentName!, room, statusMessage, password, auth?.token);
             }}

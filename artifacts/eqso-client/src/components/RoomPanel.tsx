@@ -1,4 +1,8 @@
-import { RoomMember } from "@/hooks/useEqsoClient";
+import { useEffect, useRef, useState } from "react";
+import type { RoomMember } from "@/hooks/useEqsoClient";
+import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
+import { Users } from "lucide-react";
+import "./RoomPanel.css";
 
 interface RoomPanelProps {
   currentRoom: string;
@@ -39,6 +43,13 @@ export function RoomPanel({
   onPttEnd,
   onDisconnect,
 }: RoomPanelProps) {
+  const [usersOpen, setUsersOpen] = useState(false);
+  const roomNav = useRef<HTMLElement>(null);
+  const pointerHeld = useRef(false);
+  useEffect(() => {
+    roomNav.current?.querySelector('[aria-current="true"]')?.scrollIntoView({ block: "nearest", inline: "nearest" });
+  }, [currentRoom]);
+
   const seen = new Set<string>([currentName]);
   const allMembers: RoomMember[] = [
     { name: currentName, message: "Tú" },
@@ -60,8 +71,55 @@ export function RoomPanel({
   const hasRadioLinks = totalRelayCount > 0;
 
   return (
-    <div className="flex flex-1 overflow-hidden">
-      <aside className="w-64 border-r border-gray-800 bg-gray-900 flex flex-col">
+    <div className="eqso-room-panel flex min-w-0 flex-1 flex-col overflow-hidden md:flex-row">
+      <div className="flex shrink-0 items-center gap-2 border-b border-gray-800 bg-gray-900/60 px-3 py-2 md:hidden">
+        <span className="shrink-0 text-[10px] font-semibold uppercase tracking-widest text-gray-400">Sala</span>
+        <nav ref={roomNav} aria-label="Salas disponibles" className="eqso-room-scroll flex min-w-0 flex-1 gap-1 overflow-x-auto">
+          {rooms.map((room) => (
+            <button key={room} type="button" aria-current={room === currentRoom ? "true" : undefined}
+              onClick={() => { onPttEnd(); onRoomChange(room); }}
+              className={`min-h-11 shrink-0 rounded-lg border px-3 text-xs font-semibold transition-colors ${room === currentRoom ? "border-green-700/70 bg-green-900/40 text-green-200" : "border-transparent text-gray-400 hover:bg-gray-800"}`}>
+              <span className="mr-1 text-green-500">#</span>{room}
+            </button>
+          ))}
+        </nav>
+        <Dialog open={usersOpen} onOpenChange={(open) => { if (open) onPttEnd(); setUsersOpen(open); }}>
+          <DialogTrigger asChild>
+            <button type="button" aria-label={`Ver usuarios de ${currentRoom}, ${allMembers.length} en sala`}
+              className="flex min-h-11 shrink-0 items-center gap-2 rounded-lg border border-gray-700 bg-gray-900 px-3 text-xs text-gray-300">
+              <Users className="h-4 w-4" aria-hidden="true" />{allMembers.length}
+            </button>
+          </DialogTrigger>
+          <DialogContent className="eqso-mobile-users gap-0 border-gray-700 bg-gray-900 p-0 text-gray-100">
+            <div className="border-b border-gray-800 p-4 pr-14">
+              <DialogTitle className="text-base">Usuarios en #{currentRoom} ({allMembers.length})</DialogTitle>
+              <DialogDescription className="mt-2 text-xs text-gray-400">Participantes conectados a esta sala.</DialogDescription>
+            </div>
+            <div className="max-h-[55dvh] overflow-y-auto p-2">
+              {allMembers.map((member) => {
+                const self = member.name === currentName;
+                const relay = member.name.startsWith("0R-");
+                const speaking = self ? pttActive && pttGranted : activeSpeaker === member.name;
+                return (
+                  <div key={member.name} className={`flex items-center gap-3 rounded-xl p-3 ${speaking ? "bg-amber-950/40" : ""}`}>
+                    <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold ${self ? "bg-green-800 text-green-100" : relay ? "bg-blue-900 text-blue-100" : "bg-gray-700 text-gray-200"}`}>
+                      {member.name.replace(/^0R-/, "").slice(0, 2).toUpperCase()}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className={`break-all font-mono text-sm ${self ? "text-green-200" : relay ? "text-blue-200" : "text-gray-100"}`}>
+                        {member.name}{self && <span className="ml-1 font-sans text-xs text-gray-400">(tú)</span>}
+                      </p>
+                      <p className="mt-0.5 break-words text-xs text-gray-400">{relay ? "Nodo radioenlace" : self ? "Conectado a la sala" : member.message}</p>
+                    </div>
+                    {speaking && <span className="text-xs text-amber-200">TX</span>}
+                  </div>
+                );
+              })}
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+      <aside className="hidden w-64 shrink-0 border-r border-gray-800 bg-gray-900 md:flex md:flex-col">
         <div className="px-4 py-3 border-b border-gray-800">
           <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Salas</p>
           <div className="space-y-0.5">
@@ -194,8 +252,8 @@ export function RoomPanel({
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col bg-gray-950">
-        <div className="border-b border-gray-800 px-6 py-3 flex items-center gap-3">
+      <div className="eqso-room-main min-w-0 flex-1 flex flex-col bg-gray-950">
+        <div className="hidden border-b border-gray-800 px-6 py-3 md:flex flex-wrap items-center gap-3">
           <span className="text-gray-400 text-lg">#</span>
           <span className="font-bold text-white">{currentRoom}</span>
           <span className="text-gray-600 text-sm">{allMembers.length} usuario{allMembers.length !== 1 ? "s" : ""}</span>
@@ -223,51 +281,80 @@ export function RoomPanel({
           )}
         </div>
 
-        <div className="flex-1 flex flex-col items-center justify-center p-8">
-          <div className="text-center mb-10">
+        <div className="eqso-radio-stage relative flex-1 flex flex-col items-center justify-center p-8">
+          <div className="eqso-radio-meta mb-3 flex w-full items-center justify-between gap-3 md:hidden">
+            <div className="min-w-0">
+              <p className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">Estás en</p>
+              <h1 className="break-all font-mono text-xl font-bold text-white"><span className="text-green-500">#</span> {currentRoom}</h1>
+            </div>
+            <div className="min-w-0 text-right">
+              <p className={`text-xs ${hasRadioLinks ? "text-blue-300" : "text-amber-300"}`}>
+                {hasRadioLinks ? `${totalRelayCount} nodo${totalRelayCount !== 1 ? "s" : ""} RF` : "Sin nodo RF"}
+              </p>
+              <p className="mt-1 break-all font-mono text-xs text-gray-400">{currentName}</p>
+            </div>
+          </div>
+          <div className="hidden text-center mb-10 md:block">
             <p className="text-gray-500 text-sm mb-1">Sala activa</p>
             <p className="text-3xl font-bold font-mono text-white"># {currentRoom}</p>
             <p className="text-gray-500 text-sm mt-1 font-mono">{currentName}</p>
           </div>
 
           {!hasRadioLinks && (
-            <div className="mb-6 bg-amber-950/50 border border-amber-700/60 text-amber-300 text-sm rounded-lg px-4 py-3 text-center max-w-sm">
+            <div role="status" className="eqso-notice mb-6 bg-amber-950/50 border border-amber-700/60 text-amber-300 text-sm rounded-lg px-4 py-3 text-center max-w-sm">
               <p className="font-semibold mb-1">Sin nodos de radioenlace en la sala</p>
               <p className="text-amber-400/80 text-xs">
-                El software Windows del nodo no esta conectado a #{currentRoom}. Tus transmisiones llegan al servidor pero no se emiten por RF.
+                No hay nodos conectados a #{currentRoom}. Tus transmisiones llegan al servidor pero no se emiten por RF.
               </p>
             </div>
           )}
 
           {isMicAllowed === false && (
-            <div className="mb-6 bg-red-950/50 border border-red-800 text-red-300 text-sm rounded-lg px-4 py-3 text-center max-w-sm">
+            <div role="alert" className="eqso-notice mb-6 bg-red-950/50 border border-red-800 text-red-300 text-sm rounded-lg px-4 py-3 text-center max-w-sm">
               Micrófono denegado. Activa los permisos del micrófono en tu navegador para poder transmitir.
             </div>
           )}
 
-          <div className="flex flex-col items-center gap-6">
-            <div className="relative">
+          <div className="eqso-ptt-controls flex w-full flex-col items-center gap-6">
+            <p className={`eqso-channel-status text-center text-xs font-medium md:hidden ${pttActive ? pttGranted ? "text-red-300" : "text-orange-300" : channelBusy ? "text-amber-300" : "text-green-300"}`} aria-live="polite">
+              {pttActive ? pttGranted ? "Transmitiendo" : "Esperando autorización…" : channelBusy ? activeSpeaker ? `${activeSpeaker} transmitiendo` : "Canal ocupado" : "Canal disponible"}
+            </p>
+            <div className="eqso-ptt-wrap relative">
               <button
+                type="button"
+                data-ptt
+                aria-label={pttActive && pttGranted ? "Transmitiendo. Suelta para dejar de hablar" : channelBusy && !pttActive ? "Canal ocupado" : "Mantén pulsado para hablar"}
+                aria-pressed={pttActive && pttGranted}
                 onPointerDown={(event) => {
                   event.preventDefault();
+                  if (pointerHeld.current) return;
+                  pointerHeld.current = true;
                   event.currentTarget.setPointerCapture(event.pointerId);
                   onPttStart();
                 }}
                 onPointerUp={(event) => {
                   event.preventDefault();
+                  pointerHeld.current = false;
                   if (event.currentTarget.hasPointerCapture(event.pointerId)) {
                     event.currentTarget.releasePointerCapture(event.pointerId);
                   }
                   onPttEnd();
                 }}
                 onPointerCancel={(event) => {
+                  pointerHeld.current = false;
                   if (event.currentTarget.hasPointerCapture(event.pointerId)) {
                     event.currentTarget.releasePointerCapture(event.pointerId);
                   }
                   onPttEnd();
                 }}
+                onLostPointerCapture={() => {
+                  if (!pointerHeld.current) return;
+                  pointerHeld.current = false;
+                  onPttEnd();
+                }}
+                onContextMenu={(event) => event.preventDefault()}
                 disabled={channelBusy && !pttActive}
-                className={`w-40 h-40 rounded-full flex flex-col items-center justify-center gap-2 transition-all duration-150 select-none touch-none
+                className={`eqso-ptt-button ${pttActive && pttGranted ? "tx" : pttActive ? "waiting" : channelBusy ? "locked" : ""} w-40 h-40 rounded-full flex flex-col items-center justify-center gap-2 transition-all duration-150 select-none touch-none
                   ${pttActive && pttGranted
                     ? "bg-red-600 scale-95 shadow-lg shadow-red-900/50 border-4 border-red-400"
                     : pttActive && !pttGranted
@@ -313,17 +400,17 @@ export function RoomPanel({
                   ? "Canal ocupado"
                   : "Mantén pulsado para hablar"}
               </p>
-              <p className="text-gray-600 text-xs mt-1">
+              <p className="eqso-keyboard-hint text-gray-600 text-xs mt-1">
                 También puedes usar la barra espaciadora
               </p>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 px-6 py-3 flex items-center gap-4">
+        <div className="eqso-radio-footer border-t border-gray-800 px-6 py-3 flex items-center gap-4">
           <div className="flex items-center gap-2">
             <div className={`w-2 h-2 rounded-full ${isRecording ? "bg-red-500 animate-pulse" : "bg-gray-600"}`} />
-            <span className="text-xs text-gray-500">Micrófono</span>
+            <span className="text-xs text-gray-400">Micrófono{isMicAllowed === false ? " denegado" : isRecording ? " activo" : ""}</span>
           </div>
           {isRecording && (
             <div className="flex items-center gap-1">
@@ -336,7 +423,8 @@ export function RoomPanel({
               ))}
             </div>
           )}
-          <div className="ml-auto text-xs text-gray-600 font-mono">
+          <button type="button" onClick={onDisconnect} className="ml-auto min-h-11 px-2 text-xs text-red-400 md:hidden">Desconectar</button>
+          <div className="ml-auto hidden text-xs text-gray-600 font-mono md:block">
             TCP :2171 | WS /ws
           </div>
         </div>

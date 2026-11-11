@@ -1,0 +1,137 @@
+/* Mobile adaptation of the approved Centered mockup; desktop keeps its layout. */
+.eqso-room-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #374151 transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.eqso-mobile-users > button {
+  min-width: 44px;
+  min-height: 44px;
+  top: 4px;
+  right: 4px;
+}
+
+@media (max-width: 767px) {
+  .eqso-connected-app {
+    min-height: 100dvh;
+  }
+
+  .eqso-connected-app > header {
+    flex-shrink: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .eqso-connected-app > main {
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .eqso-room-main {
+    background: radial-gradient(ellipse at 50% 44%, rgba(24, 56, 37, .19), transparent 43%), #030712;
+  }
+
+  .eqso-radio-stage {
+    padding: 20px 16px;
+    min-width: 0;
+    isolation: isolate;
+  }
+
+  .eqso-radio-meta {
+    max-width: 512px;
+    margin-bottom: 18px;
+  }
+
+  .eqso-ptt-controls {
+    gap: 14px;
+  }
+
+  .eqso-channel-status {
+    overflow-wrap: anywhere;
+  }
+
+  .eqso-ptt-wrap {
+    display: grid;
+    width: clamp(172px, 54vw, 220px);
+    aspect-ratio: 1;
+    place-items: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(125, 160, 131, .22);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(44, 81, 52, .2) 0 54%, rgba(30, 54, 37, .12) 55% 68%, transparent 69%);
+  }
+
+  .eqso-ptt-wrap::before,
+  .eqso-ptt-wrap::after {
+    position: absolute;
+    content: "";
+    inset: 8px;
+    pointer-events: none;
+    border: 1px solid rgba(124, 154, 127, .16);
+    border-radius: 50%;
+  }
+
+  .eqso-ptt-wrap::after { inset: 19px; }
+
+  .eqso-ptt-button {
+    z-index: 1;
+    width: 76%;
+    height: 76%;
+    gap: 5px;
+    border: 3px solid #77b985;
+    background: linear-gradient(155deg, #29824a, #176139 72%);
+    color: #f0fff3;
+    box-shadow: inset 0 2px 2px rgba(255,255,255,.16), inset 0 -7px 16px rgba(0,0,0,.22), 0 8px 22px rgba(13,68,36,.26);
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  .eqso-ptt-button.tx {
+    border-color: #ff8d85;
+    background: linear-gradient(155deg, #d84e47, #a52d2b 72%);
+  }
+
+  .eqso-ptt-button.waiting {
+    border-color: #fb923c;
+    background: #9a3412;
+  }
+
+  .eqso-ptt-button.locked {
+    border-color: #4b5150;
+    background: linear-gradient(155deg, #414846, #2b302f 72%);
+  }
+
+  .eqso-ptt-button svg { width: 48px; height: 48px; }
+  .eqso-ptt-controls > div:last-child > p:first-child { color: #d1d5db; }
+  .eqso-keyboard-hint { display: none; }
+  .eqso-notice { margin-bottom: 12px; font-size: 12px; padding: 8px 12px; }
+  .eqso-radio-footer {
+    flex-shrink: 0;
+    padding: 4px 12px max(4px, env(safe-area-inset-bottom));
+    background: rgba(17,24,39,.6);
+  }
+  .eqso-mobile-users {
+    top: auto;
+    bottom: 0;
+    transform: translateX(-50%);
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@media (max-width: 767px) and (max-height: 650px) {
+  .eqso-radio-stage { padding-top: 8px; padding-bottom: 8px; }
+  .eqso-radio-meta { margin-bottom: 8px; }
+  .eqso-ptt-controls { gap: 8px; }
+  .eqso-ptt-wrap { width: clamp(154px, 32dvh, 184px); }
+}
+
+@media (hover: none) {
+  .eqso-keyboard-hint { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eqso-ptt-button { transition: none; }
+}
