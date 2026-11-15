@@ -12,6 +12,7 @@
 import { spawn, ChildProcessWithoutNullStreams } from "child_process";
 import { EventEmitter } from "events";
 import { logger } from "../lib/logger";
+import { AudioBacklog } from "./audio-backlog";
 
 export const GSM_FRAME_BYTES    = 33;
 export const GSM_FRAME_SAMPLES  = 160;
@@ -24,6 +25,7 @@ export const PCM_PACKET_BYTES   = GSM_FRAME_SAMPLES * FRAMES_PER_PACKET * 2; // 
 // ---------------------------------------------------------------------------
 
 export class FfmpegGsmDecoder extends EventEmitter {
+  private backlog = new AudioBacklog();
   private proc: ChildProcessWithoutNullStreams | null = null;
   private accumulator = Buffer.alloc(0);
   private ready = false;
@@ -46,6 +48,7 @@ export class FfmpegGsmDecoder extends EventEmitter {
     ], { stdio: ["pipe", "pipe", "pipe"] });
 
     this.proc.stderr.on("data", () => {});
+    this.proc.stdin.on("error", (err) => logger.warn({ err }, "ffmpeg GSM decoder input error"));
 
     this.proc.on("error", (err) => {
       logger.warn({ err }, "ffmpeg GSM decoder error");
@@ -68,7 +71,7 @@ export class FfmpegGsmDecoder extends EventEmitter {
             pcmBuf.byteOffset + PCM_PACKET_BYTES
           )
         );
-        this.emit("pcm", pcm);
+        if (this.backlog.complete()) this.emit("pcm", pcm);
       }
     });
 
@@ -89,6 +92,7 @@ export class FfmpegGsmDecoder extends EventEmitter {
       logger.warn({ len: gsmPacket.length }, "ffmpeg GSM decoder: short packet, skipping");
       return;
     }
+    if (!this.backlog.accept()) return;
     try {
       this.proc.stdin.write(gsmPacket.slice(0, GSM_PACKET_BYTES));
     } catch (err) {
@@ -104,6 +108,7 @@ export class FfmpegGsmDecoder extends EventEmitter {
     this.proc  = null;
     this.ready = false;
     this.accumulator = Buffer.alloc(0);
+    this.backlog.clear();
   }
 }
 
@@ -112,6 +117,12 @@ export class FfmpegGsmDecoder extends EventEmitter {
 // ---------------------------------------------------------------------------
 
 export class FfmpegGsmEncoder extends EventEmitter {
+  private backlog = new AudioBacklog();
+
+  /** Preserve packet alignment while preventing old TX audio from leaking. */
+  discardPending(): void {
+    this.backlog.invalidate();
+  }
   private proc: ChildProcessWithoutNullStreams | null = null;
   private accumulator = Buffer.alloc(0);
   private ready = false;
@@ -132,6 +143,7 @@ export class FfmpegGsmEncoder extends EventEmitter {
     ], { stdio: ["pipe", "pipe", "pipe"] });
 
     this.proc.stderr.on("data", () => {});
+    this.proc.stdin.on("error", (err) => logger.warn({ err }, "ffmpeg GSM encoder input error"));
 
     this.proc.on("error", (err) => {
       logger.warn({ err }, "ffmpeg GSM encoder error");
@@ -148,7 +160,7 @@ export class FfmpegGsmEncoder extends EventEmitter {
       while (this.accumulator.length >= GSM_PACKET_BYTES) {
         const gsmBuf = Buffer.from(this.accumulator.slice(0, GSM_PACKET_BYTES));
         this.accumulator = this.accumulator.slice(GSM_PACKET_BYTES);
-        this.emit("gsm", gsmBuf);
+        if (this.backlog.complete()) this.emit("gsm", gsmBuf);
       }
     });
 
@@ -172,6 +184,7 @@ export class FfmpegGsmEncoder extends EventEmitter {
       logger.warn({ len: pcmPacket.length }, "ffmpeg GSM encoder: short PCM, skipping");
       return;
     }
+    if (!this.backlog.accept()) return;
     try {
       const buf = Buffer.from(
         pcmPacket.buffer.slice(
@@ -193,5 +206,6 @@ export class FfmpegGsmEncoder extends EventEmitter {
     this.proc  = null;
     this.ready = false;
     this.accumulator = Buffer.alloc(0);
+    this.backlog.clear();
   }
 }

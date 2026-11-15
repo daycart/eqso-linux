@@ -73,6 +73,7 @@ export interface EqsoState {
   members: RoomMember[];
   activeSpeaker: string | null;
   pttGranted: boolean;
+  pttDenial: string | null;
   channelBusy: boolean;
   selectedServer: EqsoServer;
 }
@@ -108,6 +109,7 @@ export function useEqsoClient(
   const [activeSpeaker, setActiveSpeaker] = useState<string | null>(null);
   const [pttGranted, setPttGranted] = useState(false);
   const pttGrantedRef = useRef(false);
+  const [pttDenial, setPttDenial] = useState<string | null>(null);
   const [channelBusy, setChannelBusy] = useState(false);
   const [selectedServer, setSelectedServer] = useState<EqsoServer>(KNOWN_SERVERS[0]);
   const selectedServerRef = useRef<EqsoServer>(KNOWN_SERVERS[0]);
@@ -182,6 +184,7 @@ export function useEqsoClient(
       case "ptt_denied":
         pttGrantedRef.current = false;
         setPttGranted(false);
+        setPttDenial((msg.reason as string) || "Transmisión no autorizada");
         setChannelBusy(true);
         setTimeout(() => setChannelBusy(false), 2000);
         break;
@@ -383,6 +386,7 @@ export function useEqsoClient(
   const pttStart = useCallback(() => {
     const ws = wsRef.current;
     if (!ws || ws.readyState !== WebSocket.OPEN) return;
+    setPttDenial(null);
     ws.send(JSON.stringify({ type: "ptt_start" }));
   }, []);
 
@@ -398,6 +402,8 @@ export function useEqsoClient(
       console.debug("[eqso] sendAudio dropped — ws:", ws?.readyState, "pttGranted:", pttGrantedRef.current);
       return;
     }
+    // Drop live audio rather than append it behind a congested connection.
+    if (ws.bufferedAmount > 8192) return;
 
     const isRemote = selectedServerRef.current.mode === "remote";
     // Remote: [0x05][Int16 PCM] — server will GSM-encode and relay
@@ -416,7 +422,7 @@ export function useEqsoClient(
 
   return {
     status, error, rooms, currentRoom, currentName, members,
-    activeSpeaker, pttGranted, channelBusy, selectedServer,
+    activeSpeaker, pttGranted, pttDenial, channelBusy, selectedServer,
     connect, disconnect, join, pttStart, pttEnd, sendAudio,
   };
 }

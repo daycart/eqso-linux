@@ -4,6 +4,7 @@ import { ChevronDown, Users } from "lucide-react";
 import "./RoomPanel.css";
 
 interface RoomPanelProps {
+  pttNotice?: string | null;
   currentRoom: string;
   currentName: string;
   members: RoomMember[];
@@ -24,6 +25,7 @@ interface RoomPanelProps {
 }
 
 export function RoomPanel({
+  pttNotice,
   currentRoom,
   currentName,
   members,
@@ -324,6 +326,7 @@ export function RoomPanel({
           )}
 
           <div className="eqso-ptt-controls flex w-full flex-col items-center gap-6">
+            {pttNotice && <p role="status" className="max-w-sm px-3 text-center text-xs text-amber-300">{pttNotice}</p>}
             <p className={`eqso-channel-status text-center text-xs font-medium md:hidden ${pttActive ? pttGranted ? "text-red-300" : "text-orange-300" : channelBusy ? "text-amber-300" : "text-green-300"}`} aria-live="polite">
               {pttActive ? pttGranted ? "Transmitiendo" : "Esperando autorización…" : channelBusy ? activeSpeaker ? `${activeSpeaker} transmitiendo` : "Canal ocupado" : "Canal disponible"}
             </p>

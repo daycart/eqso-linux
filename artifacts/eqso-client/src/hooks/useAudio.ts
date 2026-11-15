@@ -24,7 +24,7 @@ const GSM_RATE = 8000;
 // Maximum seconds the audio scheduler can be ahead of real time.
 // FFmpeg puede enviar rafagas de 3-5 paquetes juntos; necesitamos absorberlas
 // sin reiniciar el scheduler (el reinicio a "now" causa solapamiento).
-const MAX_QUEUE_AHEAD_SEC = 3.0;
+const MAX_QUEUE_AHEAD_SEC = 1.2;
 
 // Warmup: discard the first 80 ms of mic audio to absorb hardware startup pop.
 // 80 ms is enough; 500 ms was wasting ~400 ms of every PTT press.
@@ -40,7 +40,16 @@ export function useAudio(): UseAudioReturn {
   const accumLocalRef = useRef<Uint8Array>(new Uint8Array(0));
   const accumRemoteRef = useRef<Int16Array>(new Int16Array(0));
   const nextPlayTimeRef = useRef<number>(0);
+  const playingSourcesRef = useRef(new Set<AudioBufferSourceNode>());
   const gainNodeRef = useRef<GainNode | null>(null);
+  const clearPlayback = useCallback(() => {
+    for (const source of playingSourcesRef.current) {
+      try { source.stop(); } catch { /* Already ended. */ }
+      source.disconnect();
+    }
+    playingSourcesRef.current.clear();
+    nextPlayTimeRef.current = 0;
+  }, []);
 
   // The chunk callback and mode are stored in refs so they can be updated on
   // each PTT press without recreating the worklet message handler.
@@ -52,6 +61,7 @@ export function useAudio(): UseAudioReturn {
   const micInitPromiseRef = useRef<Promise<void> | null>(null);
   // Guards against emitting audio if PTT is released before getUserMedia resolves.
   const pttActiveRef = useRef(false);
+  const recordingGenerationRef = useRef(0);
 
   const [isRecording, setIsRecording] = useState(false);
   const [isMicAllowed, setIsMicAllowed] = useState<boolean | null>(null);
@@ -294,6 +304,7 @@ export function useAudio(): UseAudioReturn {
     onChunk: (data: ArrayBuffer) => void,
     mode: "local" | "remote" = "local"
   ) => {
+    const generation = ++recordingGenerationRef.current;
     // Update the chunk handler and mode for this PTT press
     onChunkRef.current = onChunk;
     modeRef.current = mode;
@@ -316,7 +327,7 @@ export function useAudio(): UseAudioReturn {
     await initMicOnce(mode);
 
     // Guard: PTT might have been released while getUserMedia was pending
-    if (!pttActiveRef.current) {
+    if (!pttActiveRef.current || generation !== recordingGenerationRef.current) {
       console.debug("[audio] PTT released during mic init — not emitting");
       return;
     }
@@ -334,6 +345,7 @@ export function useAudio(): UseAudioReturn {
    * The mic stream and audio chain stay alive for the next PTT press.
    */
   const stopRecording = useCallback(() => {
+    recordingGenerationRef.current++;
     pttActiveRef.current = false;
     if (processorRef.current) {
       processorRef.current.port.postMessage({ type: "emit", emitting: false });
@@ -350,6 +362,7 @@ export function useAudio(): UseAudioReturn {
    * Closes the mic stream and AudioContext.
    */
   const teardown = useCallback(() => {
+    clearPlayback();
     if (levelTimerRef.current) {
       cancelAnimationFrame(levelTimerRef.current);
       levelTimerRef.current = null;
@@ -408,13 +421,11 @@ export function useAudio(): UseAudioReturn {
         nextPlayTimeRef.current = now;
       }
 
-      // Si la cola ya tiene MAX_QUEUE_AHEAD_SEC de audio programado, DESCARTAR este
-      // paquete en lugar de reiniciar a "now". Reiniciar causa solapamiento con el
-      // audio ya programado → efecto "bucle". Descartar produce una pausa minima
-      // (el tiempo que tarda la cola en drenarse) sin audio doble.
-      if (nextPlayTimeRef.current > now + MAX_QUEUE_AHEAD_SEC) {
-        console.warn(`[audio] playAudio: cola llena (${(nextPlayTimeRef.current - now).toFixed(2)}s), descartando paquete`);
-        return;
+      // Cancel scheduled nodes before resynchronising: resetting only the clock
+      // would overlap old audio with the live stream.
+      if (nextPlayTimeRef.current + buffer.duration > now + MAX_QUEUE_AHEAD_SEC) {
+        clearPlayback();
+        nextPlayTimeRef.current = now;
       }
 
       const source = ctx.createBufferSource();
@@ -422,7 +433,11 @@ export function useAudio(): UseAudioReturn {
       const dest = gainNodeRef.current ?? ctx.destination;
       source.connect(dest);
       // Liberar el nodo cuando termine para no acumular recursos de audio
-      source.onended = () => source.disconnect();
+      playingSourcesRef.current.add(source);
+      source.onended = () => {
+        playingSourcesRef.current.delete(source);
+        source.disconnect();
+      };
 
       source.start(nextPlayTimeRef.current);
       nextPlayTimeRef.current += buffer.duration;
@@ -431,15 +446,16 @@ export function useAudio(): UseAudioReturn {
     } catch (err) {
       console.error("[audio] playAudio error:", err);
     }
-  }, [getOrCreateCtx]);
+  }, [getOrCreateCtx, clearPlayback]);
 
   const muteRx = useCallback((muted: boolean) => {
+    if (muted) clearPlayback();
     const ctx = getOrCreateCtx();
     if (!gainNodeRef.current) return;
     const now = ctx.currentTime;
     gainNodeRef.current.gain.cancelScheduledValues(now);
     gainNodeRef.current.gain.setTargetAtTime(muted ? 0 : 2, now, 0.01);
-  }, [getOrCreateCtx]);
+  }, [getOrCreateCtx, clearPlayback]);
 
   useEffect(() => {
     return () => {

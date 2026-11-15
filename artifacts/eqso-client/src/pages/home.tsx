@@ -34,6 +34,8 @@ export default function HomePage() {
   const [password, setPassword] = useState("");
   const [pttActive, setPttActive] = useState(false);
   const pttPressedRef = useRef(false);
+  const lastPttReleaseRef = useRef(-Infinity);
+  const [pttNotice, setPttNotice] = useState<string | null>(null);
   const pttChunkRef = useRef<(data: ArrayBuffer) => void>(() => {});
 
   const handleAuth = (session: AuthSession) => {
@@ -73,6 +75,15 @@ export default function HomePage() {
 
   const pttStart = useCallback(async () => {
     if (pttPressedRef.current || !eqso.currentRoom) return;
+    if (performance.now() - lastPttReleaseRef.current < 500) {
+      setPttNotice("Espera medio segundo entre pulsaciones del PTT.");
+      return;
+    }
+    if (eqso.channelBusy) {
+      setPttNotice("Canal ocupado. Espera a que termine la transmisión.");
+      return;
+    }
+    setPttNotice(null);
     pttPressedRef.current = true;
     audio.muteRx(true);
     eqso.pttStart();
@@ -88,12 +99,24 @@ export default function HomePage() {
   const pttEnd = useCallback(() => {
     if (!pttPressedRef.current) return;
     pttPressedRef.current = false;
+    lastPttReleaseRef.current = performance.now();
     audio.stopRecording();
     eqso.pttEnd();
     setPttActive(false);
     audio.muteRx(false);
     serial.keyUp();
   }, [audio, eqso, serial]);
+
+  useEffect(() => {
+    if (eqso.pttDenial) {
+      pttEnd();
+      setPttNotice(eqso.pttDenial);
+    }
+  }, [eqso.pttDenial, pttEnd]);
+
+  useEffect(() => {
+    if (!eqso.currentRoom || eqso.status !== "connected") pttEnd();
+  }, [eqso.currentRoom, eqso.status, pttEnd]);
 
   useEffect(() => {
     pttChunkRef.current = (data: ArrayBuffer) => {
@@ -127,10 +150,13 @@ export default function HomePage() {
     window.addEventListener("keydown", onKey);
     window.addEventListener("keyup", onKeyUp);
     window.addEventListener("blur", pttEnd);
+    const onVisibility = () => { if (document.hidden) pttEnd(); };
+    document.addEventListener("visibilitychange", onVisibility);
     return () => {
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("keyup", onKeyUp);
       window.removeEventListener("blur", pttEnd);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [pttStart, pttEnd, showAdmin]);
 
@@ -231,6 +257,7 @@ export default function HomePage() {
           />
         ) : (
           <RoomPanel
+            pttNotice={pttNotice}
             currentRoom={eqso.currentRoom!}
             currentName={eqso.currentName!}
             members={eqso.members}

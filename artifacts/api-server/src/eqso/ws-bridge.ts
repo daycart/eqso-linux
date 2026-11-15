@@ -19,6 +19,7 @@ import { EqsoProxy, ProxyEvent } from "./eqso-proxy";
 import { validateSession } from "../lib/auth";
 import { createWebRelayCredential } from "../lib/relay-tokens";
 import { moderationManager } from "./moderation-manager";
+import { TxGuard } from "./tx-guard";
 import {
   FfmpegGsmEncoder,
   FfmpegGsmDecoder,
@@ -62,11 +63,16 @@ function sendJson(ws: WebSocket, obj: object): void {
 
 function sendBin(ws: WebSocket, data: Buffer): void {
   if (ws.readyState === WebSocket.OPEN) {
+    // A slow listener must reconnect rather than collect seconds of old audio.
+    if (ws.bufferedAmount > 64 * 1024) {
+      ws.terminate();
+      return;
+    }
     try { ws.send(data); } catch { /* ignore */ }
   }
 }
 
-function handleLocalMode(
+export function handleLocalMode(
   ws: WebSocket,
   id: string,
   keepaliveTimer: ReturnType<typeof setInterval>
@@ -84,13 +90,14 @@ function handleLocalMode(
   // bugs that corrupted voice audio, causing the CB radio to receive only noise.
   const localEncoder = new FfmpegGsmEncoder();
   localEncoder.start();
+  const txGuard = new TxGuard();
 
   // When the encoder produces a GSM packet, broadcast it to TCP relay-daemon
   // clients (and relay listeners). The room is looked up at emit time so we
   // always use the current room even if the client switched rooms.
   localEncoder.on("gsm", (gsm: Buffer) => {
     const client = roomManager.getClient(id);
-    if (!client?.room) return;
+    if (!client?.room || !roomManager.isLockedBy(client.room, id)) return;
     const gsmPkt = Buffer.allocUnsafe(1 + gsm.length);
     gsmPkt[0] = 0x01;
     gsm.copy(gsmPkt, 1);
@@ -174,7 +181,8 @@ function handleLocalMode(
     onMessage: (msg, rawBin) => {
       if (rawBin && rawBin.length > 0 && rawBin[0] === 0x01) {
         const client = roomManager.getClient(id);
-        if (client?.room && !moderationManager.isMuted(client.name)) {
+        if (client?.room && roomManager.isLockedBy(client.room, id) &&
+            !moderationManager.isMuted(client.name) && txGuard.audio(rawBin.length - 1)) {
           // 1. Send raw Uint8 PCM to other WS browser clients (they handle it natively)
           roomManager.broadcastBinToLocalWsClients(client.room, rawBin, id);
 
@@ -272,6 +280,14 @@ function handleLocalMode(
           if (ci) { ci.name = name; ci.message = message; }
 
           const oldRoom = ci?.room ?? "";
+          txGuard.end();
+          if (localPttReleaseTimer) { clearTimeout(localPttReleaseTimer); localPttReleaseTimer = null; }
+          if (oldRoom && roomManager.isLockedBy(oldRoom, id)) {
+            roomManager.broadcastToRoom(oldRoom, buildPttReleased(ci!.name), id);
+            roomManager.unlockRoom(oldRoom, id);
+          }
+          localPcmAccum = new Uint8Array(0);
+          localEncoder.discardPending();
           const oldMembers = oldRoom ? roomManager.getRoomMembers(oldRoom) : [];
           roomManager.joinRoom(id, room);
 
@@ -293,16 +309,23 @@ function handleLocalMode(
         case "ptt_start": {
           const client = roomManager.getClient(id);
           if (client?.room && client.name) {
-            if (localPttReleaseTimer) {
-              clearTimeout(localPttReleaseTimer);
-              localPttReleaseTimer = null;
-            }
             if (moderationManager.isMuted(client.name)) {
               sendJson(ws, { type: "ptt_denied", reason: "Silenciado por el administrador" });
               break;
             }
+            if (localPttReleaseTimer) {
+              if (txGuard.shouldNotify()) sendJson(ws, { type: "ptt_denied", reason: "Finalizando la transmisión anterior" });
+              break;
+            }
+            const decision = txGuard.start();
+            if (decision === "duplicate") break;
+            if (decision === "limited") {
+              if (txGuard.shouldNotify()) sendJson(ws, { type: "ptt_denied", reason: "Demasiadas pulsaciones; espera un momento" });
+              break;
+            }
             const locked = roomManager.tryLockRoom(client.room, id);
             if (locked) {
+              localEncoder.discardPending();
               logger.info(
                 { id, name: client.name, room: client.room },
                 "WS PTT start granted"
@@ -311,6 +334,7 @@ function handleLocalMode(
               inactivityManager.recordActivity(client.room);
               sendJson(ws, { type: "ptt_granted" });
             } else {
+              txGuard.end();
               sendJson(ws, { type: "ptt_denied", reason: "Canal ocupado" });
             }
           }
@@ -318,6 +342,7 @@ function handleLocalMode(
         }
 
         case "ptt_end": {
+          if (!txGuard.end()) break;
           const client = roomManager.getClient(id);
           if (client?.room && client.name) {
             logger.info(
@@ -328,7 +353,7 @@ function handleLocalMode(
             localPttReleaseTimer = setTimeout(() => {
               localPttReleaseTimer = null;
               const current = roomManager.getClient(id);
-              if (!current?.room || !current.name) return;
+              if (!current?.room || !current.name || !roomManager.isLockedBy(current.room, id)) return;
               roomManager.broadcastToRoom(
                 current.room,
                 buildPttReleased(current.name),
@@ -336,6 +361,7 @@ function handleLocalMode(
               );
               roomManager.unlockRoom(current.room, id);
               localPcmAccum = new Uint8Array(0);
+              localEncoder.discardPending();
               logger.info(
                 { id, name: current.name, room: current.room },
                 "WS PTT release sent after encoder tail"
@@ -367,7 +393,7 @@ function handleLocalMode(
   };
 }
 
-function handleRemoteMode(
+export function handleRemoteMode(
   ws: WebSocket,
   id: string,
   host: string,
@@ -377,6 +403,7 @@ function handleRemoteMode(
   onClose: () => void;
 } {
   const proxy = new EqsoProxy(host, port);
+  const txGuard = new TxGuard();
   let pttGranted = false;
   let pttTailTimer: ReturnType<typeof setTimeout> | null = null;
   let currentName = "";
@@ -418,6 +445,7 @@ function handleRemoteMode(
   function releasePtt(): void {
     pttGranted = false;
     pcmAccum = new Int16Array(0);
+    encoder.discardPending();
     proxy.sendPttEnd();
     logger.info({ name: currentName }, "Remote TX: PTT end sent to eQSO server");
   }
@@ -466,6 +494,10 @@ function handleRemoteMode(
         sendJson(ws, { type: "error", message: String(ev.data) });
         break;
       case "disconnected":
+        txGuard.end();
+        pttGranted = false;
+        if (pttTailTimer) { clearTimeout(pttTailTimer); pttTailTimer = null; }
+        encoder.discardPending();
         roomManager.updateRemoteConn(id, { status: "disconnected" });
         remoteConnInfo.remoteMembers = [];
         sendJson(ws, { type: "disconnected", message: "Servidor desconectado" });
@@ -544,7 +576,8 @@ function handleRemoteMode(
     onMessage: (msg, rawBin) => {
       // Handle TX audio: browser sends [0x05][Int16 PCM bytes]
       if (rawBin && rawBin.length > 1 && rawBin[0] === WS_PCM_TX) {
-        if (!pttGranted) {
+        if (!pttGranted || (rawBin.length - 1) % 2 !== 0 ||
+            !txGuard.audio((rawBin.length - 1) / 2)) {
           logger.debug({ bytes: rawBin.length }, "Remote TX: dropped audio — pttGranted=false");
           return;
         }
@@ -629,10 +662,20 @@ function handleRemoteMode(
           logger.info({ id, name: resolvedName, room }, "Remote proxy: sent joined to browser");
           break;
         }
-        case "ptt_start":
-          // Cancel any pending tail timer from a previous PTT release
-          if (pttTailTimer) { clearTimeout(pttTailTimer); pttTailTimer = null; }
+        case "ptt_start": {
+          if (!currentRoom || !currentName) break;
+          if (pttTailTimer) {
+            if (txGuard.shouldNotify()) sendJson(ws, { type: "ptt_denied", reason: "Finalizando la transmisión anterior" });
+            break;
+          }
+          const decision = txGuard.start();
+          if (decision === "duplicate") break;
+          if (decision === "limited") {
+            if (txGuard.shouldNotify()) sendJson(ws, { type: "ptt_denied", reason: "Demasiadas pulsaciones; espera un momento" });
+            break;
+          }
           pttGranted = true;
+          encoder.discardPending();
           pcmAccum = new Int16Array(0); // reset accumulator
           rmSetTx(currentName, true);
           // No separate PTT-announce packet in eQSO — the first [0x01][198 GSM] frame
@@ -641,7 +684,9 @@ function handleRemoteMode(
           sendJson(ws, { type: "ptt_granted" });
           logger.info({ name: currentName, room: currentRoom }, "Remote TX: PTT start (first voice frame will open channel)");
           break;
+        }
         case "ptt_end":
+          if (!txGuard.end()) break;
           rmSetTx(currentName, false);
           // Notify browser immediately so UI updates, then wait for the FFmpeg
           // encoder to flush its remaining frames before releasing the eQSO channel.
@@ -671,7 +716,7 @@ function handleRemoteMode(
 }
 
 export function startWsBridge(): WebSocketServer {
-  const wss = new WebSocketServer({ noServer: true });
+  const wss = new WebSocketServer({ noServer: true, maxPayload: 64 * 1024 });
 
   wss.on("connection", (ws: WebSocket, _req: IncomingMessage) => {
     if (!roomManager.isEnabled()) {

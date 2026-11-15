@@ -772,3 +772,103 @@ test("legacy v1.13 receiver gets the original finite silence and release tail", 
   await closeClient(sender.socket);
   await closeClient(receiver.socket);
 });
+
+test("incident cadence cannot accumulate legacy receive tails or disconnect other clients", async () => {
+  const warnings: Array<{ fields: Record<string, unknown>; message: string }> = [];
+  const originalWarn = logger.warn;
+  logger.warn = ((fields: Record<string, unknown>, message: string) => {
+    warnings.push({ fields, message });
+  }) as typeof logger.warn;
+  let receiver: Awaited<ReturnType<typeof connectClient>> | undefined;
+  let sender: Awaited<ReturnType<typeof connectClient>> | undefined;
+  let observer: Awaited<ReturnType<typeof connectClient>> | undefined;
+  try {
+    receiver = await connectClient("LEGACY-BURST", LEGACY_HANDSHAKE);
+    sender = await connectClient("WEB-BURST", MODERN_HANDSHAKE);
+    observer = await connectClient("OBSERVER-BURST", MODERN_HANDSHAKE);
+    const receiverId = clientId("LEGACY-BURST");
+    const senderId = clientId("WEB-BURST");
+    observer.received.length = 0;
+    // The incident recorded 52 starts in ~11 s. Use the real TCP parser,
+    // broadcasts, pacing and receiver tail, without a radio or external host.
+    for (let i = 0; i < 52; i++) {
+      sender.socket.write(VOICE_BLOCK);
+      await new Promise((resolve) => setTimeout(resolve, 55));
+      sender.socket.write(STANDARD_RELEASE);
+      await new Promise((resolve) => setTimeout(resolve, 155));
+    }
+    await waitFor(() => receiver!.socket.destroyed, "overloaded receiver disconnect");
+    const overloads = warnings.filter((entry) =>
+      entry.message === "Legacy v1.13 outbound queue overloaded; disconnecting slow receiver");
+    assert.equal(overloads.length, 1, "one diagnostic per affected connection");
+    assert.equal(overloads[0].fields.id, receiverId);
+    assert.ok(Number(overloads[0].fields.queuedPaceMs) > 3600);
+    assert.equal(roomManager.getClient(receiverId), undefined);
+    assert.equal(roomManager.isLockedBy(ROOM, senderId), false);
+    assert.equal(sender.socket.destroyed, false);
+    assert.equal(observer.socket.destroyed, false);
+    assert.ok(hasPacket(observer.received, buildPttStarted("WEB-BURST")));
+    assert.ok(hasPacket(observer.received, buildPttReleased("WEB-BURST")));
+
+    // Reusing the callsign must work, and an ordinary TX must not trigger
+    // the protection or lose its complete original close sequence.
+    receiver = await connectClient("LEGACY-BURST", LEGACY_HANDSHAKE);
+    receiver.received.length = 0;
+    sender.socket.write(VOICE_BLOCK);
+    await waitFor(() => roomManager.isLockedBy(ROOM, senderId), "normal TX after recovery");
+    sender.socket.write(STANDARD_RELEASE);
+    await waitFor(() => hasPacket(receiver!.received, buildPttReleased("WEB-BURST")),
+      "complete legacy release after reconnect", 3000);
+    assert.equal(receiver.socket.destroyed, false);
+  } finally {
+    if (receiver) await closeClient(receiver.socket);
+    if (sender) await closeClient(sender.socket);
+    if (observer) await closeClient(observer.socket);
+    logger.warn = originalWarn;
+  }
+});
+
+test("queue overflow during a split owner ACK closes only that connection without injecting controls", async () => {
+  const previous = process.env.EQSO_V113_VOX_TRIAL;
+  process.env.EQSO_V113_VOX_TRIAL = "1";
+  const warnings: Array<{ fields: Record<string, unknown>; message: string }> = [];
+  const originalWarn = logger.warn;
+  logger.warn = ((fields: Record<string, unknown>, message: string) => {
+    warnings.push({ fields, message });
+  }) as typeof logger.warn;
+  let sender: Awaited<ReturnType<typeof connectClient>> | undefined;
+  let observer: Awaited<ReturnType<typeof connectClient>> | undefined;
+  try {
+    sender = await connectClient("LEGACY-ACK-LIMIT", LEGACY_HANDSHAKE, TRIAL_ROOM);
+    observer = await connectClient("OBSERVER-ACK-LIMIT", MODERN_HANDSHAKE, TRIAL_ROOM);
+    sender.received.length = 0;
+    sender.socket.write(VOICE_BLOCK);
+    const id = clientId("LEGACY-ACK-LIMIT");
+    await waitFor(() => Buffer.concat(sender!.received).subarray(-1).equals(Buffer.from([0x06])),
+      "reserved owner ACK opcode");
+    // The observer's join notification can arrive in the same TCP read.
+    const ackPrefix = Buffer.concat(sender.received);
+    const client = roomManager.getClient(id)!;
+    for (let i = 0; i < 1000; i++) client.send(buildPttStarted("EXCESS"));
+    await waitFor(() => sender!.socket.destroyed, "split ACK overload connection close");
+    assert.equal(roomManager.getClient(id), undefined);
+    assert.equal(roomManager.isLockedBy(TRIAL_ROOM, id), false);
+    assert.equal(observer.socket.destroyed, false);
+    assert.deepEqual(Buffer.concat(sender.received), ackPrefix,
+      "never insert a release or queued update into an unfinished owner message");
+    const overloads = warnings.filter((entry) =>
+      entry.message === "Legacy v1.13 outbound queue overloaded; disconnecting slow receiver");
+    assert.equal(overloads.length, 1);
+    assert.equal(overloads[0].fields.ownerAckWaiting, true);
+    assert.equal(overloads[0].fields.queuedItems, 64);
+    await new Promise((resolve) => setTimeout(resolve, 1400));
+    assert.deepEqual(Buffer.concat(sender.received), ackPrefix,
+      "the cancelled owner timer must not emit bytes after disconnect");
+  } finally {
+    if (sender) await closeClient(sender.socket);
+    if (observer) await closeClient(observer.socket);
+    logger.warn = originalWarn;
+    if (previous === undefined) delete process.env.EQSO_V113_VOX_TRIAL;
+    else process.env.EQSO_V113_VOX_TRIAL = previous;
+  }
+});

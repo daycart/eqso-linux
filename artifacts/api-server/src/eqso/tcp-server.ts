@@ -37,6 +37,12 @@ const LEGACY_V113_RX_SILENCE_TAIL_PACKETS = 9;
 const LEGACY_V113_RX_RELEASE_GAP_MS = 180;
 const DEFAULT_KEEPALIVE_MS = 8_000;
 const LEGACY_V113_RELEASE_PTT = 0x03;
+// Allow ordinary codec bursts and the complete 1.26 s legacy release tail.
+// Beyond these limits fail only this connection; never truncate an ACK/frame.
+const LEGACY_MAX_QUEUED_ITEMS = 64;
+const LEGACY_MAX_PENDING_PACE_MS = 3_600;
+const LEGACY_MAX_QUEUE_AGE_MS = 5_000;
+const LEGACY_MAX_SOCKET_BYTES = 16 * 1024;
 
 // One FFmpeg GSM decoder per TCP client (keyed by client UUID)
 const tcpDecoders = new Map<string, FfmpegGsmDecoder>();
@@ -782,6 +788,7 @@ export function startTcpServer(port: number): net.Server {
     }
 
     const legacyOutboundQueue: Array<{
+      queuedAt: number;
       data: Buffer;
       voice: boolean;
       delayAfterMs: number;
@@ -793,6 +800,9 @@ export function startTcpServer(port: number): net.Server {
       };
     }> = [];
     let legacyOutboundTimer: ReturnType<typeof setTimeout> | null = null;
+    let legacyQueueGuard: ReturnType<typeof setInterval> | null = null;
+    let legacyNextWriteAt = 0;
+    let socketBlockedAt: number | null = null;
     let pendingOwner: (typeof legacyOutboundQueue)[number] | undefined;
     let pendingOwnerTimer: ReturnType<typeof setTimeout> | undefined;
     let legacyVoicePacketsWritten = 0;
@@ -801,6 +811,53 @@ export function startTcpServer(port: number): net.Server {
       origin: "self-trial" | "room-broadcast";
       at: number;
     } | undefined;
+
+    const pendingPaceMs = () =>
+      Math.max(0, legacyNextWriteAt - performance.now()) +
+      legacyOutboundQueue.reduce(
+        (sum, item) => sum + (item.voice ? LEGACY_AUDIO_PACE_MS : item.delayAfterMs), 0
+      );
+
+    const checkLegacyCapacity = (extraItems = 0, extraPaceMs = 0): boolean => {
+      if (state.disconnected || socket.destroyed) return false;
+      const now = performance.now();
+      if (socket.writableLength === 0) socketBlockedAt = null;
+      else socketBlockedAt ??= now;
+      const queuedAgeMs = legacyOutboundQueue.length
+        ? now - legacyOutboundQueue[0].queuedAt : 0;
+      const queuedPaceMs = pendingPaceMs() + extraPaceMs;
+      const tooOld = queuedAgeMs > LEGACY_MAX_QUEUE_AGE_MS ||
+        (socketBlockedAt !== null && now - socketBlockedAt > LEGACY_MAX_QUEUE_AGE_MS);
+      if (legacyOutboundQueue.length + extraItems <= LEGACY_MAX_QUEUED_ITEMS &&
+          queuedPaceMs <= LEGACY_MAX_PENDING_PACE_MS &&
+          socket.writableLength <= LEGACY_MAX_SOCKET_BYTES && !tooOld) return true;
+
+      const client = roomManager.getClient(id);
+      logger.warn({
+        id, name: client?.name, room: client?.room,
+        queuedItems: legacyOutboundQueue.length, extraItems,
+        queuedVoice: legacyOutboundQueue.filter((item) => item.voice).length,
+        queuedPaceMs, queuedAgeMs: Math.round(queuedAgeMs),
+        socketWritableLength: socket.writableLength,
+        ownerAckWaiting: pendingOwner !== undefined,
+      }, "Legacy v1.13 outbound queue overloaded; disconnecting slow receiver");
+      // A reserved 0x06 may already have been written. Closing is safe;
+      // injecting a release or skipping bytes here would corrupt that message.
+      handleDisconnect(state);
+      socket.destroy();
+      return false;
+    };
+
+    const watchLegacyQueue = () => {
+      if (legacyQueueGuard || state.disconnected) return;
+      legacyQueueGuard = setInterval(() => {
+        if (!checkLegacyCapacity()) return;
+        if (!legacyOutboundQueue.length && socket.writableLength === 0) {
+          if (legacyQueueGuard) clearInterval(legacyQueueGuard);
+          legacyQueueGuard = null;
+        }
+      }, 250);
+    };
 
     const legacyPttAction = (data: Buffer): "start" | "release" | null => {
       if (
@@ -822,6 +879,7 @@ export function startTcpServer(port: number): net.Server {
       }
 
       while (legacyOutboundQueue.length > 0) {
+        if (!checkLegacyCapacity()) return;
         const item = legacyOutboundQueue[0];
         if (item.ownerReservation) {
           const owner = item.ownerReservation;
@@ -838,6 +896,7 @@ export function startTcpServer(port: number): net.Server {
         if (item.voice) {
           legacyVoicePacketsWritten += 1;
           safeWriteLegacyVoice(state, item.data);
+          legacyNextWriteAt = performance.now() + LEGACY_AUDIO_PACE_MS;
           legacyOutboundTimer = setTimeout(() => {
             legacyOutboundTimer = null;
             processLegacyOutboundQueue();
@@ -867,6 +926,7 @@ export function startTcpServer(port: number): net.Server {
         }
         writeSocket(state, item.data);
         if (item.delayAfterMs > 0) {
+          legacyNextWriteAt = performance.now() + item.delayAfterMs;
           legacyOutboundTimer = setTimeout(() => {
             legacyOutboundTimer = null;
             processLegacyOutboundQueue();
@@ -884,12 +944,15 @@ export function startTcpServer(port: number): net.Server {
       delayAfterMs = 0,
       trialRelease = false
     ) => {
+      if (!checkLegacyCapacity(1, voice ? LEGACY_AUDIO_PACE_MS : delayAfterMs)) return;
       legacyOutboundQueue.push({
+        queuedAt: performance.now(),
         data: Buffer.from(data),
         voice,
         delayAfterMs,
         trialRelease,
       });
+      watchLegacyQueue();
       const pttAction = legacyPttAction(data);
       if (pttAction) {
         logger.info(
@@ -928,8 +991,10 @@ export function startTcpServer(port: number): net.Server {
       );
       if (ack.length === 1 && ack[0] === EQSO_COMMANDS.PTT_RELEASE_2) {
         state.completeLegacyTrialAck?.();
+        if (!checkLegacyCapacity(1)) return;
         const name = roomManager.getClient(state.id)!.name;
         pendingOwner = {
+          queuedAt: performance.now(),
           data: Buffer.from(ack),
           voice: false,
           delayAfterMs: 0,
@@ -942,6 +1007,7 @@ export function startTcpServer(port: number): net.Server {
           },
         };
         legacyOutboundQueue.push(pendingOwner);
+        watchLegacyQueue();
         // Bound framing waits even if the parser is stuck in a partial block.
         // This completes control only; the existing VOX timer still decides TX.
         pendingOwnerTimer = setTimeout(
@@ -995,6 +1061,9 @@ export function startTcpServer(port: number): net.Server {
     };
 
     state.stopLegacyAudioQueue = () => {
+      if (legacyQueueGuard) clearInterval(legacyQueueGuard);
+      legacyQueueGuard = null;
+      legacyNextWriteAt = 0;
       if (pendingOwnerTimer) clearTimeout(pendingOwnerTimer);
       pendingOwnerTimer = undefined;
       pendingOwner = undefined;
@@ -1022,6 +1091,12 @@ export function startTcpServer(port: number): net.Server {
             data.length === AUDIO_PAYLOAD_SIZE + 1 &&
             data[0] === EQSO_COMMANDS.VOICE;
           if (legacyPttAction(data) === "release") {
+            // Reserve the entire close sequence before adding its first byte.
+            if (!checkLegacyCapacity(
+              LEGACY_V113_RX_SILENCE_TAIL_PACKETS + 2,
+              LEGACY_V113_RX_SILENCE_TAIL_PACKETS * LEGACY_AUDIO_PACE_MS +
+                LEGACY_V113_RX_RELEASE_GAP_MS
+            )) return;
             // The original server closes a transmission received by v1.13 with
             // a finite tail: nine 0x02 silence bytes at roughly one audio-frame
             // interval, then 0x08 0x06 0x00, then the released USER_UPDATE.
