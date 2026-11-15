@@ -5,11 +5,9 @@
   -webkit-overflow-scrolling: touch;
 }
 
-.eqso-mobile-users > button {
-  min-width: 44px;
-  min-height: 44px;
-  top: 4px;
-  right: 4px;
+.eqso-mobile-user-list {
+  max-height: min(25dvh, 200px);
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 767px) {
@@ -110,14 +108,6 @@
     flex-shrink: 0;
     padding: 4px 12px max(4px, env(safe-area-inset-bottom));
     background: rgba(17,24,39,.6);
-  }
-  .eqso-mobile-users {
-    top: auto;
-    bottom: 0;
-    transform: translateX(-50%);
-    max-width: 100%;
-    border-radius: 16px 16px 0 0;
-    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 

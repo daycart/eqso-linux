@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import type { RoomMember } from "@/hooks/useEqsoClient";
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
-import { Users } from "lucide-react";
+import { ChevronDown, Users } from "lucide-react";
 import "./RoomPanel.css";
 
 interface RoomPanelProps {
@@ -44,9 +43,12 @@ export function RoomPanel({
   onDisconnect,
 }: RoomPanelProps) {
   const [usersOpen, setUsersOpen] = useState(false);
+  const usersPanelId = useId();
+  const usersButton = useRef<HTMLButtonElement>(null);
   const roomNav = useRef<HTMLElement>(null);
   const pointerHeld = useRef(false);
   useEffect(() => {
+    setUsersOpen(false);
     roomNav.current?.querySelector('[aria-current="true"]')?.scrollIntoView({ block: "nearest", inline: "nearest" });
   }, [currentRoom]);
 
@@ -72,37 +74,44 @@ export function RoomPanel({
 
   return (
     <div className="eqso-room-panel flex min-w-0 flex-1 flex-col overflow-hidden md:flex-row">
-      <div className="flex shrink-0 items-center gap-2 border-b border-gray-800 bg-gray-900/60 px-3 py-2 md:hidden">
+      <div className="min-w-0 shrink-0 border-b border-gray-800 bg-gray-900/60 md:hidden"
+        onKeyDown={(event) => {
+          if (event.key === "Escape" && usersOpen) {
+            event.preventDefault();
+            setUsersOpen(false);
+            usersButton.current?.focus();
+          }
+        }}>
+        <div className="flex min-w-0 items-center gap-2 px-3 py-2">
         <span className="shrink-0 text-[10px] font-semibold uppercase tracking-widest text-gray-400">Sala</span>
         <nav ref={roomNav} aria-label="Salas disponibles" className="eqso-room-scroll flex min-w-0 flex-1 gap-1 overflow-x-auto">
           {rooms.map((room) => (
             <button key={room} type="button" aria-current={room === currentRoom ? "true" : undefined}
-              onClick={() => { onPttEnd(); onRoomChange(room); }}
+              onClick={() => { onPttEnd(); setUsersOpen(false); onRoomChange(room); }}
               className={`min-h-11 shrink-0 rounded-lg border px-3 text-xs font-semibold transition-colors ${room === currentRoom ? "border-green-700/70 bg-green-900/40 text-green-200" : "border-transparent text-gray-400 hover:bg-gray-800"}`}>
               <span className="mr-1 text-green-500">#</span>{room}
             </button>
           ))}
         </nav>
-        <Dialog open={usersOpen} onOpenChange={(open) => { if (open) onPttEnd(); setUsersOpen(open); }}>
-          <DialogTrigger asChild>
-            <button type="button" aria-label={`Ver usuarios de ${currentRoom}, ${allMembers.length} en sala`}
+            <button ref={usersButton} type="button" aria-label={`${usersOpen ? "Ocultar" : "Ver"} usuarios de ${currentRoom}, ${allMembers.length} en sala`}
+              aria-expanded={usersOpen} aria-controls={usersPanelId}
+              onClick={() => { onPttEnd(); setUsersOpen((open) => !open); }}
               className="flex min-h-11 shrink-0 items-center gap-2 rounded-lg border border-gray-700 bg-gray-900 px-3 text-xs text-gray-300">
               <Users className="h-4 w-4" aria-hidden="true" />{allMembers.length}
+              <ChevronDown className={`h-3 w-3 ${usersOpen ? "rotate-180" : ""}`} aria-hidden="true" />
             </button>
-          </DialogTrigger>
-          <DialogContent className="eqso-mobile-users gap-0 border-gray-700 bg-gray-900 p-0 text-gray-100">
-            <div className="border-b border-gray-800 p-4 pr-14">
-              <DialogTitle className="text-base">Usuarios en #{currentRoom} ({allMembers.length})</DialogTitle>
-              <DialogDescription className="mt-2 text-xs text-gray-400">Participantes conectados a esta sala.</DialogDescription>
-            </div>
-            <div className="max-h-[55dvh] overflow-y-auto p-2">
+        </div>
+          <section id={usersPanelId} hidden={!usersOpen} aria-label={`Usuarios en ${currentRoom}`}
+            className="eqso-mobile-users border-t border-gray-800 bg-gray-900 text-gray-100">
+            <div className="eqso-room-scroll eqso-mobile-user-list overflow-y-auto overscroll-contain px-3 py-2" tabIndex={usersOpen ? 0 : -1}>
+              <h2 className="px-2 py-1 text-xs font-semibold text-gray-400">Usuarios en #{currentRoom} ({allMembers.length})</h2>
               {allMembers.map((member) => {
                 const self = member.name === currentName;
                 const relay = member.name.startsWith("0R-");
                 const speaking = self ? pttActive && pttGranted : activeSpeaker === member.name;
                 return (
-                  <div key={member.name} className={`flex items-center gap-3 rounded-xl p-3 ${speaking ? "bg-amber-950/40" : ""}`}>
-                    <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-xs font-bold ${self ? "bg-green-800 text-green-100" : relay ? "bg-blue-900 text-blue-100" : "bg-gray-700 text-gray-200"}`}>
+                  <div key={member.name} className={`flex items-center gap-3 rounded-xl px-2 py-2 ${speaking ? "bg-amber-950/40" : ""}`}>
+                    <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${self ? "bg-green-800 text-green-100" : relay ? "bg-blue-900 text-blue-100" : "bg-gray-700 text-gray-200"}`}>
                       {member.name.replace(/^0R-/, "").slice(0, 2).toUpperCase()}
                     </span>
                     <div className="min-w-0 flex-1">
@@ -116,8 +125,7 @@ export function RoomPanel({
                 );
               })}
             </div>
-          </DialogContent>
-        </Dialog>
+          </section>
       </div>
       <aside className="hidden w-64 shrink-0 border-r border-gray-800 bg-gray-900 md:flex md:flex-col">
         <div className="px-4 py-3 border-b border-gray-800">
